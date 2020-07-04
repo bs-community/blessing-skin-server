@@ -13,13 +13,8 @@ class CopyPluginAssetsTest extends TestCase
             $mock->shouldReceive('deleteDirectory')
                 ->with($dir)
                 ->once();
-
             $mock->shouldReceive('copyDirectory')
                 ->withArgs(['/path'.DIRECTORY_SEPARATOR.'assets', $dir.'/assets'])
-                ->once();
-
-            $mock->shouldReceive('copyDirectory')
-                ->withArgs(['/path'.DIRECTORY_SEPARATOR.'lang', $dir.'/lang'])
                 ->once();
         });
 

@@ -7,9 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 
 class CopyPluginAssets
 {
-    /**
-     * @var Filesystem
-     */
+    /** @var Filesystem */
     protected $filesystem;
 
     public function __construct(Filesystem $filesystem)
@@ -26,10 +24,6 @@ class CopyPluginAssets
         $this->filesystem->copyDirectory(
             $plugin->getPath().DIRECTORY_SEPARATOR.'assets',
             $dir.'/assets'
-        );
-        $this->filesystem->copyDirectory(
-            $plugin->getPath().DIRECTORY_SEPARATOR.'lang',
-            $dir.'/lang'
         );
     }
 }
