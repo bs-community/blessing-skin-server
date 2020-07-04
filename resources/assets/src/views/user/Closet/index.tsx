@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { hot } from 'react-hot-loader/root'
 import debounce from 'lodash.debounce'
 import useEmitMounted from '@/scripts/hooks/useEmitMounted'
@@ -40,15 +40,28 @@ const Closet: React.FC = () => {
   const [skin, setSkin] = useState<Texture | null>(null)
   const [cape, setCape] = useState<Texture | null>(null)
   const [showModalApply, setShowModalApply] = useState(false)
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const perPageRef = useRef(6)
 
   useEmitMounted()
+
+  useEffect(() => {
+    const element = containerRef.current
+    /* istanbul ignore next */
+    if (element) {
+      const { width } = element.getBoundingClientRect()
+      if (width >= 500) {
+        perPageRef.current = Math.floor(width / 235) * 2
+      }
+    }
+  }, [])
 
   useEffect(() => {
     const getItems = async () => {
       setIsLoading(true)
       const { data, last_page } = await fetch.get<Paginator<Item>>(
         urls.user.closet.list(),
-        { category, q: query, page },
+        { category, q: query, page, perPage: perPageRef.current },
       )
 
       setItems(data)
@@ -142,7 +155,7 @@ const Closet: React.FC = () => {
 
   return (
     <>
-      <div className="card card-primary card-tabs">
+      <div className="card card-primary card-tabs" ref={containerRef}>
         <div className="card-header p-0 pt-1 pl-1">
           <div className="d-flex justify-content-between">
             <ul className="nav nav-tabs" role="tablist">
@@ -194,7 +207,7 @@ const Closet: React.FC = () => {
         <div className="card-body">
           {isLoading ? (
             <div className="d-flex flex-wrap">
-              {new Array(6).fill(null).map((_, i) => (
+              {new Array(perPageRef.current).fill(null).map((_, i) => (
                 <LoadingClosetItem key={i} />
               ))}
             </div>
