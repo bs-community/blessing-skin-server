@@ -81,7 +81,7 @@ const Viewer: React.FC<Props> = (props) => {
   const [running, setRunning] = useState(false)
   const [reset, setReset] = useState(0)
   const [background, setBackground] = useState('#fff')
-  const [bgPicture, setBgPicture] = useState(0)
+  const [bgPicture, setBgPicture] = useState(-1)
 
   const indicator = (() => {
     const { skin, cape } = props
@@ -197,7 +197,7 @@ const Viewer: React.FC<Props> = (props) => {
   const setNextPicture = () => {
     let index = bgPicture
     if (bgPicture >= PICTURES_COUNT - 1) {
-      index = 1
+      index = 0
     } else {
       index += 1
     }
