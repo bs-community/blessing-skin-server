@@ -46,13 +46,13 @@ test('without authenticated', async () => {
 test('search by keyword', async () => {
   fetch.get.mockResolvedValue(createPaginator([]))
 
-  const { getByText, getByPlaceholderText } = render(<SkinLibrary />)
+  const { getByTitle, getByPlaceholderText } = render(<SkinLibrary />)
   await waitFor(() => expect(fetch.get).toBeCalled())
 
   fireEvent.input(getByPlaceholderText(t('vendor.datatable.search')), {
     target: { value: 'k' },
   })
-  fireEvent.click(getByText(t('general.submit')))
+  fireEvent.click(getByTitle(t('vendor.datatable.search')))
   await waitFor(() =>
     expect(fetch.get).toHaveBeenLastCalledWith(
       urls.skinlib.list(),
@@ -88,7 +88,7 @@ test('reset query', async () => {
   window.blessing.extra.currentUid = 1
   fetch.get.mockResolvedValue(createPaginator([]))
 
-  const { getByText, getByPlaceholderText, queryByText } = render(
+  const { getByText, getByTitle, getByPlaceholderText, queryByText } = render(
     <SkinLibrary />,
   )
   await waitFor(() => expect(fetch.get).toBeCalled())
@@ -98,7 +98,7 @@ test('reset query', async () => {
   fireEvent.input(getByPlaceholderText(t('vendor.datatable.search')), {
     target: { value: 'k' },
   })
-  fireEvent.click(getByText(t('general.submit')))
+  fireEvent.click(getByTitle(t('vendor.datatable.search')))
   await waitFor(() => expect(fetch.get).toBeCalled())
   fireEvent.click(getByText(t('skinlib.seeMyUpload')))
   await waitFor(() => expect(fetch.get).toBeCalled())

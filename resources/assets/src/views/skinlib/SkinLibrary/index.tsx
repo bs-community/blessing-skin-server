@@ -198,8 +198,12 @@ const SkinLibrary: React.FC = () => {
                     onChange={handleNameChange}
                   />
                   <div className="input-group-append">
-                    <button className="btn btn-primary px-3" type="submit">
-                      {t('general.submit')}
+                    <button
+                      className="btn btn-primary px-3"
+                      type="submit"
+                      title={t('vendor.datatable.search')}
+                    >
+                      <i className="fas fa-search"></i>
                     </button>
                   </div>
                 </div>
