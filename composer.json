@@ -23,7 +23,7 @@
     "erusev/parsedown": "^1.7",
     "facade/ignition": "^2.0",
     "gregwar/captcha": "1.*",
-    "guzzlehttp/guzzle": "^6.3",
+    "guzzlehttp/guzzle": "^7.0",
     "intervention/image": "^2.5",
     "laravel/framework": "^7.0",
     "laravel/passport": "^9.2",
