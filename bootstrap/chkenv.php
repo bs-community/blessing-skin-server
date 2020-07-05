@@ -35,6 +35,7 @@
             'xml',
             'json',
             'fileinfo',
+            'zip',
         ],
         'write_permission' => [
             'bootstrap/cache',
