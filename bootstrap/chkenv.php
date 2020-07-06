@@ -14,6 +14,22 @@
         );
     }
 
+    if (!empty(ini_get('disable_functions'))) {
+        die_with_utf8_encoding(
+            '[Error] Please don\'t disable any functions, which is specified in "php.ini" file.<br>'.
+            '[错误] 请不要在 php.ini 中禁用任何函数。'.
+            '<strong>我们不建议使用您使用宝塔等面板软件，因为容易引起兼容性问题。</strong>'
+        );
+    }
+
+    if (!empty(ini_get('open_basedir'))) {
+        die_with_utf8_encoding(
+            '[Error] Please disable "open_basedir" option by editing "php.ini" file.<br>'.
+            '[错误] 请修改 php.ini 以关闭 "open_basedir" 选项。'.
+            '<strong>我们不建议使用您使用宝塔等面板软件，因为容易引起兼容性问题。</strong>'
+        );
+    }
+
     $requiredVersion = '7.2.5';
     preg_match('/(\d+\.\d+\.\d+)/', PHP_VERSION, $matches);
     $version = $matches[1];
