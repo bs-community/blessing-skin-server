@@ -20,3 +20,7 @@ a {
 .user-panel .info {
   cursor: default;
 }
+
+aside [data-mark="nickname"] {
+  margin-left: 1px;
+}
