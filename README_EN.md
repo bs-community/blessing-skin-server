@@ -106,6 +106,8 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
           graytoowolf
         </a>
       </td>
+      </tr>
+    <tr>
       <td align=center>
         <a href="">
           <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
@@ -128,7 +130,7 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
         </a>
       </td>
       </tr>
-  </tbody>
+    </tbody>
 </table>
 
 ### Backers
@@ -144,7 +146,7 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
         </a>
       </td>
       </tr>
-  </tbody>
+    </tbody>
 </table>
 
 ## Build From Source

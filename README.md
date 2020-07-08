@@ -106,6 +106,8 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
           graytoowolf
         </a>
       </td>
+      </tr>
+    <tr>
       <td align=center>
         <a href="">
           <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
@@ -128,7 +130,7 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
         </a>
       </td>
       </tr>
-  </tbody>
+    </tbody>
 </table>
 
 ### Backers
@@ -144,7 +146,7 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
         </a>
       </td>
       </tr>
-  </tbody>
+    </tbody>
 </table>
 
 ## 自行构建
