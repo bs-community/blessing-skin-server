@@ -1,7 +1,6 @@
 .bs-avatar {
   width: 2.1rem;
   height: 2.1rem;
-  margin-top: -8px;
   image-rendering: pixelated;
   border-radius: 2px;
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.3));
