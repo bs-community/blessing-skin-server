@@ -49,12 +49,12 @@ test('read notification', async () => {
   }
 
   createContainer([{ id: '1', title: 'hi' }])
-  fetch.get.mockResolvedValue(fixture)
+  fetch.post.mockResolvedValue(fixture)
 
   const { getByText, queryByText } = render(<NotificationsList />)
 
   fireEvent.click(getByText('hi'))
-  await waitFor(() => expect(fetch.get).toBeCalled())
+  await waitFor(() => expect(fetch.post).toBeCalled())
 
   expect(queryByText(fixture.title)).toBeInTheDocument()
   expect(queryByText(fixture.content)).toBeInTheDocument()

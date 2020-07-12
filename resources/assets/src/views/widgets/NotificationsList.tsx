@@ -23,7 +23,7 @@ const NotificationsList: React.FC = () => {
   }, [])
 
   const read = async (id: string) => {
-    const { title, content, time } = await fetch.get<{
+    const { title, content, time } = await fetch.post<{
       title: string
       content: string
       time: string
