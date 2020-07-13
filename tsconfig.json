@@ -10,7 +10,13 @@
       "@/*": ["./resources/assets/src/*"]
     }
   },
-  "include": ["resources/assets/src", "resources/assets/webpack.d.ts"],
+  "include": [
+    "resources/assets/src",
+    "resources/assets/webpack.d.ts",
+    "scripts",
+    "webpack.config.ts",
+    "webpack.meta.config.ts"
+  ],
   "ts-node": {
     "compilerOptions": {
       "noUnusedLocals": false,
