@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Encryption\Encrypter;
+
 (function () {
     function die_with_utf8_encoding($error)
     {
@@ -12,6 +14,17 @@
             '[Error] No vendor folder found. Please use the released built package.<br>'.
             '[错误] 根目录下未发现 vendor 文件夹，请使用正式的已构建好的 release 包。'
         );
+    }
+
+    $envPath = __DIR__.'/../.env';
+    if (!file_exists($envPath)) {
+        copy(__DIR__.'/../.env.example', $envPath);
+    }
+
+    $envFile = file_get_contents($envPath);
+    if (preg_match('/APP_KEY\s*=\s*\n/', $envFile)) {
+        $key = 'base64:'.base64_encode(Encrypter::generateKey('AES-256-CBC'));
+        file_put_contents($envPath, preg_replace('/APP_KEY\s*=\s*/', 'APP_KEY='.$key."\n\n", $envFile));
     }
 
     if (!empty(ini_get('disable_functions'))) {
