@@ -2,4 +2,8 @@ public/
 vendor/
 coverage/
 plugins/
-laradock/
+node_modules/
+*.d.ts
+resources/assets/tests/__mocks__/
+resources/assets/tests/ts-shims/
+resources/assets/tests/*.ts

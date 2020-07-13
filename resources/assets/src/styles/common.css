@@ -21,6 +21,6 @@ a {
   cursor: default;
 }
 
-aside [data-mark="nickname"] {
+aside [data-mark='nickname'] {
   margin-left: 1px;
 }

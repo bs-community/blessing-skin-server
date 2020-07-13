@@ -13,7 +13,8 @@
     "dev": "webpack-dev-server",
     "build": "webpack -p --progress && webpack -p --config=webpack.meta.config.ts",
     "lint": "eslint --ext=ts -f=beauty .",
-    "fmt": "prettier --write resources/assets",
+    "fmt": "prettier --write resources/assets scripts webpack.*.ts",
+    "fmt:check": "prettier --check resources/assets scripts webpack.*.ts",
     "test": "jest",
     "build:urls": "ts-node scripts/generateUrls.ts"
   },
@@ -67,14 +68,13 @@
     "@types/webpack": "^4.41.18",
     "@types/webpack-dev-server": "^3.11.0",
     "@types/webpack-manifest-plugin": "^2.1.0",
-    "@typescript-eslint/eslint-plugin": "^2.8.0",
-    "@typescript-eslint/parser": "^2.8.0",
+    "@typescript-eslint/eslint-plugin": "^3.6.0",
+    "@typescript-eslint/parser": "^3.6.0",
     "autoprefixer": "^9.8.0",
     "bootstrap": "^4.5.0",
     "css-loader": "^3.6.0",
     "cssnano": "^4.1.10",
-    "eslint": "^6.7.1",
-    "eslint-config-gplane": "^6.2.2",
+    "eslint": "^7.4.0",
     "eslint-formatter-beauty": "^3.0.0",
     "file-loader": "^6.0.0",
     "jest": "^26.0.1",
@@ -107,78 +107,6 @@
     "singleQuote": true,
     "trailingComma": "all",
     "tabWidth": 2
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "gplane"
-    ],
-    "env": {
-      "node": true,
-      "es6": true,
-      "jquery": true
-    },
-    "globals": {
-      "blessing": "readonly"
-    },
-    "rules": {
-      "camelcase": [
-        2,
-        {
-          "properties": "never",
-          "ignoreDestructuring": true
-        }
-      ],
-      "max-len": [
-        2,
-        120
-      ],
-      "prefer-destructuring": 0
-    },
-    "overrides": [
-      {
-        "files": [
-          "*.ts"
-        ],
-        "extends": [
-          "gplane",
-          "gplane/typescript"
-        ],
-        "parserOptions": {
-          "parser": "@typescript-eslint/parser"
-        },
-        "plugins": [
-          "@typescript-eslint"
-        ],
-        "rules": {
-          "@typescript-eslint/camelcase": [
-            2,
-            {
-              "properties": "never",
-              "ignoreDestructuring": true
-            }
-          ],
-          "@typescript-eslint/no-invalid-this": 0,
-          "@typescript-eslint/no-unnecessary-condition": 0,
-          "no-invalid-this": 0
-        }
-      },
-      {
-        "files": [
-          "resources/assets/tests/**/*.ts",
-          "*.d.ts"
-        ],
-        "rules": {
-          "@typescript-eslint/no-empty-function": 0,
-          "@typescript-eslint/unbound-method": 0,
-          "@typescript-eslint/no-extra-parens": 0,
-          "max-len": [
-            2,
-            120
-          ]
-        }
-      }
-    ]
   },
   "jest": {
     "preset": "ts-jest",

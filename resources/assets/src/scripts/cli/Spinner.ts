@@ -2,8 +2,8 @@ import type { Stdio } from 'blessing-skin-shell'
 import { dots } from 'cli-spinners'
 
 export class Spinner {
-  private timerId: number = 0
-  private index: number = 0
+  private timerId = 0
+  private index = 0
 
   constructor(private stdio: Stdio) {}
 

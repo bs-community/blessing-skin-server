@@ -61,18 +61,16 @@ export async function walkFetch(request: Request): Promise<any> {
         message: Object.keys(errors).map((field) => errors[field][0])[0],
       }
     } else if (response.status === 419) {
-      showModal({
+      return showModal({
         mode: 'alert',
         text: t('general.csrf'),
       })
-      return
     } else if (response.status === 403 || response.status === 400) {
-      showModal({
+      return showModal({
         mode: 'alert',
         text: message,
         type: 'warning',
       })
-      return
     }
 
     if (body.exception && Array.isArray(body.trace)) {
@@ -85,7 +83,7 @@ export async function walkFetch(request: Request): Promise<any> {
     throw new HTTPError(message || body, cloned)
   } catch (error) {
     emit('fetchError', error)
-    showModal({
+    await showModal({
       mode: 'alert',
       title: t('general.fatalError'),
       dangerousHTML: error.message,
@@ -104,7 +102,7 @@ export function get<T = any>(url: string, params = empty): Promise<T> {
     data: params,
   })
 
-  const qs = new URLSearchParams(params)
+  const qs = new URLSearchParams(params).toString()
 
   return walkFetch(new Request(`${blessing.base_url}${url}?${qs}`, init))
 }
@@ -112,7 +110,7 @@ export function get<T = any>(url: string, params = empty): Promise<T> {
 function nonGet<T = any>(
   method: string,
   url: string,
-  data?: FormData | object,
+  data?: FormData | Record<string, unknown>,
 ): Promise<T> {
   emit('beforeFetch', {
     method: method.toUpperCase(),
@@ -132,15 +130,24 @@ function nonGet<T = any>(
   return walkFetch(request)
 }
 
-export function post<T = any>(url: string, data?: object): Promise<T> {
+export function post<T = any>(
+  url: string,
+  data?: FormData | Record<string, unknown>,
+): Promise<T> {
   return nonGet<T>('POST', url, data)
 }
 
-export function put<T = any>(url: string, data?: object): Promise<T> {
+export function put<T = any>(
+  url: string,
+  data?: FormData | Record<string, unknown>,
+): Promise<T> {
   return nonGet<T>('PUT', url, data)
 }
 
-export function del<T = any>(url: string, data?: object): Promise<T> {
+export function del<T = any>(
+  url: string,
+  data?: FormData | Record<string, unknown>,
+): Promise<T> {
   return nonGet<T>('DELETE', url, data)
 }
 

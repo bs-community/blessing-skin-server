@@ -116,7 +116,7 @@ routes
     path.reduce((object: TreeObject, p, index) => {
       if (index === length - 1) {
         object[p] = route.uri
-        return tree as TreeObject
+        return tree
       }
 
       if (!object[p]) {

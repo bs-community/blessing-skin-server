@@ -1,6 +1,3 @@
-/* eslint-disable prefer-const */
-/* eslint-disable @typescript-eslint/camelcase */
-
 declare let __webpack_public_path__: string
 
 if (process.env.NODE_ENV === 'development') {

@@ -1,8 +1,5 @@
 env:
   jest: true
-
 rules:
-  no-empty-function: 0
-  func-names: 0
-  no-extra-parens: 0
-  prefer-promise-reject-errors: 0
+  '@typescript-eslint/no-unsafe-call': off
+  '@typescript-eslint/unbound-method': off
