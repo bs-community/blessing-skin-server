@@ -30,7 +30,7 @@ Copy-Item -Path "../$zip" -Destination $zip
 $manifest.latest = $current
 $manifest.url = $manifest.url.Replace($last, $current)
 $manifest.php = '7.2.5'
-ConvertTo-Json $manifest | Out-File -FilePath update_preview.json
+ConvertTo-Json $manifest | Out-File -FilePath update.json
 Write-Host "Update source is prepared." -ForegroundColor Green
 
 $azureToken = $env:AZURE_TOKEN

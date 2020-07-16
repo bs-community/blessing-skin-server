@@ -33,7 +33,7 @@ return [
     */
     'registry' => env(
         'PLUGINS_REGISTRY',
-        'https://cdn.jsdelivr.net/gh/bs-community/plugins-dist@latest/registry-preview_{lang}.json'
+        'https://cdn.jsdelivr.net/gh/bs-community/plugins-dist@latest/registry_{lang}.json'
     ),
 
     /*
