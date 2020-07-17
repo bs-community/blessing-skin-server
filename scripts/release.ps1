@@ -51,7 +51,7 @@ if (Test-Path $changelogPath) {
 } else {
     $changelog = ''
 }
-$release = New-GitHubRelease -Token $githubToken -Owner 'bs-community' -Repository 'blessing-skin-server' -TagName $current -ReleaseNote $changelog -PreRelease
+$release = New-GitHubRelease -Token $githubToken -Owner 'bs-community' -Repository 'blessing-skin-server' -TagName $current -ReleaseNote $changelog
 try {
     New-GitHubReleaseAsset -Token $githubToken -Owner 'bs-community' -Repository 'blessing-skin-server'  -ReleaseId $release.Id -Path $zip
 } catch {
