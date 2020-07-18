@@ -6,12 +6,12 @@ login:
   keep: Se souvenir de moi
   success: Authentification réussie.
 check:
-  anonymous: Illegal access. Please log in first.
+  anonymous: Accès illégal. Veuillez vous connecter d'abord.
   verified: Pour accéder à cette page, vous devez d'abord vérifier votre adresse e-mail.
   admin: Seuls les administrateurs ont la permission d'accéder à cette page.
   super-admin: Seul le super administrateur a la permission d'accéder à cette page.
   banned: Vous êtes banni de ce site. Veuillez contacter l'administrateur.
-  token: Token expired. Please log in.
+  token: Session expirée. Veuillez vous connecter à nouveau.
 register:
   title: S'inscrire
   button: S'inscrire
@@ -32,21 +32,21 @@ forgot:
   unregistered: L'adresse e-mail n'est pas enregistrée.
   success: L'e-mail a été envoyé, consultez votre boîte de réception. Le lien expirera dans 1 heure.
   failed: Erreur lors de l'envoi de l'e-mail de vérification. :msg
-  ignore: If you haven't signed up on our site, please ignore this email. No unsubscribing is required.
-  reset: Reset your password
-  notice: This mail is sending automatically, no reponses will be sent if you reply.
+  ignore: Si vous ne vous êtes pas inscrit sur notre site, veuillez ignorer cet e-mail. Aucune désinscription n'est requise.
+  reset: Réinitialisez votre mot de passe
+  notice: Ce courrier est envoyé automatiquement, aucune réponse ne sera envoyée si vous y répondez.
   mail:
-    title: Reset your password on :sitename
-    message: You are receiving this email because we received a password reset request for your account on :sitename.
-    reset: 'To reset your password, please visit: <a href=":url">:url</a>'
-    ignore: If you did not request a password reset, no further action is required.
+    title: Réinitialiser votre mot de passe sur :sitename
+    message: Vous recevez cet e-mail car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte sur :sitename.
+    reset: 'Pour réinitialiser votre mot de passe, veuillez visiter : <a href=":url">:url</a>'
+    ignore: Si vous n’avez pas demandé de réinitialisation du mot de passe, aucune autre action n’est requise.
 reset:
-  title: Reset Password
+  title: Réinitialiser le mot de passe
   button: Réinitialiser
-  invalid: Invalid link.
-  expired: This link is expired.
-  message: ':username, reset your email address here.'
-  success: Password resetted successfully.
+  invalid: Lien invalide.
+  expired: Le lien a expiré.
+  message: ':username, réinitialisez votre adresse e-mail ici.'
+  success: Mot de passe réinitialisé avec succès.
 bind:
   title: Lier l'adresse e-mail
   button: Lier
@@ -54,21 +54,21 @@ bind:
   introduction: Nous ne vous enverrons aucun spam.
   registered: Cette adresse e-mail est déjà utilisée.
 verify:
-  title: Email Verification
-  success: Your account was now verified.
-  message: Welcome to :sitename!
-  button: Homepage
-  invalid: Invalid link.
-  expired: This link is expired, please resend a verification email.
+  title: Vérification de l'adresse e-mail
+  success: Votre compte est désormais vérifié !
+  message: Bienvenue sur :sitename !
+  button: Page d'accueil
+  invalid: Lien invalide.
+  expired: Ce lien a expiré, veuillez renvoyer un e-mail de vérification.
 validation:
-  identification: The email or player name is invalid.
-  email: Email format is invalid.
-  captcha: Wrong CAPTCHA.
-  user: No such user.
-  password: Wrong password.
+  identification: L'email ou le nom du joueur est invalide.
+  email: L'adresse email est invalide.
+  captcha: Mauvais CAPTCHA.
+  user: Cet utilisateur n'existe pas.
+  password: Mot de passe incorrect.
 logout:
-  success: You are now logged out.
-  fail: No valid session.
+  success: Vous êtes maintenant déconnecté.
+  fail: Aucune session valide.
 oauth:
   authorization:
     title: Authorization
