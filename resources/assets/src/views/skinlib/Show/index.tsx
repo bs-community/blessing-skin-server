@@ -380,7 +380,7 @@ const Show: React.FC = () => {
             </div>
             <div className="row my-4">
               <div className="col-4">Hash</div>
-              <div className="col-8 text-truncate" title={texture.hash}>
+              <div className="col-8 text-truncate user-select-all" title={texture.hash}>
                 {isLoading ? <Skeleton /> : texture.hash}
               </div>
             </div>
