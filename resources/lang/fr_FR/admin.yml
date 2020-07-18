@@ -55,7 +55,7 @@ players:
     non-existent: Cette texture n'existes pas tid.:tid
     success: Les textures de :player ont été mises à jour.
   name:
-    success: Player name has been updated to :player
+    success: Le nom d'utilisateur à bien été mis à jour pour :player
   owner:
     change: Changer de propriétaire
     success: Le joueur :player a été transféré vers l'utilisateur :user.
@@ -69,31 +69,31 @@ customize:
   colors:
     navbar: Barre de navigation du haut
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: Barre latérale (sombre)
+      light: Barre latérale (claire)
 i18n:
-  add: Add New Language Line
-  added: Language line added.
-  updated: Language line updated.
-  deleted: Language line deleted.
+  add: Ajouter une nouvelle langue
+  added: Language ajouté.
+  updated: Langage mis à jour.
+  deleted: Langage supprimé.
   group: Groupe
   key: Clé
   text: Texte
   tip: Comment puis-je utiliser cette page ?
 status:
   info: Information
-  health: Health
+  health: Santé
   bs:
     name: Blessing Skin
     version: Version
     env: Environnement d'application
     debug: Débogage ou pas ?
-    commit: Commit
-    laravel: Laravel Version
+    commit: Révision
+    laravel: Version de Laravel
   server:
     name: Serveur
     php: Version de PHP
-    web: Web Server Software
+    web: Logiciel de serveur Web
     os: OS
   db:
     name: Base de données
@@ -115,10 +115,10 @@ plugins:
     title: Actions
     enabled: ':plugin a été activé.'
     unsatisfied:
-      notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
+      notice: Il y a des conflits ou des dépendances insatisfaisantes dans le plugin, nous ne pouvons donc pas l'activer. Veuillez installer ou mettre à jour les plugins listés ci-dessous, et désactiver ceux qui ont des conflits.
       disabled: 'Le plugin ":name" n''est pas activé.'
-      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
-      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
+      version: 'La version de ":title" ne satisfait pas la contrainte ":constraint".'
+      conflict: 'Le plugin ":title" ne peut pas être exécuté avec ce plugin en même temps.'
     disabled: ':plugin a été désactivé.'
     deleted: Le plugin a été supprimé avec succès.
     no-config-notice: Le plugin n'est pas installé ou ne fournit pas de page de configuration.
@@ -145,9 +145,9 @@ update:
     title: Avertissement
     link: jetez-y un coup d'œil.
     text: |
-      Please choose update source according to your host's network environment.
-      Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
-      To change the default update source,
+      Veuillez choisir la source de mise à jour en fonction de l'environnement réseau de votre hôte.
+      La connexion à faible vitesse entre la source de mise à jour et votre hôte provoquera un chargement prolongé lors de la vérification et du téléchargement de la page.
+      Pour modifier la source de mise à jour par défaut,
   download:
     downloading: Téléchargement du package de mise à jour...
     size: "Taille du package :"
