@@ -18,23 +18,22 @@ Route::get('', 'HomeController@index');
 Route::prefix('auth')->name('auth.')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', 'AuthController@login')->name('login');
-        Route::post('login', 'AuthController@handleLogin')->name('login');
+        Route::post('login', 'AuthController@handleLogin');
 
         Route::get('register', 'AuthController@register')->name('register');
-        Route::post('register', 'AuthController@handleRegister')->name('register');
+        Route::post('register', 'AuthController@handleRegister');
 
         Route::get('forgot', 'AuthController@forgot')->name('forgot');
-        Route::post('forgot', 'AuthController@handleForgot')->name('forgot');
+        Route::post('forgot', 'AuthController@handleForgot');
 
         Route::get('reset/{uid}', 'AuthController@reset')->name('reset');
-        Route::post('reset/{uid}', 'AuthController@handleReset')->name('reset');
+        Route::post('reset/{uid}', 'AuthController@handleReset');
     });
 
     Route::post('logout', 'AuthController@logout')->name('logout')->middleware('authorize');
     Route::any('captcha', 'AuthController@captcha');
 
     Route::middleware(['authorize', Middleware\EnsureEmailFilled::class])
-        ->name('bind')
         ->group(function () {
             Route::view('bind', 'auth.bind');
             Route::post('bind', 'AuthController@fillEmail');
