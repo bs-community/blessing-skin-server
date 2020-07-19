@@ -25,6 +25,11 @@ body {
 .navbar-brand {
   font-family: Minecraft;
 }
+.navbar-nav {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+}
 
 .splash {
   width: 80%;
