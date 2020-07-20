@@ -236,7 +236,7 @@ const Show: React.FC = () => {
     )
     search.append('uploader', texture.uploader?.toString())
 
-    return `${blessing.base_url}/skinlib?${search}`
+    return `${blessing.base_url}/skinlib?${search.toString()}`
   })()
 
   const canEdit = currentUid === texture.uploader || isAdmin
