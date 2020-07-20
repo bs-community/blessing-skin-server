@@ -2,6 +2,8 @@
 
 use Illuminate\Encryption\Encrypter;
 
+ini_set('display_errors', true);
+
 (function () {
     function die_with_utf8_encoding($error)
     {
