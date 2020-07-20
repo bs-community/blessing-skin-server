@@ -575,6 +575,48 @@ describe('change privacy', () => {
     expect(getByRole('alert')).toHaveClass('alert-danger')
     expect(queryByText(t('skinlib.setAsPublic'))).toBeInTheDocument()
   })
+
+  it('duplicated texture with confirmed', async () => {
+    fetch.get.mockResolvedValue({ ...fixtureSkin, public: false })
+    fetch.put.mockResolvedValue({
+      code: 2,
+      message: 'duplicated',
+      data: { tid: 2 },
+    })
+
+    const { getByText, queryByText } = render(<Show />)
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
+
+    fireEvent.click(getByText(t('skinlib.setAsPublic')))
+    fireEvent.click(getByText(t('general.confirm')))
+    await waitFor(() =>
+      expect(fetch.put).toBeCalledWith(urls.texture.privacy(fixtureSkin.tid)),
+    )
+    expect(queryByText('duplicated')).toBeInTheDocument()
+    expect(queryByText(t('skinlib.setAsPublic'))).toBeInTheDocument()
+    fireEvent.click(getByText(t('user.viewInSkinlib')))
+  })
+
+  it('duplicated texture with cancelled', async () => {
+    fetch.get.mockResolvedValue({ ...fixtureSkin, public: false })
+    fetch.put.mockResolvedValue({
+      code: 2,
+      message: 'duplicated',
+      data: { tid: 2 },
+    })
+
+    const { getByText, queryByText } = render(<Show />)
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
+
+    fireEvent.click(getByText(t('skinlib.setAsPublic')))
+    fireEvent.click(getByText(t('general.confirm')))
+    await waitFor(() =>
+      expect(fetch.put).toBeCalledWith(urls.texture.privacy(fixtureSkin.tid)),
+    )
+    expect(queryByText('duplicated')).toBeInTheDocument()
+    expect(queryByText(t('skinlib.setAsPublic'))).toBeInTheDocument()
+    fireEvent.click(getByText(t('general.cancel')))
+  })
 })
 
 describe('delete texture', () => {

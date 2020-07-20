@@ -191,12 +191,29 @@ const Show: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.put<fetch.ResponseBody>(
+    type Ok = { code: 0; message: string }
+    type Err = { code: 1; message: string }
+    type Duplicated = { code: 2; message: string; data: { tid: number } }
+
+    const resp = await fetch.put<Ok | Err | Duplicated>(
       urls.texture.privacy(texture.tid),
     )
+    const { code, message } = resp
     if (code === 0) {
       toast.success(message)
       setTexture((texture) => ({ ...texture, public: !texture.public }))
+    } else if (resp.code === 2) {
+      try {
+        await showModal({
+          mode: 'confirm',
+          text: message,
+          okButtonText: t('user.viewInSkinlib'),
+        })
+        window.location.href =
+          blessing.base_url + urls.skinlib.show(resp.data.tid)
+      } catch {
+        //
+      }
     } else {
       toast.error(message)
     }

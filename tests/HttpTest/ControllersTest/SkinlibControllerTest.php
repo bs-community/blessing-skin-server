@@ -449,6 +449,20 @@ class SkinlibControllerTest extends TestCase
                 'data' => ['tid' => $texture->tid],
             ]);
 
+        // upload a duplicated private texture
+        $texture->uploader = $user->uid;
+        $texture->save();
+        $this->postJson(route('texture.upload'), [
+                'name' => 'texture',
+                'public' => true,
+                'type' => 'steve',
+                'file' => $upload,
+            ])->assertJson([
+                'code' => 2,
+                'message' => trans('skinlib.upload.repeated'),
+                'data' => ['tid' => $texture->tid],
+            ]);
+
         // rejected
         $filter->add('can_upload_texture', function ($can, $file, $name) {
             $this->assertInstanceOf(UploadedFile::class, $file);
@@ -588,6 +602,19 @@ class SkinlibControllerTest extends TestCase
                 return true;
             }
         );
+
+        // duplicated
+        $duplicated = $texture->replicate();
+        $duplicated->uploader = $other->uid;
+        $duplicated->public = true;
+        $duplicated->save();
+        $texture->public = false;
+        $texture->save();
+        $uploader->score = (int) option('private_score_per_storage');
+        $uploader->save();
+        $this->putJson(route('texture.privacy', ['texture' => $texture]))
+            ->assertJson(['code' => 2, 'message' => trans('skinlib.upload.repeated')]);
+        $duplicated->delete();
 
         $this->putJson(route('texture.privacy', ['texture' => $texture]))
             ->assertJson([

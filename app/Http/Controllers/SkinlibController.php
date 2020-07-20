@@ -249,15 +249,20 @@ class SkinlibController extends Controller
         $hash = hash_file('sha256', $file);
         $hash = $filter->apply('uploaded_texture_hash', $hash, [$file]);
 
-        $duplicated = Texture::where('hash', $hash)->where('public', true)->first();
+        /** @var User */
+        $user = Auth::user();
+
+        $duplicated = Texture::where('hash', $hash)
+            ->where(function ($query) use ($user) {
+                return $query->where('public', true)
+                    ->orWhere('uploader', $user->uid);
+            })
+            ->first();
         if ($duplicated) {
             // if the texture already uploaded was set to private,
             // then allow to re-upload it.
             return json(trans('skinlib.upload.repeated'), 2, ['tid' => $duplicated->tid]);
         }
-
-        /** @var User */
-        $user = Auth::user();
 
         $size = ceil($file->getSize() / 1024);
         $isPublic = is_string($data['public'])
@@ -340,6 +345,15 @@ class SkinlibController extends Controller
         }
         if ($uploader->score + $score_diff < 0) {
             return json(trans('skinlib.upload.lack-score'), 1);
+        }
+
+        if (!$texture->public) {
+            $duplicated = Texture::where('hash', $texture->hash)
+                ->where('public', true)
+                ->first();
+            if ($duplicated) {
+                return json(trans('skinlib.upload.repeated'), 2, ['tid' => $duplicated->tid]);
+            }
         }
 
         $dispatcher->dispatch('texture.privacy.updating', [$texture]);
