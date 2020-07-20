@@ -435,6 +435,20 @@ class SkinlibControllerTest extends TestCase
             }
         );
 
+        $texture->public = false;
+        $texture->save();
+        // make a duplicated private texture
+        $this->postJson(route('texture.upload'), [
+            'name' => 'texture',
+            'public' => false,
+            'type' => 'steve',
+            'file' => $upload,
+        ])->assertJson([
+            'code' => 2,
+            'message' => trans('skinlib.upload.repeated'),
+            'data' => ['tid' => $texture->tid],
+        ]);
+
         // upload a duplicated texture
         $user = factory(User::class)->create();
         $this->actingAs($user)
@@ -629,6 +643,25 @@ class SkinlibControllerTest extends TestCase
         $this->putJson(route('texture.privacy', ['texture' => $texture]))
             ->assertJson(['code' => 0]);
         $this->assertEquals($other->score, $other->fresh()->score);
+
+        // make a duplicated texture public
+        $textureHash = hash('sha256', rand());
+        $texture = factory(Texture::class)->create([
+            'uploader' => $uploader->uid,
+            'hash' => $textureHash,
+        ]);
+        $Sametexture = factory(Texture::class)->create([
+            'uploader' => $other->uid,
+            'hash' => $textureHash,
+            'public' => false,
+        ]);
+        $this->actingAs($other)
+            ->putJson(route('texture.privacy', ['texture' => $Sametexture]))
+                ->assertJson([
+                    'code' => 2,
+                    'message' => trans('skinlib.upload.repeated'),
+                    'data' => ['tid' => $texture->tid],
+            ]);
     }
 
     public function testRename()
