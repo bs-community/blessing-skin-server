@@ -14,6 +14,12 @@
     RewriteRule (^\.|/\.) - [F]
     RewriteRule ^storage/.* - [F]
 
+    # Redirect trailing slashes if not a folder (behind a reverse proxy)
+    RewriteCond %{HTTP:X-Forwarded-Proto} ^https$
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ "%{HTTP:X-Forwarded-Proto}://%{HTTP_HOST}%1" [L,R=301]
+    
     # Redirect trailing slashes if not a folder
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
