@@ -64,22 +64,22 @@ skinlib:
   setAsPrivate: Rendre privé
   setAsPublic: Rendre public
   setPublicNotice: Êtes-vous sûr de vouloir définir ceci comme texture public ?
-  setPrivateNotice: Sure to set this as private texture?
-  deleteNotice: Are you sure to delete this texture?
-  setNewTextureModel: "Please select a new texture model:"
+  setPrivateNotice: Êtes-vous sûr de vouloir définir ceci comme texture public ?
+  deleteNotice: Êtes-vous sûr de vouloir supprimer cette texture?
+  setNewTextureModel: "Veuillez sélectionner un nouveau modèle de texture:"
   upload:
     texture-name: Nom de la texture
     texture-type: Type de texture
     select-file: Sélectionner un fichier
-    privacy-notice: Prevent it from being visible at skin library.
+    privacy-notice: Empêche l'affichage dans la bibliothèque de skins.
     set-as-private: Rendre privé
-    button: Upload
+    button: Téléverser
     dropZone: Déposez le fichier ici
     remove: Retirer
-    cost: It costs you about :score score.
-    award: You'll be awarded :score score(s) by uploading public texture.
+    cost: Cela vous coûte environ :score .
+    award: Vous serez récompensé de :score score(s) en téléchargeant des textures publiques.
   show:
-    anonymous: You must login to use closets
+    anonymous: Vous devez vous connecter pour utiliser votre garde-robe
     likes: Personnes qui ont aimé
     detail: Détails
     name: Nom de la texture
@@ -87,28 +87,28 @@ skinlib:
     model: Modèle applicable
     size: Taille du fichier
     uploader: Auteur
-    upload-at: Upload At
+    upload-at: Téléchargé le
     download: Télécharger
     delete-texture: Supprimer la texture
-    manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
+    manage-notice: La texture, une fois supprimée ou réglée en privé sera retirée de la garde-robe de tous ceux qui l'y ont ajoutée.
   report:
     title: Signaler
-    reason: Tell us reason please.
-    positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
-    negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
+    reason: Dites-nous la raison s'il vous plaît.
+    positive: Pour encourager les contributions positives à la bibliothèque de skins, nous récompenserons ceux qui ont signalé un contenu inapproprié avec :score scores. Cependant, si des signalement abusifs ont été trouvés, toutes les récompenses seront récupérés.
+    negative: Pour atténuer l'impact des rapports abusifs, nous aurons besoin de :score pour envoyer votre rapport. Ne vous inquiétez pas. Les scores suspendus et les récompenses supplémentaires seront envoyés à votre compte après examen de votre rapport par les administrateurs.
 user:
-  signRemainingTime: 'Available after :time :unit'
+  signRemainingTime: 'Disponible après :time :unit'
   timeUnitHour: h
   timeUnitMin: min
   emptyClosetMsg: >-
-    <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
+    <p>Rien dans votre garde-robe...</p><p>Pourquoi ne pas explorer la <a href=":url">bibliothèque de Skin</a> ?</p>
   renameItem: Renommer l'élément
-  removeItem: Remove from closet
+  removeItem: Retirer de la garde-robe
   setAsAvatar: Utiliser en tant qu'avatar
   viewInSkinlib: Voir dans la bibliothèque de skins
   switch2dPreview: Passer à l'aperçu 2D
   switch3dPreview: Passer à l'aperçu 3D
-  removeFromClosetNotice: Sure to remove this texture from your closet?
+  removeFromClosetNotice: Êtes-vous sûr de vouloir retirer cette texture de votre garde-robe ?
   emptySelectedPlayer: Aucun joueur n'est sélectionné.
   emptySelectedTexture: Aucune texture n'est sélectionnée.
   renameClosetItem: 'Set a new name for this item:'
@@ -236,19 +236,19 @@ admin:
   downloadRemote: Download From Remote
   downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
   noDependenciesNotice: >-
-    There is no dependency definition in the plugin. It means that the plugin may be not compatible with the current version of Blessing Skin, and enabling it may cause unexpected problems. Do you really want to enable the plugin?
+    Il n'y a pas de dépendances définies pour ce plugin. Cela signifie que le plugin peut ne pas être compatible avec la version actuelle de Blessing Skin, et l'activer peut causer des problèmes inattendus. Voulez-vous vraiment activer le plugin ?
   updateButton: Mettre à jour maintenant
   downloading: Téléchargement...
   updateCompleted: Mise à jour terminée.
   i18n:
     group: Groupe
-    key: Key
+    key: Clé
     text: Texte
     empty: (Vide)
     modify: Modifier
     delete: Supprimer
     updating: 'Veuillez saisir un nouveau texte :'
-    confirmDelete: Are you sure? This is irreversible.
+    confirmDelete: Êtes-vous sûr ? C'est irréversible.
 report:
   tid: ID de texture
   reporter: Auteur du signalement
@@ -261,12 +261,12 @@ report:
   time: Heure du signalement
   check: Détails
   delete: Supprimer
-  ban: Ban
+  ban: Bannir
   reject: Rejeter
 general:
   skin: Skin
   cape: Cape
-  fatalError: Fatal Error
+  fatalError: Erreur fatale
   confirmLogout: Voulez-vous vraiment vous déconnecter ?
   confirm: OK
   cancel: Annuler
@@ -275,7 +275,7 @@ general:
   more: Plus
   tip: Conseil
   pagination: 'Page :page, total :total'
-  searchResult: '(Search result of keyword ":keyword")'
+  searchResult: '(Résultat de la recherche du mot clé ":keyword")'
   noResult: Aucun résultat.
   texturePreview: Aperçu de la texture
   walk: Marcher
@@ -286,7 +286,7 @@ general:
   skinlib: Bibliothèque de skins
   loading: Chargement
   wait: Veuillez patienter...
-  csrf: This page is out-dated. Please refresh it.
+  csrf: Cette page est obsolète. Veuillez la rafraîchir.
   user:
     email: Adresse e-mail
     nickname: Pseudonyme
@@ -295,18 +295,18 @@ general:
   player:
     owner: Propriétaire
     player-name: Nom du joueur
-    previews: Texture Previews
+    previews: Aperçu de la texture
     last-modified: Dernière modification
 colors:
-  black: Black
-  white: White
-  gray: Gray
-  prev: Previous Background
-  next: Next Background
+  black: Noir
+  white: Blanc
+  gray: Gris
+  prev: Arrière-plan précédent
+  next: Prochain arrière-plan
 vendor:
   datatable:
     search: Rechercher
-    rowsPerPage: Rows per page
+    rowsPerPage: Lignes par page
     prev: Précédent
     next: Suivant
     of: de
