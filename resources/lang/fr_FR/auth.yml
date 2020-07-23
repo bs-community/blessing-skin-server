@@ -71,15 +71,15 @@ logout:
   fail: Aucune session valide.
 oauth:
   authorization:
-    title: Authorization
-    introduction: A 3rd-party application ":name" is requesting permission to access your account.
-    button: Authorize
-nickname: Nickname
+    title: Autorisation
+    introduction: Une application tierce ":name" demande l'autorisation d'accéder à votre compte.
+    button: Autoriser
+nickname: Pseudonyme
 email: Adresse e-mail
-identification: Email or player name
-password: Password
+identification: Adresse e-mail ou nom du joueur
+password: Mot de passe
 captcha: CAPTCHA
-change-captcha: Click to change CAPTCHA image.
-login-link: Already registered? Log in here.
-forgot-link: Forgot password?
-register-link: Register a new account
+change-captcha: Cliquez pour changer l'image du CAPTCHA.
+login-link: Déjà inscrit? Connectez-vous ici.
+forgot-link: Mot de passe oublié ?
+register-link: Créer un nouveau compte
