@@ -3,18 +3,18 @@ option-saved: Option enregistrée.
 homepage:
   title: Page d'accueil
   home_pic_url:
-    title: Picture URL at Homepage
-    hint: Path relative to homepage or full URL, leave empty to use default image.
+    title: URL de l'image sur la page d'accueil
+    hint: Chemin relatif à la page d'accueil ou à l'URL complète, laisser vide pour utiliser l'image par défaut.
   favicon_url:
     title: Icône du site web
-    hint: Path relative to public/ or full URL.
-    description: The given image must have same width and height (leave blank to use default icon).
+    hint: Chemin relatif au public/ou à l'URL complète.
+    description: L'image donnée doit avoir la même largeur et la même hauteur (laissez vide pour utiliser l'icône par défaut).
   transparent_navbar:
-    title: Transparent Navigation Bar
-    label: This will enable transparent navigation bar of home page, but it will turn to be normal if page is scrolled to bottom.
+    title: Barre de navigation transparente
+    label: Cela activera la barre de navigation transparente de la page d'accueil, mais cela deviendra normal si la page est défilée vers le bas.
   hide_intro:
-    title: Hide Introduction at Bottom
-    label: Scroll bar will be disabled if this option is enabled, as version 2.x.
+    title: Masquer l'introduction en bas
+    label: La barre de défilement sera désactivée si cette option est activée, comme la version 2.x.
   fixed_bg:
     title: Fixed Background
     label: This option will make background fixed, not scrolled with scroll bar.
@@ -113,43 +113,43 @@ general:
   auto_del_invalid_texture:
     title: Textes invalides
     label: Delete invalid textures automatically.
-    hint: Delete textures records whose file no longer exists from skinlib.
+    hint: Retirer les textures dont les fichiers n'existent plus dans la bibliothèque de skins.
   allow_downloading_texture:
     title: Téléchargement des textures
-    label: Allow users to directly download the source file of a skinlib item.
+    label: Permettre aux utilisateurs de télécharger directement le fichier source d'un élément de la bibliothèque de skins.
   status_code_for_private:
-    title: HTTP Code for Rejecting Accessing Private Textures
+    title: Code HTTP pour rejeter l'accès aux textures privées
   texture_name_regexp:
-    title: Texture Name Rules
-    hint: The RegExp for validating name of uploaded textures. Leave empty to allow any character except single, double quote and backslash.
-    placeholder: Regular Expressions
+    title: Règles de nom de texture
+    hint: Le RegExp pour valider le nom des textures téléchargées. Laissez vide pour autoriser n'importe quel caractère, sauf les guillemets simples, doubles et antislash.
+    placeholder: Expressions regulières
   content_policy:
-    title: Content Policy
-    description: Display content policy at texture uploading page, supporting Markdown. To edit a specific language's corresponding content policy, please switch to that language and submit your edit.
+    title: Politique de contenu
+    description: Afficher la politique de contenu à la page de téléchargement de textures, en prenant en charge Markdown. Pour modifier la politique de contenu correspondant à une langue spécifique, veuillez basculer vers cette langue et soumettre votre modification.
 announ:
   title: Annonce
   announcement:
-    description: Styling with Markdown is supported. You can also specify a different announcement for each language. To edit a specific language's corresponding announcement, please switch to that language and submit your edit.
+    description: Le style avec Markdown est pris en charge. Vous pouvez également spécifier une annonce différente pour chaque langue. Pour modifier l'annonce correspondante d'une langue spécifique, veuillez basculer vers cette langue et soumettre votre modification.
 meta:
-  title: SEO <meta> tags
+  title: Balises <meta> SEO
   meta_keywords:
     title: Mots-clés
-    hint: Split with commas.
+    hint: Diviser avec des virgules.
   meta_description:
     title: Description
-    hint: Description defined in "general options" will be used if you left it empty.
+    hint: La description définie dans "options générales" sera utilisée si vous la laissez vide.
   meta_extras:
-    title: Other Custom <meta> Tags
+    title: Autres tags <meta> personnalisés
 recaptcha:
   recaptcha_invisible:
     title: Invisible
     label: Activer le mode invisible
-res-warning: This page is ONLY for advanced users. If you aren't familiar with these, please don't modify them!
+res-warning: Cette page est UNIQUEMENT destinée aux utilisateurs avancés. Si vous ne savez pas ce que vous faites, ne modifiez rien !
 resources:
   title: Fichiers de ressources
-  hint: Please check these options if you enabled CDN for your site.
+  hint: Veuillez vérifier ces options si vous avez activé le CDN pour votre site.
   force_ssl:
-    title: Force SSL
+    title: Forcer SSL
     label: Use HTTPS protocol to load all front-end assets.
     hint: Please check if SSL really available before turning on.
   auto_detect_asset_url:
