@@ -25,8 +25,8 @@ auth:
   forgot-link: Mot de passe oublié ?
   keep: Se souvenir de moi
   repeat-pwd: Répétez votre mot de passe
-  nickname-intro: Whatever you like expect special characters
-  player-name-intro: Player name in Minecraft, can be changed later
+  nickname-intro: Tout ce que vous voulez sauf des caractères spéciaux
+  player-name-intro: Le nom du joueur dans Minecraft, peut être modifié plus tard
   register-button: S'inscrire
   forgot:
     login-link: Je m'en souviens
@@ -37,33 +37,33 @@ skinlib:
   anonymous: Connectez-vous d'abord.
   reset: Réinitialiser le filtre
   nowShowing: Maintenant affiché
-  addToCloset: Add to closet
-  removeFromCloset: Remove from closet
-  setItemName: Set a name for this texture
-  applyNotice: You can apply it to player at your closet
-  emptyItemName: Empty texture name.
-  setNewTextureName: 'Please enter the new texture name:'
-  emptyNewTextureName: Empty new texture name.
-  seeMyUpload: My Uploads
+  addToCloset: Ajouter à la garde-robe
+  removeFromCloset: Retirer de la garde-robe
+  setItemName: Définir un nom pour cette texture
+  applyNotice: Vous pouvez l'appliquer au joueur dans votre garde-robe
+  emptyItemName: Nom de texture vide.
+  setNewTextureName: 'Veuillez entrer le nouveau nom de texture :'
+  emptyNewTextureName: Nom de nouvelle texture vide.
+  seeMyUpload: Mes téléversements
   apply: Appliquer
   filter:
     skin: (N'importe quel modèle)
     steve: (Steve)
     alex: (Alex)
     cape: (Cape)
-    uploader: 'User (UID = :uid) Uploaded'
+    uploader: 'Utilisateur (UID = :uid) téléchargé'
     allUsers: Tous les utilisateurs
   sort:
     title: Trier
     time: Récents
     likes: Le plus populaire
-  emptyTextureName: Empty texture name.
-  emptyUploadFile: You have not uploaded any file.
-  fileExtError: 'Error: Textures should be PNG files.'
-  uploading: Uploading
+  emptyTextureName: Nom de texture vide.
+  emptyUploadFile: Vous n'avez pas encore téléchargé de fichiers.
+  fileExtError: 'Erreur: Les textures doivent être des fichiers PNG.'
+  uploading: Transfert en cours…
   setAsPrivate: Rendre privé
   setAsPublic: Rendre public
-  setPublicNotice: Sure to set this as public texture?
+  setPublicNotice: Êtes-vous sûr de vouloir définir ceci comme texture public ?
   setPrivateNotice: Sure to set this as private texture?
   deleteNotice: Are you sure to delete this texture?
   setNewTextureModel: "Please select a new texture model:"
