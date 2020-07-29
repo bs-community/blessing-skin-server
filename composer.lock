@@ -1019,16 +1019,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.0.7",
+            "version": "2.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "e6bedc1e74507d584fbcb041ebe0f7f215109cf2"
+                "reference": "87335b120bc9652e4ee2bf285b7322a785211476"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/e6bedc1e74507d584fbcb041ebe0f7f215109cf2",
-                "reference": "e6bedc1e74507d584fbcb041ebe0f7f215109cf2",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/87335b120bc9652e4ee2bf285b7322a785211476",
+                "reference": "87335b120bc9652e4ee2bf285b7322a785211476",
                 "shasum": ""
             },
             "require": {
@@ -1047,7 +1047,8 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.14",
                 "mockery/mockery": "^1.3",
-                "orchestra/testbench": "5.0"
+                "orchestra/testbench": "5.0",
+                "psalm/plugin-laravel": "^1.2"
             },
             "suggest": {
                 "laravel/telescope": "^3.1"
@@ -1086,7 +1087,7 @@
                 "laravel",
                 "page"
             ],
-            "time": "2020-06-08T09:14:08+00:00"
+            "time": "2020-07-27T15:17:39+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -1722,16 +1723,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v7.18.0",
+            "version": "v7.22.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "116b508bafd81de97b1c09744445d32a91076b60"
+                "reference": "30e851a2b3a2af73fba0b7f4fa22b04260db98e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/116b508bafd81de97b1c09744445d32a91076b60",
-                "reference": "116b508bafd81de97b1c09744445d32a91076b60",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/30e851a2b3a2af73fba0b7f4fa22b04260db98e7",
+                "reference": "30e851a2b3a2af73fba0b7f4fa22b04260db98e7",
                 "shasum": ""
             },
             "require": {
@@ -1875,35 +1876,35 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-06-30T13:52:36+00:00"
+            "time": "2020-07-27T18:25:06+00:00"
         },
         {
             "name": "laravel/passport",
-            "version": "v9.3.0",
+            "version": "v9.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "724acaea99204728a1baf7b9b730bf97debbf94c"
+                "reference": "192fe387c1c173c12f82784e2a1b51be8bd1bf45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/724acaea99204728a1baf7b9b730bf97debbf94c",
-                "reference": "724acaea99204728a1baf7b9b730bf97debbf94c",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/192fe387c1c173c12f82784e2a1b51be8bd1bf45",
+                "reference": "192fe387c1c173c12f82784e2a1b51be8bd1bf45",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "firebase/php-jwt": "^5.0",
                 "guzzlehttp/guzzle": "^6.0|^7.0",
-                "illuminate/auth": "^6.0|^7.0",
-                "illuminate/console": "^6.0|^7.0",
-                "illuminate/container": "^6.0|^7.0",
-                "illuminate/contracts": "^6.0|^7.0",
-                "illuminate/cookie": "^6.0|^7.0",
-                "illuminate/database": "^6.0|^7.0",
-                "illuminate/encryption": "^6.0|^7.0",
-                "illuminate/http": "^6.0|^7.0",
-                "illuminate/support": "^6.0|^7.0",
+                "illuminate/auth": "^6.18.31|^7.22.4",
+                "illuminate/console": "^6.18.31|^7.22.4",
+                "illuminate/container": "^6.18.31|^7.22.4",
+                "illuminate/contracts": "^6.18.31|^7.22.4",
+                "illuminate/cookie": "^6.18.31|^7.22.4",
+                "illuminate/database": "^6.18.31|^7.22.4",
+                "illuminate/encryption": "^6.18.31|^7.22.4",
+                "illuminate/http": "^6.18.31|^7.22.4",
+                "illuminate/support": "^6.18.31|^7.22.4",
                 "laminas/laminas-diactoros": "^2.2",
                 "league/oauth2-server": "^8.1",
                 "nyholm/psr7": "^1.0",
@@ -1948,7 +1949,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2020-06-30T20:21:17+00:00"
+            "time": "2020-07-27T18:34:39+00:00"
         },
         {
             "name": "lcobucci/jwt",
