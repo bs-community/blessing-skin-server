@@ -5,8 +5,8 @@ http:
   msg-500: Veuillez réessayer plus tard.
   msg-503: L'application est maintenant en mode maintenance.
   method-not-allowed: Méthode non autorisée.
-  csrf-token-mismatch: Token does not match, try reloading the page.
-  ie: Your browser isn't supported. Please switch to other modern browsers, such as Firefox or Chrome.
+  csrf-token-mismatch: Le jeton ne correspond pas, essayez de recharger la page.
+  ie: Votre navigateur n'est pas pris en charge. Veuillez passer à d'autres navigateurs modernes, tels que Firefox ou Chrome.
 general:
   title: Une erreur s'est produite
 exception:
@@ -15,8 +15,8 @@ exception:
   message: |
     Oups, on dirait qu'une erreur s'est produite. (activez APP_DEBUG dans .env pour voir les détails)
 plugins:
-  duplicate: The plugin [:dir1] has a duplicated plugin name definition which is same to plugin [:dir2]. Please check your plugins directory, remove one of them or use another name definition.
-  directory: We can't approach the path for loading plugins specified by the PLUGINS_DIR in .env file. Please check your configuration. Error :msg
-  boot: There is something wrong with plugin ":plugin".
+  duplicate: Le plugin [:dir1] a un nom de plugin dupliqué qui est identique au plugin [:dir2]. Veuillez vérifier le répertoire de vos plugins, supprimer l'un d'eux ou utiliser une autre définition de nom.
+  directory: Nous ne pouvons pas approcher le chemin pour charger les plugins spécifiés par le PLUGINS_DIR dans le fichier .env. Veuillez vérifier votre configuration. Erreur :msg
+  boot: Il y a un problème avec le plugin ":plugin".
 cipher:
-  unsupported: Unsupported password hashing method `:cipher`, please check your `.env` configuration
+  unsupported: Méthode de hachage de mot de passe non prise en charge `:cipher`, veuillez vérifier votre configuration `.env`
