@@ -10,7 +10,10 @@ Route::get('raw/{tid}', 'TextureController@raw');
 Route::prefix('avatar')->name('avatar.')->group(function () {
     Route::get('player/{name}', 'TextureController@avatarByPlayer')->name('player');
     Route::get('user/{uid}', 'TextureController@avatarByUser')->name('user');
+    Route::get('hash/{hash}', 'TextureController@avatarByHash')->name('hash');
     Route::get('{tid}', 'TextureController@avatarByTexture')->name('texture');
 });
 
-Route::get('preview/{tid}', 'TextureController@preview');
+Route::get('preview/{texture}', 'TextureController@preview')
+    ->middleware(Illuminate\Routing\Middleware\SubstituteBindings::class);
+Route::get('preview/hash/{hash}', 'TextureController@previewByHash');

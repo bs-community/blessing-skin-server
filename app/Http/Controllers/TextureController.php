@@ -39,9 +39,16 @@ class TextureController extends Controller
         return response()->json($player)->setLastModified($player->last_modified);
     }
 
-    public function preview(Minecraft $minecraft, Request $request, $tid)
+    public function previewByHash(Minecraft $minecraft, Request $request, $hash)
     {
-        $texture = Texture::findOrFail($tid);
+        $texture = Texture::where('hash', $hash)->firstOrFail();
+
+        return $this->preview($minecraft, $request, $texture);
+    }
+
+    public function preview(Minecraft $minecraft, Request $request, Texture $texture)
+    {
+        $tid = $texture->tid;
         $hash = $texture->hash;
         $usePNG = $request->has('png') || !(imagetypes() & IMG_WEBP);
 
@@ -106,6 +113,13 @@ class TextureController extends Controller
     public function avatarByUser(Minecraft $minecraft, Request $request, $uid)
     {
         $texture = Texture::find(optional(User::find($uid))->avatar);
+
+        return $this->avatar($minecraft, $request, $texture);
+    }
+
+    public function avatarByHash(Minecraft $minecraft, Request $request, $hash)
+    {
+        $texture = Texture::where('hash', $hash)->first();
 
         return $this->avatar($minecraft, $request, $texture);
     }

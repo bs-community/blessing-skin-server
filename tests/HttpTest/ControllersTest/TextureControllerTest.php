@@ -42,11 +42,23 @@ class TextureControllerTest extends TestCase
             ])->assertHeader('Last-Modified');
     }
 
+    public function testPreviewByHash()
+    {
+        $disk = Storage::fake('textures');
+        $this->mock(Minecraft::class, function ($mock) {
+            $mock->shouldReceive('renderSkin')->andReturn(Image::canvas(1, 1));
+            $mock->shouldReceive('renderCape')->andReturn(Image::canvas(1, 1));
+        });
+
+        $skin = factory(Texture::class)->create();
+        $disk->put($skin->hash, '');
+        $this->get('/preview/hash/'.$skin->hash)
+            ->assertHeader('Content-Type', 'image/webp');
+    }
+
     public function testPreview()
     {
         $disk = Storage::fake('textures');
-
-        $this->get('/preview/0')->assertNotFound();
 
         $this->mock(Minecraft::class, function ($mock) {
             $mock->shouldReceive('renderSkin')->andReturn(Image::canvas(1, 1));
@@ -57,8 +69,7 @@ class TextureControllerTest extends TestCase
         $this->get('/preview/'.$skin->tid)->assertNotFound();
 
         $disk->put($skin->hash, '');
-        $this->get('/preview/'.$skin->tid)
-            ->assertHeader('Content-Type', 'image/webp');
+        $this->get('/preview/'.$skin->tid)->assertHeader('Content-Type', 'image/webp');
         Cache::clear();
         $this->get('/preview/'.$skin->tid.'?png')
             ->assertHeader('Content-Type', 'image/png');
@@ -180,6 +191,21 @@ class TextureControllerTest extends TestCase
         $image = Image::make($image);
         $this->assertEquals(50, $image->width());
         $this->assertEquals(50, $image->height());
+    }
+
+    public function testAvatarByHash()
+    {
+        $disk = Storage::fake('textures');
+        $this->mock(Minecraft::class, function ($mock) {
+            $mock->shouldReceive('render2dAvatar')->andReturn(Image::canvas(1, 1));
+            $mock->shouldReceive('render3dAvatar')->andReturn(Image::canvas(1, 1));
+        });
+
+        $texture = factory(Texture::class)->create();
+        $disk->put($texture->hash, '');
+        $this->get('/avatar/hash/'.$texture->hash)
+            ->assertSuccessful()
+            ->assertHeader('Content-Type', 'image/webp');
     }
 
     public function testAvatarByTexture()
