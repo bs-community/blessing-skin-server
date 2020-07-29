@@ -51,6 +51,7 @@ class TextureController extends Controller
         $tid = $texture->tid;
         $hash = $texture->hash;
         $usePNG = $request->has('png') || !(imagetypes() & IMG_WEBP);
+        $format = $usePNG ? 'png' : 'webp';
 
         $disk = Storage::disk('textures');
         abort_if($disk->missing($hash), 404);
@@ -58,7 +59,7 @@ class TextureController extends Controller
         $height = (int) $request->query('height', 200);
         $now = Carbon::now();
         $response = Cache::remember(
-            'preview-t'.$tid,
+            'preview-t'.$tid."-$format",
             option('enable_preview_cache') ? $now->addYear() : $now->addMinute(),
             function () use ($minecraft, $disk, $texture, $hash, $height, $usePNG) {
                 $file = $disk->get($hash);
@@ -136,6 +137,7 @@ class TextureController extends Controller
         $size = (int) $request->query('size', 100);
         $mode = $request->has('3d') ? '3d' : '2d';
         $usePNG = $request->has('png') || !(imagetypes() & IMG_WEBP);
+        $format = $usePNG ? 'png' : 'webp';
 
         $disk = Storage::disk('textures');
         if (is_null($texture) || $disk->missing($texture->hash)) {
@@ -147,7 +149,7 @@ class TextureController extends Controller
         $hash = $texture->hash;
         $now = Carbon::now();
         $response = Cache::remember(
-            'avatar-'.$mode.'-t'.$texture->tid.'-s'.$size,
+            'avatar-'.$mode.'-t'.$texture->tid.'-s'.$size."-$format",
             option('enable_avatar_cache') ? $now->addYear() : $now->addMinute(),
             function () use ($minecraft, $disk, $hash, $size, $mode, $usePNG) {
                 $file = $disk->get($hash);

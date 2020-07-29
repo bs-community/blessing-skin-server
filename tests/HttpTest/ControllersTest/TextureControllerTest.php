@@ -73,12 +73,12 @@ class TextureControllerTest extends TestCase
         Cache::clear();
         $this->get('/preview/'.$skin->tid.'?png')
             ->assertHeader('Content-Type', 'image/png');
-        $this->assertTrue(Cache::has('preview-t'.$skin->tid));
+        $this->assertTrue(Cache::has('preview-t'.$skin->tid.'-png'));
 
         $cape = factory(Texture::class)->states('cape')->create();
         $disk->put($cape->hash, '');
         $this->get('/preview/'.$cape->tid.'?height=100')->assertHeader('Content-Type', 'image/webp');
-        $this->assertTrue(Cache::has('preview-t'.$cape->tid));
+        $this->assertTrue(Cache::has('preview-t'.$cape->tid.'-webp'));
     }
 
     public function testRaw()
@@ -245,17 +245,17 @@ class TextureControllerTest extends TestCase
         $image = Image::make($image);
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
-        $this->assertTrue(Cache::has('avatar-2d-t'.$texture->tid.'-s100'));
+        $this->assertTrue(Cache::has('avatar-2d-t'.$texture->tid.'-s100-png'));
 
         $image = $this->get('/avatar/'.$texture->tid.'?size=50&png')->getContent();
         $image = Image::make($image);
         $this->assertEquals(50, $image->width());
         $this->assertEquals(50, $image->height());
-        $this->assertTrue(Cache::has('avatar-2d-t'.$texture->tid.'-s50'));
+        $this->assertTrue(Cache::has('avatar-2d-t'.$texture->tid.'-s50-png'));
 
         $this->get('/avatar/'.$texture->tid.'?3d')
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
-        $this->assertTrue(Cache::has('avatar-3d-t'.$texture->tid.'-s100'));
+        $this->assertTrue(Cache::has('avatar-3d-t'.$texture->tid.'-s100-webp'));
     }
 }

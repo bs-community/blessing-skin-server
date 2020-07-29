@@ -14,6 +14,8 @@ Route::prefix('avatar')->name('avatar.')->group(function () {
     Route::get('{tid}', 'TextureController@avatarByTexture')->name('texture');
 });
 
-Route::get('preview/{texture}', 'TextureController@preview')
-    ->middleware(Illuminate\Routing\Middleware\SubstituteBindings::class);
-Route::get('preview/hash/{hash}', 'TextureController@previewByHash');
+Route::prefix('preview')->name('preview.')->group(function () {
+    Route::get('{texture}', 'TextureController@preview')->name('texture')
+        ->middleware(Illuminate\Routing\Middleware\SubstituteBindings::class);
+    Route::get('hash/{hash}', 'TextureController@previewByHash')->name('hash');
+});
