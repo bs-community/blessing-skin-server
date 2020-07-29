@@ -52,7 +52,7 @@ class TextureControllerTest extends TestCase
 
         $skin = factory(Texture::class)->create();
         $disk->put($skin->hash, '');
-        $this->get('/preview/hash/'.$skin->hash)
+        $this->get(route('preview.hash', ['hash' => $skin->hash]))
             ->assertHeader('Content-Type', 'image/webp');
     }
 
@@ -66,18 +66,20 @@ class TextureControllerTest extends TestCase
         });
 
         $skin = factory(Texture::class)->create();
-        $this->get('/preview/'.$skin->tid)->assertNotFound();
+        $this->get(route('preview.texture', ['texture' => $skin]))->assertNotFound();
 
         $disk->put($skin->hash, '');
-        $this->get('/preview/'.$skin->tid)->assertHeader('Content-Type', 'image/webp');
+        $this->get(route('preview.texture', ['texture' => $skin]))
+            ->assertHeader('Content-Type', 'image/webp');
         Cache::clear();
-        $this->get('/preview/'.$skin->tid.'?png')
+        $this->get(route('preview.texture', ['texture' => $skin, 'png' => true]))
             ->assertHeader('Content-Type', 'image/png');
         $this->assertTrue(Cache::has('preview-t'.$skin->tid.'-png'));
 
         $cape = factory(Texture::class)->states('cape')->create();
         $disk->put($cape->hash, '');
-        $this->get('/preview/'.$cape->tid.'?height=100')->assertHeader('Content-Type', 'image/webp');
+        $this->get(route('preview.texture', ['texture' => $cape, 'height' => 100]))
+            ->assertHeader('Content-Type', 'image/webp');
         $this->assertTrue(Cache::has('preview-t'.$cape->tid.'-webp'));
     }
 
@@ -121,10 +123,10 @@ class TextureControllerTest extends TestCase
     {
         $disk = Storage::fake('textures');
 
-        $this->get('/avatar/player/abc')->assertNotFound();
+        $this->get(route('avatar.player', ['name' => 'abc']))->assertNotFound();
 
         $player = factory(Player::class)->create();
-        $this->get('/avatar/player/'.$player->name)
+        $this->get(route('avatar.player', ['name' => $player->name]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
 
@@ -135,20 +137,26 @@ class TextureControllerTest extends TestCase
         $disk->put($texture->hash, '');
         $player->tid_skin = $texture->tid;
         $player->save();
-        $this->get('/avatar/player/'.$player->name)
+        $this->get(route('avatar.player', ['name' => $player->name]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
 
         Cache::clear();
-        $image = $this->get('/avatar/player/'.$player->name.'?png')
-            ->assertSuccessful()
+        $image = $this->get(route('avatar.player', [
+            'name' => $player->name,
+            'png' => true,
+        ]))->assertSuccessful()
             ->assertHeader('Content-Type', 'image/png')
             ->getContent();
         $image = Image::make($image);
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
 
-        $image = $this->get('/avatar/player/'.$player->name.'?size=50&png')->getContent();
+        $image = $this->get(route('avatar.player', [
+            'name' => $player->name,
+            'size' => 50,
+            'png' => true,
+        ]))->getContent();
         $image = Image::make($image);
         $this->assertEquals(50, $image->width());
         $this->assertEquals(50, $image->height());
@@ -158,12 +166,12 @@ class TextureControllerTest extends TestCase
     {
         $disk = Storage::fake('textures');
 
-        $this->get('/avatar/user/0')
+        $this->get(route('avatar.user', ['uid' => 0]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
 
         $user = factory(User::class)->create();
-        $this->get('/avatar/user/'.$user->uid)
+        $this->get(route('avatar.user', ['uid' => $user->uid]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
 
@@ -174,12 +182,12 @@ class TextureControllerTest extends TestCase
         $disk->put($texture->hash, '');
         $user->avatar = $texture->tid;
         $user->save();
-        $this->get('/avatar/user/'.$user->uid)
+        $this->get(route('avatar.user', ['uid' => $user->uid]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
 
         Cache::clear();
-        $image = $this->get('/avatar/user/'.$user->uid.'?png')
+        $image = $this->get(route('avatar.user', ['uid' => $user->uid, 'png' => true]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/png')
             ->getContent();
@@ -187,7 +195,11 @@ class TextureControllerTest extends TestCase
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
 
-        $image = $this->get('/avatar/user/'.$user->uid.'?size=50&png')->getContent();
+        $image = $this->get(route('avatar.user', [
+            'uid' => $user->uid,
+            'size' => 50,
+            'png' => true,
+        ]))->getContent();
         $image = Image::make($image);
         $this->assertEquals(50, $image->width());
         $this->assertEquals(50, $image->height());
@@ -203,7 +215,7 @@ class TextureControllerTest extends TestCase
 
         $texture = factory(Texture::class)->create();
         $disk->put($texture->hash, '');
-        $this->get('/avatar/hash/'.$texture->hash)
+        $this->get(route('avatar.hash', ['hash' => $texture->hash]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
     }
@@ -212,11 +224,11 @@ class TextureControllerTest extends TestCase
     {
         $disk = Storage::fake('textures');
 
-        $this->get('/avatar/0')
+        $this->get(route('avatar.texture', ['tid' => 0]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
         Cache::clear();
-        $image = $this->get('/avatar/0?png')
+        $image = $this->get(route('avatar.texture', ['tid' => 0, 'png' => true]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/png')
             ->getContent();
@@ -225,7 +237,7 @@ class TextureControllerTest extends TestCase
         $this->assertEquals(100, $image->height());
 
         $texture = factory(Texture::class)->create();
-        $this->get('/avatar/'.$texture->tid)
+        $this->get(route('avatar.texture', ['tid' => $texture->tid]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
 
@@ -234,12 +246,12 @@ class TextureControllerTest extends TestCase
             $mock->shouldReceive('render3dAvatar')->andReturn(Image::canvas(1, 1));
         });
         $disk->put($texture->hash, '');
-        $this->get('/avatar/'.$texture->tid)
+        $this->get(route('avatar.texture', ['tid' => $texture->tid]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
 
         Cache::clear();
-        $this->get('/avatar/'.$texture->tid.'?png')
+        $this->get(route('avatar.texture', ['tid' => $texture->tid, 'png' => true]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/png');
         $image = Image::make($image);
@@ -247,13 +259,17 @@ class TextureControllerTest extends TestCase
         $this->assertEquals(100, $image->height());
         $this->assertTrue(Cache::has('avatar-2d-t'.$texture->tid.'-s100-png'));
 
-        $image = $this->get('/avatar/'.$texture->tid.'?size=50&png')->getContent();
+        $image = $this->get(route('avatar.texture', [
+            'tid' => $texture->tid,
+            'size' => 50,
+            'png' => true,
+        ]))->getContent();
         $image = Image::make($image);
         $this->assertEquals(50, $image->width());
         $this->assertEquals(50, $image->height());
         $this->assertTrue(Cache::has('avatar-2d-t'.$texture->tid.'-s50-png'));
 
-        $this->get('/avatar/'.$texture->tid.'?3d')
+        $this->get(route('avatar.texture', ['tid' => $texture->tid, '3d' => true]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
         $this->assertTrue(Cache::has('avatar-3d-t'.$texture->tid.'-s100-webp'));
