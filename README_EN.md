@@ -72,13 +72,6 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
   <tbody>
     <tr>
       <td align=center>
-        <a href="https://afdian.net/@hempflower">
-          <img src="https://pic1.afdiancdn.com/user/0f396eb2a37c11e8b93452540025c377/avatar/63368e1c4455486c96d4e789fda50bed_w160_h160_s0.jpg" width="120" height="120">
-          <br>
-          麻花
-        </a>
-      </td>
-      <td align=center>
         <a href="https://afdian.net/@ValiantShishu976400">
           <img src="https://pic1.afdiancdn.com/user/178a08963a5e11e9addd52540025c377/avatar/ece9f089aaf2c2f83204a8de11697caf_w350_h350_s16.jpg" width="120" height="120">
           <br>
@@ -93,33 +86,10 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
         </a>
       </td>
       <td align=center>
-        <a href="https://afdian.net/@HyperCol_Studio">
-          <img src="https://pic1.afdiancdn.com/user/ad213afe31b311e991c252540025c377/avatar/cb8f7ef0832124d336839cdb4a784e14_w2000_h2000_s1992.jpg" width="120" height="120">
-          <br>
-          HyperCol
-        </a>
-      </td>
-      <td align=center>
         <a href="">
           <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
           <br>
           graytoowolf
-        </a>
-      </td>
-      </tr>
-    <tr>
-      <td align=center>
-        <a href="">
-          <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
-          <br>
-          爱发电用户_9JTs
-        </a>
-      </td>
-      <td align=center>
-        <a href="https://afdian.net/@Kxnrl">
-          <img src="https://pic1.afdiancdn.com/user/f3a0367a79b911ea883352540025c377/avatar/c37aef9b387742ad1e3033f4c57a0028_w801_h801_s500.jpg" width="120" height="120">
-          <br>
-          Kyle
         </a>
       </td>
       <td align=center>
@@ -139,10 +109,24 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
   <tbody>
     <tr>
       <td align=center>
+        <a href="https://afdian.net/@mfwg6">
+          <img src="https://pic1.afdiancdn.com/user/18ad3338e58a11e9b29352540025c377/avatar/eb04b4b54975d0d229e77fbcd4220dc4_w1080_h1920_s541.jpg" width="75" height="75">
+          <br>
+          皮皮帕
+        </a>
+      </td>
+      <td align=center>
         <a href="">
           <img src="https://pic1.afdiancdn.com/user/68d07bf851fc11e98e5652540025c377/avatar/48538be153c8eebc3eb5cb6bc085cde9_w574_h574_s173.jpg" width="75" height="75">
           <br>
           dz_paji
+        </a>
+      </td>
+      <td align=center>
+        <a href="">
+          <img src="https://pic1.afdiancdn.com/user/b68f3a9aaef511e9826f52540025c377/avatar/03b244e92f9c4198672ce46e3fd7e100_w690_h690_s129.jpeg" width="75" height="75">
+          <br>
+          神奇威廉
         </a>
       </td>
       </tr>
