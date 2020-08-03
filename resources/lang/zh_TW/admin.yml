@@ -64,28 +64,28 @@ players:
     success: 角色已成功刪除。
 customize:
   change-color:
-    title: Change Theme Color
-    success: Theme color updated.
+    title: 更換主題色
+    success: 主題色已變更。
   colors:
-    navbar: Top Navigation Bar
+    navbar: 頂部導覽欄
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: 側邊欄（暗）
+      light: 側邊欄（亮）
 i18n:
-  add: Add New Language Line
-  added: Language line added.
-  updated: Language line updated.
-  deleted: Language line deleted.
-  group: Group
-  key: Key
-  text: Text
-  tip: How can I use this page?
+  add: 添加新語言文本
+  added: 語言文本已添加
+  updated: 語言文本已更新
+  deleted: 語言文本已刪除
+  group: 分組
+  key: 鍵值
+  text: 文本
+  tip: 我如何利用這個頁面？
 status:
-  info: Information
-  health: Health
+  info: 資訊
+  health: 運行狀態
   bs:
     name: Blessing Skin
-    version: Version
+    version: 版本號
     env: Application Environment
     debug: Debugging or Not?
     commit: Commit
