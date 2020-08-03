@@ -1,11 +1,11 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
-  texture-uploads: Texture Uploads
+  total-users: 已註冊用戶
+  total-players: 角色
+  total-textures: 已上載的材質
+  disk-usage: 磁碟利用情況
+  overview: 概覽
+  texture-uploads: 材質上載
   user-registration: User Registration
 notifications:
   send:
