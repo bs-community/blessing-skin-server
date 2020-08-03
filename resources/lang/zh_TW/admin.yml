@@ -35,15 +35,15 @@ users:
     verification:
       success: 用戶電子郵件驗證狀態修改成功。
     nickname:
-      success: Nickname changed successfully.
+      success: 暱稱已成功修改。
     password:
-      success: Password changed successfully.
+      success: 密碼已成功修改。
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: 積分已成功修改。
+    permission: 權限已更新。
     delete:
-      delete: Delete User
-      success: The account has been deleted successfully.
+      delete: 刪除用戶
+      success: 這個賬戶已成功刪除。
       cant-super-admin: You can't delete a super admin.
       cant-admin: 你無法刪除管理員賬戶
 players:
