@@ -52,16 +52,16 @@ players:
     title: 操作
   textures:
     change: 更換材質
-    non-existent: No such texture tid.:tid
-    success: The textures of :player has been updated.
+    non-existent: 材質 tid.:tid 不存在
+    success: 玩家 :player 的材質已更新。
   name:
-    success: Player name has been updated to :player
+    success: 玩家名稱已更新為 :player。
   owner:
-    change: Change Owner
-    success: The player :player was transferred to user :user.
+    change: 變更所有者
+    success: 玩家 :player 的所有權已讓渡至用戶 :user。
   delete:
-    delete: Delete
-    success: The player has been deleted successfully.
+    delete: 刪除
+    success: 角色已成功刪除。
 customize:
   change-color:
     title: Change Theme Color
