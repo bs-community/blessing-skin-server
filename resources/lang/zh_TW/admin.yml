@@ -15,25 +15,25 @@ notifications:
     title: 接收人
     all: 所有用戶
     normal: 常規用戶
-    uid: 自訂用戶ID
-    email: Specified Email
-  title: Title
-  content: Content (Markdown is supported.)
+    uid: 指定用戶ID
+    email: 指定電子郵件地址
+  title: 標題
+  content: 文本（支持 Markdown 語法）
 users:
   status:
-    normal: Normal
-    banned: Banned
-    admin: Admin
-    super-admin: Super Admin
+    normal: 常規
+    banned: 禁止
+    admin: 管理員
+    super-admin: 超級管理員
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
-    invalid: Invalid action.
+    non-existent: 沒有這個用戶。
+    no-permission: 您沒有權限操作此用戶。
+    invalid: 不合法的操作。
     email:
-      existed: ':email is existed.'
-      success: Email changed successfully.
+      existed: 電子郵件地址已存在
+      success: 電子郵件地址變更成功。
     verification:
-      success: Account verification status toggled successfully.
+      success: 用戶電子郵件驗證狀態修改成功。
     nickname:
       success: Nickname changed successfully.
     password:
