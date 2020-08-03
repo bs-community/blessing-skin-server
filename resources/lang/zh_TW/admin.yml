@@ -44,14 +44,14 @@ users:
     delete:
       delete: 刪除用戶
       success: 這個賬戶已成功刪除。
-      cant-super-admin: You can't delete a super admin.
+      cant-super-admin: 您无法刪除超級管理員。
       cant-admin: 你無法刪除管理員賬戶
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: 您沒有權限操作此玩家。
   operations:
-    title: Operations
+    title: 操作
   textures:
-    change: Change Textures
+    change: 更換材質
     non-existent: No such texture tid.:tid
     success: The textures of :player has been updated.
   name:
