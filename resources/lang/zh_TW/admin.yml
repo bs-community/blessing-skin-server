@@ -15,13 +15,13 @@ notifications:
     title: 接收人
     all: 所有用戶
     normal: 常規用戶
-    uid: 指定用戶ID
+    uid: 指定用戶 ID
     email: 指定電子郵件地址
   title: 標題
-  content: 文本（支持 Markdown 語法）
+  content: 內容（支援 Markdown 語法）
 users:
   status:
-    normal: 常規
+    normal: 普通用戶
     banned: 禁止
     admin: 管理員
     super-admin: 超級管理員
@@ -30,7 +30,7 @@ users:
     no-permission: 您沒有權限操作此用戶。
     invalid: 不合法的操作。
     email:
-      existed: 電子郵件地址已存在
+      existed: ':email 已存在'
       success: 電子郵件地址變更成功。
     verification:
       success: 用戶電子郵件驗證狀態修改成功。
@@ -79,7 +79,7 @@ i18n:
   group: 分組
   key: 鍵值
   text: 文本
-  tip: 我如何利用這個頁面？
+  tip: 如何使用這個頁面？
 status:
   info: 資訊
   health: 運行狀態
@@ -87,9 +87,9 @@ status:
     name: Blessing Skin
     version: 版本號
     env: 應用運行環境
-    debug: 疑難解答
+    debug: 是否處於除錯狀態？
     commit: 提交
-    laravel: 框架版本號
+    laravel: Laravel 版本號
   server:
     name: 伺服器
     php: PHP 版本
@@ -99,7 +99,7 @@ status:
     name: 資料庫
     type: 伺服器
     host: 主機
-    port: 埠口
+    port: 連接埠
     username: 用戶名
     database: 資料庫
     prefix: 資料庫表前綴
