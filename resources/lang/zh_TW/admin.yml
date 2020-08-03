@@ -6,16 +6,16 @@ index:
   disk-usage: 磁碟利用情況
   overview: 概覽
   texture-uploads: 材質上載
-  user-registration: User Registration
+  user-registration: 使用者註冊
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: 發送通知
+    success: 發送成功
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
+    title: 接收人
+    all: 所有用戶
+    normal: 常規用戶
+    uid: 自訂用戶ID
     email: Specified Email
   title: Title
   content: Content (Markdown is supported.)
