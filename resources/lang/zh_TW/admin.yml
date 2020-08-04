@@ -22,7 +22,7 @@ notifications:
 users:
   status:
     normal: 普通用戶
-    banned: 禁止
+    banned: 被封禁
     admin: 管理員
     super-admin: 超級管理員
   operations:
@@ -52,7 +52,7 @@ players:
     title: 操作
   textures:
     change: 更換材質
-    non-existent: 材質 tid.:tid 不存在
+    non-existent: 材質 tid :tid 不存在
     success: 玩家 :player 的材質已更新。
   name:
     success: 玩家名稱已更新為 :player。
@@ -77,7 +77,7 @@ i18n:
   updated: 語言文本已更新
   deleted: 語言文本已刪除
   group: 分組
-  key: 鍵值
+  key: 鍵
   text: 文本
   tip: 如何使用這個頁面？
 status:
@@ -103,7 +103,7 @@ status:
     username: 用戶名
     database: 資料庫
     prefix: 資料庫表前綴
-  plugins: 啟用插件（：amount）
+  plugins: 已啟用插件（：amount）
 plugins:
   name: 名稱
   description: 描述資訊
