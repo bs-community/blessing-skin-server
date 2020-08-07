@@ -89,6 +89,13 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
         <a href="">
           <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
           <br>
+          落花雨
+        </a>
+      </td>
+      <td align=center>
+        <a href="">
+          <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
+          <br>
           graytoowolf
         </a>
       </td>

@@ -89,6 +89,13 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
         <a href="">
           <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
           <br>
+          落花雨
+        </a>
+      </td>
+      <td align=center>
+        <a href="">
+          <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
+          <br>
           graytoowolf
         </a>
       </td>
