@@ -19,11 +19,11 @@ wizard:
     title: 資料庫
     text: 您提供的数据库将用于存储 Blessing Skin 的数据
     type: 數據庫類型
-    host: 数据库伺服器地址
-    port: 数据库伺服器端口
+    host: 數據庫伺服器地址
+    port: 數據庫伺服器端口
     username: 數據庫用戶名
     password: 數據庫密碼
-    db: 数据库名称
+    db: 數據庫名称
     db-notice: 如果您使用 SQLite，那么您应该填写 SQLite 数据库文件的路径，并且无需填写其它信息
     prefix: 数据表前缀（可选）
     prefix-notice: 通常您不需要填写此项，除非您有向同一数据库安装多个 Blessing Skin 的需要
