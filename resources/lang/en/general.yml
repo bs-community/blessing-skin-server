@@ -33,16 +33,6 @@ close: Close
 skin: Skin
 cape: Cape
 
-loading: Loading
-
-texture-preview: Texture Preview
-walk: Walk
-run: Run
-rotation: Rotation
-pause: Pause
-reset: Reset
-
-more: More
 submit: Submit
 cancel: Cancel
 yes: Yes
@@ -51,7 +41,6 @@ op-success: Operated successfully.
 unknown: Unknown
 
 notice: Notice
-switch-2d-preview: Switch to 2D preview
 
 illegal-parameters: Illegal parameters.
 
@@ -59,16 +48,11 @@ private: Private
 public: Public
 
 unexistent-user: No such user.
-unexistent-player: No such player.
 player-banned: The owner of this player has been banned.
 
 texture-deleted: The requested texture has been deleted.
-texture-not-uploaded: The user haven't uploaded the texture of :type model yet.
-
-operations: Operations
 
 user:
-  uid: UID
   email: Email
   nickname: Nickname
   password: Password
@@ -76,7 +60,6 @@ user:
   register-at: Registered At
 
 player:
-  pid: PID
   owner: Owner
   player-name: Player Name
   previews: Texture Previews
