@@ -39,8 +39,6 @@ wizard:
     confirm-pwd: 確認密碼
     site-name: 站點名称
     site-name-notice: 将会显示在首页以及标题栏。
-    secure: 安全
-    secure-notice: 生成随机 APP_KEY 和 SALT 以保证安全
   finish:
     title: 安裝完成
     text: Blessing Skin Server 安装完成。你是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)
