@@ -1,32 +1,21 @@
 ---
 login:
   title: 登入
-  button: 登入
   message: 登入以管理您的皮膚和角色
-  keep: 記住登入資訊
   success: 登入成功。
 check:
   anonymous: 非法訪問。請先登入。
   verified: 要訪問此頁面, 請先驗證您的電子郵件地址。
   admin: 只有管理員可訪問此頁。
-  super-admin: 只有超級管理員才可以訪問此頁面.
   banned: 您在此站点被查禁。請與管理員聯繫。
-  token: Token 已過期. 請重新登入.
 register:
   title: 註冊
-  button: 註冊
   message: 歡迎来到 :sitename!
-  nickname-intro: 除特殊字符外的任意内容
-  repeat-pwd: 重複輸入密碼
-  close: 站點已關閉註冊。
   success: 您的賬戶已注冊. 跳轉中...
   max: 您無法注冊 :regs 個以上賬戶.
-  registered: 此 email 地址已被註冊.
 forgot:
   title: 我忘記密碼了
-  button: 發送
   message: 我們將向您發送一封驗證郵件
-  login-link: 我又想起來了。
   disabled: 重置密碼暫不可用.
   frequent-mail: 您點擊 "發送" 按鈕的速度過快. 請等幾分鐘。
   unregistered: 该電郵地址沒有註冊。
@@ -59,27 +48,15 @@ verify:
   message: 歡迎来到 :sitename!
   button: 首頁
   invalid: 無效的鏈接。
-  expired: 此連結已過期, 請重新發送驗證郵件.
 validation:
-  identification: 電子郵箱或角色名稱有誤
-  email: 電子郵箱格式有誤
-  captcha: 驗證碼錯誤
   user: 沒有這個用戶。
   password: 錯誤的密碼。
 logout:
   success: 您現在已登出
-  fail: 未找到已保存的登入讯息。
 oauth:
   authorization:
     title: 身份認証
     introduction: 第三方軟體:name正在向你請求獲取權限。
     button: 認證
-nickname: 暱稱
 email: 電子郵件
-identification: 電子郵箱地址或角色名
-password: 密碼
-captcha: CAPTCHA 驗證碼
-change-captcha: 點擊以改變CAPTCHA驗證圖片
-login-link: 已經註冊了？從這裡登入。
-forgot-link: 忘記密碼？
 register-link: 註冊新帳戶
