@@ -16,7 +16,4 @@ exception:
     哎呀, 好像出了錯誤。（請在 .env 文件中啓用 APP_DEBUG 查看詳細訊息）
 plugins:
   duplicate: 插件 [:dir1] 有一個和插件 [:dir2] 重複的名稱. 請檢查插件地址, 刪除其中的一項或使用另一個名稱定義.
-  directory: 我們無法載入 .env 文件中 PLUGINS_DIR 所指定的路徑，請檢查您的配置。錯誤 :msg
   boot: '「:plugin」插件存在错误，无法加载。'
-cipher:
-  unsupported: 密碼檢驗方式 `:cipher` 不受支持，請檢查您的 `.env` 文件配置。
