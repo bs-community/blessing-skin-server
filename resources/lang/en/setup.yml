@@ -1,17 +1,5 @@
 database:
   connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
-  connection-success: Connect to the target :type database [:server] successfully, just click NEXT to start installation.
-  table-already-exists: There are some tables already exist in target database, whose names conflict with ones we are going to create. To avoid data loss, please manually delete these tables :tables, or set a different table prefix.
-
-file:
-  permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
-  no-dot-env: Unable to find environment configuration file. Please rename .env.example to .env (please refer to setup manual).
-
-permissions:
-  storage: Unable to write to storage directory, please check the permissions.
-
-disabled-functions:
-  escapeshellarg: "The escapeshellarg function is disabled in your php.ini configuration. Please contact your web hosting provider to enable it or perform the installation manually: http://t.cn/REzBZUe"
 
 locked:
   title: Already installed
@@ -19,23 +7,8 @@ locked:
   button: Back to homepage
 
 updates:
-  master:
-    title: Update Wizard - Blessing Skin Server
-
-  welcome:
-    title: One more step
-    text: |
-      Welcome! You are going to update to Blessing Skin Server v:version.
-      We need to apply some updates to your database, click NEXT to continue.
-    button: Next
-
   success:
     title: Update complete
-    text: Blessing Skin Server has been successfully updated to v:version.
-    tips: "Update Tips:"
-
-  changelog:
-    title: Release Note
 
 wizard:
   master:
