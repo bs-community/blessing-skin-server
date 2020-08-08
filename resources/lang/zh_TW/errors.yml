@@ -6,7 +6,7 @@ http:
   msg-503: 網站現在正在維護中。
   method-not-allowed: 請求不被允許。
   csrf-token-mismatch: Token 不匹配，請嘗試重新載入該頁。
-  ie: 你的瀏覽器不被支援。請使用現代瀏覽器（例如Firefox或者Chrome）。
+  ie: 你的瀏覽器不被支援。請使用現代瀏覽器（例如 Firefox 或者 Chrome）。
 general:
   title: 發生錯誤
 exception:
