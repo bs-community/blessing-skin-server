@@ -24,9 +24,9 @@ register:
   registered: 此 email 地址已被註冊.
 forgot:
   title: 我忘記密碼了
-  button: 傳送
+  button: 發送
   message: 我們將向您發送一封驗證郵件
-  login-link: 我會記住的。
+  login-link: 我又想起來了。
   disabled: 重置密碼暫不可用.
   frequent-mail: 您點擊 "發送" 按鈕的速度過快. 請等幾分鐘。
   unregistered: 该電郵地址沒有註冊。
@@ -42,36 +42,36 @@ forgot:
     ignore: 如果您沒有請求重置密碼，請忽略這封郵件。
 reset:
   title: 重設密碼
-  button: Reset
-  invalid: Invalid link.
-  expired: This link is expired.
-  message: ':username, reset your email address here.'
-  success: Password resetted successfully.
+  button: 重設
+  invalid: 無效的鏈接。
+  expired: 此連結已過期。
+  message: ':username, 請在此處重置你的電郵地址。'
+  success: 密碼已成功重置。
 bind:
-  title: Bind Email
-  button: Bind
-  message: You need to provide your email adderss to continue.
-  introduction: We won't send you any spam.
-  registered: The email address was already taken.
+  title: 綁定電郵地址
+  button: 綁定
+  message: 您需要提供您的電子郵件地址以繼續.
+  introduction: 我們不會向您發送任何垃圾郵件.
+  registered: 電郵地址已被使用。
 verify:
-  title: Email Verification
-  success: Your account was now verified.
-  message: Welcome to :sitename!
-  button: Homepage
-  invalid: Invalid link.
-  expired: This link is expired, please resend a verification email.
+  title: 電子信箱驗證
+  success: 您的帳戶已通過驗證.
+  message: 歡迎来到 :sitename!
+  button: 首頁
+  invalid: 無效的鏈接。
+  expired: 此連結已過期, 請重新發送驗證郵件.
 validation:
-  identification: The email or player name is invalid.
-  email: Email format is invalid.
-  captcha: Wrong CAPTCHA.
-  user: No such user.
-  password: Wrong password.
+  identification: 電子郵箱或角色名稱有誤
+  email: 電子郵箱格式有誤
+  captcha: 錯誤的CAPTCHA驗證。
+  user: 沒有這個用戶。
+  password: 錯誤的密碼。
 logout:
-  success: You are now logged out.
-  fail: No valid session.
+  success: 您現在已登出
+  fail: 未找到已保存的登入讯息。
 oauth:
   authorization:
-    title: Authorization
+    title: 身份認証
     introduction: A 3rd-party application ":name" is requesting permission to access your account.
     button: Authorize
 nickname: Nickname
