@@ -172,7 +172,8 @@ class SkinlibControllerTest extends TestCase
         option(['status_code_for_private' => 404]);
         $this->get('/skinlib/show/'.$texture->tid)
             ->assertNotFound()
-            ->assertSee(trans('skinlib.show.private'));
+            ->assertSee(trans('skinlib.show.deleted'));
+        option(['status_code_for_private' => 403]);
 
         // Other user should not see private texture
         $this->actingAs(factory(User::class)->create())

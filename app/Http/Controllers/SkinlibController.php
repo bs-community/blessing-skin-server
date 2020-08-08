@@ -98,7 +98,12 @@ class SkinlibController extends Controller
 
         if (!$texture->public) {
             if (!Auth::check() || ($user->uid != $texture->uploader && !$user->isAdmin())) {
-                abort(option('status_code_for_private'), trans('skinlib.show.private'));
+                $statusCode = (int) option('status_code_for_private');
+                if ($statusCode === 404) {
+                    abort($statusCode, trans('skinlib.show.deleted'));
+                } else {
+                    abort($statusCode, trans('skinlib.show.private'));
+                }
             }
         }
 
