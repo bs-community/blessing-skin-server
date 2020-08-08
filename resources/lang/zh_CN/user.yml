@@ -1,11 +1,4 @@
 ---
-used:
-  title: 使用情况
-  players: 角色数量
-  storage: 存储空间
-cur-score: 当前积分
-score-notice: 点击积分查看说明
-sign: 签到
 sign-success: 签到成功，获得了 :score 积分
 announcement: 公告
 no-unread: 无未读通知
@@ -35,37 +28,17 @@ score-intro:
     player: ':score 积分 = 1 个角色'
     closet: ':score 积分 = 1 个衣柜收藏'
 closet:
-  type-to-search: 输入即搜索
-  switch-category: 切换分类
-  view: 在皮肤库中查看
-  more: 更多
-  set-avatar: 设为头像
-  use-as:
-    button: 使用...
-    reset: 重置已选材质
-    title: 要给哪个角色使用呢？
-    empty: 你还没有添加过任何角色哦
-    add: 添加角色
   add:
     success: 材质 :name 收藏成功
     repeated: 你已经收藏过这个材质啦
     not-found: 该材质不存在
     lack-score: 收藏失败，积分不足
   rename:
-    title: 重命名物品
     success: 衣柜物品成功重命名至 :name
   remove:
-    title: 从衣柜中移除
     success: 材质已从衣柜中移除
     non-existent: 衣柜中不存在此材质
 player:
-  player-name: 角色名称
-  edit: 编辑
-  operation: 操作
-  edit-pname: 修改角色名
-  delete-texture: 删除材质
-  delete-player: 删除角色
-  add-player: 添加新角色
   login-notice: 你可以使用你所拥有的角色名来登录皮肤站。
   player-name-rule:
     official: 角色名只能包含拉丁字母、数字以及下划线。
