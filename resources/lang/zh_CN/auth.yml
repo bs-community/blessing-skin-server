@@ -1,32 +1,21 @@
 ---
 login:
   title: 登录
-  button: 登录
   message: 登录以管理您的角色与皮肤
-  keep: 保持登录状态
   success: 登录成功，欢迎回来
 check:
   anonymous: 未授权的访问，请先登录
   verified: 你必须验证邮箱后才能访问此页面
   admin: 只有管理员才能访问此页面
-  super-admin: 只有超级管理员才能访问此页面
   banned: 你已被本站封禁，详情请联系站点管理员
-  token: 登录状态已过期，请重新登录
 register:
   title: 注册
-  button: 注册
   message: 欢迎使用 :sitename！
-  nickname-intro: 昵称可使用汉字，不可包含特殊字符
-  repeat-pwd: 再次输入密码
-  close: 本站已关闭注册
   success: 注册成功，正在跳转...
   max: 你在本站注册的账号已达到上限 :regs 个，无法继续注册
-  registered: 此邮箱已被使用
 forgot:
   title: 忘记密码
-  button: 发送
   message: 我们将会向您发送一封验证邮件
-  login-link: 我又想起来了
   disabled: 本站已关闭重置密码功能
   frequent-mail: 你邮件发送得太频繁啦，过会儿再点发送吧
   unregistered: 该邮箱尚未注册
@@ -59,27 +48,15 @@ verify:
   message: 欢迎使用 :sitename！
   button: 返回首页
   invalid: 无效的链接
-  expired: 链接已失效，请重新发送验证邮件
 validation:
-  identification: 邮箱或角色名格式错误
-  email: 邮箱格式错误
-  captcha: 验证码填写错误
   user: 用户不存在
   password: 密码错误
 logout:
   success: 登出成功
-  fail: 未找到已保存的登录信息
 oauth:
   authorization:
     title: 授权
     introduction: 第三方应用 :name 正在向您请求获取权限。
     button: 授权
-nickname: 昵称
 email: 电子邮箱
-identification: Email 或角色名
-password: 密码
-captcha: 请输入验证码
-change-captcha: 点击以更换图片
-login-link: 已有账号？点击登录
-forgot-link: 忘记密码？
 register-link: 注册新账号
