@@ -117,9 +117,9 @@ plugins:
     unsatisfied:
       notice: 插件中存在不成立的依賴關係，因此我們無法啟用它。請安裝或更新下述的所有插件，並禁用那些不可用的依賴關係。
       disabled: '":name" 插件未啟用。'
-      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
-      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
-    disabled: ':plugin has been disabled.'
+      version: '「:title」的版本不符合要求 ":constraint"'
+      conflict: '「:title」插件与此插件不能同时运行'
+    disabled: ':plugin 已被禁用.'
     deleted: The plugin was deleted successfully.
     no-config-notice: The plugin is not installed or doesn't provide a configuration page.
     no-readme-notice: The plugin doesn't contain a readme file.
