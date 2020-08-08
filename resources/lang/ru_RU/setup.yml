@@ -39,8 +39,6 @@ wizard:
     confirm-pwd: Подтвердите пароль
     site-name: Название сайта
     site-name-notice: Это будет показано на каждой странице.
-    secure: Безопасность
-    secure-notice: Создайте случайные APP_KEY и SALT, чтобы обеспечить безопасность вашего сайта.
   finish:
     title: Установка завершена
     text: Blessing Skin Server был установлен. Спасибо, наслаждайтесь!
