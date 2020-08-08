@@ -1,11 +1,4 @@
 ---
-used:
-  title: Используемые ресурсы
-  players: Зарегистрированные игроки
-  storage: Использовано памяти
-cur-score: Текущий счет
-score-notice: Нажмите на счет, чтобы показать введение.
-sign: Войти
 sign-success: Подписано успешно. Вы получили :score оч.
 announcement: Объявление
 no-unread: Нет новых уведомлений.
@@ -35,37 +28,17 @@ score-intro:
     player: ':score scores = 1 player'
     closet: ':score socres = 1 closet item'
 closet:
-  type-to-search: Type to search
-  switch-category: Переключить категорию
-  view: Открыть в библиотеке скинов
-  more: More
-  set-avatar: Установить в качестве аватара
-  use-as:
-    button: Применить...
-    reset: Очистить выбранное
-    title: К какому игроку следует обращаться?
-    empty: Кажется, у вас нет игрока...
-    add: Добавить нового игрока
   add:
     success: Added :name to closet successfully.
     repeated: Вы уже добавили эту текстуру.
     not-found: Мы не можем найти эту текстуру.
     lack-score: You don't have enough score to add it to closet.
   rename:
-    title: Переименовать элемент
     success: Элемент успешно переименован в :name
   remove:
-    title: Удалить из шкафа
     success: Текстура была успешно удалена из шкафа.
     non-existent: Текстура не существует в шкафу.
 player:
-  player-name: Имя игрока
-  edit: Edit
-  operation: Delete
-  edit-pname: Player name
-  delete-texture: Textures
-  delete-player: Player
-  add-player: Add new player
   login-notice: Now you can log in with player names you owned instead email address.
   player-name-rule:
     official: Player name may only contains letters, numbers and underscores.
