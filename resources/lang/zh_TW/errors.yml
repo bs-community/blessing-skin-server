@@ -1,22 +1,22 @@
 ---
 http:
-  msg-403: You have no permission to access this page.
-  msg-404: Nothing here.
-  msg-500: Please try again later.
-  msg-503: The application is now in maintenance mode.
-  method-not-allowed: Method not allowed.
-  csrf-token-mismatch: Token does not match, try reloading the page.
-  ie: Your browser isn't supported. Please switch to other modern browsers, such as Firefox or Chrome.
+  msg-403: 您無權使用這個頁面。
+  msg-404: 這裡甚麼都沒有。
+  msg-500: 請稍後再試一次。
+  msg-503: 網站現在正在維護中。
+  method-not-allowed: 請求不被允許。
+  csrf-token-mismatch: Token 不匹配，請嘗試重新載入該頁。
+  ie: 你的瀏覽器不被支援。請使用現代瀏覽器（例如Firefox或者Chrome）。
 general:
-  title: Error occurred
+  title: 發生錯誤
 exception:
-  code: 'Error code: :code'
-  detail: 'Details: :msg'
+  code: '錯誤代碼: :code'
+  detail: '詳細内容: :msg'
   message: |
-    Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)
+    哎呀, 好像出了錯誤。（請在 .env 文件中啓用 APP_DEBUG 查看詳細訊息）
 plugins:
-  duplicate: The plugin [:dir1] has a duplicated plugin name definition which is same to plugin [:dir2]. Please check your plugins directory, remove one of them or use another name definition.
-  directory: We can't approach the path for loading plugins specified by the PLUGINS_DIR in .env file. Please check your configuration. Error :msg
-  boot: There is something wrong with plugin ":plugin".
+  duplicate: 插件 [:dir1] 有一個和插件 [:dir2] 重複的名稱. 請檢查插件地址, 刪除其中的一項或使用另一個名稱定義.
+  directory: 我們無法載入 .env 文件中 PLUGINS_DIR 所指定的路徑，請檢查您的配置。錯誤 :msg
+  boot: '「:plugin」插件存在错误，无法加载。'
 cipher:
-  unsupported: Unsupported password hashing method `:cipher`, please check your `.env` configuration
+  unsupported: 密碼檢驗方式 `:cipher` 不受支持，請檢查您的 `.env` 文件配置。
