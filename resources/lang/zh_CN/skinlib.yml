@@ -1,61 +1,16 @@
 ---
 general:
-  filter: 过滤器
-  my-upload: 我的上传
-  sort: 排序
-  search-textures: 搜索材质
   upload-new-skin: 上传新皮肤
-  no-result: 无结果
-filter:
-  now-showing: 当前正显示
-  skin: 皮肤
-  cape: 披风
-  any-model: '（任意模型）'
-  steve-model: '（Steve 模型）'
-  alex-model: '（Alex 模型）'
-  uploader: 用户（:name）上传
-  clean-filter: 清除筛选
-sort:
-  newest-uploaded: 最新上传
-  most-likes: 最多收藏
-item:
-  steve: '（Steve）'
-  alex: '（Alex）'
-  cape: '（披风）'
-  remove-from-closet: 从衣柜中移除
-  add-to-closet: 添加至衣柜
-  anonymous: 请先登录
-  private: 私密
 show:
   title: 材质详情
-  anonymous: 登录后才能使用衣柜哦
-  likes: 收藏人数
-  detail: 详细信息
-  name: 名称
-  edit-name: 修改名称
-  model: 适用模型
-  size: 文件大小
-  uploader: 上传者
-  upload-at: 上传日期
-  delete-texture: 删除材质
-  notice: 材质设为隐私或被删除后将会从每一个收藏者的衣柜中移除。
-  notice-admin: 你可以将此材质设为隐私或删除。这将会使此材质从每一个收藏者的衣柜中移除。
-  comment: 评论区
   deleted: 请求的材质文件已经被删除
   contact-admin: 请联系管理员删除该条目
   private: 请求的材质已经设为私密，仅上传者和管理员可查看
 upload:
   title: 上传材质
-  texture-name: 材质名称
   name-rule: 材质名称应该小于 32 个字节且不能包含奇怪的符号
   name-rule-regexp: 本站已应用特殊的名称规则：:regexp
-  texture-type: 材质类型
-  select-file: 选择文件
   private-score-notice: 私密材质将会消耗更多的积分：每 KB 存储空间 :score 积分
-  privacy-notice: 其他人将不会在皮肤库中看到此材质
-  set-as-private: 设置为私密材质
-  button: 确认上传
-  type-error: 文件格式不符合要求，请检查你的材质文件
   invalid-size: 不是有效的 :type 文件（宽 :width，高 :height）
   invalid-hd-skin: 不是有效的高清皮肤（宽和高不是 32 的整数倍）
   lack-score: 积分不足
@@ -64,9 +19,6 @@ upload:
 delete:
   success: 材质已被成功删除
 privacy:
-  change-privacy: 设置隐私
-  set-as-private: 设为隐私
-  set-as-public: 设为公开
   success: 材质已被设为 :privacy
 rename:
   success: 材质名称已被成功设置为 :name
