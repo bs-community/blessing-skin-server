@@ -1,61 +1,16 @@
 ---
 general:
-  filter: Filtro
-  my-upload: Subido por mí
-  sort: Ordenar
-  search-textures: Buscar texturas...
   upload-new-skin: Subir nuevo skin
-  no-result: Sin resultados.
-filter:
-  now-showing: Mostrando ahora
-  skin: Skin
-  cape: Capa
-  any-model: (Cualquier modelo)
-  steve-model: (Modelo Steve)
-  alex-model: (Modelo Alex)
-  uploader: Subido por usuario (:name)
-  clean-filter: Limpiar filtro
-sort:
-  newest-uploaded: Recientemente subido
-  most-likes: Más popular
-item:
-  steve: (Steve)
-  alex: (Alex)
-  cape: (Capa)
-  remove-from-closet: Retirar de armario
-  add-to-closet: Añadir a armario
-  anonymous: Inicie sesión primero
-  private: Privado
 show:
   title: Detalles de textura
-  anonymous: Debe iniciar sesión para usar armarios.
-  likes: Gente a la que le gustó esto
-  detail: Detalles
-  name: Nombre de textura
-  edit-name: Editar nombre
-  model: Modelo aplicable
-  size: Tamaño del archivo
-  uploader: Subidor
-  upload-at: Subido el
-  delete-texture: Borrar textura
-  notice: La textura que fue eliminada o puesta en privado será eliminada del armario de todos los que la habían favorecido.
-  notice-admin: Puede eliminar esta textura o hacerla privado. Las operaciones la eliminarán del armario de todos los que la habían favorecido.
-  comment: Comentario
   deleted: La textura solicitada ya ha sido eliminada.
   contact-admin: Póngase en contacto con los administradores para eliminar esta entrada.
   private: La textura solicitada es privada y sólo visible para el subidor y los administradores.
 upload:
   title: Subir textura
-  texture-name: Nombre de textura
   name-rule: Menos de 32 caracteres y no debe contener ninguno especial.
   name-rule-regexp: Las reglas de nombre personalizado se aplican como :regexp
-  texture-type: Tipo de textura
-  select-file: Seleccionar archivo
   private-score-notice: Se gastarán más puntuaciones por configurarlo como privado. Se le cobrará :score por cada almacenamiento KB.
-  privacy-notice: Evitar que sea visible en la colección de skins.
-  set-as-private: Marcar privado
-  button: Subir
-  type-error: Tipo de archivo mime incorrecto subido.
   invalid-size: Archivo :type no válido (ancho :width, altura :height)
   invalid-hd-skin: Skin HD inválida (ancho y altura debe ser divisible por 32)
   lack-score: No tienes suficiente puntuación para subir esta textura.
@@ -64,9 +19,6 @@ upload:
 delete:
   success: La textura se eliminó con éxito.
 privacy:
-  change-privacy: Cambiar privacidad
-  set-as-private: Establecer como privado
-  set-as-public: Establecer como público
   success: La textura se estableció como :privacy con éxito.
 rename:
   success: La textura fue renombrada a :name con éxito.
