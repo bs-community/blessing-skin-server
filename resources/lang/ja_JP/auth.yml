@@ -1,32 +1,21 @@
 ---
 login:
   title: Log In
-  button: Log In
   message: Log in to manage your skin & players
-  keep: Remember me
   success: Logged in successfully.
 check:
   anonymous: Illegal access. Please log in first.
   verified: To access this page, you should verify your email address first.
   admin: Only admins are permitted to access this page.
-  super-admin: Only super admin is permitted to access this page.
   banned: You are banned on this site. Please contact the admin.
-  token: Token expired. Please log in.
 register:
   title: Register
-  button: Register
   message: Welcome to :sitename!
-  nickname-intro: Whatever you like expect special characters
-  repeat-pwd: Repeat your password
-  close: We don't accept any registration.
   success: Your account was registered. Redirecting...
   max: You can't register more than :regs accounts.
-  registered: The email address was already registered.
 forgot:
   title: Forgot Password
-  button: Send
   message: We will send you an E-mail to verify.
-  login-link: I do remember it
   disabled: Password resetting is not available.
   frequent-mail: You click the send button too fast. Wait for some minutes.
   unregistered: The email address is not registered.
@@ -59,27 +48,15 @@ verify:
   message: Welcome to :sitename!
   button: Homepage
   invalid: Invalid link.
-  expired: This link is expired, please resend a verification email.
 validation:
-  identification: The email or player name is invalid.
-  email: Email format is invalid.
-  captcha: Wrong CAPTCHA.
   user: No such user.
   password: Wrong password.
 logout:
   success: You are now logged out.
-  fail: No valid session.
 oauth:
   authorization:
     title: Authorization
     introduction: A 3rd-party application ":name" is requesting permission to access your account.
     button: Authorize
-nickname: Nickname
 email: Email
-identification: Email or player name
-password: Password
-captcha: CAPTCHA
-change-captcha: Click to change CAPTCHA image.
-login-link: Already registered? Log in here.
-forgot-link: Forgot password?
 register-link: Register a new account
