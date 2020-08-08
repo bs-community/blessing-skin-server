@@ -63,7 +63,7 @@ verify:
 validation:
   identification: 電子郵箱或角色名稱有誤
   email: 電子郵箱格式有誤
-  captcha: 錯誤的CAPTCHA驗證。
+  captcha: 驗證碼錯誤
   user: 沒有這個用戶。
   password: 錯誤的密碼。
 logout:
@@ -72,14 +72,14 @@ logout:
 oauth:
   authorization:
     title: 身份認証
-    introduction: A 3rd-party application ":name" is requesting permission to access your account.
-    button: Authorize
-nickname: Nickname
-email: Email
-identification: Email or player name
-password: Password
-captcha: CAPTCHA
-change-captcha: Click to change CAPTCHA image.
-login-link: Already registered? Log in here.
-forgot-link: Forgot password?
-register-link: Register a new account
+    introduction: 第三方軟體:name正在向你請求獲取權限。
+    button: 認證
+nickname: 暱稱
+email: 電子郵件
+identification: 電子郵箱地址或角色名
+password: 密碼
+captcha: CAPTCHA 驗證碼
+change-captcha: 點擊以改變CAPTCHA驗證圖片
+login-link: 已經註冊了？從這裡登入。
+forgot-link: 忘記密碼？
+register-link: 註冊新帳戶
