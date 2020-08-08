@@ -1,34 +1,13 @@
 ---
 database:
   connection-error: "No se puede conectar a la base de datos :type, favor comprobar su configuración. El servidor respondió con: :msg"
-  connection-success: Se conectó a la base de datos de destino :type [:server] con éxito, haga clic en SIGUIENTE para iniciar la instalación.
-  table-already-exists: Ya existen algunas tablas en la base de datos de destino, cuyos nombres entran en conflicto con las que vamos a crear. Para evitar pérdida de datos, por favor elimine manualmente estas tablas :tables, o establezca un prefijo de tabla diferente.
-file:
-  permission-error: No se puede crear la carpeta de texturas, por favor compruebe los permisos del directorio o coloque uno manualmente.
-  no-dot-env: No se puede encontrar el archivo de configuración de entorno. Por favor, renombre .env.example a .env (consulte el manual de configuración).
-permissions:
-  storage: No se puede escribir en el directorio de almacenamiento, por favor compruebe los permisos.
-disabled-functions:
-  escapeshellarg: "La función escapeshellarg está deshabilitada en la configuración de php.ini. Por favor, póngase en contacto con su proveedor de alojamiento web para habilitarla o realizar la instalación manualmente: http://t.cn/REzBZUe"
 locked:
   title: Ya instalado
   text: Parece que ya tienes instalado Blessing Skin Server. Para reinstalar, por favor elimine primero las tablas en su base de datos, o use un nuevo prefijo de tabla.
   button: Volver al inicio
 updates:
-  master:
-    title: Asistente de actualizacones - Blessing Skin Server
-  welcome:
-    title: Un paso más
-    text: |
-      ¡Bienvenido! Vas a actualizar a Blessing Skin Server v:version.
-      Necesitamos aplicar algunas actualizaciones a tu base de datos, haz clic en NEXT para continuar.
-    button: Siguiente
   success:
     title: Actualización finalizada
-    text: Blessing Skin Server se ha actualizado correctamente a v:version.
-    tips: "Consejos de actualización:"
-  changelog:
-    title: Notas de lanzamiento
 wizard:
   master:
     title: Asistente de actualizacones - Blessing Skin Server
