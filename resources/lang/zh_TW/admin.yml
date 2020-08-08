@@ -120,36 +120,36 @@ plugins:
       version: '「:title」的版本不符合要求 ":constraint"'
       conflict: '「:title」插件与此插件不能同时运行'
     disabled: ':plugin 已被禁用.'
-    deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
-    no-readme-notice: The plugin doesn't contain a readme file.
-    not-found: No such plugin.
+    deleted: 插件成功刪除。
+    no-config-notice: 插件未安裝或未提供配置頁。
+    no-readme-notice: 這個插件沒有說明文檔。
+    not-found: 此插件不存在。
   market:
-    unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
-    connection-error: Unable to connect to the plugins registry. :error
-    non-existent: The plugin :plugin does not exist.
-    install-success: Plugin was installed.
-  empty: No result
+    unresolved: 插件中存在不成立的依賴關係，因此我們無法啟用它。請安裝或更新下述的所有插件，並禁用那些不可用的依賴關係。
+    connection-error: 无法鏈接到插件市场源，错误訊息：:error
+    non-existent: 插件 :plugin 不存在.
+    install-success: 插件未安裝
+  empty: 無任何結果
 update:
-  complete: Update completed
+  complete: 更新完成。
   info:
-    title: Update Information
-    up-to-date: Already up-to-date.
-    available: New version available.
+    title: 更新訊息
+    up-to-date: 已經為最新版本。
+    available: 已有新的更新版本。
     versions:
-      latest: "Latest Version:"
-      current: "Current Version:"
-    check-github: Check GitHub Releases
-    button: Update Now
+      latest: "最新版本:"
+      current: "當前版本："
+    check-github: 去查看 GitHub Releases
+    button: 立即更新
   cautions:
-    title: Cautions
-    link: check out this.
+    title: 警告
+    link: 点击來了解更多情報。
     text: |
-      Please choose update source according to your host's network environment.
-      Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
-      To change the default update source,
+      请根据你的主机所在位置（国内/国外）选择更新源。
+      如錯誤选至相对于你的主机速度较慢的源，可能会造成检查与下载更新页面长时间无响应。
+      如何更换更新源？
   download:
-    downloading: Downloading update package...
+    downloading: 下載更新中...
     size: "Size of package:"
   errors:
     connection: "Unable to access to current update source. Details: :error"
