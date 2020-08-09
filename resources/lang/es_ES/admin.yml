@@ -20,17 +20,10 @@ notifications:
   title: Título
   content: Contenido (Markdown está soportado).
 users:
-  status:
-    normal: Normal
-    banned: Baneado
-    admin: Admin
-    super-admin: Súper Admin
   operations:
     non-existent: No existe ese usuario.
     no-permission: No tienes permiso para operar este usuario.
-    invalid: Acción inválida.
     email:
-      existed: ':email existe.'
       success: Email cambiado con éxito.
     verification:
       success: Estado de verificación de la cuenta cambiado con éxito.
@@ -42,30 +35,21 @@ users:
       success: Puntuación cambiada con éxito.
     permission: Permiso actualizado.
     delete:
-      delete: Eliminar usuario
       success: La cuenta ha sido eliminada con éxito.
-      cant-super-admin: No puedes eliminar a un superadmin.
-      cant-admin: No puedes eliminar una cuenta de administrador.
 players:
   no-permission: No tienes permiso para operar este jugador.
-  operations:
-    title: Operaciones
   textures:
-    change: Modificar texturas
     non-existent: Textura Inexistente tid.:tid
     success: Las texturas de :player han sido actualizadas.
   name:
     success: El nombre del jugador ha sido actualizado a :player
   owner:
-    change: Cambiar propietario
     success: El jugador :player fue transferido al usuario :user.
   delete:
-    delete: Eliminar
     success: El jugador ha sido eliminado correctamente.
 customize:
   change-color:
     title: Cambiar color del tema
-    success: Color del tema actualizado.
   colors:
     navbar: Barra Superior de Navegación
     sidebar:
@@ -105,12 +89,7 @@ status:
     prefix: Prefijo de tabla
   plugins: Plugins habilitados (:amount)
 plugins:
-  name: Nombre
-  description: Descripción
-  author: Autor
-  version: Versión
   readme: Leéme
-  dependencies: Dependencias
   operations:
     title: Operaciones
     enabled: ':plugin ha sido habilitado.'
@@ -129,7 +108,6 @@ plugins:
     connection-error: No se puede conectar al registro de plugins. :error
     non-existent: El plugin :plugin no existe.
     install-success: Se instaló el plugin.
-  empty: Sin resultados
 update:
   complete: Actualización completada
   info:
@@ -148,9 +126,6 @@ update:
       Por favor, elija la fuente de actualización según el entorno de red de su host.
       La conexión de baja velocidad entre la fuente de actualización y su host causará una carga lenta a la hora de comprobar y descargar la página.
       Para cambiar la fuente de actualización por defecto,
-  download:
-    downloading: Descargando paquete de actualización...
-    size: "Tamaño del paquete:"
   errors:
     connection: "No se puede acceder a la fuente de actualización actual. Detalles: :error"
     spec: La fuente de actualización actual no está soportada.
@@ -160,5 +135,4 @@ download:
     download: 'Error al descargar. Error: :error'
     shasum: La validación del archivo ha fallado. Por favor, descargue de nuevo.
     unzip: Error al desempaquetar archivos.
-report-reviewed: Este informe ha sido procesado.
 invalid-action: Acción inválida
