@@ -20,17 +20,10 @@ notifications:
   title: 标题
   content: 内容（可使用 Markdown）
 users:
-  status:
-    normal: 普通用户
-    banned: 封禁
-    admin: 管理员
-    super-admin: 超级管理员
   operations:
     non-existent: 用户不存在
     no-permission: 你无权操作此用户
-    invalid: 无效的 action
     email:
-      existed: 邮箱 :email 已被占用
       success: 邮箱修改成功
     verification:
       success: 用户的邮箱验证状态已修改
@@ -42,30 +35,21 @@ users:
       success: 积分修改成功
     permission: 权限已更改
     delete:
-      delete: 删除用户
       success: 账号已被成功删除
-      cant-super-admin: 超级管理员账号不能被删除
-      cant-admin: 无法删除管理员账号
 players:
   no-permission: 你无权操作此角色
-  operations:
-    title: 更多操作
   textures:
-    change: 更换材质
     non-existent: 材质 tid.:tid 不存在
     success: 角色 :player 的材质修改成功
   name:
     success: 角色名成功更改为 :player
   owner:
-    change: 更换角色拥有者
     success: 角色 :player 已成功让渡至 :user
   delete:
-    delete: 删除角色
     success: 角色已被成功删除
 customize:
   change-color:
     title: 更改配色
-    success: 修改配色成功
   colors:
     navbar: 顶部导航栏
     sidebar:
@@ -105,12 +89,7 @@ status:
     prefix: 数据表前缀
   plugins: 已开启的插件 (:amount)
 plugins:
-  name: 名称
-  description: 描述
-  author: 作者
-  version: 版本
   readme: 说明
-  dependencies: 依赖关系
   operations:
     title: 操作
     enabled: ':plugin 已启用'
@@ -129,7 +108,6 @@ plugins:
     connection-error: 无法连接至插件市场源，错误信息：:error
     non-existent: 插件 :plugin 不存在
     install-success: 插件安装成功
-  empty: 无结果
 update:
   complete: 更新完成
   info:
@@ -148,9 +126,6 @@ update:
       请根据你的主机所在位置（国内/国外）选择更新源。
       如错选至相对于你的主机速度较慢的源，可能会造成检查与下载更新页面长时间无响应。
       如何更换更新源？
-  download:
-    downloading: 正在下载更新包
-    size: "更新包大小："
   errors:
     connection: "无法访问当前更新源。详细信息：:error"
     spec: 不支持当前的更新源。
@@ -160,5 +135,4 @@ download:
     download: '下载失败。原因：:error'
     shasum: 文件校验失败，请重新下载。
     unzip: 解压失败。
-report-reviewed: 这一条举报已经处理过了。
 invalid-action: 无效的操作名
