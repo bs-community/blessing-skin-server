@@ -20,17 +20,10 @@ notifications:
   title: 標題
   content: 內容（支援 Markdown 語法）
 users:
-  status:
-    normal: 普通用戶
-    banned: 被封禁
-    admin: 管理員
-    super-admin: 超級管理員
   operations:
     non-existent: 沒有這個用戶。
     no-permission: 您沒有權限操作此用戶。
-    invalid: 不合法的操作。
     email:
-      existed: ':email 已存在'
       success: 電子郵件地址變更成功。
     verification:
       success: 用戶電子郵件驗證狀態修改成功。
@@ -42,30 +35,21 @@ users:
       success: 積分已成功修改。
     permission: 權限已更新。
     delete:
-      delete: 刪除用戶
       success: 這個賬戶已成功刪除。
-      cant-super-admin: 您无法刪除超級管理員。
-      cant-admin: 你無法刪除管理員賬戶
 players:
   no-permission: 您沒有權限操作此玩家。
-  operations:
-    title: 操作
   textures:
-    change: 更換材質
     non-existent: 材質 tid :tid 不存在
     success: 玩家 :player 的材質已更新。
   name:
     success: 玩家名稱已更新為 :player。
   owner:
-    change: 變更所有者
     success: 玩家 :player 的所有權已讓渡至用戶 :user。
   delete:
-    delete: 刪除
     success: 角色已成功刪除。
 customize:
   change-color:
     title: 更換主題色
-    success: 主題色已變更。
   colors:
     navbar: 頂部導覽欄
     sidebar:
@@ -105,12 +89,7 @@ status:
     prefix: 資料庫表前綴
   plugins: 已啟用插件（：amount）
 plugins:
-  name: 名稱
-  description: 描述資訊
-  author: 作者
-  version: 版本號
   readme: 自述
-  dependencies: 依賴套件
   operations:
     title: 操作
     enabled: ':plugin 已被啓用'
@@ -129,7 +108,6 @@ plugins:
     connection-error: 无法鏈接到插件市场源，错误訊息：:error
     non-existent: 插件 :plugin 不存在.
     install-success: 插件未安裝
-  empty: 無任何結果
 update:
   complete: 更新完成。
   info:
@@ -148,9 +126,6 @@ update:
       请根据你的伺服器所在位置（国内/国外）选择更新源。
       如錯誤选至相对于你的伺服器速度较慢的源，可能会造成检查与下载更新页面长时间无响应。
       如何更换更新源？
-  download:
-    downloading: 下載更新中...
-    size: "更新包大小:"
   errors:
     connection: "无法访问当前更新源。详细信息：:error"
     spec: 不支援当前更新源。
@@ -160,5 +135,4 @@ download:
     download: '下载失败。原因：:error'
     shasum: 文件校验失败，请重新下载。
     unzip: 解壓檔案失敗。
-report-reviewed: 这個举报已经处理过了。
 invalid-action: 非法的操作
