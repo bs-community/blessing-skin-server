@@ -21,17 +21,10 @@ notifications:
   content: Content (Markdown is supported.)
 
 users:
-  status:
-    normal: Normal
-    banned: Banned
-    admin: Admin
-    super-admin: Super Admin
   operations:
     non-existent: No such user.
     no-permission: You have no permission to operate this user.
-    invalid: Invalid action.
     email:
-      existed: :email is existed.
       success: Email changed successfully.
     verification:
       success: Account verification status toggled successfully.
@@ -43,33 +36,23 @@ users:
       success: Score changed successfully.
     permission: Permission updated.
     delete:
-      delete: Delete User
       success: The account has been deleted successfully.
-      cant-super-admin: You can't delete a super admin.
-      cant-admin: You can't delete a admin account.
 
 players:
   no-permission: You have no permission to operate this player.
-  operations:
-    title: Operations
   textures:
-    change: Change Textures
     non-existent: No such texture tid.:tid
     success: The textures of :player has been updated.
   name:
     success: Player name has been updated to :player
   owner:
-    change: Change Owner
     success: The player :player was transferred to user :user.
   delete:
-    delete: Delete
     success: The player has been deleted successfully.
 
 customize:
   change-color:
     title: Change Theme Color
-    success: Theme color updated.
-
   colors:
     navbar: Top Navigation Bar
     sidebar:
@@ -112,12 +95,7 @@ status:
   plugins: Enabled Plugins (:amount)
 
 plugins:
-  name: Name
-  description: Description
-  author: Author
-  version: Version
   readme: Read Me
-  dependencies: Dependencies
 
   operations:
     title: Operations
@@ -138,8 +116,6 @@ plugins:
     connection-error: Unable to connect to the plugins registry. :error
     non-existent: The plugin :plugin does not exist.
     install-success: Plugin was installed.
-
-  empty: No result
 
 update:
   complete: Update completed
@@ -165,10 +141,6 @@ update:
       Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
       To change the default update source,
 
-  download:
-    downloading: Downloading update package...
-    size: "Size of package:"
-
   errors:
     connection: "Unable to access to current update source. Details: :error"
     spec: Current update source is not supported.
@@ -179,7 +151,5 @@ download:
     download: 'Failed to download. Error: :error'
     shasum: File validation failed. Please download again.
     unzip: Failed to unpack files.
-
-report-reviewed: This report has been processed.
 
 invalid-action: Invalid action
