@@ -79,15 +79,8 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
         </a>
       </td>
       <td align=center>
-        <a href="">
-          <img src="https://pic1.afdiancdn.com/user/5b1b5ef6a23c11ea90a952540025c377/avatar/5c02c61401606370e1b088955c1a10fc_w342_h342_s33.jpg" width="120" height="120">
-          <br>
-          诶呀好气呀
-        </a>
-      </td>
-      <td align=center>
-        <a href="">
-          <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
+        <a href="https://afdian.net/@Luohuayu">
+          <img src="https://pic1.afdiancdn.com/user/66c740fad75011ea9fce52540025c377/avatar/870ee9ea29a1c179c435f1ad64aee79b_w640_h640_s52.jpg" width="120" height="120">
           <br>
           落花雨
         </a>
@@ -97,6 +90,13 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
           <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
           <br>
           graytoowolf
+        </a>
+      </td>
+      <td align=center>
+        <a href="">
+          <img src="https://pic1.afdiancdn.com/user/e227ea708ac911eaa6c852540025c377/avatar/a56a7ceafa12e96ba6750e880f04b7e4_w1024_h1024_s883.jpg" width="120" height="120">
+          <br>
+          mcha0
         </a>
       </td>
       <td align=center>
