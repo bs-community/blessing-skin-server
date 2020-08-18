@@ -15,7 +15,7 @@ between:
   string: ':attributeは、:min文字から:max文字にしてください。'
   array: ':attributeの項目は、:min個から:max個にしてください。'
 boolean: ':attributeには、''true''か''false''を指定してください。'
-captcha: 'Incorrect captcha.'
+captcha: '正しくありませんのCaptcha'
 confirmed: ':attributeと:attribute確認が一致しません。'
 date: ':attributeは、正しい日付ではありません。'
 date_equals: ':attributeは:dateに等しい日付でなければなりません。'
@@ -75,7 +75,7 @@ not_regex: ':attributeの形式が無効です。'
 numeric: ':attributeには、数字を指定してください。'
 password: パスワードが正しくありません。
 present: ':attributeが存在している必要があります。'
-recaptcha: 'reCAPTCHA validation failed.'
+recaptcha: 'reCAPTCHA 認証に失敗しました'
 regex: ':attributeには、有効な正規表現を指定してください。'
 required: ':attributeは、必ず指定してください。'
 required_if: ':otherが:valueの場合、:attributeを指定してください。'
@@ -113,11 +113,11 @@ uuid: ':attributeは、有効なUUIDでなければなりません。'
 #with something more reader friendly such as E-Mail Address instead
 #of "email". This simply helps us make messages a little cleaner.
 attributes:
-  name: name
+  name: 名前
   player_name: プレイヤーの名前
   identification: メール と プレイヤー名。
   email: メール
   password: パスワード
-  password_confirmation: 'password confirmation'
-  title: title
-  content: content
+  password_confirmation: 'パスワードの確認'
+  title: イベント概要
+  content: 内容
