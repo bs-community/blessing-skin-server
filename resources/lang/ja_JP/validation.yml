@@ -114,10 +114,10 @@ uuid: ':attributeは、有効なUUIDでなければなりません。'
 #of "email". This simply helps us make messages a little cleaner.
 attributes:
   name: name
-  player_name: player name
-  identification: email or player name
-  email: email
-  password: password
+  player_name: プレイヤーの名前
+  identification: メール と プレイヤー名。
+  email: メール
+  password: パスワード
   password_confirmation: 'password confirmation'
   title: title
   content: content
