@@ -9,19 +9,19 @@ auth:
   invalidConfirmPwd: 兩次輸入的密碼不一致。
   emptyNickname: 請輸入昵稱。
   register: 註冊帳號
-  registering: Registering
-  send: Send
-  sending: Sending
-  reset: Reset
-  resetting: Resetting
-  nickname: Nickname
-  player-name: Minecraft player name
-  email: Email
-  identification: Email or player name
-  password: Password
-  captcha: CAPTCHA
-  change-captcha: Click to change CAPTCHA image.
-  login-link: Already registered? Log in here.
+  registering: 送出註冊資料中...
+  send: 發送
+  sending: 發送中...
+  reset: 重置
+  resetting: 重置中
+  nickname: 別名
+  player-name: Minecraft 角色名
+  email: 電子郵件
+  identification: 電子郵件地址或玩家名
+  password: 密碼
+  captcha: CAPTCHA 驗證碼
+  change-captcha: 點擊以改變CAPTCHA驗證圖片
+  login-link: 已經註冊了？從這裡登錄。
   forgot-link: Forgot password?
   keep: Remember me
   repeat-pwd: Repeat your password
