@@ -8,7 +8,8 @@
 
 ## The Problem 问题描述
 
-
+<!-- 如果您要报告的问题是与插件相关的，请在 bs-community/blessing-skin-plugins 提 issue，谢谢合作 -->
+<!-- If you're going to report a problem related to plugins, please open issue at bs-community/blessing-skin-plugins. -->
 
 ## Environment 运行环境
 
