@@ -1,14 +1,14 @@
 ---
 auth:
-  login: Log In
-  loggingIn: Logging In
+  login: 登錄
+  loggingIn: 登入
   tooManyFails:
-    captcha: You fails too many times! Please enter the CAPTCHA.
-    recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
-  emptyEmail: Empty email address.
-  invalidConfirmPwd: Confirming password is not equal with password.
-  emptyNickname: Empty nickname.
-  register: Register
+    captcha: 嘗試次數過多，請輸入驗證碼。
+    recaptcha: 嘗試次數過多，請輸入驗證碼。
+  emptyEmail: 請輸入電子郵箱地址。
+  invalidConfirmPwd: 兩次輸入的密碼不一致。
+  emptyNickname: 請輸入昵稱。
+  register: 註冊帳號
   registering: Registering
   send: Send
   sending: Sending
