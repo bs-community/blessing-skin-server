@@ -22,39 +22,39 @@ auth:
   captcha: CAPTCHA 驗證碼
   change-captcha: 點擊以改變CAPTCHA驗證圖片
   login-link: 已經註冊了？從這裡登錄。
-  forgot-link: Forgot password?
-  keep: Remember me
-  repeat-pwd: Repeat your password
-  nickname-intro: Whatever you like expect special characters
-  player-name-intro: Player name in Minecraft, can be changed later
-  register-button: Register
+  forgot-link: 忘記密碼了？
+  keep: 記住我
+  repeat-pwd: 重複輸入密碼
+  nickname-intro: 除特殊字符外的任意内容
+  player-name-intro: 游戏内的角色名，注册后可修改
+  register-button: 註冊帳號
   forgot:
-    login-link: I do remember it
-    button: Send
-  reset-button: Reset
+    login-link: 我又想起來了。
+    button: 發送
+  reset-button: 重置
 skinlib:
-  private: Private
-  anonymous: Please login first.
-  reset: Reset Filter
-  nowShowing: Now showing
-  addToCloset: Add to closet
-  removeFromCloset: Remove from closet
-  setItemName: Set a name for this texture
-  applyNotice: You can apply it to player at your closet
-  emptyItemName: Empty texture name.
-  setNewTextureName: 'Please enter the new texture name:'
-  emptyNewTextureName: Empty new texture name.
-  seeMyUpload: My Uploads
-  apply: Apply
+  private: 非公開
+  anonymous: 請先登錄
+  reset: 重置過濾器
+  nowShowing: 当前正显示
+  addToCloset: 添加到“衣櫃“
+  removeFromCloset: 從“衣櫃”中移除
+  setItemName: 為這件材質設置名稱
+  applyNotice: 你可以在“衣櫃”中將這件材質設置到你的角色上。
+  emptyItemName: 請輸入材質名稱。
+  setNewTextureName: '請輸入新材質的名稱'
+  emptyNewTextureName: 請輸入没人输入过的材質名稱。
+  seeMyUpload: 我的作品
+  apply: 確定
   filter:
-    skin: (Any Model)
-    steve: (Steve)
-    alex: (Alex)
-    cape: (Cape)
-    uploader: 'User (UID = :uid) Uploaded'
-    allUsers: All Users
+    skin: (任何模型)
+    steve: 史蒂夫
+    alex: 艾利克斯
+    cape: (披風)
+    uploader: '由用戶 (UID = :uid) 上傳'
+    allUsers: 所有用戶
   sort:
-    title: Sort
+    title: 排序
     time: Latest
     likes: Most Likes
   emptyTextureName: Empty texture name.
