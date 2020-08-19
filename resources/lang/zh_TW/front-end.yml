@@ -14,19 +14,19 @@ auth:
   sending: 發送中...
   reset: 重置
   resetting: 重置中
-  nickname: 別名
+  nickname: 昵稱
   player-name: Minecraft 角色名
   email: 電子郵件
   identification: 電子郵件地址或玩家名
   password: 密碼
   captcha: CAPTCHA 驗證碼
-  change-captcha: 點擊以改變CAPTCHA驗證圖片
+  change-captcha: 點擊以改變 CAPTCHA 驗證圖片
   login-link: 已經註冊了？從這裡登錄。
   forgot-link: 忘記密碼了？
   keep: 記住我
   repeat-pwd: 重複輸入密碼
   nickname-intro: 除特殊字符外的任意内容
-  player-name-intro: 游戏内的角色名，注册后可修改
+  player-name-intro: Minecraft 的玩家名稱，以後可以更改
   forgot:
     login-link: 我又想起來了。
 skinlib:
@@ -38,14 +38,14 @@ skinlib:
   setItemName: 為這件材質設置名稱
   applyNotice: 你可以在“衣櫃”中將這件材質設置到你的角色上。
   emptyItemName: 請輸入材質名稱。
-  setNewTextureName: '請輸入新材質的名稱'
-  emptyNewTextureName: 請輸入没人输入过的材質名稱。
-  seeMyUpload: 我的作品
-  apply: 確定
+  setNewTextureName: '請輸入新的材質名稱'
+  emptyNewTextureName: 請輸入新的材質名稱。
+  seeMyUpload: 我的上傳
+  apply: 應用
   filter:
     skin: (任何模型)
-    steve: 史蒂夫
-    alex: 艾利克斯
+    steve: (史蒂夫)
+    alex: (艾利克斯)
     cape: (披風)
     uploader: '由用戶 (UID = :uid) 上傳'
     allUsers: 所有用戶
