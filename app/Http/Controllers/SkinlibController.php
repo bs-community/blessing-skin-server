@@ -93,7 +93,7 @@ class SkinlibController extends Controller
 
                 abort(404, trans('skinlib.show.deleted'));
             }
-            abort(404, trans('skinlib.show.deleted').trans('skinlib.show.contact-admin'));
+            abort(404, trans('skinlib.show.deleted'));
         }
 
         if (!$texture->public) {

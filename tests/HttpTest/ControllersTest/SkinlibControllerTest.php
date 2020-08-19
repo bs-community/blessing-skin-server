@@ -144,7 +144,7 @@ class SkinlibControllerTest extends TestCase
         option(['auto_del_invalid_texture' => false]);
         $texture = factory(Texture::class)->create();
         $this->get('/skinlib/show/'.$texture->tid)
-            ->assertSee(trans('skinlib.show.deleted').trans('skinlib.show.contact-admin'));
+            ->assertSee(trans('skinlib.show.deleted'));
         $this->assertNotNull(Texture::find($texture->tid));
 
         option(['auto_del_invalid_texture' => true]);
