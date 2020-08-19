@@ -1,7 +1,7 @@
 ---
 auth:
   login: 登錄
-  loggingIn: 登入
+  loggingIn: 正在登入
   tooManyFails:
     captcha: 嘗試次數過多，請輸入驗證碼。
     recaptcha: 嘗試次數過多，請輸入驗證碼。
@@ -51,12 +51,12 @@ skinlib:
     allUsers: 所有用戶
   sort:
     title: 排序
-    time: Latest
-    likes: Most Likes
-  emptyTextureName: Empty texture name.
+    time: 最新上傳
+    likes: 最多收藏
+  emptyTextureName: 請輸入材質名稱。
   emptyUploadFile: You have not uploaded any file.
-  fileExtError: 'Error: Textures should be PNG files.'
-  uploading: Uploading
+  fileExtError: '材質應該是 PNG 文件。'
+  uploading: 正在上傳
   setAsPrivate: Set as Private
   setAsPublic: Set as Public
   setPublicNotice: Sure to set this as public texture?
@@ -66,23 +66,23 @@ skinlib:
   upload:
     texture-name: Texture Name
     texture-type: Texture Type
-    select-file: Select File
+    select-file: 選取檔案
     privacy-notice: Prevent it from being visible at skin library.
     set-as-private: Make it Private
-    button: Upload
+    button: 上傳
     cost: It costs you about :score score.
     award: You'll be awarded :score score(s) by uploading public texture.
   show:
     anonymous: You must login to use closets
     likes: People who like this
-    detail: Details
+    detail: 詳細資訊
     name: Texture Name
-    edit: Edit
+    edit: 編輯
     model: Applicable Model
-    size: File Size
+    size: 檔案大小
     uploader: Uploader
-    upload-at: Upload At
-    download: Download
+    upload-at: 上傳于
+    download: 下載
     delete-texture: Delete Texture
     manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
   report:
@@ -92,18 +92,18 @@ skinlib:
     negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
 user:
   signRemainingTime: 'Available after :time :unit'
-  timeUnitHour: h
-  timeUnitMin: min
+  timeUnitHour: 時
+  timeUnitMin: 分鐘
   emptyClosetMsg: >-
     <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
   renameItem: Rename item
   removeItem: Remove from closet
-  setAsAvatar: Set as avatar
+  setAsAvatar: 設爲頭像
   viewInSkinlib: View in skin library
   switch2dPreview: Switch to 2D Preview
   switch3dPreview: Switch to 3D Preview
   removeFromClosetNotice: Sure to remove this texture from your closet?
-  emptySelectedTexture: No texture is selected.
+  emptySelectedTexture: 未選擇任何材質。
   renameClosetItem: 'Set a new name for this item:'
   changePlayerName: 'Please enter the player name:'
   emptyPlayerName: Empty player name.
