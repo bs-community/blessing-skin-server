@@ -1,11 +1,4 @@
 ---
-used:
-  title: Resources Used
-  players: Registered players
-  storage: Storage used
-cur-score: Current Score
-score-notice: Click the score to show introduction.
-sign: Sign
 sign-success: Signed successfully. You got :score scores.
 announcement: Announcement
 no-unread: No new notifications.
@@ -35,37 +28,17 @@ score-intro:
     player: ':score scores = 1 player'
     closet: ':score socres = 1 closet item'
 closet:
-  type-to-search: Type to search
-  switch-category: Switch Category
-  view: View in skin library
-  more: More
-  set-avatar: Set as avatar
-  use-as:
-    button: Apply...
-    reset: Clear selected
-    title: Which player should be applied to?
-    empty: It seems that you own no player...
-    add: Add a new player
   add:
     success: Added :name to closet successfully.
     repeated: You have already added this texture.
     not-found: We cannot find this texture.
     lack-score: You don't have enough score to add it to closet.
   rename:
-    title: Rename item
     success: The item is successfully renamed to :name
   remove:
-    title: Remove from closet
     success: The texture was removed from closet successfully.
     non-existent: The texture does not exist in your closet.
 player:
-  player-name: Player Name
-  edit: Edit
-  operation: Delete
-  edit-pname: Player name
-  delete-texture: Textures
-  delete-player: Player
-  add-player: Add new player
   login-notice: Now you can log in with player names you owned instead email address.
   player-name-rule:
     official: Player name may only contains letters, numbers and underscores.

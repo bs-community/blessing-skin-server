@@ -27,16 +27,12 @@ auth:
   repeat-pwd: Répétez votre mot de passe
   nickname-intro: Tout ce que vous voulez sauf des caractères spéciaux
   player-name-intro: Le nom du joueur dans Minecraft, peut être modifié plus tard
-  register-button: S'inscrire
   forgot:
     login-link: Je m'en souviens
-    button: Envoyer
-  reset-button: Réinitialiser
 skinlib:
   private: Privé
   anonymous: Connectez-vous d'abord.
   reset: Réinitialiser le filtre
-  nowShowing: Maintenant affiché
   addToCloset: Ajouter à la garde-robe
   removeFromCloset: Retirer de la garde-robe
   setItemName: Définir un nom pour cette texture
@@ -74,8 +70,6 @@ skinlib:
     privacy-notice: Empêche l'affichage dans la bibliothèque de skins.
     set-as-private: Rendre privé
     button: Téléverser
-    dropZone: Déposez le fichier ici
-    remove: Retirer
     cost: Cela vous coûte environ :score .
     award: Vous serez récompensé de :score score(s) en téléchargeant des textures publiques.
   show:
@@ -109,19 +103,16 @@ user:
   switch2dPreview: Passer à l'aperçu 2D
   switch3dPreview: Passer à l'aperçu 3D
   removeFromClosetNotice: Êtes-vous sûr de vouloir retirer cette texture de votre garde-robe ?
-  emptySelectedPlayer: Aucun joueur n'est sélectionné.
   emptySelectedTexture: Aucune texture n'est sélectionnée.
   renameClosetItem: 'Set a new name for this item:'
   changePlayerName: 'Please enter the player name:'
   emptyPlayerName: Nom du joueur vide.
-  clearTexture: Sure to clear the skins & cape of this player?
   deletePlayer: Sure to delete this player?
   deletePlayerNotice: It's permanent. No backups.
   chooseClearTexture: Choose texture types you want to clear
   noClearChoice: You haven't choose any types
   setAvatar: Sure to set this as your avatar?
   setAvatarNotice: The head segment of skin will bu used.
-  resetAvatar: Réinitialiser l'avatar
   resetAvatarConfirm: Are you sure to reset your avatar?
   typeToSearch: Tapez pour rechercher
   useAs: Appliquer...
@@ -131,7 +122,6 @@ user:
     use-as:
       title: Which player should be applied to?
       empty: It seems that you own no player...
-      add: Ajouter un nouveau joueur
   used:
     title: Ressources utilisées
     players: Joueurs inscrits
@@ -139,19 +129,12 @@ user:
   cur-score: Current Score
   score-notice: Click the score to show introduction.
   sign: Sign
-  sign-success: Signed successfully. You got :score scores.
-  time-unit-hour: h
-  time-unit-min: min
-  last-sign: Last signed at :time
-  sign-remain-time: Available after :time :unit
   player:
-    edit: Modifier
     operation: Actions
     edit-pname: Modifier le nom
     delete-texture: Effacer les textures
     delete-player: Supprimer
     add-player: Ajouter un nouveau joueur
-    player-info: Information <small>(click player name to show preview)</small>
     texture-empty: Rien
   verification:
     title: Vérifiez votre compte
@@ -170,10 +153,7 @@ user:
 admin:
   operationsTitle: Actions
   permission: Permission
-  playersCount: Nombre de joueurs
   deleteUser: Supprimer
-  cannotDeleteAdmin: Vous ne pouvez pas supprimer d'administrateurs.
-  cannotDeleteSuperAdmin: You can't delete super admin in this way
   changeEmail: Modifier l'adresse e-mail
   newUserEmail: 'Please enter the new email:'
   verification: Vérification de l'adresse e-mail
@@ -187,8 +167,6 @@ admin:
   changePermission: Modifier la permission
   newPermission: 'Please select new permission:'
   deleteUserNotice: Are you sure to delete this user? It' permanent.
-  inspectHisOwner: Click to inspect the owner of this player
-  inspectHisPlayers: Click to inspect the players he owns
   banned: Banni
   normal: Normal
   admin: Administrateur
@@ -197,7 +175,6 @@ admin:
   verified: Vérifié
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this player.
-  changePlayerTexture: 'Changer les textures de :player'
   changeTexture: Changer les textures
   changePlayerName: Changer le nom du joueur
   changeOwner: Changer de propriétaire
@@ -205,21 +182,14 @@ admin:
   deletePlayer: Supprimer
   changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
   deletePlayerNotice: Are you sure to delete this player? It' permanent.
-  targetUser: 'Target user is :nickname'
-  noSuchUser: Cet utilisateur n'existe pas
   changePlayerNameNotice: 'Please input new player name:'
   emptyPlayerName: Player name cannot be empty.
   configurePlugin: Configurer
-  noPluginConfigNotice: The plugin has been disabled or no configuration is provided.
   deletePlugin: Supprimer
   noDependencies: Aucune dépendance
-  whyDependencies: Qu'est-ce que c'est ?
-  statusEnabled: Activé
-  statusDisabled: Désactivé
   pluginTitle: Plugin
   pluginAuthor: Auteur
   pluginVersion: Version
-  pluginName: Nom
   pluginReadme: Lisez-moi
   pluginDescription: Description
   pluginDependencies: Dépendances
@@ -235,11 +205,8 @@ admin:
   uploadArchiveNotice: Install a plugin by uploading a Zip archive.
   downloadRemote: Download From Remote
   downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
-  noDependenciesNotice: >-
-    Il n'y a pas de dépendances définies pour ce plugin. Cela signifie que le plugin peut ne pas être compatible avec la version actuelle de Blessing Skin, et l'activer peut causer des problèmes inattendus. Voulez-vous vraiment activer le plugin ?
   updateButton: Mettre à jour maintenant
   downloading: Téléchargement...
-  updateCompleted: Mise à jour terminée.
   i18n:
     group: Groupe
     key: Clé
@@ -253,13 +220,11 @@ report:
   tid: ID de texture
   reporter: Auteur du signalement
   reason: Raison
-  status-title: Statut
   status:
     - Suspendu
     - Résolu
     - Rejeté
   time: Heure du signalement
-  check: Détails
   delete: Supprimer
   ban: Bannir
   reject: Rejeter
@@ -274,8 +239,6 @@ general:
   close: Fermer
   more: Plus
   tip: Conseil
-  pagination: 'Page :page, total :total'
-  searchResult: '(Résultat de la recherche du mot clé ":keyword")'
   noResult: Aucun résultat.
   texturePreview: Aperçu de la texture
   walk: Marcher
@@ -284,7 +247,6 @@ general:
   pause: Suspendre
   reset: Réinitialiser
   skinlib: Bibliothèque de skins
-  loading: Chargement
   wait: Veuillez patienter...
   csrf: Cette page est obsolète. Veuillez la rafraîchir.
   user:
@@ -306,8 +268,5 @@ colors:
 vendor:
   datatable:
     search: Rechercher
-    rowsPerPage: Lignes par page
     prev: Précédent
     next: Suivant
-    of: de
-    all: Tous

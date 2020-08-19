@@ -27,16 +27,12 @@ auth:
   repeat-pwd: Repita su contraseña
   nickname-intro: Lo que quieras excepto caracteres especiales
   player-name-intro: Nombre del jugador en Minecraft, puede cambiarse más tarde
-  register-button: Registrar
   forgot:
     login-link: Lo recuerdo
-    button: Enviar
-  reset-button: Restablecer
 skinlib:
   private: Privado
   anonymous: Inicie sesión primero.
   reset: Restablecer filtro
-  nowShowing: Mostrando ahora
   addToCloset: Añadir al armario
   removeFromCloset: Retirar de armario
   setItemName: Establecer un nombre para esta textura
@@ -74,8 +70,6 @@ skinlib:
     privacy-notice: Evitar que sea visible en la colección de skins.
     set-as-private: Marcar privado
     button: Subir
-    dropZone: Suelta un archivo aquí
-    remove: Eliminar
     cost: Te cuesta alrededor de :score puntuaciones.
     award: Serás galardonado :punta(s) de puntuación subiendo textura pública.
   show:
@@ -109,19 +103,16 @@ user:
   switch2dPreview: Cambiar a preestreno 2D
   switch3dPreview: Cambiar a preestreno 3D
   removeFromClosetNotice: '¿Seguro que quiere eliminar esta textura de su armario?'
-  emptySelectedPlayer: Ningún jugador está seleccionado.
   emptySelectedTexture: No hay textura seleccionada.
   renameClosetItem: 'Establecer un nuevo nombre para este elemento:'
   changePlayerName: 'Por favor, introduzca el nombre del jugador:'
   emptyPlayerName: Nombre de jugador vacío.
-  clearTexture: '¿Seguro que quiere remover los skins y la capa de este jugador?'
   deletePlayer: '¿Seguro que quiere eliminar este jugador?'
   deletePlayerNotice: Es permanente. No hay copias de seguridad.
   chooseClearTexture: Elige los tipos de texturas que quiera borrar
   noClearChoice: No ha elegido ningún tipo
   setAvatar: '¿Seguro que quiere establecer esto como su avatar?'
   setAvatarNotice: El segmento de cabeza del skin se usará.
-  resetAvatar: Restablecer avatar
   resetAvatarConfirm: '¿Está seguro que quiere restablecer su avatar?'
   typeToSearch: Escriba para buscar
   useAs: Aplicar...
@@ -131,7 +122,6 @@ user:
     use-as:
       title: '¿A qué jugador se debe aplicar?'
       empty: Parece que no tienes jugador...
-      add: Añadir nuevo jugador
   used:
     title: Recursos usados
     players: Jugadores registrados
@@ -139,19 +129,12 @@ user:
   cur-score: Puntuación actual
   score-notice: Haga clic en la puntuación para mostrar la introducción.
   sign: Firmar
-  sign-success: Firmado con éxito. Obtuviste :score puntuaciones.
-  time-unit-hour: h
-  time-unit-min: min
-  last-sign: Última firma en :time
-  sign-remain-time: Disponible después de :time :unit
   player:
-    edit: Editar
     operation: Operaciones
     edit-pname: Editar nombre
     delete-texture: Borrar texturas
     delete-player: Eliminar
     add-player: Añadir nuevo jugador
-    player-info: Información <small>(haga clic en el nombre del jugador para mostrar el preestreno)</small>
     texture-empty: Nada
   verification:
     title: Verifica su cuenta
@@ -170,10 +153,7 @@ user:
 admin:
   operationsTitle: Operaciones
   permission: Permiso
-  playersCount: Número de jugadores
   deleteUser: Eliminar
-  cannotDeleteAdmin: No puedes eliminar administradores.
-  cannotDeleteSuperAdmin: No puedes eliminar superadministradores de esta manera
   changeEmail: Modificar email
   newUserEmail: 'Por favor, introduzca el nuevo email:'
   verification: Verificación de email
@@ -187,8 +167,6 @@ admin:
   changePermission: Cambiar permiso
   newPermission: 'Por favor, seleccione un nuevo permiso:'
   deleteUserNotice: '¿Está seguro de eliminar este usuario? Es permanente.'
-  inspectHisOwner: Haga clic para inspeccionar al dueño de este jugador
-  inspectHisPlayers: Haz clic para inspeccionar a los jugadores que posee
   banned: Baneado
   normal: Normal
   admin: Admin
@@ -197,7 +175,6 @@ admin:
   verified: Verificado
   pidNotice: >-
     Por favor, introduzca la tid de la textura. Introduciendo 0 puede borrar la textura de este jugador.
-  changePlayerTexture: 'Cambiar las texturas de :player'
   changeTexture: Cambiar texturas
   changePlayerName: Cambiar nombre de jugador
   changeOwner: Cambiar dueño
@@ -205,21 +182,14 @@ admin:
   deletePlayer: Eliminar
   changePlayerOwner: 'Por favor, introduzca el id del usuario al que este jugador debe ser transferido:'
   deletePlayerNotice: '¿Está seguro de eliminar este jugador? Es permanente.'
-  targetUser: 'El usuario de destino es :nickname'
-  noSuchUser: No existe tal usuario
   changePlayerNameNotice: 'Por favor, introduce un nuevo nombre de jugador:'
   emptyPlayerName: El nombre del jugador no puede estar vacío.
   configurePlugin: Configurar
-  noPluginConfigNotice: El plugin ha sido deshabilitado o no se proporciona ninguna configuración.
   deletePlugin: Eliminar
   noDependencies: No hay dependencias
-  whyDependencies: '¿Qué es esto?'
-  statusEnabled: Habilitado
-  statusDisabled: Deshabilitado
   pluginTitle: Plugin
   pluginAuthor: Autor
   pluginVersion: Versión
-  pluginName: Nombre
   pluginReadme: Readme
   pluginDescription: Descripción
   pluginDependencies: Dependencias
@@ -235,11 +205,8 @@ admin:
   uploadArchiveNotice: Instalar un plugin subiendo un archivo zip.
   downloadRemote: Descargar desde remoto
   downloadRemoteNotice: Instalar un plugin descargando un archivo zip desde la URL remota.
-  noDependenciesNotice: >-
-    No hay ninguna definición de dependencia en el plugin. Significa que el plugin puede no ser compatible con la versión actual de Blessing Skin, y activarlo puede causar problemas inesperados. ¿Realmente desea activar el plugin?
   updateButton: Actualizar ahora
   downloading: Descargando...
-  updateCompleted: Actualización completada.
   i18n:
     group: Grupo
     key: Clave
@@ -253,13 +220,11 @@ report:
   tid: ID de textura
   reporter: Informante
   reason: Razón
-  status-title: Estado
   status:
     - Pendiente
     - Resuelto
     - Rechazado
   time: Hora de reporte
-  check: Detalles
   delete: Eliminar
   ban: Banear
   reject: Rechazar
@@ -274,8 +239,6 @@ general:
   close: Cerrar
   more: Más
   tip: Consejo
-  pagination: 'Página :page, total :total'
-  searchResult: '(Resultado de búsqueda de la palabra clave ":keyword")'
   noResult: Sin resultados.
   texturePreview: Preestreno de textura
   walk: Caminar
@@ -284,7 +247,6 @@ general:
   pause: Pausar
   reset: Restablecer
   skinlib: Colección de skins
-  loading: Cargando
   wait: Por favor, espere...
   csrf: Esta página está desactualizada. Por favor refrescar.
   user:
@@ -306,8 +268,5 @@ colors:
 vendor:
   datatable:
     search: Buscar
-    rowsPerPage: Filas por página
     prev: Anterior
     next: Siguiente
-    of: de
-    all: Todo

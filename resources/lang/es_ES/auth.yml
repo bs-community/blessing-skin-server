@@ -1,32 +1,21 @@
 ---
 login:
   title: Iniciar sesión
-  button: Iniciar
   message: Iniciar sesión para gestionar tu skin y jugadores
-  keep: Recuérdame
   success: Iniciado exitosamente.
 check:
   anonymous: Acceso ilegal. Favor iniciarse primero.
   verified: Debes verificar su correo electrónico para accesar esta página.
   admin: Sólo administradores están permitidos accesar esta página.
-  super-admin: Sólo súper administradores están permitidos accesar esta página.
   banned: Estás baneado. Favor contactar el administrador.
-  token: Token expirado. Favor iniciarse.
 register:
   title: Crear cuenta
-  button: Registrar
   message: '¡Bienvenidos a :sitename!'
-  nickname-intro: Lo que quiera excepto caracteres especiales
-  repeat-pwd: Repita su contraseña
-  close: No aceptamos cuentas nuevas.
   success: Su cuenta fue creada. Redirigiendo...
   max: No puede registrar más de :regs cuentas.
-  registered: La dirección de correo electrónico ya ha sido registrada.
 forgot:
   title: Olvidó la contraseña
-  button: Enviar
   message: Le enviaremos un correo electrónico para verificar.
-  login-link: Lo recuerdo
   disabled: El restablecimiento de contraseña no está disponible.
   frequent-mail: Haz hecho clic en el botón de enviar demasiado rápido. Espera unos minutos.
   unregistered: La dirección de correo electrónico no está registrada.
@@ -59,27 +48,15 @@ verify:
   message: '¡Bienvenidos a :sitename!'
   button: Inicio
   invalid: Enlace inválido.
-  expired: Este enlace ha caducado, por favor reenvíe un correo electrónico de verificación.
 validation:
-  identification: La dirección de correo electrónico o el nombre del jugador no son válidos.
-  email: Formato de email inválido.
-  captcha: CAPTCHA erróneo.
   user: No existe tal usuario.
   password: Contraseña incorrecta.
 logout:
   success: Ha cerrado su sesión.
-  fail: No hay sesión activa.
 oauth:
   authorization:
     title: Autorización
     introduction: Una aplicación de terceros ":name" está solicitando permiso para acceder a su cuenta.
     button: Autorizar
-nickname: Apodo
 email: Email
-identification: Email o nombre del jugador
-password: Contraseña
-captcha: CAPTCHA
-change-captcha: Haga clic para cambiar la imagen CAPTCHA.
-login-link: '¿Ya estás registrado? Inicia sesión aquí.'
-forgot-link: '¿Olvidó su contraseña?'
 register-link: Registrar una nueva cuenta

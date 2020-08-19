@@ -20,17 +20,10 @@ notifications:
   title: Titre
   content: Contenu (Markdown est supporté)
 users:
-  status:
-    normal: Normal
-    banned: Banni
-    admin: Administrateur
-    super-admin: Super administrateur
   operations:
     non-existent: Cet utilisateur n'existe pas.
     no-permission: Vous n'avez pas la permission de gérer cet utilisateur.
-    invalid: Action invalide.
     email:
-      existed: ':email existe.'
       success: Adresse e-mail changée avec succès.
     verification:
       success: Statut de vérification du compte activé avec succès.
@@ -42,30 +35,21 @@ users:
       success: Score changé avec succès.
     permission: Permission mise à jour.
     delete:
-      delete: Supprimer l'utilisateur
       success: Le compte a été supprimé avec succès.
-      cant-super-admin: Vous ne pouvez pas supprimer un super administrateur.
-      cant-admin: Vous ne pouvez pas supprimer un compte d'administrateur.
 players:
   no-permission: Vous n'avez pas la permission de gérer ce joueur.
-  operations:
-    title: Actions
   textures:
-    change: Changer les textures
     non-existent: Cette texture n'existes pas tid.:tid
     success: Les textures de :player ont été mises à jour.
   name:
     success: Le nom d'utilisateur à bien été mis à jour pour :player
   owner:
-    change: Changer de propriétaire
     success: Le joueur :player a été transféré vers l'utilisateur :user.
   delete:
-    delete: Supprimer
     success: Le joueur a été supprimé avec succès.
 customize:
   change-color:
     title: Changer la couleur du thème
-    success: Couleur du thème mise à jour.
   colors:
     navbar: Barre de navigation du haut
     sidebar:
@@ -105,12 +89,7 @@ status:
     prefix: Préfixe de table
   plugins: Plugins activés (:amount)
 plugins:
-  name: Nom
-  description: Description
-  author: Auteur
-  version: Version
   readme: Lisez-moi
-  dependencies: Dépendances
   operations:
     title: Actions
     enabled: ':plugin a été activé.'
@@ -129,7 +108,6 @@ plugins:
     connection-error: Impossible de se connecter au registre des plugins. :error
     non-existent: Le plugin :plugin n'existe pas.
     install-success: Plugin installé avec succès.
-  empty: Aucun résultat
 update:
   complete: Mise à jour terminée
   info:
@@ -148,9 +126,6 @@ update:
       Veuillez choisir la source de mise à jour en fonction de l'environnement réseau de votre hôte.
       La connexion à faible vitesse entre la source de mise à jour et votre hôte provoquera un chargement prolongé lors de la vérification et du téléchargement de la page.
       Pour modifier la source de mise à jour par défaut,
-  download:
-    downloading: Téléchargement du package de mise à jour...
-    size: "Taille du package :"
   errors:
     connection: "Impossible d'accéder à la source de la mise à jour actuelle. Détails : :error"
     spec: La source de la mise à jour actuelle n'est pas prise en charge.
@@ -160,5 +135,4 @@ download:
     download: 'Échec du téléchargement. Erreur : :error'
     shasum: Échec de la validation du fichier. Veuillez recommencer le telechargement.
     unzip: Impossible de dézipper les fichiers.
-report-reviewed: Ce rapport a été traité.
 invalid-action: Action invalide

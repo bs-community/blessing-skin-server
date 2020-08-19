@@ -1,66 +1,62 @@
 ---
 auth:
-  login: Log In
-  loggingIn: Logging In
+  login: 登錄
+  loggingIn: 正在登入
   tooManyFails:
-    captcha: You fails too many times! Please enter the CAPTCHA.
-    recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
-  emptyEmail: Empty email address.
-  invalidConfirmPwd: Confirming password is not equal with password.
-  emptyNickname: Empty nickname.
-  register: Register
-  registering: Registering
-  send: Send
-  sending: Sending
-  reset: Reset
-  resetting: Resetting
-  nickname: Nickname
-  player-name: Minecraft player name
-  email: Email
-  identification: Email or player name
-  password: Password
-  captcha: CAPTCHA
-  change-captcha: Click to change CAPTCHA image.
-  login-link: Already registered? Log in here.
-  forgot-link: Forgot password?
-  keep: Remember me
-  repeat-pwd: Repeat your password
-  nickname-intro: Whatever you like expect special characters
-  player-name-intro: Player name in Minecraft, can be changed later
-  register-button: Register
+    captcha: 嘗試次數過多，請輸入驗證碼。
+    recaptcha: 嘗試次數過多，請輸入驗證碼。
+  emptyEmail: 請輸入電子郵箱地址。
+  invalidConfirmPwd: 兩次輸入的密碼不一致。
+  emptyNickname: 請輸入昵稱。
+  register: 註冊帳號
+  registering: 送出註冊資料中...
+  send: 發送
+  sending: 發送中...
+  reset: 重置
+  resetting: 重置中
+  nickname: 昵稱
+  player-name: Minecraft 角色名
+  email: 電子郵件
+  identification: 電子郵件地址或玩家名
+  password: 密碼
+  captcha: CAPTCHA 驗證碼
+  change-captcha: 點擊以改變 CAPTCHA 驗證圖片
+  login-link: 已經註冊了？從這裡登錄。
+  forgot-link: 忘記密碼了？
+  keep: 記住我
+  repeat-pwd: 重複輸入密碼
+  nickname-intro: 除特殊字符外的任意内容
+  player-name-intro: Minecraft 的玩家名稱，以後可以更改
   forgot:
-    login-link: I do remember it
-    button: Send
-  reset-button: Reset
+    login-link: 我又想起來了。
 skinlib:
-  private: Private
-  anonymous: Please login first.
-  reset: Reset Filter
-  nowShowing: Now showing
-  addToCloset: Add to closet
-  removeFromCloset: Remove from closet
-  setItemName: Set a name for this texture
-  applyNotice: You can apply it to player at your closet
-  emptyItemName: Empty texture name.
-  setNewTextureName: 'Please enter the new texture name:'
-  emptyNewTextureName: Empty new texture name.
-  seeMyUpload: My Uploads
-  apply: Apply
+  private: 非公開
+  anonymous: 請先登錄
+  reset: 重置過濾器
+  addToCloset: 添加到“衣櫃“
+  removeFromCloset: 從“衣櫃”中移除
+  setItemName: 為這件材質設置名稱
+  applyNotice: 你可以在“衣櫃”中將這件材質設置到你的角色上。
+  emptyItemName: 請輸入材質名稱。
+  setNewTextureName: '請輸入新的材質名稱'
+  emptyNewTextureName: 請輸入新的材質名稱。
+  seeMyUpload: 我的上傳
+  apply: 應用
   filter:
-    skin: (Any Model)
-    steve: (Steve)
-    alex: (Alex)
-    cape: (Cape)
-    uploader: 'User (UID = :uid) Uploaded'
-    allUsers: All Users
+    skin: (任何模型)
+    steve: (史蒂夫)
+    alex: (艾利克斯)
+    cape: (披風)
+    uploader: '由用戶 (UID = :uid) 上傳'
+    allUsers: 所有用戶
   sort:
-    title: Sort
-    time: Latest
-    likes: Most Likes
-  emptyTextureName: Empty texture name.
+    title: 排序
+    time: 最新上傳
+    likes: 最多收藏
+  emptyTextureName: 請輸入材質名稱。
   emptyUploadFile: You have not uploaded any file.
-  fileExtError: 'Error: Textures should be PNG files.'
-  uploading: Uploading
+  fileExtError: '材質應該是 PNG 文件。'
+  uploading: 正在上傳
   setAsPrivate: Set as Private
   setAsPublic: Set as Public
   setPublicNotice: Sure to set this as public texture?
@@ -70,25 +66,23 @@ skinlib:
   upload:
     texture-name: Texture Name
     texture-type: Texture Type
-    select-file: Select File
+    select-file: 選取檔案
     privacy-notice: Prevent it from being visible at skin library.
     set-as-private: Make it Private
-    button: Upload
-    dropZone: Drop a file here
-    remove: Remove
+    button: 上傳
     cost: It costs you about :score score.
     award: You'll be awarded :score score(s) by uploading public texture.
   show:
     anonymous: You must login to use closets
     likes: People who like this
-    detail: Details
+    detail: 詳細資訊
     name: Texture Name
-    edit: Edit
+    edit: 編輯
     model: Applicable Model
-    size: File Size
+    size: 檔案大小
     uploader: Uploader
-    upload-at: Upload At
-    download: Download
+    upload-at: 上傳于
+    download: 下載
     delete-texture: Delete Texture
     manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
   report:
@@ -98,30 +92,27 @@ skinlib:
     negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
 user:
   signRemainingTime: 'Available after :time :unit'
-  timeUnitHour: h
-  timeUnitMin: min
+  timeUnitHour: 時
+  timeUnitMin: 分鐘
   emptyClosetMsg: >-
     <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
   renameItem: Rename item
   removeItem: Remove from closet
-  setAsAvatar: Set as avatar
+  setAsAvatar: 設爲頭像
   viewInSkinlib: View in skin library
   switch2dPreview: Switch to 2D Preview
   switch3dPreview: Switch to 3D Preview
   removeFromClosetNotice: Sure to remove this texture from your closet?
-  emptySelectedPlayer: No player is selected.
-  emptySelectedTexture: No texture is selected.
+  emptySelectedTexture: 未選擇任何材質。
   renameClosetItem: 'Set a new name for this item:'
   changePlayerName: 'Please enter the player name:'
   emptyPlayerName: Empty player name.
-  clearTexture: Sure to clear the skins & cape of this player?
   deletePlayer: Sure to delete this player?
   deletePlayerNotice: It's permanent. No backups.
   chooseClearTexture: Choose texture types you want to clear
   noClearChoice: You haven't choose any types
   setAvatar: Sure to set this as your avatar?
   setAvatarNotice: The head segment of skin will bu used.
-  resetAvatar: Reset Avatar
   resetAvatarConfirm: Are you sure to reset your avatar?
   typeToSearch: Type to search
   useAs: Apply...
@@ -131,7 +122,6 @@ user:
     use-as:
       title: Which player should be applied to?
       empty: It seems that you own no player...
-      add: Add new player
   used:
     title: Resources Used
     players: Registered players
@@ -139,19 +129,12 @@ user:
   cur-score: Current Score
   score-notice: Click the score to show introduction.
   sign: Sign
-  sign-success: Signed successfully. You got :score scores.
-  time-unit-hour: h
-  time-unit-min: min
-  last-sign: Last signed at :time
-  sign-remain-time: Available after :time :unit
   player:
-    edit: Edit
     operation: Operations
     edit-pname: Edit Name
     delete-texture: Clear Textures
     delete-player: Delete
     add-player: Add new player
-    player-info: Information <small>(click player name to show preview)</small>
     texture-empty: Nothing
   verification:
     title: Verify Your Account
@@ -170,10 +153,7 @@ user:
 admin:
   operationsTitle: Operations
   permission: Permission
-  playersCount: Players Count
   deleteUser: Delete
-  cannotDeleteAdmin: You can't delete admins.
-  cannotDeleteSuperAdmin: You can't delete super admin in this way
   changeEmail: Edit Email
   newUserEmail: 'Please enter the new email:'
   verification: Email Verification
@@ -187,8 +167,6 @@ admin:
   changePermission: Change permission
   newPermission: 'Please select new permission:'
   deleteUserNotice: Are you sure to delete this user? It' permanent.
-  inspectHisOwner: Click to inspect the owner of this player
-  inspectHisPlayers: Click to inspect the players he owns
   banned: Banned
   normal: Normal
   admin: Admin
@@ -197,7 +175,6 @@ admin:
   verified: Verified
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this player.
-  changePlayerTexture: 'Change textures of :player'
   changeTexture: Change Textures
   changePlayerName: Change Player Name
   changeOwner: Change Owner
@@ -205,21 +182,14 @@ admin:
   deletePlayer: Delete
   changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
   deletePlayerNotice: Are you sure to delete this player? It' permanent.
-  targetUser: 'Target user is :nickname'
-  noSuchUser: No such user
   changePlayerNameNotice: 'Please input new player name:'
   emptyPlayerName: Player name cannot be empty.
   configurePlugin: Configure
-  noPluginConfigNotice: The plugin has been disabled or no configuration is provided.
   deletePlugin: Delete
   noDependencies: No Dependencies
-  whyDependencies: What's this?
-  statusEnabled: Enabled
-  statusDisabled: Disabled
   pluginTitle: Plugin
   pluginAuthor: Author
   pluginVersion: Version
-  pluginName: Name
   pluginReadme: Read Me
   pluginDescription: Description
   pluginDependencies: Dependencies
@@ -235,11 +205,8 @@ admin:
   uploadArchiveNotice: Install a plugin by uploading a Zip archive.
   downloadRemote: Download From Remote
   downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
-  noDependenciesNotice: >-
-    There is no dependency definition in the plugin. It means that the plugin may be not compatible with the current version of Blessing Skin, and enabling it may cause unexpected problems. Do you really want to enable the plugin?
   updateButton: Update Now
   downloading: Downloading...
-  updateCompleted: Update completed.
   i18n:
     group: Group
     key: Key
@@ -253,13 +220,11 @@ report:
   tid: Texture ID
   reporter: Reporter
   reason: Reason
-  status-title: Status
   status:
     - Pending
     - Resolved
     - Rejected
   time: Report Time
-  check: Details
   delete: Delete
   ban: Ban
   reject: Reject
@@ -274,8 +239,6 @@ general:
   close: Close
   more: More
   tip: Tip
-  pagination: 'Page :page, total :total'
-  searchResult: '(Search result of keyword ":keyword")'
   noResult: No result.
   texturePreview: Texture Preview
   walk: Walk
@@ -284,7 +247,6 @@ general:
   pause: Pause
   reset: Reset
   skinlib: Skin Library
-  loading: Loading
   wait: Please wait...
   csrf: This page is out-dated. Please refresh it.
   user:
@@ -306,8 +268,5 @@ colors:
 vendor:
   datatable:
     search: Search
-    rowsPerPage: Rows per page
     prev: Prev
     next: Next
-    of: of
-    all: All

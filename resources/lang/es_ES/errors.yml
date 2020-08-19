@@ -16,7 +16,4 @@ exception:
     Ups, parece que algo salió mal. (habilita APP_DEBUG en .env para ver detalles)
 plugins:
   duplicate: El plugin [:dir1] tiene una definición de nombre de plugin duplicado que es igual al plugin [:dir2]. Por favor, comprueba tu directorio de plugins, elimina uno de ellos o usa otra definición de nombre.
-  directory: No podemos acercarnos a la ruta para cargar los plugins especificados por PLUGINS_DIR en el archivo .env. Por favor, compruebe su configuración. Error :msg
   boot: Hay algo mal con el plugin ":plugin".
-cipher:
-  unsupported: Método de hashing de contraseñas no soportado `:cipher`, por favor comprueba su configuración `.env`

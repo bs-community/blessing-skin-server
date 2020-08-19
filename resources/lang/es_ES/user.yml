@@ -1,11 +1,4 @@
 ---
-used:
-  title: Recursos usados
-  players: Jugadores registrados
-  storage: Almacenamiento usado
-cur-score: Puntuación actual
-score-notice: Haga clic en la puntuación para mostrar la introducción.
-sign: Firmar
 sign-success: Firmado con éxito. Obtuviste :score puntuaciones.
 announcement: Anuncio
 no-unread: No hay notificaciones nuevas.
@@ -35,37 +28,17 @@ score-intro:
     player: ':score puntajes = 1 jugador'
     closet: ':score puntajes = 1 elemento de armario'
 closet:
-  type-to-search: Escriba para buscar
-  switch-category: Cambiar categoría
-  view: Ver en la colección de skins
-  more: Más
-  set-avatar: Establecer como avatar
-  use-as:
-    button: Aplicar...
-    reset: Borrar seleccionado
-    title: '¿A qué jugador se debe aplicar?'
-    empty: Parece que no tienes jugador...
-    add: Añadir un nuevo jugador
   add:
     success: Añadido :name al armario con éxito.
     repeated: Ya has añadido esta textura.
     not-found: No podemos encontrar esta textura.
     lack-score: No tienes suficiente puntuación para añadirlo al armario.
   rename:
-    title: Renombrar elemento
     success: El elemento se renombró correctamente a :name
   remove:
-    title: Retirar de armario
     success: La textura se ha retirado del armario con éxito.
     non-existent: La textura no existe en su armario.
 player:
-  player-name: Nombre del jugador
-  edit: Editar
-  operation: Eliminar
-  edit-pname: Nombre del jugador
-  delete-texture: Texturas
-  delete-player: Jugador
-  add-player: Añadir nuevo jugador
   login-notice: Ahora puede iniciar su sesión con los nombres de jugadores que posees en el lugar de una dirección de correo electrónico.
   player-name-rule:
     official: El nombre del jugador sólo puede contener letras, números y guiones bajos.

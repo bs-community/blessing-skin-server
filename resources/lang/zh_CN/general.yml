@@ -33,14 +33,6 @@ download-update: 下载更新
 close: 关闭
 skin: 皮肤
 cape: 披风
-loading: 正在加载
-texture-preview: 材质预览
-walk: 行走
-run: 奔跑
-rotation: 旋转
-pause: 暂停
-reset: 重置
-more: 更多
 submit: 提交
 cancel: 取消
 yes: true
@@ -48,25 +40,19 @@ no: false
 op-success: 操作成功
 unknown: 未知
 notice: 提示
-switch-2d-preview: 切换 2D 预览
 illegal-parameters: 非法参数
 private: 私密
 public: 公开
 unexistent-user: 不存在的用户
-unexistent-player: 角色不存在
 player-banned: 该角色拥有者已被本站封禁
 texture-deleted: 请求的材质已被删除
-texture-not-uploaded: 该用户尚未上传请求的材质类型 :type
-operations: 操作
 user:
-  uid: 用户 ID
   email: 邮箱
   nickname: 昵称
   password: 密码
   score: 积分
   register-at: 注册时间
 player:
-  pid: 角色 ID
   owner: 拥有者
   player-name: 角色名
   previews: 预览材质

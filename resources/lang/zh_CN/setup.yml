@@ -1,34 +1,13 @@
 ---
 database:
   connection-error: "无法连接至 :type 服务器，请检查你的配置。服务器返回的信息：:msg"
-  connection-success: 连接到目标 :type 数据库 [:server] 成功，点击「下一步」开始安装。
-  table-already-exists: 检测到目标数据库中已存在如下数据表 :tables，它们与本程序即将创建的数据表名称冲突，为了避免原有数据被覆盖，请手动删除它们，或者为本程序选择一个不同的数据表前缀。
-file:
-  permission-error: textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。
-  no-dot-env: 找不到配置文件，请将 .env.example 重命名至 .env 并仔细阅读安装指南。
-permissions:
-  storage: 无法写入 storage 目录，请检查目录权限是否正确
-disabled-functions:
-  escapeshellarg: "你的主机提供商禁用了 escapeshellarg 函数，而此函数是本安装程序必须使用的。请联系你的主机提供商解决，或者参照这篇文章进行手动安装：http://t.cn/REzBZUe"
 locked:
   title: 已安装过
   text: Blessing Skin Server 看起来已经安装妥当。如果想重新安装，请删除 storage 目录下的 install.lock 文件。
   button: 返回首页
 updates:
-  master:
-    title: Blessing Skin Server 升级程序
-  welcome:
-    title: 还差一小步
-    text: |
-      欢迎升级至 Blessing Skin Server v:version！
-      我们需要升级你的数据库，点击下一步以继续。
-    button: 下一步
   success:
     title: 升级成功
-    text: 数据库升级成功，欢迎使用 Blessing Skin Server v:version！
-    tips: "升级提示："
-  changelog:
-    title: 更新日志
 wizard:
   master:
     title: Blessing Skin Server 安装程序
@@ -60,8 +39,6 @@ wizard:
     confirm-pwd: 重复密码
     site-name: 站点名称
     site-name-notice: 将会显示在首页以及标题栏
-    secure: 站点安全
-    secure-notice: 生成随机 APP_KEY 和 SALT 以保证安全
   finish:
     title: 安装成功！
     text: Blessing Skin Server 安装完成。你是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)

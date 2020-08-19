@@ -1,164 +1,138 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
-  texture-uploads: Texture Uploads
-  user-registration: User Registration
+  total-users: 已註冊用戶
+  total-players: 角色
+  total-textures: 已上載的材質
+  disk-usage: 磁碟利用情況
+  overview: 概覽
+  texture-uploads: 材質上載
+  user-registration: 使用者註冊
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: 發送通知
+    success: 發送成功
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
-    email: Specified Email
-  title: Title
-  content: Content (Markdown is supported.)
+    title: 接收人
+    all: 所有用戶
+    normal: 常規用戶
+    uid: 指定用戶 ID
+    email: 指定電子郵件地址
+  title: 標題
+  content: 內容（支援 Markdown 語法）
 users:
-  status:
-    normal: Normal
-    banned: Banned
-    admin: Admin
-    super-admin: Super Admin
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
-    invalid: Invalid action.
+    non-existent: 沒有這個用戶。
+    no-permission: 您沒有權限操作此用戶。
     email:
-      existed: ':email is existed.'
-      success: Email changed successfully.
+      success: 電子郵件地址變更成功。
     verification:
-      success: Account verification status toggled successfully.
+      success: 用戶電子郵件驗證狀態修改成功。
     nickname:
-      success: Nickname changed successfully.
+      success: 暱稱已成功修改。
     password:
-      success: Password changed successfully.
+      success: 密碼已成功修改。
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: 積分已成功修改。
+    permission: 權限已更新。
     delete:
-      delete: Delete User
-      success: The account has been deleted successfully.
-      cant-super-admin: You can't delete a super admin.
-      cant-admin: 你無法刪除管理員賬戶
+      success: 這個賬戶已成功刪除。
 players:
-  no-permission: You have no permission to operate this player.
-  operations:
-    title: Operations
+  no-permission: 您沒有權限操作此玩家。
   textures:
-    change: Change Textures
-    non-existent: No such texture tid.:tid
-    success: The textures of :player has been updated.
+    non-existent: 材質 tid :tid 不存在
+    success: 玩家 :player 的材質已更新。
   name:
-    success: Player name has been updated to :player
+    success: 玩家名稱已更新為 :player。
   owner:
-    change: Change Owner
-    success: The player :player was transferred to user :user.
+    success: 玩家 :player 的所有權已讓渡至用戶 :user。
   delete:
-    delete: Delete
-    success: The player has been deleted successfully.
+    success: 角色已成功刪除。
 customize:
   change-color:
-    title: Change Theme Color
-    success: Theme color updated.
+    title: 更換主題色
   colors:
-    navbar: Top Navigation Bar
+    navbar: 頂部導覽欄
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: 側邊欄（暗）
+      light: 側邊欄（亮）
 i18n:
-  add: Add New Language Line
-  added: Language line added.
-  updated: Language line updated.
-  deleted: Language line deleted.
-  group: Group
-  key: Key
-  text: Text
-  tip: How can I use this page?
+  add: 添加新語言文本
+  added: 語言文本已添加
+  updated: 語言文本已更新
+  deleted: 語言文本已刪除
+  group: 分組
+  key: 鍵
+  text: 文本
+  tip: 如何使用這個頁面？
 status:
-  info: Information
-  health: Health
+  info: 資訊
+  health: 運行狀態
   bs:
     name: Blessing Skin
-    version: Version
-    env: Application Environment
-    debug: Debugging or Not?
-    commit: Commit
-    laravel: Laravel Version
+    version: 版本號
+    env: 應用運行環境
+    debug: 是否處於除錯狀態？
+    commit: 提交
+    laravel: Laravel 版本號
   server:
-    name: Server
-    php: PHP Version
-    web: Web Server Software
-    os: OS
+    name: 伺服器
+    php: PHP 版本
+    web: 網站伺服器軟體
+    os: 作業系統
   db:
-    name: Database
-    type: Server
-    host: Host
-    port: Port
-    username: Username
-    database: Database
-    prefix: Table Prefix
-  plugins: Enabled Plugins (:amount)
+    name: 資料庫
+    type: 伺服器
+    host: 主機
+    port: 連接埠
+    username: 用戶名
+    database: 資料庫
+    prefix: 資料庫表前綴
+  plugins: 已啟用插件（：amount）
 plugins:
-  name: Name
-  description: Description
-  author: Author
-  version: Version
-  readme: Read Me
-  dependencies: Dependencies
+  readme: 自述
   operations:
-    title: Operations
-    enabled: ':plugin has been enabled.'
+    title: 操作
+    enabled: ':plugin 已被啓用'
     unsatisfied:
-      notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The ":name" plugin is not enabled.'
-      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
-      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
-    disabled: ':plugin has been disabled.'
-    deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
-    no-readme-notice: The plugin doesn't contain a readme file.
-    not-found: No such plugin.
+      notice: 插件中存在不成立的依賴關係，因此我們無法啟用它。請安裝或更新下述的所有插件，並禁用那些不可用的依賴關係。
+      disabled: '":name" 插件未啟用。'
+      version: '「:title」的版本不符合要求 ":constraint"'
+      conflict: '「:title」插件与此插件不能同时运行。'
+    disabled: ':plugin 已被禁用。'
+    deleted: 成功刪除插件。
+    no-config-notice: 插件未安裝或未提供配置頁。
+    no-readme-notice: 這個插件沒有說明文檔。
+    not-found: 沒有這樣的插件。
   market:
-    unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
-    connection-error: Unable to connect to the plugins registry. :error
-    non-existent: The plugin :plugin does not exist.
-    install-success: Plugin was installed.
-  empty: No result
+    unresolved: 插件中存在不成立的依賴關係，因此我們無法啟用它。請安裝或更新下述的所有插件，並禁用那些不可用的依賴關係。
+    connection-error: 无法鏈接到插件市场源，错误訊息：:error
+    non-existent: 插件 :plugin 不存在。
+    install-success: 插件已安裝。
 update:
-  complete: Update completed
+  complete: 更新完成。
   info:
-    title: Update Information
-    up-to-date: Already up-to-date.
-    available: New version available.
+    title: 更新訊息
+    up-to-date: 已經為最新版本。
+    available: 已有新的更新版本。
     versions:
-      latest: "Latest Version:"
-      current: "Current Version:"
-    check-github: Check GitHub Releases
-    button: Update Now
+      latest: "最新版本："
+      current: "當前版本："
+    check-github: 去查看 GitHub Releases
+    button: 立即更新
   cautions:
-    title: Cautions
-    link: check out this.
+    title: 警告
+    link: 点击來了解更多訊息。
     text: |
-      Please choose update source according to your host's network environment.
-      Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
-      To change the default update source,
-  download:
-    downloading: Downloading update package...
-    size: "Size of package:"
+      请根据你的伺服器所在位置（国内/国外）选择更新源。
+      如錯誤选至相对于你的伺服器速度较慢的源，可能会造成检查与下载更新页面长时间无响应。
+      如何更换更新源？
   errors:
-    connection: "Unable to access to current update source. Details: :error"
-    spec: Current update source is not supported.
-    php: Your PHP version is too low to update. Requires :version or later.
+    connection: "無法訪問當前更新源。 細節：:error"
+    spec: 不支援当前更新源。
+    php: PHP 版本过低，至少需要 :version。
 download:
   errors:
-    download: 'Failed to download. Error: :error'
-    shasum: File validation failed. Please download again.
-    unzip: Failed to unpack files.
-report-reviewed: This report has been processed.
-invalid-action: Invalid action
+    download: '下載失敗。原因：:error'
+    shasum: 文件驗證失敗。 請重新下載。
+    unzip: 解壓檔案失敗。
+invalid-action: 非法的操作

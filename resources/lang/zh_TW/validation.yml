@@ -15,7 +15,7 @@ between:
   string: ':attribute 必須介於 :min 至 :max 個字元之間。'
   array: ':attribute: 必須有 :min - :max 個元素。'
 boolean: ':attribute 必須為布林值。'
-captcha: 'Incorrect captcha.'
+captcha: '不正確的 captcha。'
 confirmed: ':attribute 確認欄位的輸入不一致。'
 date: ':attribute 不是有效的日期。'
 date_equals: ':attribute 必須等於 :date。'
@@ -75,7 +75,7 @@ not_regex: ':attribute 的格式錯誤。'
 numeric: ':attribute 必須為一個數字。'
 password: 密碼錯誤
 present: ':attribute 必須存在。'
-recaptcha: 'reCAPTCHA validation failed.'
+recaptcha: 'reCAPTCHA 認證失敗。'
 regex: ':attribute 的格式錯誤。'
 required: ':attribute 不能留空。'
 required_if: '當 :other 是 :value 時 :attribute 不能留空。'
@@ -114,8 +114,8 @@ uuid: ':attribute 必須是有效的 UUID。'
 #of "email". This simply helps us make messages a little cleaner.
 attributes:
   name: 名稱
-  player_name: player name
-  identification: email or player name
+  player_name: 玩家名稱
+  identification: 電子郵件地址或玩家名
   email: E-mail
   password: 密碼
   password_confirmation: '確認密碼'

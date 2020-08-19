@@ -1,32 +1,21 @@
 ---
 login:
   title: Se connecter
-  button: Se connecter
   message: Connectez-vous pour gérer vos skins et joueurs
-  keep: Se souvenir de moi
   success: Authentification réussie.
 check:
   anonymous: Accès illégal. Veuillez vous connecter d'abord.
   verified: Pour accéder à cette page, vous devez d'abord vérifier votre adresse e-mail.
   admin: Seuls les administrateurs ont la permission d'accéder à cette page.
-  super-admin: Seul le super administrateur a la permission d'accéder à cette page.
   banned: Vous êtes banni de ce site. Veuillez contacter l'administrateur.
-  token: Session expirée. Veuillez vous connecter à nouveau.
 register:
   title: S'inscrire
-  button: S'inscrire
   message: Bienvenue sur :sitename !
-  nickname-intro: Tout ce que vous voulez sauf des caractères spéciaux
-  repeat-pwd: Répétez votre mot de passe
-  close: Nous n'acceptons aucune inscription.
   success: Votre compte a été créé. Redirection...
   max: Vous ne pouvez pas créer plus de :regs comptes.
-  registered: L'adresse e-mail est déjà enregistrée.
 forgot:
   title: Mot de passe oublié ?
-  button: Envoyer
   message: Nous vous enverrons un e-mail de vérification.
-  login-link: Je m'en souviens
   disabled: La réinitialisation de mot de passe n'est pas disponible.
   frequent-mail: Vous avez cliqué trop rapidement sur le bouton d'envoi. Patientez quelques minutes.
   unregistered: L'adresse e-mail n'est pas enregistrée.
@@ -59,27 +48,15 @@ verify:
   message: Bienvenue sur :sitename !
   button: Page d'accueil
   invalid: Lien invalide.
-  expired: Ce lien a expiré, veuillez renvoyer un e-mail de vérification.
 validation:
-  identification: L'email ou le nom du joueur est invalide.
-  email: L'adresse email est invalide.
-  captcha: Mauvais CAPTCHA.
   user: Cet utilisateur n'existe pas.
   password: Mot de passe incorrect.
 logout:
   success: Vous êtes maintenant déconnecté.
-  fail: Aucune session valide.
 oauth:
   authorization:
     title: Autorisation
     introduction: Une application tierce ":name" demande l'autorisation d'accéder à votre compte.
     button: Autoriser
-nickname: Pseudonyme
 email: Adresse e-mail
-identification: Adresse e-mail ou nom du joueur
-password: Mot de passe
-captcha: CAPTCHA
-change-captcha: Cliquez pour changer l'image du CAPTCHA.
-login-link: Déjà inscrit? Connectez-vous ici.
-forgot-link: Mot de passe oublié ?
 register-link: Créer un nouveau compte

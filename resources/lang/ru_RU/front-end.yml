@@ -27,16 +27,12 @@ auth:
   repeat-pwd: Повторите ваш пароль
   nickname-intro: Всё, что вам угодно, кроме специальных символов
   player-name-intro: Имя игрока в Minecraft, может быть изменено позже
-  register-button: Регистрация
   forgot:
     login-link: Я помню это
-    button: Отправить
-  reset-button: Сброс
 skinlib:
   private: Приватный
   anonymous: Пожалуйста, войдите сначала.
   reset: Сбросить фильтр
-  nowShowing: Сейчас показывается
   addToCloset: Добавить в шкаф
   removeFromCloset: Удалить из шкафа
   setItemName: Установите имя для этой текстуры
@@ -74,8 +70,6 @@ skinlib:
     privacy-notice: Предотвратите его видимость в библиотеке скинов.
     set-as-private: Сделать его приватным
     button: Загрузить
-    dropZone: Перетащите файл сюда
-    remove: Удалить
     cost: Это будет стоить вам :score очков.
     award: Загрузив публичную текстуру, вас наградят :score оч.
   show:
@@ -109,19 +103,16 @@ user:
   switch2dPreview: Переключить предпросмотр в 2D режим
   switch3dPreview: Переключить предпросмотр в 3D режим
   removeFromClosetNotice: Удалить эту текстуру из шкафа?
-  emptySelectedPlayer: Игрок не выбран.
   emptySelectedTexture: Текстура не выбрана.
   renameClosetItem: 'Задать новое имя для этого элемента:'
   changePlayerName: 'Введите имя игрока:'
   emptyPlayerName: Пустое имя игрока.
-  clearTexture: Очистить скины и плащ этого игрока?
   deletePlayer: Удалить этого игрока?
   deletePlayerNotice: Это навсегда. Без резервных копий.
   chooseClearTexture: Выберите типы текстур, которые вы хотите очистить
   noClearChoice: Вы не выбрали ни одного типа
   setAvatar: Установить этот как ваш аватар?
   setAvatarNotice: Будет использован сегмент кожи головы.
-  resetAvatar: Сбросить аватар
   resetAvatarConfirm: Выполнить сброс вашего аватара?
   typeToSearch: Введите для поиска
   useAs: Применить...
@@ -131,7 +122,6 @@ user:
     use-as:
       title: К какому игроку следует применить?
       empty: Кажется, у вас нет игрока...
-      add: Добавить нового игрока
   used:
     title: Используемые ресурсы
     players: Зарегистрированные игроки
@@ -139,19 +129,12 @@ user:
   cur-score: 'Очки:'
   score-notice: Нажмите на очки для просмотра информации.
   sign: Отметиться
-  sign-success: Отметка успешна. Вы получили :score очков.
-  time-unit-hour: ч
-  time-unit-min: мин
-  last-sign: Последний вход в :time
-  sign-remain-time: Доступно после :time :unit
   player:
-    edit: Редактировать
     operation: Операции
     edit-pname: Изменить имя
     delete-texture: Очистить текстуры
     delete-player: Удалить
     add-player: Добавить нового игрока
-    player-info: Информация <small>(нажмите на имя игрока, чтобы показать предварительный просмотр)</small>
     texture-empty: Ничего
   verification:
     title: Подтвердите свой аккаунт
@@ -170,10 +153,7 @@ user:
 admin:
   operationsTitle: Operations
   permission: Permission
-  playersCount: Players Count
   deleteUser: Delete
-  cannotDeleteAdmin: You can't delete admins.
-  cannotDeleteSuperAdmin: You can't delete super admin in this way
   changeEmail: Edit Email
   newUserEmail: 'Please enter the new email:'
   verification: Email Verification
@@ -187,8 +167,6 @@ admin:
   changePermission: Change permission
   newPermission: 'Please select new permission:'
   deleteUserNotice: Are you sure to delete this user? It' permanent.
-  inspectHisOwner: Click to inspect the owner of this player
-  inspectHisPlayers: Click to inspect the players he owns
   banned: Banned
   normal: Normal
   admin: Admin
@@ -197,7 +175,6 @@ admin:
   verified: Verified
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this player.
-  changePlayerTexture: 'Change textures of :player'
   changeTexture: Изменить текстуры
   changePlayerName: Изменить имя игрока
   changeOwner: Изменить владельца
@@ -205,21 +182,14 @@ admin:
   deletePlayer: Удалить
   changePlayerOwner: 'Пожалуйста, введите идентификатор пользователя, которому этот игрок должен быть переведен:'
   deletePlayerNotice: Вы уверены, что хотите удалить этого игрока? Это навсегда.
-  targetUser: 'Целевой пользователь :nickname'
-  noSuchUser: Нет такого пользователя
   changePlayerNameNotice: 'Пожалуйста, введите новое имя игрока:'
   emptyPlayerName: Имя игрока не может быть пустым.
   configurePlugin: Настройка
-  noPluginConfigNotice: Плагин был отключен или конфигурация не предоставлена.
   deletePlugin: Удалить
   noDependencies: Нет зависимостей
-  whyDependencies: Что это?
-  statusEnabled: Включено
-  statusDisabled: Отключено
   pluginTitle: Плагин
   pluginAuthor: Автор
   pluginVersion: Версия
-  pluginName: Имя
   pluginReadme: Прочти меня
   pluginDescription: Описание
   pluginDependencies: Зависимости
@@ -235,11 +205,8 @@ admin:
   uploadArchiveNotice: Install a plugin by uploading a Zip archive.
   downloadRemote: Download From Remote
   downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
-  noDependenciesNotice: >-
-    В плагине нет определения зависимостей. Это означает, что плагин может быть несовместим с текущей версией Blessing Skin, и включение его может привести к неожиданным проблемам. Вы действительно хотите включить плагин?
   updateButton: Обновить сейчас
   downloading: Загрузка...
-  updateCompleted: Обновление завершено.
   i18n:
     group: Группа
     key: Ключ
@@ -253,13 +220,11 @@ report:
   tid: ID текстуры
   reporter: Жалуется
   reason: Причина
-  status-title: Статус
   status:
     - В ожидании
     - Resolved
     - Rejected
   time: Report Time
-  check: Details
   delete: Delete
   ban: Заблокировать
   reject: Отклонить
@@ -274,8 +239,6 @@ general:
   close: Закрыть
   more: Ещё
   tip: Совет
-  pagination: 'Страница :page, всего :total'
-  searchResult: '(Результат поиска по ключевому слову ":keyword")'
   noResult: По запросу ничего не найдено.
   texturePreview: Предпросмотр текстуры
   walk: Ходьба
@@ -284,7 +247,6 @@ general:
   pause: Приостановить
   reset: Сброс
   skinlib: Библиотека скинов
-  loading: Загрузка
   wait: Подождите...
   csrf: Страница устарела. Обновите её.
   user:
@@ -306,8 +268,5 @@ colors:
 vendor:
   datatable:
     search: Поиск
-    rowsPerPage: Строк на странице
     prev: Назад
     next: Вперед
-    of: из
-    all: Все

@@ -33,14 +33,6 @@ download-update: Télécharger les mises à jour
 close: Fermer
 skin: Skin
 cape: Cape
-loading: Chargement
-texture-preview: Aperçu de la texture
-walk: Marcher
-run: Courir
-rotation: Rotation
-pause: Pause
-reset: Réinitialiser
-more: Plus
 submit: Soumettre
 cancel: Annuler
 yes: true
@@ -48,25 +40,19 @@ no: false
 op-success: Opération terminée.
 unknown: Inconnu
 notice: Notice
-switch-2d-preview: Passer à l'aperçu 2D
 illegal-parameters: Paramètres illégaux.
 private: Privé
 public: Public
 unexistent-user: Cet utilisateur n'existe pas.
-unexistent-player: Ce joueur n'existe pas.
 player-banned: Le propriétaire de ce joueur a été banni.
 texture-deleted: La texture demandée a été supprimée.
-texture-not-uploaded: L'utilisateur n'a pas encore téléchargé la texture du modèle :type.
-operations: Opérations
 user:
-  uid: UID
   email: Adresse e-mail
   nickname: Pseudonyme
   password: Mot de passe
   score: Score
   register-at: Inscrit à
 player:
-  pid: PID
   owner: Propriétaire
   player-name: Nom du joueur
   previews: Aperçu de la texture

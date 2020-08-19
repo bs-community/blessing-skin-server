@@ -1,67 +1,44 @@
 ---
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
-  connection-success: Connect to the target :type database [:server] successfully, just click NEXT to start installation.
-  table-already-exists: There are some tables already exist in target database, whose names conflict with ones we are going to create. To avoid data loss, please manually delete these tables :tables, or set a different table prefix.
-file:
-  permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
-  no-dot-env: Unable to find environment configuration file. Please rename .env.example to .env (please refer to setup manual).
-permissions:
-  storage: Unable to write to storage directory, please check the permissions.
-disabled-functions:
-  escapeshellarg: "The escapeshellarg function is disabled in your php.ini configuration. Please contact your web hosting provider to enable it or perform the installation manually: http://t.cn/REzBZUe"
+  connection-error: "無法連接到目標 :type 數據庫，請檢查您的配置。伺服器返回的信息：:msg"
 locked:
-  title: Already installed
-  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
-  button: Back to homepage
+  title: 已安裝
+  text: 看來您已經安裝了 Blessing Skin Server。 要重新安裝，請刪除 storage 目錄下的 install.lock 文件。
+  button: 回到主頁
 updates:
-  master:
-    title: Update Wizard - Blessing Skin Server
-  welcome:
-    title: One more step
-    text: |
-      Welcome! You are going to update to Blessing Skin Server v:version.
-      We need to apply some updates to your database, click NEXT to continue.
-    button: Next
   success:
-    title: Update complete
-    text: Blessing Skin Server has been successfully updated to v:version.
-    tips: "Update Tips:"
-  changelog:
-    title: Release Note
+    title: 更新完成
 wizard:
   master:
-    title: Install Wizard - Blessing Skin Server
+    title: Blessing Skin Server 升级程式
   welcome:
-    title: Welcome
-    button: Next
-    text: Welcome to Blessing Skin Server v:version!
+    title: 歡迎使用
+    button: 下一步
+    text: 欢迎使用 Blessing Skin Server v:version！
   database:
-    title: Database
-    text: The database is used for storing data of Blessing Skin.
-    type: Database Type
-    host: Database Host
-    port: Database Port
-    username: Database Username
-    password: Database Password
-    db: Database Name
-    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
-    prefix: Prefix of Database Table (Optional)
-    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
+    title: 資料庫
+    text: 該數據庫用於存儲 Blessing Skin 的數據。
+    type: 數據庫類型
+    host: 數據庫伺服器地址
+    port: 數據庫伺服器端口
+    username: 數據庫用戶名
+    password: 數據庫密碼
+    db: 數據庫名称
+    db-notice: 如果您使用 SQLite，那麼您應該填寫 SQLite 數據庫文件的路徑，並且無需填寫其它信息。
+    prefix: 數據表前缀（可选）
+    prefix-notice: 除非要將多個 Blessing Skin 安裝到一個數據庫中，否則不需要填寫此選項。
   info:
-    title: Information needed
-    button: Run install
-    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
-    admin-email: Admin Email
-    admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
-    nickname: Nickname
-    password: Password
-    pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
-    confirm-pwd: Confirm password
-    site-name: Site name
-    site-name-notice: This will be shown on every page.
-    secure: Security
-    secure-notice: Generate random APP_KEY and SALT to make your site secured.
+    title: 填寫信息
+    button: 开始安装
+    text: 你需要填写一些基本訊息。无需担心填错，这些訊息以后可以再次修改。
+    admin-email: 管理員信箱
+    admin-notice: 這是唯一可以授予或取消其他用戶的管理員權限的超級管理員帳戶。
+    nickname: 昵稱
+    password: 密碼
+    pwd-notice: '注意：您將需要密碼才能登錄。請妥善保管。'
+    confirm-pwd: 確認密碼
+    site-name: 站點名称
+    site-name-notice: 將會顯示在首頁以及標題欄。
   finish:
-    title: Installation complete
-    text: Blessing Skin Server has been installed. Thank you, and enjoy!
+    title: 安裝完成
+    text: Blessing Skin Server 安装完成。你是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)
