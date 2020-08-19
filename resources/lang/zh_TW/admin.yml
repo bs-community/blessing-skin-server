@@ -107,7 +107,7 @@ plugins:
     unresolved: 插件中存在不成立的依賴關係，因此我們無法啟用它。請安裝或更新下述的所有插件，並禁用那些不可用的依賴關係。
     connection-error: 无法鏈接到插件市场源，错误訊息：:error
     non-existent: 插件 :plugin 不存在.
-    install-success: 插件未安裝
+    install-success: 插件已安裝。
 update:
   complete: 更新完成。
   info:
@@ -115,13 +115,13 @@ update:
     up-to-date: 已經為最新版本。
     available: 已有新的更新版本。
     versions:
-      latest: "最新版本:"
+      latest: "最新版本："
       current: "當前版本："
     check-github: 去查看 GitHub Releases
     button: 立即更新
   cautions:
     title: 警告
-    link: 点击來了解更多情報。
+    link: 点击來了解更多訊息。
     text: |
       请根据你的伺服器所在位置（国内/国外）选择更新源。
       如錯誤选至相对于你的伺服器速度较慢的源，可能会造成检查与下载更新页面长时间无响应。
