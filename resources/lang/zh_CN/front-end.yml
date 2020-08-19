@@ -27,16 +27,12 @@ auth:
   repeat-pwd: 重复密码
   nickname-intro: 昵称可使用汉字，不可包含特殊字符
   player-name-intro: 游戏内的角色名，注册后可修改
-  register-button: 注册
   forgot:
     login-link: 我又想起来了
-    button: 发送
-  reset-button: 重置
 skinlib:
   private: 私密
   anonymous: 请先登录
   reset: 清除筛选
-  nowShowing: 当前正显示
   addToCloset: 添加至衣柜
   removeFromCloset: 从衣柜中移除
   setItemName: 给你的皮肤起个名字吧~
@@ -74,8 +70,6 @@ skinlib:
     privacy-notice: 其他人将不会在皮肤库中看到此材质
     set-as-private: 设置为私密材质
     button: 确认上传
-    dropZone: 拖拽文件到这里
-    remove: 移除
     cost: 这会消耗您约 :score 积分。
     award: 上传公开材质至皮肤库可以获得 :score 积分奖励。
   show:
@@ -109,19 +103,16 @@ user:
   switch2dPreview: 切换 2D 预览
   switch3dPreview: 切换 3D 预览
   removeFromClosetNotice: 确定要从衣柜中移除此材质吗？
-  emptySelectedPlayer: 你还没有选择角色哦
   emptySelectedTexture: 你还没有选择要应用的材质哦
   renameClosetItem: '请输入此衣柜物品的新名称：'
   changePlayerName: '请输入角色名：'
   emptyPlayerName: 你还没有填写名称哦
-  clearTexture: 确定要重置该用户的皮肤/披风吗？
   deletePlayer: 真的要删除该玩家吗？
   deletePlayerNotice: 这将是永久性的删除
   chooseClearTexture: 选择要删除的材质类型
   noClearChoice: 您还没选择要删除的材质类型
   setAvatar: 确定要将此材质设置为用户头像吗？
   setAvatarNotice: 将会自动截取皮肤头部
-  resetAvatar: 重置头像
   resetAvatarConfirm: 确定要重置头像吗？
   typeToSearch: 输入即搜索
   useAs: 使用...
@@ -131,7 +122,6 @@ user:
     use-as:
       title: 要给哪个角色使用呢？
       empty: 你好像还没有添加任何角色哦
-      add: 添加角色
   used:
     title: 使用情况
     players: 角色数量
@@ -139,19 +129,12 @@ user:
   cur-score: 当前积分
   score-notice: 点击积分查看说明
   sign: 签到
-  sign-success: 签到成功，获得了 :score 积分~
-  time-unit-hour: 小时
-  time-unit-min: 分钟
-  last-sign: 上次签到于 :time
-  sign-remain-time: ':time :unit后可签到'
   player:
-    edit: 编辑
     operation: 操作
     edit-pname: 修改角色名
     delete-texture: 删除材质
     delete-player: 删除角色
     add-player: 添加新角色
-    player-info: 角色信息 <small>（点击角色名以查看预览）</small>
     texture-empty: 未上传
   verification:
     title: 验证你的邮箱地址
@@ -170,10 +153,7 @@ user:
 admin:
   operationsTitle: 更多操作
   permission: 权限
-  playersCount: 角色数量
   deleteUser: 删除
-  cannotDeleteAdmin: 你不能删除管理员账号哦
-  cannotDeleteSuperAdmin: 超级管理员账号不能被这样删除的啦
   changeEmail: 修改邮箱
   newUserEmail: '请输入新邮箱：'
   verification: 邮箱验证
@@ -187,8 +167,6 @@ admin:
   changePermission: 更改权限
   newPermission: '请选择新的权限：'
   deleteUserNotice: 真的要删除此用户吗？此操作不可恢复
-  inspectHisOwner: 点击查看该角色的所有者
-  inspectHisPlayers: 点击查看该用户的角色
   banned: 封禁
   normal: 普通用户
   admin: 管理员
@@ -197,7 +175,6 @@ admin:
   verified: 已验证
   pidNotice: >-
     输入要更换的材质的 ID，输入 0 即可清除该角色的材质
-  changePlayerTexture: '更换角色 :player 的材质'
   changeTexture: 更换材质
   changePlayerName: 更改角色名
   changeOwner: 更换角色拥有者
@@ -205,21 +182,14 @@ admin:
   deletePlayer: 删除
   changePlayerOwner: '请输入此角色要让渡至的用户 ID：'
   deletePlayerNotice: 真的要删除此角色吗？此操作不可恢复
-  targetUser: '目标用户：:nickname'
-  noSuchUser: 没有这个用户哦~
   changePlayerNameNotice: '请输入新的角色名：'
   emptyPlayerName: 您还没填写角色名呢
   configurePlugin: 配置
-  noPluginConfigNotice: 插件已被禁用或无配置页
   deletePlugin: 删除
   noDependencies: 无要求
-  whyDependencies: 为什么会这样？
-  statusEnabled: 已启用
-  statusDisabled: 已禁用
   pluginTitle: 插件
   pluginAuthor: 作者
   pluginVersion: 版本
-  pluginName: 插件标识
   pluginReadme: 说明
   pluginDescription: 描述
   pluginDependencies: 依赖关系
@@ -235,11 +205,8 @@ admin:
   uploadArchiveNotice: 通过上传 Zip 压缩包来安装插件。
   downloadRemote: 从远程下载
   downloadRemoteNotice: 通过远程 URL 来下载 Zip 压缩包并安装插件。
-  noDependenciesNotice: >-
-    此插件没有声明任何依赖关系，这代表它有可能并不兼容此版本的 Blessing Skin，请将此插件升级至可能的最新版本。强行启用可能导致无法预料的后果。你确定要启用此插件吗？
   updateButton: 马上升级
   downloading: 正在下载更新包
-  updateCompleted: 更新完成
   i18n:
     group: 分组
     key: 键
@@ -253,13 +220,11 @@ report:
   tid: 材质 ID
   reporter: 举报人
   reason: 举报原因
-  status-title: 状态
   status:
     - 正在处理
     - 处理完成
     - 已被拒绝
   time: 举报时间
-  check: 查看
   delete: 删除
   ban: 封禁
   reject: 拒绝举报
@@ -274,8 +239,6 @@ general:
   close: 关闭
   more: 更多
   tip: 提示
-  pagination: '第 :page 页，共 :total 页'
-  searchResult: '（关键词 “:keyword” 的搜索结果）'
   noResult: 无结果
   texturePreview: 材质预览
   walk: 行走
@@ -284,7 +247,6 @@ general:
   pause: 暂停
   reset: 重置
   skinlib: 皮肤库
-  loading: 正在加载
   wait: 请稍等...
   csrf: 页面已过期，请刷新页面。
   user:
@@ -306,8 +268,5 @@ colors:
 vendor:
   datatable:
     search: 搜索
-    rowsPerPage: 每页的项目数
     prev: 上一页
     next: 下一页
-    of: 共
-    all: 全部
