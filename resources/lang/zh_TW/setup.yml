@@ -3,7 +3,7 @@ database:
   connection-error: "無法連接到目標 :type 數據庫，請檢查您的配置。伺服器返回的信息：:msg"
 locked:
   title: 已安裝
-  text: Blessing Skin Server 看起来已经安装完成。如果想重新安装，请删除 storage 目录下的 install.lock 文件。
+  text: 看來您已經安裝了 Blessing Skin Server。 要重新安裝，請刪除 storage 目錄下的 install.lock 文件。
   button: 回到主頁
 updates:
   success:
@@ -17,28 +17,28 @@ wizard:
     text: 欢迎使用 Blessing Skin Server v:version！
   database:
     title: 資料庫
-    text: 您提供的数据库将用于存储 Blessing Skin 的数据
+    text: 該數據庫用於存儲 Blessing Skin 的數據。
     type: 數據庫類型
     host: 數據庫伺服器地址
     port: 數據庫伺服器端口
     username: 數據庫用戶名
     password: 數據庫密碼
     db: 數據庫名称
-    db-notice: 如果您使用 SQLite，那么您应该填写 SQLite 数据库文件的路径，并且无需填写其它信息
-    prefix: 数据表前缀（可选）
-    prefix-notice: 通常您不需要填写此项，除非您有向同一数据库安装多个 Blessing Skin 的需要
+    db-notice: 如果您使用 SQLite，那麼您應該填寫 SQLite 數據庫文件的路徑，並且無需填寫其它信息。
+    prefix: 數據表前缀（可选）
+    prefix-notice: 除非要將多個 Blessing Skin 安裝到一個數據庫中，否則不需要填寫此選項。
   info:
-    title: 填写信息
+    title: 填寫信息
     button: 开始安装
     text: 你需要填写一些基本訊息。无需担心填错，这些訊息以后可以再次修改。
     admin-email: 管理員信箱
-    admin-notice: 这是唯一的超级管理员账号，可添加或移除其他管理员。
+    admin-notice: 這是唯一可以授予或取消其他用戶的管理員權限的超級管理員帳戶。
     nickname: 昵稱
     password: 密碼
-    pwd-notice: '重要：你将需要此密码来登录管理皮肤站，请将其保存在安全的位置。'
+    pwd-notice: '注意：您將需要密碼才能登錄。請妥善保管。'
     confirm-pwd: 確認密碼
     site-name: 站點名称
-    site-name-notice: 将会显示在首页以及标题栏。
+    site-name-notice: 將會顯示在首頁以及標題欄。
   finish:
     title: 安裝完成
     text: Blessing Skin Server 安装完成。你是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)
