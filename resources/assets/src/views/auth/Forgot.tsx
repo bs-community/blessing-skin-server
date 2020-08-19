@@ -62,7 +62,7 @@ const Forgot: React.FC = () => {
               {t('auth.sending')}
             </>
           ) : (
-            t('auth.forgot.button')
+            t('auth.send')
           )}
         </button>
       </div>

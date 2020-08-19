@@ -26,17 +26,13 @@ auth:
   repeat-pwd: Repeat your password
   nickname-intro: Whatever you like expect special characters
   player-name-intro: Player name in Minecraft, can be changed later
-  register-button: Register
   forgot:
     login-link: I do remember it
-    button: Send
-  reset-button: Reset
 
 skinlib:
   private: Private
   anonymous: Please login first.
   reset: Reset Filter
-  nowShowing: Now showing
   addToCloset: Add to closet
   removeFromCloset: Remove from closet
   setItemName: Set a name for this texture
@@ -74,8 +70,6 @@ skinlib:
     privacy-notice: Prevent it from being visible at skin library.
     set-as-private: Make it Private
     button: Upload
-    dropZone: Drop a file here
-    remove: Remove
     cost: It costs you about :score score.
     award: You'll be awarded :score score(s) by uploading public texture.
   show:
@@ -111,19 +105,16 @@ user:
   switch2dPreview: Switch to 2D Preview
   switch3dPreview: Switch to 3D Preview
   removeFromClosetNotice: Sure to remove this texture from your closet?
-  emptySelectedPlayer: No player is selected.
   emptySelectedTexture: No texture is selected.
   renameClosetItem: 'Set a new name for this item:'
   changePlayerName: 'Please enter the player name:'
   emptyPlayerName: Empty player name.
-  clearTexture: Sure to clear the skins & cape of this player?
   deletePlayer: Sure to delete this player?
   deletePlayerNotice: It's permanent. No backups.
   chooseClearTexture: Choose texture types you want to clear
   noClearChoice: You haven't choose any types
   setAvatar: Sure to set this as your avatar?
   setAvatarNotice: The head segment of skin will bu used.
-  resetAvatar: Reset Avatar
   resetAvatarConfirm: Are you sure to reset your avatar?
   typeToSearch: Type to search
   useAs: Apply...
@@ -133,7 +124,6 @@ user:
     use-as:
       title: Which player should be applied to?
       empty: It seems that you own no player...
-      add: Add new player
   used:
     title: Resources Used
     players: Registered players
@@ -141,19 +131,12 @@ user:
   cur-score: Current Score
   score-notice: Click the score to show introduction.
   sign: Sign
-  sign-success: Signed successfully. You got :score scores.
-  time-unit-hour: h
-  time-unit-min: min
-  last-sign: Last signed at :time
-  sign-remain-time: Available after :time :unit
   player:
-    edit: Edit
     operation: Operations
     edit-pname: Edit Name
     delete-texture: Clear Textures
     delete-player: Delete
     add-player: Add new player
-    player-info: Information <small>(click player name to show preview)</small>
     texture-empty: Nothing
   verification:
     title: Verify Your Account
@@ -173,10 +156,7 @@ user:
 admin:
   operationsTitle: Operations
   permission: Permission
-  playersCount: Players Count
   deleteUser: Delete
-  cannotDeleteAdmin: You can't delete admins.
-  cannotDeleteSuperAdmin: You can't delete super admin in this way
   changeEmail: Edit Email
   newUserEmail: 'Please enter the new email:'
   verification: Email Verification
@@ -190,8 +170,6 @@ admin:
   changePermission: Change permission
   newPermission: 'Please select new permission:'
   deleteUserNotice: Are you sure to delete this user? It' permanent.
-  inspectHisOwner: Click to inspect the owner of this player
-  inspectHisPlayers: Click to inspect the players he owns
   banned: Banned
   normal: Normal
   admin: Admin
@@ -201,7 +179,6 @@ admin:
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this
     player.
-  changePlayerTexture: 'Change textures of :player'
   changeTexture: Change Textures
   changePlayerName: Change Player Name
   changeOwner: Change Owner
@@ -209,21 +186,14 @@ admin:
   deletePlayer: Delete
   changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
   deletePlayerNotice: Are you sure to delete this player? It' permanent.
-  targetUser: 'Target user is :nickname'
-  noSuchUser: No such user
   changePlayerNameNotice: 'Please input new player name:'
   emptyPlayerName: Player name cannot be empty.
   configurePlugin: Configure
-  noPluginConfigNotice: The plugin has been disabled or no configuration is provided.
   deletePlugin: Delete
   noDependencies: No Dependencies
-  whyDependencies: What's this?
-  statusEnabled: Enabled
-  statusDisabled: Disabled
   pluginTitle: Plugin
   pluginAuthor: Author
   pluginVersion: Version
-  pluginName: Name
   pluginReadme: Read Me
   pluginDescription: Description
   pluginDependencies: Dependencies
@@ -239,14 +209,8 @@ admin:
   uploadArchiveNotice: Install a plugin by uploading a Zip archive.
   downloadRemote: Download From Remote
   downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
-  noDependenciesNotice: >-
-    There is no dependency definition in the plugin. It means that the plugin
-    may be not compatible with the current version of Blessing Skin, and
-    enabling it may cause unexpected problems. Do you really want to enable the
-    plugin?
   updateButton: Update Now
   downloading: Downloading...
-  updateCompleted: Update completed.
   i18n:
     group: Group
     key: Key
@@ -261,13 +225,11 @@ report:
   tid: Texture ID
   reporter: Reporter
   reason: Reason
-  status-title: Status
   status:
     - Pending
     - Resolved
     - Rejected
   time: Report Time
-  check: Details
   delete: Delete
   ban: Ban
   reject: Reject
@@ -283,8 +245,6 @@ general:
   close: Close
   more: More
   tip: Tip
-  pagination: 'Page :page, total :total'
-  searchResult: '(Search result of keyword ":keyword")'
   noResult: No result.
   texturePreview: Texture Preview
   walk: Walk
@@ -293,7 +253,6 @@ general:
   pause: Pause
   reset: Reset
   skinlib: Skin Library
-  loading: Loading
   wait: Please wait...
   csrf: This page is out-dated. Please refresh it.
   user:
@@ -317,8 +276,5 @@ colors:
 vendor:
   datatable:
     search: Search
-    rowsPerPage: Rows per page
     prev: Prev
     next: Next
-    of: of
-    all: All

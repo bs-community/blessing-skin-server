@@ -19,7 +19,7 @@ describe('submit', () => {
     fireEvent.input(getByPlaceholderText(t('auth.captcha')), {
       target: { value: 'abc' },
     })
-    fireEvent.click(getByText(t('auth.forgot.button')))
+    fireEvent.click(getByText(t('auth.send')))
     await waitFor(() =>
       expect(fetch.post).toBeCalledWith(urls.auth.forgot(), {
         email: 'a@b.c',
@@ -40,7 +40,7 @@ describe('submit', () => {
     fireEvent.input(getByPlaceholderText(t('auth.captcha')), {
       target: { value: 'abc' },
     })
-    fireEvent.click(getByText(t('auth.forgot.button')))
+    fireEvent.click(getByText(t('auth.send')))
     await waitFor(() =>
       expect(fetch.post).toBeCalledWith(urls.auth.forgot(), {
         email: 'a@b.c',

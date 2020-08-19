@@ -25,10 +25,10 @@ export function remainingTimeText(remainingTime: number): string {
   return time < 60
     ? t('user.signRemainingTime', {
         time: ~~time,
-        unit: t('user.time-unit-min'),
+        unit: t('user.timeUnitMin'),
       })
     : t('user.signRemainingTime', {
         time: ~~(time / 60),
-        unit: t('user.time-unit-hour'),
+        unit: t('user.timeUnitHour'),
       })
 }

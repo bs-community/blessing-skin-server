@@ -15,7 +15,7 @@ test('confirmation is not matched', () => {
   fireEvent.input(getByPlaceholderText(t('auth.repeat-pwd')), {
     target: { value: 'password1' },
   })
-  fireEvent.click(getByText(t('auth.reset-button')))
+  fireEvent.click(getByText(t('auth.reset')))
 
   expect(queryByText(t('auth.invalidConfirmPwd'))).toBeInTheDocument()
   expect(fetch.post).not.toBeCalled()
@@ -33,7 +33,7 @@ test('succeeded', async () => {
   fireEvent.input(getByPlaceholderText(t('auth.repeat-pwd')), {
     target: { value: 'password' },
   })
-  fireEvent.click(getByText(t('auth.reset-button')))
+  fireEvent.click(getByText(t('auth.reset')))
   await waitFor(() =>
     expect(fetch.post).toBeCalledWith(
       location.href.replace(blessing.base_url, ''),
@@ -55,7 +55,7 @@ test('failed', async () => {
   fireEvent.input(getByPlaceholderText(t('auth.repeat-pwd')), {
     target: { value: 'password' },
   })
-  fireEvent.click(getByText(t('auth.reset-button')))
+  fireEvent.click(getByText(t('auth.reset')))
   await waitFor(() =>
     expect(fetch.post).toBeCalledWith(
       location.href.replace(blessing.base_url, ''),

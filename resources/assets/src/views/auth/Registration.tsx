@@ -164,7 +164,7 @@ const Registration: React.FC = () => {
               {t('auth.registering')}
             </>
           ) : (
-            t('auth.register-button')
+            t('auth.register')
           )}
         </button>
       </div>

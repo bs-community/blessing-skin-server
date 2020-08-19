@@ -31,7 +31,7 @@ test('confirmation is not matched', () => {
   fireEvent.input(getByPlaceholderText(t('auth.captcha')), {
     target: { value: 'a' },
   })
-  fireEvent.click(getByText(t('auth.register-button')))
+  fireEvent.click(getByText(t('auth.register')))
 
   expect(queryByText(t('auth.invalidConfirmPwd'))).toBeInTheDocument()
   expect(fetch.post).not.toBeCalled()
@@ -58,7 +58,7 @@ test('succeeded', async () => {
   fireEvent.input(getByPlaceholderText(t('auth.captcha')), {
     target: { value: 'a' },
   })
-  fireEvent.click(getByText(t('auth.register-button')))
+  fireEvent.click(getByText(t('auth.register')))
   await waitFor(() =>
     expect(fetch.post).toBeCalledWith(urls.auth.register(), {
       email: 'a@b.c',
@@ -93,7 +93,7 @@ test('failed', async () => {
   fireEvent.input(getByPlaceholderText(t('auth.captcha')), {
     target: { value: 'a' },
   })
-  fireEvent.click(getByText(t('auth.register-button')))
+  fireEvent.click(getByText(t('auth.register')))
   await waitFor(() =>
     expect(fetch.post).toBeCalledWith(urls.auth.register(), {
       email: 'a@b.c',
@@ -127,7 +127,7 @@ test('register with new player', async () => {
   fireEvent.input(getByPlaceholderText(t('auth.captcha')), {
     target: { value: 'a' },
   })
-  fireEvent.click(getByText(t('auth.register-button')))
+  fireEvent.click(getByText(t('auth.register')))
   await waitFor(() =>
     expect(fetch.post).toBeCalledWith(urls.auth.register(), {
       email: 'a@b.c',

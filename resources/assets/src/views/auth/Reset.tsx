@@ -99,7 +99,7 @@ const Reset: React.FC = () => {
             {t('auth.resetting')}
           </>
         ) : (
-          t('auth.reset-button')
+          t('auth.reset')
         )}
       </button>
     </form>
