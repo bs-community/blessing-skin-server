@@ -4,7 +4,6 @@ general:
 show:
   title: Detalles de textura
   deleted: La textura solicitada ya ha sido eliminada.
-  contact-admin: Póngase en contacto con los administradores para eliminar esta entrada.
   private: La textura solicitada es privada y sólo visible para el subidor y los administradores.
 upload:
   title: Subir textura
