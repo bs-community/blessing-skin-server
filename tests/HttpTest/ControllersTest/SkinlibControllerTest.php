@@ -210,6 +210,10 @@ class SkinlibControllerTest extends TestCase
 
     public function testInfo()
     {
+        $this->get(route('texture.info', ['texture' => 0]))
+            ->assertNotFound()
+            ->assertSee(trans('skinlib.non-existent'));
+
         $texture = factory(Texture::class)->create();
         $this->get(route('texture.info', ['texture' => $texture]))
             ->assertJson($texture->toArray());

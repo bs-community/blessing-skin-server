@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -16,11 +17,23 @@ class Handler extends ExceptionHandler
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Validation\ValidationException::class,
         \Illuminate\Session\TokenMismatchException::class,
+        ModelNotFoundException::class,
         PrettyPageException::class,
     ];
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof ModelNotFoundException) {
+            $model = $exception->getModel();
+            if (Str::endsWith($model, 'Texture')) {
+                $exception = new ModelNotFoundException(trans('skinlib.non-existent'));
+            }
+        }
+
+        return parent::render($request, $exception);
+    }
 
     protected function convertExceptionToArray(Throwable $e)
     {
