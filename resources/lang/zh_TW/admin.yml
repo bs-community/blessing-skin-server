@@ -97,16 +97,16 @@ plugins:
       notice: 插件中存在不成立的依賴關係，因此我們無法啟用它。請安裝或更新下述的所有插件，並禁用那些不可用的依賴關係。
       disabled: '":name" 插件未啟用。'
       version: '「:title」的版本不符合要求 ":constraint"'
-      conflict: '「:title」插件与此插件不能同时运行'
-    disabled: ':plugin 已被禁用.'
-    deleted: 插件成功刪除。
+      conflict: '「:title」插件与此插件不能同时运行。'
+    disabled: ':plugin 已被禁用。'
+    deleted: 成功刪除插件。
     no-config-notice: 插件未安裝或未提供配置頁。
     no-readme-notice: 這個插件沒有說明文檔。
-    not-found: 此插件不存在。
+    not-found: 沒有這樣的插件。
   market:
     unresolved: 插件中存在不成立的依賴關係，因此我們無法啟用它。請安裝或更新下述的所有插件，並禁用那些不可用的依賴關係。
     connection-error: 无法鏈接到插件市场源，错误訊息：:error
-    non-existent: 插件 :plugin 不存在.
+    non-existent: 插件 :plugin 不存在。
     install-success: 插件已安裝。
 update:
   complete: 更新完成。
@@ -127,12 +127,12 @@ update:
       如錯誤选至相对于你的伺服器速度较慢的源，可能会造成检查与下载更新页面长时间无响应。
       如何更换更新源？
   errors:
-    connection: "无法访问当前更新源。详细信息：:error"
+    connection: "無法訪問當前更新源。 細節：:error"
     spec: 不支援当前更新源。
     php: PHP 版本过低，至少需要 :version。
 download:
   errors:
-    download: '下载失败。原因：:error'
-    shasum: 文件校验失败，请重新下载。
+    download: '下載失敗。原因：:error'
+    shasum: 文件驗證失敗。 請重新下載。
     unzip: 解壓檔案失敗。
 invalid-action: 非法的操作
