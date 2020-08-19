@@ -317,7 +317,7 @@ class PlayerControllerTest extends TestCase
         $player = factory(Player::class)->create();
         $user = $player->user;
         $skin = factory(Texture::class)->create();
-        $cape = factory(Texture::class)->states('cape')->create();
+        $cape = factory(Texture::class)->state('cape')->create();
 
         // rejected
         $filter = Fakes\Filter::fake();
@@ -333,15 +333,26 @@ class PlayerControllerTest extends TestCase
             ->assertJson(['code' => 1, 'message' => 'rejected']);
         $filter->remove('can_set_texture');
 
-        // Set a not-existed texture
+        // set a not-existed texture
         $this->putJson(route('user.player.set', ['player' => $player]), ['skin' => -1])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('skinlib.non-existent'),
             ]);
 
-        // Set for "skin" type
+        // set a private texture
+        $private = factory(Texture::class)->state('private')->create();
+        $this->putJson(
+                route('user.player.set', ['player' => $player]),
+                ['skin' => $private->tid]
+            )->assertJson([
+                'code' => 1,
+                'message' => trans('user.closet.remove.non-existent'),
+            ]);
+
+        // set for "skin" type
         Event::fake();
+        $user->closet()->attach($skin->tid, ['item_name' => $skin->name]);
         $this->putJson(
             route('user.player.set', ['player' => $player]),
             ['skin' => $skin->tid]
@@ -370,8 +381,9 @@ class PlayerControllerTest extends TestCase
             }
         );
 
-        // Set for "cape" type
+        // set for "cape" type
         Event::fake();
+        $user->closet()->attach($cape->tid, ['item_name' => $cape->name]);
         $this->putJson(
             route('user.player.set', ['player' => $player]),
             ['cape' => $cape->tid]

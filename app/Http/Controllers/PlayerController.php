@@ -196,6 +196,9 @@ class PlayerController extends Controller
         Filter $filter,
         Player $player
     ) {
+        /** @var User */
+        $user = auth()->user();
+
         foreach (['skin', 'cape'] as $type) {
             $tid = $request->input($type);
 
@@ -206,8 +209,12 @@ class PlayerController extends Controller
 
             if ($tid) {
                 $texture = Texture::find($tid);
-                if (!$texture) {
+                if (empty($texture)) {
                     return json(trans('skinlib.non-existent'), 1);
+                }
+
+                if ($user->closet()->where('texture_tid', $tid)->doesntExist()) {
+                    return json(trans('user.closet.remove.non-existent'), 1);
                 }
 
                 $dispatcher->dispatch('player.texture.updating', [$player, $texture]);
