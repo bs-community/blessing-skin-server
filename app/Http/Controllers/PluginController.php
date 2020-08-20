@@ -8,7 +8,7 @@ use App\Services\Unzip;
 use Composer\CaBundle\CaBundle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Parsedown;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class PluginController extends Controller
 {
@@ -42,8 +42,8 @@ class PluginController extends Controller
 
         $title = trans($plugin->title);
         $path = $plugin->getPath().'/'.$readmePath;
-        $parsedown = new Parsedown();
-        $content = $parsedown->text(file_get_contents($path));
+        $converter = new GithubFlavoredMarkdownConverter();
+        $content = $converter->convertToHtml(file_get_contents($path));
 
         return view('admin.plugin.readme', compact('content', 'title'));
     }

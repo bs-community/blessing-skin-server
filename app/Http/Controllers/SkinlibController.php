@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
-use Parsedown;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Storage;
 
 class SkinlibController extends Controller
@@ -169,7 +169,7 @@ class SkinlibController extends Controller
         ];
         $grid = $filter->apply('grid:skinlib.upload', $grid);
 
-        $parsedown = new Parsedown();
+        $converter = new GithubFlavoredMarkdownConverter();
 
         return view('skinlib.upload')
             ->with('grid', $grid)
@@ -186,7 +186,7 @@ class SkinlibController extends Controller
                 'scorePrivate' => (int) option('private_score_per_storage'),
                 'closetItemCost' => (int) option('score_per_closet_item'),
                 'award' => (int) option('score_award_per_texture'),
-                'contentPolicy' => $parsedown->text(option_localized('content_policy')),
+                'contentPolicy' => $converter->convertToHtml(option_localized('content_policy')),
             ]);
     }
 

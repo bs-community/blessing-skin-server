@@ -5,7 +5,7 @@ namespace Tests;
 use App\Models\User;
 use App\Notifications;
 use Illuminate\Support\Facades\Notification;
-use Parsedown;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class NotificationsControllerTest extends TestCase
 {
@@ -114,10 +114,11 @@ class NotificationsControllerTest extends TestCase
 
         $this->actingAs($user)->get('/user')->assertSee('Hyouka');
 
+        $converter = new GithubFlavoredMarkdownConverter();
         $this->postJson('/user/notifications/'.$notification->id)
             ->assertJson([
                 'title' => $notification->data['title'],
-                'content' => (new Parsedown())->text($notification->data['content']),
+                'content' => $converter->convertToHtml($notification->data['content']),
                 'time' => $notification->created_at->toDateTimeString(),
             ]);
         $notification->refresh();

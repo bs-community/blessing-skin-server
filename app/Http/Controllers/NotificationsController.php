@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Notifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
-use Parsedown;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class NotificationsController extends Controller
 {
@@ -63,11 +63,11 @@ class NotificationsController extends Controller
             });
         $notification->markAsRead();
 
-        $parsedown = new Parsedown();
+        $converter = new GithubFlavoredMarkdownConverter();
 
         return [
             'title' => $notification->data['title'],
-            'content' => $parsedown->text($notification->data['content']),
+            'content' => $converter->convertToHtml($notification->data['content']),
             'time' => $notification->created_at->toDateTimeString(),
         ];
     }

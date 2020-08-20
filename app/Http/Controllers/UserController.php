@@ -12,8 +12,8 @@ use Blessing\Rejection;
 use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Mail;
-use Parsedown;
 use Session;
 use URL;
 
@@ -58,7 +58,7 @@ class UserController extends Controller
         ];
         $grid = $filter->apply('grid:user.index', $grid);
 
-        $parsedown = new Parsedown();
+        $converter = new GithubFlavoredMarkdownConverter();
 
         return view('user.index')->with([
             'score_intro' => $scoreIntro,
@@ -67,7 +67,7 @@ class UserController extends Controller
                 'player' => option('score_per_player'),
                 'closet' => option('score_per_closet_item'),
             ],
-            'announcement' => $parsedown->text(option_localized('announcement')),
+            'announcement' => $converter->convertToHtml(option_localized('announcement')),
             'grid' => $grid,
             'extra' => ['unverified' => option('require_verification') && !$user->verified],
         ]);

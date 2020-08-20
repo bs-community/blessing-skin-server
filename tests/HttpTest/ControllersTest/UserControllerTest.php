@@ -13,7 +13,7 @@ use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Parsedown;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class UserControllerTest extends TestCase
 {
@@ -35,7 +35,8 @@ class UserControllerTest extends TestCase
         $uid = $user->uid;
         factory(\App\Models\Player::class)->create(['uid' => $uid]);
 
-        $announcement = (new Parsedown())->text(option_localized('announcement'));
+        $converter = new GithubFlavoredMarkdownConverter();
+        $announcement = $converter->convertToHtml(option_localized('announcement'));
         $this->actingAs($user)
             ->get('/user')
             ->assertSee($announcement, false);
