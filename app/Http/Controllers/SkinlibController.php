@@ -34,6 +34,26 @@ class SkinlibController extends Controller
 
             return $next($request);
         })->only(['rename', 'privacy', 'type', 'delete']);
+
+        $this->middleware(function (Request $request, $next) {
+            /** @var User */
+            $user = $request->user();
+            /** @var Texture */
+            $texture = $request->route('texture');
+
+            if (!$texture->public) {
+                if (!Auth::check() || ($user->uid != $texture->uploader && !$user->isAdmin())) {
+                    $statusCode = (int) option('status_code_for_private');
+                    if ($statusCode === 404) {
+                        abort($statusCode, trans('skinlib.show.deleted'));
+                    } else {
+                        abort(403, trans('skinlib.show.private'));
+                    }
+                }
+            }
+
+            return $next($request);
+        })->only(['show', 'info']);
     }
 
     public function library(Request $request)
@@ -89,17 +109,6 @@ class SkinlibController extends Controller
                 $texture->delete();
             }
             abort(404, trans('skinlib.show.deleted'));
-        }
-
-        if (!$texture->public) {
-            if (!Auth::check() || ($user->uid != $texture->uploader && !$user->isAdmin())) {
-                $statusCode = (int) option('status_code_for_private');
-                if ($statusCode === 404) {
-                    abort($statusCode, trans('skinlib.show.deleted'));
-                } else {
-                    abort(403, trans('skinlib.show.private'));
-                }
-            }
         }
 
         $badges = [];
