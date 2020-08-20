@@ -329,6 +329,14 @@ class UserController extends Controller
                 return json(trans('user.profile.avatar.wrong-type'), 1);
             }
 
+            if (
+                !$texture->public &&
+                $user->uid !== $texture->uploader &&
+                !$user->isAdmin()
+            ) {
+                return json(trans('skinlib.show.private'), 1);
+            }
+
             $user->avatar = $tid;
             $user->save();
 

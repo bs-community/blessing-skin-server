@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Events;
 use App\Mail\EmailVerification;
+use App\Models\Texture;
 use App\Models\User;
 use Blessing\Filter;
 use Blessing\Rejection;
@@ -507,20 +508,20 @@ class UserControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
         $uid = $user->uid;
-        $steve = factory(\App\Models\Texture::class)->create();
-        $cape = factory(\App\Models\Texture::class)->states('cape')->create();
+        $steve = factory(Texture::class)->create();
+        $cape = factory(Texture::class)->states('cape')->create();
 
-        // Without `tid` field
+        // without `tid` field
         $this->actingAs($user)
             ->postJson('/user/profile/avatar')
             ->assertJsonValidationErrors('tid');
 
-        // TID is not a integer
+        // `tid` is not a integer
         $this->actingAs($user)
             ->postJson('/user/profile/avatar', ['tid' => 'string'])
             ->assertJsonValidationErrors('tid');
 
-        // Texture cannot be found
+        // texture cannot be found
         $this->actingAs($user)
             ->postJson('/user/profile/avatar', ['tid' => -1])
             ->assertJson([
@@ -528,7 +529,7 @@ class UserControllerTest extends TestCase
                 'message' => trans('skinlib.non-existent'),
             ]);
 
-        // Use cape
+        // use cape
         $this->actingAs($user)
             ->postJson('/user/profile/avatar', ['tid' => $cape->tid])
             ->assertJson([
@@ -536,7 +537,16 @@ class UserControllerTest extends TestCase
                 'message' => trans('user.profile.avatar.wrong-type'),
             ]);
 
-        // Success
+        // use private texture
+        $private = factory(Texture::class)->state('private')->create();
+        $this->actingAs($user)
+            ->postJson('/user/profile/avatar', ['tid' => $private->tid])
+            ->assertJson([
+                'code' => 1,
+                'message' => trans('skinlib.show.private'),
+            ]);
+
+        // success
         Event::fake();
         $this->actingAs($user)
             ->postJson('/user/profile/avatar', ['tid' => $steve->tid])
@@ -566,7 +576,7 @@ class UserControllerTest extends TestCase
             }
         );
 
-        // Reset avatar
+        // reset avatar
         Event::fake();
         $this->postJson('/user/profile/avatar', ['tid' => 0])
             ->assertJson(['code' => 0]);
@@ -582,7 +592,7 @@ class UserControllerTest extends TestCase
             }
         );
 
-        // Rejected by filter
+        // rejected by filter
         $filter = resolve(Filter::class);
         $filter->add('user_can_update_avatar', function ($can, $user, $tid) use ($uid, $steve) {
             $this->assertEquals($uid, $user->uid);
