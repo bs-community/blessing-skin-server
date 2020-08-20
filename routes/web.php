@@ -103,7 +103,7 @@ Route::prefix('texture')->name('texture.')->group(function () {
 Route::prefix('skinlib')->name('skinlib.')->group(function () {
     Route::view('', 'skinlib.index')->name('home');
     Route::get('info/{texture}', 'SkinlibController@info')->name('info');
-    Route::get('show/{tid}', 'SkinlibController@show')->name('show');
+    Route::get('show/{texture}', 'SkinlibController@show')->name('show');
     Route::get('list', 'SkinlibController@library')->name('list');
 
     Route::middleware(['authorize', 'verified'])->group(function () {

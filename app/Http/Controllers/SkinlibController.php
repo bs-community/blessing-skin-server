@@ -77,21 +77,16 @@ class SkinlibController extends Controller
             ->paginate(20);
     }
 
-    public function show(Filter $filter, $tid)
+    public function show(Filter $filter, Texture $texture)
     {
-        $texture = Texture::find($tid);
         /** @var User */
         $user = Auth::user();
         /** @var FilesystemAdapter */
         $disk = Storage::disk('textures');
 
-        if (!$texture || $texture && $disk->missing($texture->hash)) {
+        if ($disk->missing($texture->hash)) {
             if (option('auto_del_invalid_texture')) {
-                if ($texture) {
-                    $texture->delete();
-                }
-
-                abort(404, trans('skinlib.show.deleted'));
+                $texture->delete();
             }
             abort(404, trans('skinlib.show.deleted'));
         }

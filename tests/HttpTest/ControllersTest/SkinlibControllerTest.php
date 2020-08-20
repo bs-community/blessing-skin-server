@@ -136,10 +136,6 @@ class SkinlibControllerTest extends TestCase
         Storage::fake('textures');
         $filter = Fakes\Filter::fake();
 
-        // Cannot find texture
-        $this->get('/skinlib/show/1')
-            ->assertSee(trans('skinlib.show.deleted'));
-
         // Invalid texture
         option(['auto_del_invalid_texture' => false]);
         $texture = factory(Texture::class)->create();
