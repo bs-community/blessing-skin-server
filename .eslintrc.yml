@@ -22,3 +22,4 @@ rules:
   '@typescript-eslint/no-misused-promises':
     - off
     - checksVoidReturn: false
+  '@typescript-eslint/unbound-method': off

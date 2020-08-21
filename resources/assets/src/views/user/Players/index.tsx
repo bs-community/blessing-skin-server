@@ -102,7 +102,7 @@ const Players: React.FC = () => {
       search.append('cape', 'true')
     }
     const { code, message } = await fetch.del<fetch.ResponseBody>(
-      `${urls.user.player.clear(selected)}?${search}`,
+      `${urls.user.player.clear(selected)}?${search.toString()}`,
     )
     if (code === 0) {
       toast.success(message)
@@ -159,7 +159,7 @@ const Players: React.FC = () => {
   const closeModalReset = () => setShowModalReset(false)
 
   return (
-    <React.Fragment>
+    <>
       <div className="card">
         <div className="card-header">
           <input
@@ -229,7 +229,7 @@ const Players: React.FC = () => {
         onSubmit={resetTexture}
         onClose={closeModalReset}
       />
-    </React.Fragment>
+    </>
   )
 }
 

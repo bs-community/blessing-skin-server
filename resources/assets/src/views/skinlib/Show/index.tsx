@@ -260,7 +260,7 @@ const Show: React.FC = () => {
   const textureUrl = `${blessing.base_url}/textures/${texture.hash}`
 
   return (
-    <React.Fragment>
+    <>
       {container &&
         createPortal(
           <React.Suspense fallback={<ViewerSkeleton />}>
@@ -356,7 +356,7 @@ const Show: React.FC = () => {
                   <Skeleton />
                 </div>
               ) : (
-                <React.Fragment>
+                <>
                   <div className="col-7 text-truncate" title={texture.name}>
                     {texture.name}
                   </div>
@@ -368,7 +368,7 @@ const Show: React.FC = () => {
                       />
                     </div>
                   )}
-                </React.Fragment>
+                </>
               )}
             </div>
             <div className="row my-4">
@@ -378,7 +378,7 @@ const Show: React.FC = () => {
                   <Skeleton />
                 </div>
               ) : (
-                <React.Fragment>
+                <>
                   <div className="col-7">
                     {texture.type === TextureType.Cape
                       ? t('general.cape')
@@ -392,7 +392,7 @@ const Show: React.FC = () => {
                       />
                     </div>
                   )}
-                </React.Fragment>
+                </>
               )}
             </div>
             <div className="row my-4">
@@ -416,7 +416,7 @@ const Show: React.FC = () => {
                 {isLoading ? (
                   <Skeleton />
                 ) : isUploaderExists ? (
-                  <React.Fragment>
+                  <>
                     <div>
                       <a href={linkToUploader} target="_blank">
                         {nickname}
@@ -432,7 +432,7 @@ const Show: React.FC = () => {
                         </span>
                       ))}
                     </div>
-                  </React.Fragment>
+                  </>
                 ) : (
                   nickname
                 )}
@@ -482,7 +482,7 @@ const Show: React.FC = () => {
         }}
         onClose={handleCloseModalApply}
       />
-    </React.Fragment>
+    </>
   )
 }
 
