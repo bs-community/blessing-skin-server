@@ -12,30 +12,30 @@ notifications:
     title: 알림 보내기
     success: 성공적으로 전송되었습니다!
   receiver:
-    title: Receiver
+    title: 받는 수량
     all: 모든 사용자
     normal: 일반 유저
     uid: 지정된 UID
     email: 지정된 이메일
   title: 제목
-  content: Content (Markdown is supported.)
+  content: 내용(Markdown 지원)
 users:
   operations:
     non-existent: 그런 사용자가 없습니다.
-    no-permission: You have no permission to operate this user.
+    no-permission: 권한이 없습니다.
     email:
-      success: Email changed successfully.
+      success: 성공적으로 이메일 주소가 변경되었습니다
     verification:
       success: Account verification status toggled successfully.
     nickname:
-      success: Nickname changed successfully.
+      success: 닉네임이 성공적으로 변경되었습니다.
     password:
-      success: Password changed successfully.
+      success: 비밀번호 변경에 성공했습니다
     score:
       success: Score changed successfully.
-    permission: Permission updated.
+    permission: 권한이 업데이트 되었습니다!
     delete:
-      success: The account has been deleted successfully.
+      success: 계정이 성공적으로 삭제되었습니다.
 players:
   no-permission: You have no permission to operate this player.
   textures:
