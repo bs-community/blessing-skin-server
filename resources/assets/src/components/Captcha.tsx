@@ -15,11 +15,11 @@ type State = {
   invisible: boolean
 }
 
-class Captcha extends React.Component<null, State> {
+class Captcha extends React.Component<Record<string, unknown>, State> {
   state: State
   ref: React.MutableRefObject<Reaptcha | null>
 
-  constructor(props: null) {
+  constructor(props: Record<string, unknown>) {
     super(props)
     this.state = {
       value: '',
