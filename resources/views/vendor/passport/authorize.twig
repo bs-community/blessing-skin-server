@@ -9,7 +9,7 @@
 		{{ trans('auth.oauth.authorization.introduction', {name: client.name}) }}
 	</p>
 	<div class="d-flex justify-content-between">
-		<form method="post" action="{{ route('passport.authorizations.approve') }}">
+		<form method="post" action="{{ route('passport.authorizations.approve', {}, false) }}">
 			{{ csrf_field() }}
 			<input type="hidden" name="state" value="{{ request.state }}">
 			<input type="hidden" name="client_id" value="{{ client.id }}">
@@ -18,7 +18,7 @@
 			</button>
 		</form>
 
-		<form method="post" action="{{ route('passport.authorizations.deny') }}">
+		<form method="post" action="{{ route('passport.authorizations.deny', {}, false) }}">
 			{{ csrf_field() }}
 			{{ method_field('DELETE') }}
 			<input type="hidden" name="state" value="{{ request.state }}">

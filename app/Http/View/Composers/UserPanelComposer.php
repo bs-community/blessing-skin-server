@@ -25,7 +25,7 @@ class UserPanelComposer
     {
         /** @var User */
         $user = auth()->user();
-        $avatarUrl = route('avatar.texture', ['tid' => $user->avatar, 'size' => 45]);
+        $avatarUrl = route('avatar.texture', ['tid' => $user->avatar, 'size' => 45], false);
         $avatar = $this->filter->apply('user_avatar', $avatarUrl, [$user]);
 
         $badges = [];

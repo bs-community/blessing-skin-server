@@ -23,7 +23,7 @@ class UserMenuComposer
     public function compose(View $view)
     {
         $user = auth()->user();
-        $avatarUrl = route('avatar.texture', ['tid' => $user->avatar, 'size' => 36]);
+        $avatarUrl = route('avatar.texture', ['tid' => $user->avatar, 'size' => 36], false);
         $avatar = $this->filter->apply('user_avatar', $avatarUrl, [$user]);
         $cli = $this->request->is('admin', 'admin/*');
 

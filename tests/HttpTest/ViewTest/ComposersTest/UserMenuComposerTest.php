@@ -9,8 +9,8 @@ class UserMenuComposerTest extends TestCase
     public function testAvatar()
     {
         $user = factory(User::class)->create(['avatar' => 5]);
-        $this->actingAs($user)->get('/')->assertSee(url('/avatar/5?size=36'));
-        $this->get('/skinlib')->assertSee(url('/avatar/5?size=36'));
-        $this->get('/user')->assertSee(url('/avatar/5?size=36'));
+        $this->actingAs($user)->get('/')->assertSee('/avatar/5?size=36');
+        $this->get('/skinlib')->assertSee('/avatar/5?size=36');
+        $this->get('/user')->assertSee('/avatar/5?size=36');
     }
 }
