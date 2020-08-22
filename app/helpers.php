@@ -12,6 +12,7 @@ if (!function_exists('plugin')) {
 }
 
 if (!function_exists('plugin_assets')) {
+    /** @deprecated */
     function plugin_assets(string $name, string $relativeUri): string
     {
         $plugin = plugin($name);
