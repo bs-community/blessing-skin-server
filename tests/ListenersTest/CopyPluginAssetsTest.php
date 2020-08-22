@@ -8,7 +8,7 @@ class CopyPluginAssetsTest extends TestCase
     {
         $plugin = new \App\Services\Plugin('/path', ['name' => 'fake']);
 
-        $this->mock(\Illuminate\Filesystem\Filesystem::class, function ($mock) {
+        $this->partialMock(\Illuminate\Filesystem\Filesystem::class, function ($mock) {
             $dir = public_path('plugins/fake');
             $mock->shouldReceive('deleteDirectory')
                 ->with($dir)
