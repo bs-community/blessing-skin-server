@@ -80,6 +80,6 @@ if (!function_exists('option')) {
 if (!function_exists('option_localized')) {
     function option_localized($key = null, $default = null, $raw = false)
     {
-        return option($key.'_'.config('app.locale'), option($key));
+        return option($key.'_'.config('app.locale'), option($key, $default), $raw);
     }
 }
