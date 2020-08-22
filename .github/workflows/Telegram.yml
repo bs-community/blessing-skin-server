@@ -4,9 +4,16 @@ on:
   push:
     branches:
       - dev
-    paths-ignore:
-      - '**.yml'
-      - '**.md'
+    paths:
+      - 'app/**'
+      - 'bootstrap/**'
+      - 'config/**'
+      - 'database/**'
+      - 'public/**'
+      - 'resources/**'
+      - 'routes/**'
+      - '*.lock'
+      - 'webpack.*'
 
 jobs:
   notification:
