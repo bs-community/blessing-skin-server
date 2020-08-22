@@ -2,16 +2,6 @@ $manifest = Invoke-WebRequest 'https://dev.azure.com/blessing-skin/51010f6d-9f99
 $last = $manifest.latest
 $current = (Get-Content package.json | ConvertFrom-Json).version
 
-Write-Host "Latest version: $last. Current: $current" -ForegroundColor Blue
-
-if ($last -eq $current) {
-    Write-Host "Latest version is $last. No need to publish." -ForegroundColor Green -BackgroundColor DarkMagenta
-    exit
-}
-
-Install-Module PSGitHub -Force
-Write-Host "'PSGitHub' has been installed." -ForegroundColor Green
-
 # Install dependencies
 composer install --no-dev --prefer-dist --no-suggest --no-progress
 Remove-Item vendor/bin -Recurse -Force
@@ -31,7 +21,6 @@ $manifest.latest = $current
 $manifest.url = $manifest.url.Replace($last, $current)
 $manifest.php = '7.2.5'
 ConvertTo-Json $manifest | Out-File -FilePath update.json
-ConvertTo-Json $manifest | Out-File -FilePath update_2.json
 Write-Host "Update source is prepared." -ForegroundColor Green
 
 $azureToken = $env:AZURE_TOKEN
@@ -42,19 +31,3 @@ git add .
 git commit -m "Publish"
 git push -f "https://anything:$azureToken@dev.azure.com/blessing-skin/Blessing%20Skin%20Server/_git/Blessing%20Skin%20Server" master
 Write-Host "Update source is pushed to Azure Repos." -ForegroundColor Green
-
-$githubToken = $env:GITHUB_TOKEN | ConvertTo-SecureString -AsPlainText -Force
-$changelogPath = "../resources/misc/changelogs/en/$current.md"
-if (Test-Path $changelogPath) {
-    $enChangelog = Get-Content $changelogPath
-    $changelog = "`n---`n" + $enChangelog
-} else {
-    $changelog = ''
-}
-$release = New-GitHubRelease -Token $githubToken -Owner 'bs-community' -Repository 'blessing-skin-server' -TagName $current -ReleaseNote $changelog
-try {
-    New-GitHubReleaseAsset -Token $githubToken -Owner 'bs-community' -Repository 'blessing-skin-server'  -ReleaseId $release.Id -Path $zip
-} catch {
-    # Do nothing.
-}
-Write-Host "New version $current is published!" -ForegroundColor Green -BackgroundColor DarkMagenta
