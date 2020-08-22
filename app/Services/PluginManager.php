@@ -267,29 +267,35 @@ class PluginManager
      */
     public function enable($plugin)
     {
+        /** @var Plugin|null */
         $plugin = is_string($plugin) ? $this->get($plugin) : $plugin;
-        if ($plugin && !$plugin->isEnabled()) {
-            $unsatisfied = $this->getUnsatisfied($plugin);
-            $conflicts = $this->getConflicts($plugin);
-            if ($unsatisfied->isNotEmpty() || $conflicts->isNotEmpty()) {
-                return compact('unsatisfied', 'conflicts');
-            }
-
-            $this->enabled->put($plugin->name, ['version' => $plugin->version]);
-            $this->saveEnabled();
-
-            $plugin->setEnabled(true);
-
-            $this->dispatcher->dispatch(new Events\PluginWasEnabled($plugin));
-
-            return true;
-        } else {
+        if (empty($plugin)) {
             return false;
         }
+
+        if ($plugin->isEnabled()) {
+            return true;
+        }
+
+        $unsatisfied = $this->getUnsatisfied($plugin);
+        $conflicts = $this->getConflicts($plugin);
+        if ($unsatisfied->isNotEmpty() || $conflicts->isNotEmpty()) {
+            return compact('unsatisfied', 'conflicts');
+        }
+
+        $this->enabled->put($plugin->name, ['version' => $plugin->version]);
+        $this->saveEnabled();
+
+        $plugin->setEnabled(true);
+
+        $this->dispatcher->dispatch(new Events\PluginWasEnabled($plugin));
+
+        return true;
     }
 
     public function disable($plugin)
     {
+        /** @var Plugin|null */
         $plugin = is_string($plugin) ? $this->get($plugin) : $plugin;
         if ($plugin && $plugin->isEnabled()) {
             $this->enabled->pull($plugin->name);

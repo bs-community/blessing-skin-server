@@ -588,6 +588,10 @@ class PluginManagerTest extends TestCase
         $this->assertFalse($manager->enable('nope'));
 
         $this->assertTrue($manager->enable('fake'));
+
+        // re-enable should be allowed
+        $this->assertTrue($manager->enable('fake'));
+
         Event::assertDispatched(Events\PluginWasEnabled::class, function ($event) {
             $this->assertEquals('fake', $event->plugin->name);
 
