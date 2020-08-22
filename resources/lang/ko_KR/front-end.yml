@@ -1,7 +1,7 @@
 ---
 auth:
-  login: Log In
-  loggingIn: Logging In
+  login: 로그인
+  loggingIn: 로그인 중
   tooManyFails:
     captcha: You fails too many times! Please enter the CAPTCHA.
     recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.

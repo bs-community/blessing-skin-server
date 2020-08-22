@@ -4,7 +4,6 @@ general:
 show:
   title: 材质详情
   deleted: 请求的材质文件已经被删除
-  contact-admin: 请联系管理员删除该条目
   private: 请求的材质已经设为私密，仅上传者和管理员可查看
 upload:
   title: 上传材质
