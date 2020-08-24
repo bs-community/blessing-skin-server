@@ -15,7 +15,10 @@ class CleanUpCloset
             return;
         }
 
-        $likers = $texture->likers()->get();
+        $likers = $texture
+            ->likers()
+            ->where('user_uid', '!=', $texture->uploader)
+            ->get();
         $likers->each(function (User $user) use ($texture) {
             $user->closet()->detach($texture->tid);
             if (option('return_score')) {
