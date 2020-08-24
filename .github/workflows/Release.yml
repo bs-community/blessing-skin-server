@@ -31,6 +31,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./blessing-skin-server-${{ github.ref }}.zipp
+        asset_path: ./blessing-skin-server-${{ github.ref }}.zip
         asset_name: blessing-skin-server-${{ github.ref }}.zip
         asset_content_type: application/zip
