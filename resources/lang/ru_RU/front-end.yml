@@ -220,6 +220,7 @@ report:
   tid: ID текстуры
   reporter: Жалуется
   reason: Причина
+  status-title: Status
   status:
     - В ожидании
     - Resolved
