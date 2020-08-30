@@ -220,6 +220,7 @@ report:
   tid: ID de texture
   reporter: Auteur du signalement
   reason: Raison
+  status-title: Status
   status:
     - Suspendu
     - Résolu

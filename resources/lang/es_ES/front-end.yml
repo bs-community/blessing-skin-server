@@ -220,6 +220,7 @@ report:
   tid: ID de textura
   reporter: Informante
   reason: Razón
+  status-title: Status
   status:
     - Pendiente
     - Resuelto

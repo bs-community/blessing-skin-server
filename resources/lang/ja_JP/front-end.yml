@@ -220,6 +220,7 @@ report:
   tid: Texture ID
   reporter: Reporter
   reason: Reason
+  status-title: 状態
   status:
     - Pending
     - Resolved

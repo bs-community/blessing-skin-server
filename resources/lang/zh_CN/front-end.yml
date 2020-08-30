@@ -220,6 +220,7 @@ report:
   tid: 材质 ID
   reporter: 举报人
   reason: 举报原因
+  status-title: 状态
   status:
     - 正在处理
     - 处理完成
