@@ -44,10 +44,8 @@ bind:
   registered: 電郵地址已被使用。
 verify:
   title: 電子信箱驗證
-  success: 您的帳戶已通過驗證.
-  message: 歡迎来到 :sitename!
-  button: 首頁
   invalid: 無效的鏈接。
+  not-matched: Email doesn't match.
 validation:
   user: 沒有這個用戶。
   password: 錯誤的密碼。
