@@ -44,10 +44,8 @@ bind:
   registered: Адрес электронной почты уже занят.
 verify:
   title: Подтверждение адреса электронной почты
-  success: Ваша учетная запись подтверждена.
-  message: Добро пожаловать на :sitename!
-  button: Домашняя страница
   invalid: Неверная ссылка.
+  not-matched: Email doesn't match.
 validation:
   user: Такого пользователя нет.
   password: Неверный пароль.
