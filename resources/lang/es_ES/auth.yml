@@ -44,10 +44,8 @@ bind:
   registered: Esta dirección de correo electrónico ya está en uso.
 verify:
   title: Verificación de correo electrónico
-  success: Su cuenta ha sido verificada.
-  message: '¡Bienvenidos a :sitename!'
-  button: Inicio
   invalid: Enlace inválido.
+  not-matched: Email doesn't match.
 validation:
   user: No existe tal usuario.
   password: Contraseña incorrecta.
