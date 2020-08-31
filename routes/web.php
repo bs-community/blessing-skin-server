@@ -39,7 +39,8 @@ Route::prefix('auth')->name('auth.')->group(function () {
             Route::post('bind', 'AuthController@fillEmail');
         });
 
-    Route::get('verify/{uid}', 'AuthController@verify')->name('verify');
+    Route::get('verify/{user}', 'AuthController@verify')->name('verify');
+    Route::post('verify/{user}', 'AuthController@handleVerify');
 });
 
 Route::prefix('user')

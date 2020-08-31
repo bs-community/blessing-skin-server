@@ -724,27 +724,39 @@ class AuthControllerTest extends TestCase
 
     public function testVerify()
     {
-        $url = URL::signedRoute('auth.verify', ['uid' => 1], null, false);
+        $url = URL::signedRoute('auth.verify', ['user' => 1], null, false);
 
-        // Should be forbidden if account verification is disabled
+        // should be forbidden if account verification is disabled
         option(['require_verification' => false]);
         $this->get($url)->assertSee(trans('user.verification.disabled'));
         option(['require_verification' => true]);
 
-        // Invalid link
-        $this->get(route('auth.verify', ['uid' => 1]))->assertForbidden();
-
-        // Non-existed user
-        $this->get($url)->assertSee(trans('auth.verify.invalid'));
-
-        $user = factory(User::class)->create();
-        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid], null, false);
-        $this->get($url)->assertSee(trans('auth.verify.invalid'));
+        // invalid link
+        $this->get(route('auth.verify', ['user' => 1]))->assertForbidden();
 
         $user = factory(User::class)->create(['verified' => false]);
-        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid], null, false);
+        $url = URL::signedRoute('auth.verify', ['user' => $user], null, false);
         $this->get($url)->assertViewIs('auth.verify');
-        $this->assertEquals(1, User::find($user->uid)->verified);
+    }
+
+    public function testHandleVerify()
+    {
+        $user = factory(User::class)->create(['verified' => false]);
+        $url = URL::signedRoute('auth.verify', ['user' => $user], null, false);
+
+        // empty email
+        $this->post($url, [], ['Referer' => $url])->assertRedirect($url);
+
+        // not an email
+        $this->post($url, ['email' => 't'], ['Referer' => $url])->assertRedirect($url);
+
+        // invalid email
+        $this->post($url, ['email' => 'a@b.c'], ['Referer' => $url])
+            ->assertRedirect($url);
+
+        // success
+        $this->post($url, ['email' => $user->email], ['Referer' => $url])
+            ->assertRedirect(route('user.home'));
     }
 
     public function testApiLogin()

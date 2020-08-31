@@ -4,12 +4,31 @@
 
 {% block content %}
   <p class="login-box-msg">
-    {{ trans('auth.verify.message', {sitename: site_name}) }}
+    {{ trans('auth.bind.message') }}
   </p>
-  <div class="alert alert-success mb-5">
-    <i class="icon fa fa-check"></i> {{ trans('auth.verify.success') }}
-  </div>
-  <a href="{{ url('/') }}" class="btn btn-primary btn-block">
-    {{ trans('auth.verify.button') }}
-  </a>
+  <form method="post">
+    {{ csrf_field() }}
+    <div class="input-group mb-3">
+      <input type="email" name="email" class="form-control" placeholder={{ trans('auth.email') }} required>
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <i class="fas fa-envelope"></i>
+        </div>
+      </div>
+    </div>
+    {% if errors.any %}
+      <div class="alert alert-danger">
+        <i class="icon fas fa-exclamation-triangle"></i>
+        {{ errors.first }}
+      </div>
+    {% elseif session_has('errorMessage') %}
+      <div class="alert alert-danger">
+        <i class="icon fas fa-exclamation-triangle"></i>
+        {{ session_pull('errorMessage') }}
+      </div>
+    {% endif %}
+    <button type="submit" class="btn btn-primary btn-block">
+      {{ trans('general.submit') }}
+    </button>
+  </form>
 {% endblock %}

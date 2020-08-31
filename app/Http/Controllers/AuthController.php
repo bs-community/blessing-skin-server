@@ -344,7 +344,7 @@ class AuthController extends Controller
         return redirect('/user');
     }
 
-    public function verify(Request $request, $uid)
+    public function verify(Request $request)
     {
         if (!option('require_verification')) {
             throw new PrettyPageException(trans('user.verification.disabled'), 1);
@@ -352,15 +352,23 @@ class AuthController extends Controller
 
         abort_unless($request->hasValidSignature(false), 403, trans('auth.verify.invalid'));
 
-        $user = User::find($uid);
-        if (!$user || $user->verified) {
-            throw new PrettyPageException(trans('auth.verify.invalid'), 1);
+        return view('auth.verify');
+    }
+
+    public function handleVerify(Request $request, User $user)
+    {
+        abort_unless($request->hasValidSignature(false), 403, trans('auth.verify.invalid'));
+
+        ['email' => $email] = $request->validate(['email' => 'required|email']);
+
+        if ($user->email !== $email) {
+            return back()->with('errorMessage', trans('auth.verify.not-matched'));
         }
 
         $user->verified = true;
         $user->save();
 
-        return view('auth.verify', ['site_name' => option_localized('site_name')]);
+        return redirect()->route('user.home');
     }
 
     public function jwtLogin(Request $request)

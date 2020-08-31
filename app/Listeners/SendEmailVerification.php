@@ -12,7 +12,7 @@ class SendEmailVerification
     public function handle(User $user)
     {
         if (option('require_verification')) {
-            $url = URL::signedRoute('auth.verify', ['uid' => $user->uid], null, false);
+            $url = URL::signedRoute('auth.verify', ['user' => $user->uid], null, false);
 
             try {
                 Mail::to($user->email)->send(new EmailVerification(url($url)));
