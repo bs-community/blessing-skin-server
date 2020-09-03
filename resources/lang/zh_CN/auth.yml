@@ -45,7 +45,7 @@ bind:
 verify:
   title: 邮箱验证
   invalid: 无效的链接
-  not-matched: Email doesn't match.
+  not-matched: 邮箱不匹配。
 validation:
   user: 用户不存在
   password: 密码错误
