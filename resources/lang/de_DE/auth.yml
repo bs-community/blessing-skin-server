@@ -44,10 +44,8 @@ bind:
   registered: The email address was already taken.
 verify:
   title: Email Verification
-  success: Your account was now verified.
-  message: Welcome to :sitename!
-  button: Homepage
   invalid: Invalid link.
+  not-matched: Email doesn't match.
 validation:
   user: No such user.
   password: Wrong password.

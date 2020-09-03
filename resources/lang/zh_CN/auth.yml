@@ -44,10 +44,8 @@ bind:
   registered: 此邮箱已被占用
 verify:
   title: 邮箱验证
-  success: 邮箱验证成功
-  message: 欢迎使用 :sitename！
-  button: 返回首页
   invalid: 无效的链接
+  not-matched: 邮箱不匹配。
 validation:
   user: 用户不存在
   password: 密码错误
