@@ -205,3 +205,7 @@ Route::prefix('setup')->group(function () {
         Route::post('finish', 'SetupController@finish');
     });
 });
+
+Route::prefix('.well-known')->group(function () {
+    Route::redirect('change-password', '/user/profile');
+});
