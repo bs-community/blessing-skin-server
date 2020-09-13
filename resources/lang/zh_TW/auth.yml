@@ -45,7 +45,7 @@ bind:
 verify:
   title: 電子信箱驗證
   invalid: 無效的鏈接。
-  not-matched: Email doesn't match.
+  not-matched: 電子郵件地址不匹配。
 validation:
   user: 沒有這個用戶。
   password: 錯誤的密碼。
