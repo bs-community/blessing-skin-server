@@ -73,17 +73,17 @@ skinlib:
     cost: 將花費 :score 積分。
     award: 您上傳材質得到 :score 積分獎勵。
   show:
-    anonymous: You must login to use closets
-    likes: People who like this
+    anonymous: 您必須登入以應用衣櫃。
+    likes: 點讚的用戶
     detail: 詳細資訊
-    name: Texture Name
+    name: 材質名稱
     edit: 編輯
-    model: Applicable Model
+    model: 適用模型
     size: 檔案大小
-    uploader: Uploader
+    uploader: 上載者
     upload-at: 上傳于
     download: 下載
-    delete-texture: Delete Texture
+    delete-texture: 刪除材質
     manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
   report:
     title: Report
