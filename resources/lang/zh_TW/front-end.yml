@@ -1,6 +1,6 @@
 ---
 auth:
-  login: 登錄
+  login: 登入
   loggingIn: 正在登入
   tooManyFails:
     captcha: 嘗試次數過多，請輸入驗證碼。
@@ -67,14 +67,14 @@ skinlib:
     texture-name: 材質名稱
     texture-type: 材質種類
     select-file: 選取檔案
-    privacy-notice: 阻礙其在皮膚庫中可見。
+    privacy-notice: 避免其在皮膚庫中可見。
     set-as-private: 將其設為隱私
     button: 上傳
     cost: 將花費 :score 積分。
     award: 您上傳材質得到 :score 積分獎勵。
   show:
-    anonymous: 您必須登入以應用衣櫃。
-    likes: 點讚的用戶
+    anonymous: 您必須登入以使用衣櫃。
+    likes: 收藏的用戶
     detail: 詳細資訊
     name: 材質名稱
     edit: 編輯
