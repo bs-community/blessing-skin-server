@@ -1,6 +1,6 @@
 ---
 features:
-  title: 特徵
+  title: 特性
   first:
     icon: fa-users
     name: 多角色
@@ -8,7 +8,7 @@ features:
   second:
     icon: fa-share-alt
     name: 分享
-    desc: 探索皮膚庫，點讚並與您的朋友分享。
+    desc: 探索皮膚庫，收藏並與您的朋友分享。
   third:
     icon: fa-cloud
     name: 免費
