@@ -51,7 +51,7 @@ user:
   nickname: 暱稱
   password: 密碼
   score: 積分
-  register-at: 在何處註冊
+  register-at: 註冊於
 player:
   owner: 所有者
   player-name: 角色名
