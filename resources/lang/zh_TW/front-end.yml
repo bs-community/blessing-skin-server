@@ -1,6 +1,6 @@
 ---
 auth:
-  login: 登錄
+  login: 登入
   loggingIn: 正在登入
   tooManyFails:
     captcha: 嘗試次數過多，請輸入驗證碼。
@@ -54,36 +54,36 @@ skinlib:
     time: 最新上傳
     likes: 最多收藏
   emptyTextureName: 請輸入材質名稱。
-  emptyUploadFile: You have not uploaded any file.
+  emptyUploadFile: 未上傳任何文件。
   fileExtError: '材質應該是 PNG 文件。'
   uploading: 正在上傳
-  setAsPrivate: Set as Private
-  setAsPublic: Set as Public
-  setPublicNotice: Sure to set this as public texture?
-  setPrivateNotice: Sure to set this as private texture?
-  deleteNotice: Are you sure to delete this texture?
-  setNewTextureModel: "Please select a new texture model:"
+  setAsPrivate: 設為隱私
+  setAsPublic: 設為公開
+  setPublicNotice: 確定要把這個材質設爲公開嗎？
+  setPrivateNotice: 確定要把這個材質設爲隱私嗎？
+  deleteNotice: 確定要刪除此材質嗎？
+  setNewTextureModel: "請為材質選擇新的模型："
   upload:
-    texture-name: Texture Name
-    texture-type: Texture Type
+    texture-name: 材質名稱
+    texture-type: 材質種類
     select-file: 選取檔案
-    privacy-notice: Prevent it from being visible at skin library.
-    set-as-private: Make it Private
+    privacy-notice: 避免其在皮膚庫中可見。
+    set-as-private: 將其設為隱私
     button: 上傳
-    cost: It costs you about :score score.
-    award: You'll be awarded :score score(s) by uploading public texture.
+    cost: 將花費 :score 積分。
+    award: 您上傳材質得到 :score 積分獎勵。
   show:
-    anonymous: You must login to use closets
-    likes: People who like this
+    anonymous: 您必須登入以使用衣櫃。
+    likes: 收藏的用戶
     detail: 詳細資訊
-    name: Texture Name
+    name: 材質名稱
     edit: 編輯
-    model: Applicable Model
+    model: 適用模型
     size: 檔案大小
-    uploader: Uploader
+    uploader: 上載者
     upload-at: 上傳于
     download: 下載
-    delete-texture: Delete Texture
+    delete-texture: 刪除材質
     manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
   report:
     title: Report

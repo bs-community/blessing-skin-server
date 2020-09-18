@@ -1,59 +1,59 @@
 ---
-index: Homepage
-skinlib: Skin Library
-user-center: User Center
-logout: Log Out
-login: Log In
-register: Register Now
-profile: User Profile
-admin-panel: Admin Panel
-explore: Explore
-manage: Manage
-anonymous: Guest
-back: Back
-dashboard: Dashboard
-my-closet: Closet
-my-reports: Reports
-developer: Advanced
-oauth-manage: OAuth2 Apps
-player-manage: Players
-user-manage: Users
-report-manage: Reports
-plugin-manage: Plugins
-plugin-market: Plugin Market
-plugin-configs: Plugin Configs
-customize: Customize
-i18n: Internationalization
-options: Options
-score-options: Score Options
-res-options: Resource Options
-status: Status
-check-update: Check Update
-download-update: Download Updates
-close: Close
-skin: Skin
-cape: Cape
-submit: Submit
-cancel: Cancel
+index: 首頁
+skinlib: 皮膚庫
+user-center: 用戶中心
+logout: 登出
+login: 登入
+register: 立刻註冊
+profile: 個人設定檔
+admin-panel: 管理面板
+explore: 進一步瞭解
+manage: 管理
+anonymous: 訪客
+back: 返回
+dashboard: 儀錶板
+my-closet: 皮膚櫃
+my-reports: 舉報
+developer: 進階
+oauth-manage: OAuth2 應用程式
+player-manage: 角色
+user-manage: 用戶
+report-manage: 舉報
+plugin-manage: 擴展軟體
+plugin-market: 擴展軟體商店
+plugin-configs: 擴展軟體設定
+customize: 自訂
+i18n: 多語言
+options: 選項
+score-options: 積分設定
+res-options: 元素設定
+status: 狀態
+check-update: 檢查更新
+download-update: 下載更新
+close: 關閉
+skin: 皮膚
+cape: 披風
+submit: 提交
+cancel: 取消
 yes: true
 no: false
-op-success: Operated successfully.
-unknown: Unknown
-notice: Notice
-illegal-parameters: Illegal parameters.
-private: Private
-public: Public
-unexistent-user: No such user.
-player-banned: The owner of this player has been banned.
-texture-deleted: The requested texture has been deleted.
+op-success: 操作成功
+unknown: 未知
+notice: 告示欄
+illegal-parameters: 非法參數。
+private: 隱私
+public: 公開
+unexistent-user: 此用戶不存在。
+player-banned: 該角色的所有者已被封禁。
+texture-deleted: 請求的材質已被刪除。
 user:
-  email: Email
-  nickname: Nickname
-  password: Password
-  score: Score
-  register-at: Registered At
+  email: 電子郵件
+  nickname: 暱稱
+  password: 密碼
+  score: 積分
+  register-at: 註冊於
 player:
-  owner: Owner
-  player-name: Player Name
-  previews: Texture Previews
-  last-modified: Last Modified
+  owner: 所有者
+  player-name: 角色名
+  previews: 材質預覽
+  last-modified: 最近一次修改
