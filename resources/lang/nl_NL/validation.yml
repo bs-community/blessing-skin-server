@@ -15,7 +15,7 @@ between:
   string: ':Attribute moet tussen :min en :max karakters zijn.'
   array: ':Attribute moet tussen :min en :max items bevatten.'
 boolean: ':Attribute moet ja of nee zijn.'
-captcha: 'Incorrect captcha.'
+captcha: 'Ongeldige captcha.'
 confirmed: ':Attribute bevestiging komt niet overeen.'
 date: ':Attribute moet een datum bevatten.'
 date_equals: ':Attribute moet een datum gelijk aan :date zijn.'
@@ -75,7 +75,7 @@ not_regex: 'De :attribute formaat is ongeldig.'
 numeric: ':Attribute moet een nummer zijn.'
 password: Wachtwoord is onjuist.
 present: ':Attribute moet bestaan.'
-recaptcha: 'reCAPTCHA validation failed.'
+recaptcha: 'reCAPATCHA verificatie mislukt.'
 regex: ':Attribute formaat is ongeldig.'
 required: ':Attribute is verplicht.'
 required_if: ':Attribute is verplicht indien :other gelijk is aan :value.'
@@ -114,8 +114,8 @@ uuid: ':Attribute moet een geldig UUID zijn.'
 #of "email". This simply helps us make messages a little cleaner.
 attributes:
   name: naam
-  player_name: player name
-  identification: email or player name
+  player_name: spelernaam
+  identification: email of spelernaam
   email: e-mailadres
   password: wachtwoord
   password_confirmation: 'wachtwoordbevestiging'
