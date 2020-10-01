@@ -73,6 +73,7 @@ const UsersManagement: React.FC = () => {
         mode: 'prompt',
         text: t('admin.newUserEmail'),
         input: user.email,
+        inputMode: 'email',
         validator: (value: string) => {
           if (!value) {
             return t('auth.emptyEmail')
@@ -137,7 +138,7 @@ const UsersManagement: React.FC = () => {
         mode: 'prompt',
         text: t('admin.newScore'),
         input: user.score.toString(),
-        inputType: 'number',
+        inputMode: 'numeric',
       })
       score = Number.parseInt(value)
     } catch {
@@ -259,6 +260,7 @@ const UsersManagement: React.FC = () => {
         <form className="input-group" onSubmit={handleSubmitQuery}>
           <input
             type="text"
+            inputMode="search"
             className="form-control"
             title={t('vendor.datatable.search')}
             value={query}

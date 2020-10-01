@@ -98,6 +98,7 @@ const Login: React.FC = () => {
         type="text"
         placeholder={t('auth.identification')}
         required
+        autoFocus
         value={identification}
         onChange={setIdentification}
       />
@@ -106,6 +107,7 @@ const Login: React.FC = () => {
           type="password"
           className="form-control"
           placeholder={t('auth.password')}
+          autoComplete="current-password"
           value={password}
           onChange={handlePasswordChange}
           required

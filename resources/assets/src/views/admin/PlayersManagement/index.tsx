@@ -101,7 +101,7 @@ const PlayersManagement: React.FC = () => {
         mode: 'prompt',
         text: t('admin.changePlayerOwner'),
         input: player.uid.toString(),
-        inputType: 'number',
+        inputMode: 'numeric',
       })
       uid = Number.parseInt(value)
     } catch {
@@ -168,6 +168,7 @@ const PlayersManagement: React.FC = () => {
         <form className="input-group" onSubmit={handleSubmitQuery}>
           <input
             type="text"
+            inputMode="search"
             className="form-control"
             title={t('vendor.datatable.search')}
             value={query}

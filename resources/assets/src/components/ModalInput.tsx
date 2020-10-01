@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { HTMLAttributes } from 'react'
 
 export interface Props {
   inputType?: string
+  inputMode?: HTMLAttributes<HTMLInputElement>['inputMode']
   choices?: { text: string; value: string }[]
   placeholder?: string
 }
@@ -39,6 +40,7 @@ const ModalInput: React.FC<InternalProps & Props> = (props) => (
           value={props.value}
           onChange={props.onChange}
           type={props.inputType}
+          inputMode={props.inputMode}
           className="form-control"
           placeholder={props.placeholder}
         ></input>

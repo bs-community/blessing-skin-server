@@ -55,6 +55,7 @@ const Reset: React.FC = () => {
         <input
           type="password"
           required
+          autoFocus
           minLength={8}
           maxLength={32}
           className="form-control"
@@ -76,6 +77,7 @@ const Reset: React.FC = () => {
           maxLength={32}
           className="form-control"
           placeholder={t('auth.repeat-pwd')}
+          autoComplete="new-password"
           value={confirmation}
           onChange={handleConfirmationChange}
         />

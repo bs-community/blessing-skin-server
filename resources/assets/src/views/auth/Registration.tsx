@@ -79,6 +79,7 @@ const Registration: React.FC = () => {
       <EmailSuggestion
         type="email"
         required
+        autoFocus
         placeholder={t('auth.email')}
         value={email}
         onChange={setEmail}
@@ -91,6 +92,7 @@ const Registration: React.FC = () => {
           maxLength={32}
           className="form-control"
           placeholder={t('auth.password')}
+          autoComplete="new-password"
           value={password}
           onChange={handlePasswordChange}
         />
@@ -108,6 +110,7 @@ const Registration: React.FC = () => {
           maxLength={32}
           className="form-control"
           placeholder={t('auth.repeat-pwd')}
+          autoComplete="new-password"
           ref={confirmationRef}
           value={confirmation}
           onChange={handleConfirmationChange}
