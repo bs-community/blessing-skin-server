@@ -42,6 +42,7 @@ const Forgot: React.FC = () => {
         type="email"
         placeholder={t('auth.email')}
         required
+        autoFocus
         value={email}
         onChange={setEmail}
       />

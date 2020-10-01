@@ -79,6 +79,7 @@ const Registration: React.FC = () => {
       <EmailSuggestion
         type="email"
         required
+        autoFocus
         placeholder={t('auth.email')}
         value={email}
         onChange={setEmail}
