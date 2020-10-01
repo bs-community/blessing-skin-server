@@ -43,6 +43,7 @@ const Modal: React.FC<ModalOptions & Props> = (props) => {
     input = '',
     placeholder = '',
     inputType = 'text',
+    inputMode,
     type = 'default',
     showHeader = true,
     center = false,
@@ -136,6 +137,7 @@ const Modal: React.FC<ModalOptions & Props> = (props) => {
             choices={props.choices}
             onChange={handleInputChange}
             inputType={inputType}
+            inputMode={inputMode}
             placeholder={placeholder}
             invalid={!valid}
             validatorMessage={validatorMessage}

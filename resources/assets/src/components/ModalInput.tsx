@@ -22,7 +22,6 @@ const ModalInput: React.FC<InternalProps & Props> = (props) => (
           <div key={choice.value}>
             <input
               type="radio"
-              inputMode={props.inputMode}
               name="modal-radios"
               id={`modal-radio-${choice.value}`}
               value={choice.value}
@@ -41,6 +40,7 @@ const ModalInput: React.FC<InternalProps & Props> = (props) => (
           value={props.value}
           onChange={props.onChange}
           type={props.inputType}
+          inputMode={props.inputMode}
           className="form-control"
           placeholder={props.placeholder}
         ></input>
