@@ -192,6 +192,7 @@ const SkinLibrary: React.FC = () => {
                   </div>
                   <input
                     type="text"
+                    inputMode="search"
                     className="form-control"
                     value={name}
                     placeholder={t('vendor.datatable.search')}

@@ -76,6 +76,7 @@ const Reset: React.FC = () => {
           maxLength={32}
           className="form-control"
           placeholder={t('auth.repeat-pwd')}
+          autoComplete="new-password"
           value={confirmation}
           onChange={handleConfirmationChange}
         />

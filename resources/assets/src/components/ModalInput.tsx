@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { HTMLAttributes } from 'react'
 
 export interface Props {
   inputType?: string
+  inputMode?: HTMLAttributes<HTMLInputElement>['inputMode']
   choices?: { text: string; value: string }[]
   placeholder?: string
 }
@@ -21,6 +22,7 @@ const ModalInput: React.FC<InternalProps & Props> = (props) => (
           <div key={choice.value}>
             <input
               type="radio"
+              inputMode={props.inputMode}
               name="modal-radios"
               id={`modal-radio-${choice.value}`}
               value={choice.value}

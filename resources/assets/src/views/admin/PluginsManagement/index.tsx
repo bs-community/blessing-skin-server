@@ -223,6 +223,7 @@ const PluginsManagement: React.FC = () => {
                 type="text"
                 id="zip-url"
                 className="form-control"
+                inputMode="url"
                 value={url}
                 onChange={handleUrlChange}
               />
