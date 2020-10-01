@@ -101,7 +101,7 @@ const Row: React.FC<Props> = (props) => {
         </button>
         <button
           className="btn btn-danger"
-          disabled={!canModify}
+          disabled={!canModify || user.uid === currentUser.uid}
           onClick={props.onDelete}
         >
           {t('admin.deleteUser')}

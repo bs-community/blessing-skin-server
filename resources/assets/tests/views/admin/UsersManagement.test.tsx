@@ -221,7 +221,7 @@ describe('access control', () => {
     expect(queryByText(t('admin.changeScore'))).toBeInTheDocument()
     expect(queryByText(t('admin.changePermission'))).not.toBeInTheDocument()
     expect(queryByText(t('admin.toggleVerification'))).toBeInTheDocument()
-    expect(queryByText(t('admin.deleteUser'))).toBeInTheDocument()
+    expect(queryByText(t('admin.deleteUser'))).not.toBeInTheDocument()
 
     fireEvent.click(getByTitle('Table Mode'))
     expect(queryByTitle(t('admin.changeEmail'))).toBeInTheDocument()
@@ -230,7 +230,7 @@ describe('access control', () => {
     expect(queryByTitle(t('admin.changePermission'))).not.toBeInTheDocument()
     expect(queryByTitle(t('admin.toggleVerification'))).toBeInTheDocument()
     expect(getByText(t('admin.changePassword'))).toBeEnabled()
-    expect(getByText(t('admin.deleteUser'))).toBeEnabled()
+    expect(getByText(t('admin.deleteUser'))).toBeDisabled()
   })
 })
 
