@@ -35,16 +35,16 @@ users:
       success: Score succesvol aangepast.
     permission: Toestemming bijgewerkt.
     delete:
-      success: The account has been deleted successfully.
+      success: Het account is succesvol verwijderd.
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: Je hebt niet langer meer permissie om deze speler te beheersen.
   textures:
-    non-existent: No such texture tid.:tid
-    success: The textures of :player has been updated.
+    non-existent: Geen van deze tekstuur tid.:tid
+    success: De tekstuur van :speler is bijgewerkt.
   name:
-    success: Player name has been updated to :player
+    success: Spelernaam is veranderd naar :player
   owner:
-    success: The player :player was transferred to user :user.
+    success: De speler :player was getransporteerd naar speler :user.
   delete:
     success: The player has been deleted successfully.
 customize:
