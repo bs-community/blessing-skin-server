@@ -103,14 +103,16 @@ const Card: React.FC<Props> = (props) => {
                     {t('admin.toggleVerification')}
                   </a>
                   <div className="dropdown-divider"></div>
-                  <a
-                    href="#"
-                    className="dropdown-item dropdown-item-danger"
-                    onClick={props.onDelete}
-                  >
-                    <i className="fas fa-trash mr-2"></i>
-                    {t('admin.deleteUser')}
-                  </a>
+                  {canModify && user.uid !== currentUser.uid && (
+                    <a
+                      href="#"
+                      className="dropdown-item dropdown-item-danger"
+                      onClick={props.onDelete}
+                    >
+                      <i className="fas fa-trash mr-2"></i>
+                      {t('admin.deleteUser')}
+                    </a>
+                  )}
                 </div>
               </div>
             )}
