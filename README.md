@@ -1,4 +1,4 @@
-- <b>简体中文</b>
+- **简体中文**
 - [English](./README_EN.md)
 
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
@@ -8,6 +8,7 @@
 <a href="https://codecov.io/gh/bs-community/blessing-skin-server"><img alt="Codecov" src="https://img.shields.io/codecov/c/github/bs-community/blessing-skin-server?style=flat-square"></a>
 <a href="https://github.com/bs-community/blessing-skin-server/releases"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/bs-community/blessing-skin-server?include_prereleases&style=flat-square"></a>
 <a href="https://github.com/bs-community/blessing-skin-server/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/bs-community/blessing-skin-server?style=flat-square"></a>
+<a href="https://discord.com/invite/QAsyEyt"><img alt="Discord" src="https://discord.com/api/guilds/761226550921658380/widget.png"></a>
 </p>
 
 优雅的开源 Minecraft 皮肤站，现在，回应您的等待。
@@ -22,17 +23,17 @@ Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在�
 - 支持单用户多个角色
 - 通过皮肤库来分享您的皮肤和披风！
 - 易于使用
-    - 可视化的用户、角色、材质管理页面
-    - 详细的站点配置页面
-    - 多处 UI/UX 优化只为更好的用户体验
+  - 可视化的用户、角色、材质管理页面
+  - 详细的站点配置页面
+  - 多处 UI/UX 优化只为更好的用户体验
 - 安全
-    - 支持多种安全密码 Hash 算法
-    - 注册可要求 Email 验证
-    - 防止恶意请求的积分系统
+  - 支持多种安全密码 Hash 算法
+  - 注册可要求 Email 验证
+  - 防止恶意请求的积分系统
 - 强大的可扩展性
-    - 多种多样的插件
-    - 支持与 Authme/Discuz 等程序的用户数据对接（插件）
-    - 支持自定义 Yggdrasil API 外置登录系统（插件）
+  - 多种多样的插件
+  - 支持与 Authme/Discuz 等程序的用户数据对接（插件）
+  - 支持自定义 Yggdrasil API 外置登录系统（插件）
 
 ## 环境要求
 
@@ -41,16 +42,16 @@ Blessing Skin 对您的服务器有一定的要求。在大多数情况下，下
 - 一台支持 URL 重写的主机，Nginx 或 Apache
 - PHP >= 7.2.5
 - 安装并启用如下 PHP 扩展：
-    - OpenSSL
-    - PDO
-    - Mbstring
-    - Tokenizer
-    - GD
-    - XML
-    - Ctype
-    - JSON
-    - fileinfo
-    - zip
+  - OpenSSL
+  - PDO
+  - Mbstring
+  - Tokenizer
+  - GD
+  - XML
+  - Ctype
+  - JSON
+  - fileinfo
+  - zip
 
 ## 快速使用
 

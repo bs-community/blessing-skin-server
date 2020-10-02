@@ -1,5 +1,5 @@
 - [简体中文](./README.md)
-- <b>English</b>
+- **English**
 
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
@@ -8,9 +8,10 @@
 <a href="https://codecov.io/gh/bs-community/blessing-skin-server"><img alt="Codecov" src="https://img.shields.io/codecov/c/github/bs-community/blessing-skin-server?style=flat-square"></a>
 <a href="https://github.com/bs-community/blessing-skin-server/releases"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/bs-community/blessing-skin-server?include_prereleases&style=flat-square"></a>
 <a href="https://github.com/bs-community/blessing-skin-server/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/bs-community/blessing-skin-server?style=flat-square"></a>
+<a href="https://discord.com/invite/QAsyEyt"><img alt="Discord" src="https://discord.com/api/guilds/761226550921658380/widget.png"></a>
 </p>
 
-Are you puzzled by losing your custom skins in Minecraft servers runing in offline mode? Now you can easily get them back with the help of Blessing Skin!
+Puzzled by losing your custom skins in Minecraft servers runing in offline mode? Now you can easily get them back with the help of Blessing Skin!
 
 Blessing Skin is a web application where you can upload, manage and share your custom skins & capes! Unlike modifying a resource pack, everyone in the game will see the different skins of each other (of course they should register at the same website too).
 
@@ -22,17 +23,17 @@ Blessing Skin is an open-source project written in PHP, which means you can depl
 - Multiple player names can be owned by one user on the website
 - Share your skins and capes online with skin library!
 - Easy-to-use
-    - Visual page for user/player/texture management
-    - Detailed option pages
-    - Many tweaks for a better UI/UX
+  - Visual page for user/player/texture management
+  - Detailed option pages
+  - Many tweaks for a better UI/UX
 - Security
-    - Support many secure password hash algorithms
-    - Email verification for registration
-    - Score system for preventing evil requests
+  - Support many secure password hash algorithms
+  - Email verification for registration
+  - Score system for preventing evil requests
 - Incredibly extensible
-    - Plenty of plugins available
-    - Integration with Authme/CrazyLogin/Discuz (available as plugin)
-    - Support custom Yggdrasil API authentication (available as plugin)
+  - Plenty of plugins available
+  - Integration with Authme/CrazyLogin/Discuz (available as plugin)
+  - Support custom Yggdrasil API authentication (available as plugin)
 
 ## Requirements
 
@@ -41,16 +42,16 @@ Blessing Skin has only a few system requirements. In most cases, these PHP exten
 - Web server with URL rewriting enabled (Nginx or Apache)
 - PHP >= 7.2.5
 - PHP Extensions
-    - OpenSSL
-    - PDO
-    - Mbstring
-    - Tokenizer
-    - GD
-    - XML
-    - Ctype
-    - JSON
-    - fileinfo
-    - zip
+  - OpenSSL
+  - PDO
+  - Mbstring
+  - Tokenizer
+  - GD
+  - XML
+  - Ctype
+  - JSON
+  - fileinfo
+  - zip
 
 ## Quick Install
 
