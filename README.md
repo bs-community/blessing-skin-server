@@ -124,6 +124,13 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
         </a>
       </td>
       <td align=center>
+        <a href="https://afdian.net/@fsj_mc">
+          <img src="https://pic1.afdiancdn.com/user/5ae206b6573c11e9b32352540025c377/avatar/27be12f855c0d52ee4a3abeb8e5e9274_w900_h900_s710.jpg" width="75" height="75">
+          <br>
+          fsj
+        </a>
+      </td>
+      <td align=center>
         <a href="">
           <img src="https://pic1.afdiancdn.com/user/68d07bf851fc11e98e5652540025c377/avatar/48538be153c8eebc3eb5cb6bc085cde9_w574_h574_s173.jpg" width="75" height="75">
           <br>
