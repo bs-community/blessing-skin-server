@@ -77,11 +77,9 @@ jobs:
     - name: Run tests only
       if: matrix.php != '7.4'
       run: ./vendor/bin/phpunit
-      shell: pwsh
     - name: Run tests with coverage report
       if: matrix.php == '7.4'
       run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
-      shell: pwsh
     - name: Upload coverage report
       uses: codecov/codecov-action@v1
       if: matrix.php == '7.4' && success()
