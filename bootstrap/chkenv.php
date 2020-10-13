@@ -49,7 +49,7 @@ ini_set('display_errors', true);
         );
     }
 
-    $requiredVersion = '7.2.5';
+    $requiredVersion = '7.4.0';
     preg_match('/(\d+\.\d+\.\d+)/', PHP_VERSION, $matches);
     $version = $matches[1];
     if (version_compare($version, $requiredVersion, '<')) {

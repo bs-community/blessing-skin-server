@@ -3,7 +3,7 @@
   "description": "A web application brings your custom skins back in offline Minecraft servers.",
   "license": "MIT",
   "require": {
-    "php": ">=7.2.5",
+    "php": ">=7.4.0",
     "ext-ctype": "*",
     "ext-gd": "*",
     "ext-json": "*",
