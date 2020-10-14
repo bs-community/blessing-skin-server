@@ -7,8 +7,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class CleanUpFrontEndLocaleFiles
 {
-    /** @var Filesystem */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     public function __construct(Filesystem $filesystem)
     {

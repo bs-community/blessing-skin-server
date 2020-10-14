@@ -12,20 +12,15 @@ use Illuminate\View\View;
 
 class FootComposer
 {
-    /** @var Request */
-    protected $request;
+    protected Request $request;
 
-    /** @var Webpack */
-    protected $webpack;
+    protected Webpack $webpack;
 
-    /** @var JavaScript */
-    protected $javascript;
+    protected JavaScript $javascript;
 
-    /** @var Dispatcher */
-    protected $dispatcher;
+    protected Dispatcher $dispatcher;
 
-    /** @var Filter */
-    protected $filter;
+    protected Filter $filter;
 
     public function __construct(
         Request $request,

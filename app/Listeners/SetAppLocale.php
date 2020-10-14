@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 
 class SetAppLocale
 {
-    /** @var Request */
-    protected $request;
+    protected Request $request;
 
     public function __construct(Request $request)
     {

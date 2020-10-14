@@ -9,14 +9,11 @@ use Illuminate\Filesystem\Filesystem;
 
 class JavaScript
 {
-    /** @var Filesystem */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /** @var Repository */
-    protected $cache;
+    protected Repository $cache;
 
-    /** @var PluginManager */
-    protected $plugins;
+    protected PluginManager $plugins;
 
     protected $prefix = 'front-end-trans-';
 
@@ -34,16 +31,10 @@ class JavaScript
     {
         $plugins = $this->plugins->getEnabledPlugins();
         $sourceFiles = $plugins
-            ->map(function (Plugin $plugin) use ($locale) {
-                return $plugin->getPath()."/lang/$locale/front-end.yml";
-            })
-            ->filter(function ($path) {
-                return $this->filesystem->exists($path);
-            });
+            ->map(fn (Plugin $plugin) => $plugin->getPath()."/lang/$locale/front-end.yml")
+            ->filter(fn ($path) => $this->filesystem->exists($path));
         $sourceFiles->push(resource_path("lang/$locale/front-end.yml"));
-        $sourceModified = $sourceFiles->max(function ($path) {
-            return $this->filesystem->lastModified($path);
-        });
+        $sourceModified = $sourceFiles->max(fn ($path) => $this->filesystem->lastModified($path));
 
         $compiled = public_path("lang/$locale.js");
         $compiledModified = (int) $this->cache->get($this->prefix.$locale, 0);
@@ -51,10 +42,7 @@ class JavaScript
         if ($sourceModified > $compiledModified || !$this->filesystem->exists($compiled)) {
             $translations = trans('front-end');
             foreach ($plugins as $plugin) {
-                $translations = array_merge(
-                    $translations,
-                    [$plugin->name => trans($plugin->namespace.'::front-end')]
-                );
+                $translations[$plugin->name] = trans($plugin->namespace.'::front-end');
             }
 
             $content = 'blessing.i18n = '.json_encode($translations, JSON_UNESCAPED_UNICODE);

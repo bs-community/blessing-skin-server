@@ -45,12 +45,12 @@ class NotificationsController extends Controller
 
     public function all()
     {
-        return auth()->user()->unreadNotifications->map(function ($notification) {
-            return [
+        return auth()->user()
+            ->unreadNotifications
+            ->map(fn ($notification) => [
                 'id' => $notification->id,
                 'title' => $notification->data['title'],
-            ];
-        });
+            ]);
     }
 
     public function read($id)
@@ -58,9 +58,7 @@ class NotificationsController extends Controller
         $notification = auth()
             ->user()
             ->unreadNotifications
-            ->first(function ($notification) use ($id) {
-                return $notification->id === $id;
-            });
+            ->first(fn ($notification) => $notification->id === $id);
         $notification->markAsRead();
 
         $converter = new GithubFlavoredMarkdownConverter();

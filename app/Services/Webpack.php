@@ -11,12 +11,11 @@ use Illuminate\Support\Str;
 
 class Webpack
 {
-    protected $manifest = [];
+    protected array $manifest = [];
 
-    /** @var Option */
-    protected $options;
+    protected Option $options;
 
-    protected $urlGenerator;
+    protected UrlGenerator $urlGenerator;
 
     public function __construct(
         Filesystem $filesystem,

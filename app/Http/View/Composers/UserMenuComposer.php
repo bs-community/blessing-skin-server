@@ -8,11 +8,9 @@ use Illuminate\View\View;
 
 class UserMenuComposer
 {
-    /** @var Request */
-    protected $request;
+    protected Request $request;
 
-    /** @var Filter */
-    protected $filter;
+    protected Filter $filter;
 
     public function __construct(Request $request, Filter $filter)
     {

@@ -9,11 +9,9 @@ use Illuminate\View\View;
 
 class UserPanelComposer
 {
-    /** @var Dispatcher */
-    protected $dispatcher;
+    protected Dispatcher $dispatcher;
 
-    /** @var Filter */
-    protected $filter;
+    protected Filter $filter;
 
     public function __construct(Dispatcher $dispatcher, Filter $filter)
     {

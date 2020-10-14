@@ -3,6 +3,7 @@
 namespace App\Http\View\Composers;
 
 use App\Events;
+use App\Services\Plugin;
 use App\Services\PluginManager;
 use Blessing\Filter;
 use Illuminate\Http\Request;
@@ -11,11 +12,9 @@ use Illuminate\View\View;
 
 class SideMenuComposer
 {
-    /** @var Request */
-    protected $request;
+    protected Request $request;
 
-    /** @var Filter */
-    protected $filter;
+    protected Filter $filter;
 
     public function __construct(Request $request, Filter $filter)
     {
@@ -44,9 +43,7 @@ class SideMenuComposer
         $menu = $menu[$type];
         $menu = $this->filter->apply('side_menu', $menu, [$type]);
 
-        $view->with('items', array_map(function ($item) {
-            return $this->transform($item);
-        }, $menu));
+        $view->with('items', array_map(fn ($item) => $this->transform($item), $menu));
     }
 
     public function transform(array $item): array
@@ -66,9 +63,10 @@ class SideMenuComposer
         }
 
         if (Arr::has($item, 'children')) {
-            $item['children'] = array_map(function ($item) {
-                return $this->transform($item);
-            }, $item['children']);
+            $item['children'] = array_map(
+                fn ($item) => $this->transform($item),
+                $item['children'],
+            );
         }
 
         $item['classes'] = $classes;
@@ -82,9 +80,7 @@ class SideMenuComposer
             if (Arr::get($item, 'id') === 'plugin-configs') {
                 $pluginConfigs = resolve(PluginManager::class)
                     ->getEnabledPlugins()
-                    ->filter(function ($plugin) {
-                        return $plugin->hasConfig();
-                    })
+                    ->filter(fn (Plugin $plugin) => $plugin->hasConfig())
                     ->map(function ($plugin) {
                         return [
                             'title' => trans($plugin->title),
@@ -95,7 +91,7 @@ class SideMenuComposer
 
                 // Don't display this menu item when no plugin config is available
                 if ($pluginConfigs->isNotEmpty()) {
-                    $item['children'] = array_merge($item['children'], $pluginConfigs->values()->all());
+                    array_push($item['children'], ...$pluginConfigs->values()->all());
 
                     return $item;
                 }

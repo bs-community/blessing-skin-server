@@ -7,8 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 
 class CopyPluginAssets
 {
-    /** @var Filesystem */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     public function __construct(Filesystem $filesystem)
     {

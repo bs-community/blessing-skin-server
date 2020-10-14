@@ -66,9 +66,7 @@ class Hook
         $urls = collect($urls);
         $pages = collect($pages);
         resolve(Filter::class)->add('head_links', function ($links) use ($urls, $pages) {
-            $matched = $pages->some(function ($page) {
-                return request()->is($page);
-            });
+            $matched = $pages->some(fn ($page) => request()->is($page));
             if ($matched) {
                 $urls->each(function ($url) use (&$links) {
                     $links[] = [
@@ -88,9 +86,7 @@ class Hook
         $urls = collect($urls);
         $pages = collect($pages);
         resolve(Filter::class)->add('scripts', function ($scripts) use ($urls, $pages) {
-            $matched = $pages->some(function ($page) {
-                return request()->is($page);
-            });
+            $matched = $pages->some(fn ($page) => request()->is($page));
             if ($matched) {
                 $urls->each(function ($url) use (&$scripts) {
                     $scripts[] = ['src' => $url, 'crossorigin' => 'anonymous'];

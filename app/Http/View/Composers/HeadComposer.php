@@ -12,17 +12,13 @@ use Illuminate\View\View;
 
 class HeadComposer
 {
-    /** @var Webpack */
-    protected $webpack;
+    protected Webpack $webpack;
 
-    /** @var Dispatcher */
-    protected $dispatcher;
+    protected Dispatcher $dispatcher;
 
-    /** @var Request */
-    protected $request;
+    protected Request $request;
 
-    /** @var Filter */
-    protected $filter;
+    protected Filter $filter;
 
     public function __construct(
         Webpack $webpack,

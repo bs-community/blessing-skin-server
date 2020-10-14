@@ -47,25 +47,13 @@ class AdminController extends Controller
 
     public function chartData()
     {
-        $xAxis = Collection::times(31, function ($i) {
-            return Carbon::today()->subDays(31 - $i)->format('m-d');
-        });
+        $xAxis = Collection::times(31, fn ($i) => Carbon::today()->subDays(31 - $i)->format('m-d'));
 
         $oneMonthAgo = Carbon::today()->subMonth();
 
-        $grouping = function ($field) {
-            return function ($item) use ($field) {
-                return substr($item->$field, 5, 5);
-            };
-        };
-        $mapping = function ($item) {
-            return count($item);
-        };
-        $aligning = function ($data) {
-            return function ($day) use ($data) {
-                return $data->get($day) ?? 0;
-            };
-        };
+        $grouping = fn ($field) => fn ($item) => substr($item->$field, 5, 5);
+        $mapping = fn ($item) => count($item);
+        $aligning = fn ($data) => fn ($day) => ($data->get($day) ?? 0);
 
         $userRegistration = User::where('register_at', '>=', $oneMonthAgo)
             ->select('register_at')
@@ -105,9 +93,9 @@ class AdminController extends Controller
             'pgsql' => 'PostgreSQL',
         ], config('database.default'), '');
 
-        $enabledPlugins = $plugins->getEnabledPlugins()->map(function ($plugin) {
-            return ['title' => trans($plugin->title), 'version' => $plugin->version];
-        });
+        $enabledPlugins = $plugins->getEnabledPlugins()->map(fn ($plugin) => [
+            'title' => trans($plugin->title), 'version' => $plugin->version,
+        ]);
 
         if ($filesystem->exists(base_path('.git'))) {
             $process = new \Symfony\Component\Process\Process(

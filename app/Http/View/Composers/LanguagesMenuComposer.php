@@ -8,8 +8,7 @@ use Illuminate\View\View;
 
 class LanguagesMenuComposer
 {
-    /** @var Request */
-    protected $request;
+    protected Request $request;
 
     public function __construct(Request $request)
     {
@@ -22,9 +21,7 @@ class LanguagesMenuComposer
         $path = $this->request->path();
 
         $langs = collect(config('locales'))
-            ->reject(function ($locale) {
-                return Arr::has($locale, 'alias');
-            })
+            ->reject(fn ($locale) => Arr::has($locale, 'alias'))
             ->map(function ($locale, $id) use ($query, $path) {
                 $query = array_merge($query, ['lang' => $id]);
                 $locale['url'] = url($path.'?'.http_build_query($query));

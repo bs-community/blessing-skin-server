@@ -6,8 +6,7 @@ use App\Services\Plugin;
 
 class PluginBootFailed extends Event
 {
-    /** @var Plugin */
-    public $plugin;
+    public Plugin $plugin;
 
     public function __construct(Plugin $plugin)
     {

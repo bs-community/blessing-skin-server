@@ -51,14 +51,15 @@ class ClosetController extends Controller
 
         return $user
             ->closet()
-            ->when($category === 'cape', function (Builder $query) {
-                return $query->where('type', 'cape');
-            }, function (Builder $query) {
-                return $query->whereIn('type', ['steve', 'alex']);
-            })
-            ->when($request->input('q'), function (Builder $query, $search) {
-                return $query->like('item_name', $search);
-            })
+            ->when(
+                $category === 'cape',
+                fn (Builder $query) => $query->where('type', 'cape'),
+                fn (Builder $query) => $query->whereIn('type', ['steve', 'alex']),
+            )
+            ->when(
+                $request->input('q'),
+                fn (Builder $query, $search) => $query->like('item_name', $search)
+            )
             ->paginate((int) $request->input('perPage', 6));
     }
 

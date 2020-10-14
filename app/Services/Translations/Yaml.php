@@ -7,8 +7,7 @@ use Symfony\Component\Yaml\Yaml as YamlParser;
 
 class Yaml
 {
-    /** @var Repository */
-    protected $cache;
+    protected Repository $cache;
 
     protected $prefix = 'yaml-trans-';
 

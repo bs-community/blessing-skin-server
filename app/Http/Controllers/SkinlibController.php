@@ -68,17 +68,13 @@ class SkinlibController extends Controller
         $sortBy = $sort == 'time' ? 'upload_at' : $sort;
 
         return Texture::orderBy($sortBy, 'desc')
-            ->when($type === 'skin', function (Builder $query) {
-                return $query->whereIn('type', ['steve', 'alex']);
-            }, function (Builder $query) use ($type) {
-                return $query->where('type', $type);
-            })
-            ->when($keyword, function (Builder $query, $keyword) {
-                return $query->like('name', $keyword);
-            })
-            ->when($uploader, function (Builder $query, $uploader) {
-                return $query->where('uploader', $uploader);
-            })
+            ->when(
+                $type === 'skin',
+                fn (Builder $query) => $query->whereIn('type', ['steve', 'alex']),
+                fn (Builder $query) => $query->where('type', $type),
+            )
+            ->when($keyword, fn (Builder $query, $keyword) => $query->like('name', $keyword))
+            ->when($uploader, fn (Builder $query, $uploader) => $query->where('uploader', $uploader))
             ->when($user, function (Builder $query, User $user) {
                 if (!$user->isAdmin()) {
                     // use closure-style `where` clause to lift up SQL priority
@@ -262,10 +258,9 @@ class SkinlibController extends Controller
         $user = Auth::user();
 
         $duplicated = Texture::where('hash', $hash)
-            ->where(function ($query) use ($user) {
-                return $query->where('public', true)
-                    ->orWhere('uploader', $user->uid);
-            })
+            ->where(
+                fn (Builder $query) => $query->where('public', true)->orWhere('uploader', $user->uid)
+            )
             ->first();
         if ($duplicated) {
             // if the texture already uploaded was set to private,

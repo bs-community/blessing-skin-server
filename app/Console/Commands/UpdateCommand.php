@@ -37,10 +37,8 @@ class UpdateCommand extends Command
     protected function procedures()
     {
         return collect([
-            '0.0.1' => function () {
-                // this is just for testing
-                event('__0.0.1');
-            },
+            // this is just for testing
+            '0.0.1' => fn () => event('__0.0.1'),
             '5.0.0' => function () {
                 if (option('home_pic_url') === './app/bg.jpg') {
                     option(['home_pic_url' => './app/bg.webp']);

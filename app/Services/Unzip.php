@@ -10,11 +10,9 @@ use ZipArchive;
 
 class Unzip
 {
-    /** @var Filesystem */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /** @var ZipArchive */
-    protected $zipper;
+    protected ZipArchive $zipper;
 
     public function __construct(Filesystem $filesystem, ZipArchive $zipper)
     {

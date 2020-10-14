@@ -329,7 +329,7 @@ class OptionForm
         $this->assignValues();
 
         return view('forms.form')
-            ->with(array_merge(get_object_vars($this)))
+            ->with(get_object_vars($this))
             ->render();
     }
 

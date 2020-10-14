@@ -375,9 +375,7 @@ class PluginManagerTest extends TestCase
                 ->with('/mayaka/bootstrap.php')
                 ->andReturn(function () {
                     throw new \Exception();
-                }, function () {
-                    abort(500);
-                });
+                }, fn () => abort(500));
         });
 
         app()->forgetInstance(PluginManager::class);

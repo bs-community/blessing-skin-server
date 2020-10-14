@@ -15,7 +15,7 @@ class Filter extends BaseFilter
         if (!Arr::has($this->applied, $hook)) {
             $this->applied[$hook] = [];
         }
-        $this->applied[$hook][] = array_merge([$init], $args);
+        $this->applied[$hook][] = [$init, ...$args];
 
         return parent::apply($hook, $init, $args);
     }
@@ -56,9 +56,7 @@ class Filter extends BaseFilter
 
         $result = Arr::first(
             $this->applied[$hook],
-            function ($arguments) use ($predicate) {
-                return call_user_func_array($predicate, $arguments);
-            }
+            fn ($arguments) => call_user_func_array($predicate, $arguments),
         );
         Assert::assertNotNull(
             $result,

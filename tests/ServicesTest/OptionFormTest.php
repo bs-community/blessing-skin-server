@@ -242,9 +242,7 @@ class OptionFormTest extends TestCase
     public function testHandle()
     {
         $form = new OptionForm('test');
-        $form->text('t')->format(function ($data) {
-            return "formatted $data";
-        });
+        $form->text('t')->format(fn ($data) => "formatted $data");
 
         $request = request();
         $request->setMethod('POST');

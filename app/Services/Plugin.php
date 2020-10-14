@@ -15,19 +15,11 @@ class Plugin
         'README.MD',
     ];
 
-    /**
-     * The full path of this plugin.
-     *
-     * @var string
-     */
-    protected $path;
+    /** The full path of this plugin. */
+    protected string $path;
 
-    /**
-     * package.json of the package.
-     *
-     * @var array
-     */
-    protected $manifest;
+    /** package.json of the package. */
+    protected array $manifest;
 
     protected $enabled = false;
 
@@ -61,9 +53,10 @@ class Plugin
 
     public function getReadme()
     {
-        return Arr::first(self::README_FILES, function ($filename) {
-            return file_exists($this->path.'/'.$filename);
-        });
+        return Arr::first(
+            self::README_FILES,
+            fn ($filename) => file_exists($this->path.'/'.$filename)
+        );
     }
 
     public function hasConfig(): bool

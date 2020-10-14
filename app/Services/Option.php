@@ -21,9 +21,9 @@ class Option
         }
 
         try {
-            $this->items = DB::table('options')->get()->mapWithKeys(function ($item) {
-                return [$item->option_name => $item->option_value];
-            });
+            $this->items = DB::table('options')
+                ->get()
+                ->mapWithKeys(fn ($item) => [$item->option_name => $item->option_value]);
         } catch (QueryException $e) {
             $this->items = collect();
         }

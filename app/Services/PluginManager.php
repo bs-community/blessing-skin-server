@@ -16,29 +16,21 @@ use Illuminate\Support\Str;
 
 class PluginManager
 {
-    /** @var bool */
-    protected $booted = false;
+    protected bool $booted = false;
 
-    /** @var Application */
-    protected $app;
+    protected Application $app;
 
-    /** @var Option */
-    protected $option;
+    protected Option $option;
 
-    /** @var Dispatcher */
-    protected $dispatcher;
+    protected Dispatcher $dispatcher;
 
-    /** @var Filesystem */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /** @var ClassLoader */
-    protected $loader;
+    protected ClassLoader $loader;
 
-    /** @var Collection|null */
-    protected $plugins;
+    protected ?Collection $plugins;
 
-    /** @var Collection */
-    protected $enabled;
+    protected Collection $enabled;
 
     public function __construct(
         Application $app,
@@ -56,28 +48,20 @@ class PluginManager
 
     public function all(): Collection
     {
-        if (filled($this->plugins)) {
+        if (isset($this->plugins)) {
             return $this->plugins;
         }
 
         $this->enabled = collect(json_decode($this->option->get('plugins_enabled', '[]'), true))
-            ->reject(function ($item) {
-                return is_string($item);
-            })
-            ->mapWithKeys(function ($item) {
-                return [$item['name'] => ['version' => $item['version']]];
-            });
+            ->reject(fn ($item) => is_string($item))
+            ->mapWithKeys(fn ($item) => [$item['name'] => ['version' => $item['version']]]);
         $plugins = collect();
         $versionChanged = [];
 
         $this->getPluginsDirs()
-            ->flatMap(function ($directory) {
-                return $this->filesystem->directories($directory);
-            })
+            ->flatMap(fn ($dir) => $this->filesystem->directories($dir))
             ->unique()
-            ->filter(function ($directory) {
-                return $this->filesystem->exists($directory.DIRECTORY_SEPARATOR.'package.json');
-            })
+            ->filter(fn ($dir) => $this->filesystem->exists($dir.DIRECTORY_SEPARATOR.'package.json'))
             ->each(function ($directory) use (&$plugins, &$versionChanged) {
                 $manifest = json_decode(
                     $this->filesystem->get($directory.DIRECTORY_SEPARATOR.'package.json'),
@@ -126,18 +110,12 @@ class PluginManager
             return;
         }
 
-        $this->all()->each(function ($plugin) {
-            $this->loadViewsAndTranslations($plugin);
-        });
+        $this->all()->each(fn ($plugin) => $this->loadViewsAndTranslations($plugin));
 
         $enabled = $this->getEnabledPlugins();
-        $enabled->each(function ($plugin) {
-            $this->registerPlugin($plugin);
-        });
+        $enabled->each(fn ($plugin) => $this->registerPlugin($plugin));
         $this->loader->register();
-        $enabled->each(function ($plugin) {
-            $this->bootPlugin($plugin);
-        });
+        $enabled->each(fn ($plugin) => $this->bootPlugin($plugin));
         $this->registerLifecycleHooks();
 
         $this->booted = true;
@@ -324,9 +302,7 @@ class PluginManager
 
     public function getEnabledPlugins(): Collection
     {
-        return $this->all()->filter(function ($plugin) {
-            return $plugin->isEnabled();
-        });
+        return $this->all()->filter(fn ($plugin) => $plugin->isEnabled());
     }
 
     /**
@@ -334,9 +310,13 @@ class PluginManager
      */
     protected function saveEnabled()
     {
-        $this->option->set('plugins_enabled', $this->enabled->map(function ($info, $name) {
-            return array_merge(compact('name'), $info);
-        })->values()->toJson());
+        $this->option->set(
+            'plugins_enabled',
+            $this->enabled
+                ->map(fn ($info, $name) => array_merge(['name' => $name], $info))
+                ->values()
+                ->toJson()
+        );
     }
 
     public function getUnsatisfied(Plugin $plugin)
@@ -419,9 +399,7 @@ class PluginManager
         $config = config('plugins.directory');
         if ($config) {
             return collect(preg_split('/,\s*/', $config))
-                ->map(function ($directory) {
-                    return realpath($directory) ?: $directory;
-                });
+                ->map(fn ($directory) => realpath($directory) ?: $directory);
         } else {
             return collect([base_path('plugins')]);
         }
