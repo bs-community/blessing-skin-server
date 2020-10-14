@@ -12,7 +12,7 @@ class UpdateScoreForDeletedTextureTest extends TestCase
     public function testPublicTexture()
     {
         option(['return_score' => true]);
-        $texture = factory(Texture::class)->create();
+        $texture = Texture::factory()->create();
         $uploader = $texture->owner->replicate();
 
         event('texture.deleted', [$texture]);
@@ -25,7 +25,7 @@ class UpdateScoreForDeletedTextureTest extends TestCase
     public function testPrivateTexture()
     {
         option(['return_score' => true]);
-        $texture = factory(Texture::class)->create(['public' => false]);
+        $texture = Texture::factory()->private()->create();
         $uploader = $texture->owner->replicate();
 
         event('texture.deleted', [$texture]);
@@ -43,7 +43,7 @@ class UpdateScoreForDeletedTextureTest extends TestCase
             'score_per_storage' => 0,
         ]);
 
-        $texture = factory(Texture::class)->create();
+        $texture = Texture::factory()->create();
         $uploader = $texture->owner->replicate();
 
         event('texture.deleted', [$texture]);
@@ -61,7 +61,7 @@ class UpdateScoreForDeletedTextureTest extends TestCase
             'private_score_per_storage' => 0,
         ]);
 
-        $texture = factory(Texture::class)->create(['public' => false]);
+        $texture = Texture::factory()->private()->create();
         $uploader = $texture->owner->replicate();
 
         event('texture.deleted', [$texture]);

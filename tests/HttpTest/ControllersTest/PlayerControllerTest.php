@@ -17,7 +17,7 @@ class PlayerControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(User::factory()->create());
     }
 
     public function testIndex()
@@ -30,8 +30,8 @@ class PlayerControllerTest extends TestCase
 
     public function testList()
     {
-        $user = factory(User::class)->create();
-        $player = factory(Player::class)->create(['uid' => $user->uid]);
+        $user = User::factory()->create();
+        $player = Player::factory()->create(['uid' => $user->uid]);
         $this->actingAs($user)
             ->get('/user/player/list')
             ->assertJson([$player->toArray()]);
@@ -39,8 +39,8 @@ class PlayerControllerTest extends TestCase
 
     public function testAccessControl()
     {
-        $user = factory(User::class)->make();
-        $player = factory(Player::class)->create();
+        $user = User::factory()->make();
+        $player = Player::factory()->create();
 
         $this->actingAs($user)
             ->deleteJson(route('user.player.delete', ['player' => $player]))
@@ -76,12 +76,12 @@ class PlayerControllerTest extends TestCase
 
         // with an existed player name
         option(['player_name_rule' => 'official']);
-        $existed = factory(Player::class)->create();
+        $existed = Player::factory()->create();
         $this->postJson(route('user.player.add'), ['name' => $existed->name])
             ->assertJsonValidationErrors('name');
 
         // Lack of score
-        $user = factory(User::class)->create(['score' => 0]);
+        $user = User::factory()->create(['score' => 0]);
         $this->actingAs($user)->postJson(
             route('user.player.add'),
             ['name' => 'no_score']
@@ -122,7 +122,7 @@ class PlayerControllerTest extends TestCase
         // Allowed to use CJK characters
         Event::fake();
         option(['player_name_rule' => 'cjk']);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $score = $user->score;
         $this->actingAs($user)->postJson(route('user.player.add'), [
             'name' => '角色名',
@@ -165,8 +165,8 @@ class PlayerControllerTest extends TestCase
         Event::fake();
         $filter = Fakes\Filter::fake();
 
-        $user = factory(User::class)->create();
-        $player = factory(Player::class)->create(['uid' => $user->uid]);
+        $user = User::factory()->create();
+        $player = Player::factory()->create(['uid' => $user->uid]);
         $score = $user->score;
 
         // rejected
@@ -214,7 +214,7 @@ class PlayerControllerTest extends TestCase
 
         // No returning score
         option(['return_score' => false]);
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
         $user = $player->user;
         $this->actingAs($user)
             ->deleteJson(route('user.player.delete', ['player' => $player]))
@@ -231,7 +231,7 @@ class PlayerControllerTest extends TestCase
     public function testRename()
     {
         Event::fake();
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
         $user = $player->user;
 
         // Without new player name
@@ -254,7 +254,7 @@ class PlayerControllerTest extends TestCase
             )->assertJsonValidationErrors('name');
 
         // with an existed player name
-        $existed = factory(Player::class)->create();
+        $existed = Player::factory()->create();
         $this->putJson(
                 route('user.player.rename', ['player' => $player]),
                 ['name' => $existed->name]
@@ -268,7 +268,7 @@ class PlayerControllerTest extends TestCase
 
             return new Rejection('rejected');
         });
-        factory(Player::class)->create()->name;
+        Player::factory()->create()->name;
         $this->putJson(
             route('user.player.rename', ['player' => $player]),
             ['name' => 'new']
@@ -314,10 +314,10 @@ class PlayerControllerTest extends TestCase
 
     public function testSetTexture()
     {
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
         $user = $player->user;
-        $skin = factory(Texture::class)->create();
-        $cape = factory(Texture::class)->state('cape')->create();
+        $skin = Texture::factory()->create();
+        $cape = Texture::factory()->cape()->create();
 
         // rejected
         $filter = Fakes\Filter::fake();
@@ -341,7 +341,7 @@ class PlayerControllerTest extends TestCase
             ]);
 
         // set a private texture
-        $private = factory(Texture::class)->state('private')->create();
+        $private = Texture::factory()->private()->create();
         $this->putJson(
                 route('user.player.set', ['player' => $player]),
                 ['skin' => $private->tid]
@@ -397,7 +397,7 @@ class PlayerControllerTest extends TestCase
     public function testClearTexture()
     {
         Event::fake();
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
         $user = $player->user;
 
         $player->tid_skin = 1;

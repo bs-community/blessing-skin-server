@@ -12,8 +12,8 @@ class ResetPlayersTest extends TestCase
 
     public function testPublicTexture()
     {
-        $texture = factory(Texture::class)->create();
-        $player = factory(Player::class)->create(['tid_skin' => $texture->tid]);
+        $texture = Texture::factory()->create();
+        $player = Player::factory()->create(['tid_skin' => $texture->tid]);
 
         event('texture.privacy.updated', [$texture]);
         $player->refresh();
@@ -22,9 +22,9 @@ class ResetPlayersTest extends TestCase
 
     public function testPrivateTexture()
     {
-        $texture = factory(Texture::class)->create(['public' => false]);
-        $player = factory(Player::class)->create(['tid_skin' => $texture->tid]);
-        $playerOfUploader = factory(Player::class)->create([
+        $texture = Texture::factory()->private()->create();
+        $player = Player::factory()->create(['tid_skin' => $texture->tid]);
+        $playerOfUploader = Player::factory()->create([
             'uid' => $texture->uploader,
             'tid_skin' => $texture->tid,
         ]);
@@ -39,9 +39,9 @@ class ResetPlayersTest extends TestCase
 
     public function testDeletedTexture()
     {
-        $texture = factory(Texture::class)->create();
-        $player = factory(Player::class)->create(['tid_skin' => $texture->tid]);
-        $playerOfUploader = factory(Player::class)->create([
+        $texture = Texture::factory()->create();
+        $player = Player::factory()->create(['tid_skin' => $texture->tid]);
+        $playerOfUploader = Player::factory()->create([
             'uid' => $texture->uploader,
             'tid_skin' => $texture->tid,
         ]);

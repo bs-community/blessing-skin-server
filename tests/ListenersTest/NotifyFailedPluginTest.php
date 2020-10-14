@@ -17,12 +17,12 @@ class NotifyFailedPluginTest extends TestCase
         event(new Events\RenderingFooter($content));
         $this->assertCount(0, $content);
 
-        $this->actingAs(factory(User::class)->make());
+        $this->actingAs(User::factory()->make());
         event(new Events\PluginBootFailed($plugin));
         event(new Events\RenderingFooter($content));
         $this->assertCount(0, $content);
 
-        $this->actingAs(factory(User::class)->states('admin')->make());
+        $this->actingAs(User::factory()->admin()->make());
         event(new Events\PluginBootFailed($plugin));
         event(new Events\RenderingFooter($content));
         $this->assertStringContainsString('blessing.notify.toast', $content[0]);

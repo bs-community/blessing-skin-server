@@ -14,13 +14,13 @@ class ClosetManagementControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(factory(User::class)->states('admin')->create());
+        $this->actingAs(User::factory()->admin()->create());
     }
 
     public function testList()
     {
-        $texture = factory(Texture::class)->create();
-        $admin = factory(User::class)->states('admin')->create();
+        $texture = Texture::factory()->create();
+        $admin = User::factory()->admin()->create();
         $admin->closet()->attach($texture->tid);
 
         $this->actingAs($admin, 'oauth')
@@ -31,8 +31,8 @@ class ClosetManagementControllerTest extends TestCase
     public function testAdd()
     {
         Event::fake();
-        $user = factory(User::class)->create();
-        $texture = factory(Texture::class)->create();
+        $user = User::factory()->create();
+        $texture = Texture::factory()->create();
 
         $this->postJson('/admin/closet/'.$user->uid, ['tid' => $texture->tid])
             ->assertJson([
@@ -70,8 +70,8 @@ class ClosetManagementControllerTest extends TestCase
     public function testRemove()
     {
         Event::fake();
-        $user = factory(User::class)->create();
-        $texture = factory(Texture::class)->create();
+        $user = User::factory()->create();
+        $texture = Texture::factory()->create();
         $user->closet()->attach($texture->tid, ['item_name' => '']);
 
         $this->deleteJson('/admin/closet/'.$user->uid, ['tid' => $texture->tid])

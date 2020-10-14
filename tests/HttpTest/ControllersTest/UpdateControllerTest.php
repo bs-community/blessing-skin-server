@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\User;
 use App\Services\Unzip;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Http;
@@ -13,7 +14,7 @@ class UpdateControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(factory(\App\Models\User::class)->states('superAdmin')->create());
+        $this->actingAs(User::factory()->superAdmin()->create());
     }
 
     public function testShowUpdatePage()

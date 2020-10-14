@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\User;
 use App\Services\Plugin;
 use App\Services\PluginManager;
 use App\Services\Unzip;
@@ -17,7 +18,7 @@ class PluginControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(factory(\App\Models\User::class)->states('superAdmin')->create());
+        $this->actingAs(User::factory()->superAdmin()->create());
     }
 
     public function testShowManage()

@@ -11,7 +11,7 @@ class CheckUserVerifiedTest extends TestCase
 
     public function testHandle()
     {
-        $unverified = factory(User::class)->create(['verified' => false]);
+        $unverified = User::factory()->create(['verified' => false]);
 
         option(['require_verification' => false]);
         $this->actingAs($unverified)
@@ -24,11 +24,11 @@ class CheckUserVerifiedTest extends TestCase
             ->assertStatus(403)
             ->assertSee(trans('auth.check.verified'));
 
-        $this->actingAs(factory(User::class)->create())
+        $this->actingAs(User::factory()->create())
             ->get('/skinlib/upload')
             ->assertSuccessful();
 
-        $user = factory(User::class)->create(['verified' => false]);
+        $user = User::factory()->create(['verified' => false]);
         $this->actingAs($user)->get('/user/oauth/manage')->assertForbidden();
         $this->getJson('/oauth/clients')->assertForbidden();
         $user->verified = true;

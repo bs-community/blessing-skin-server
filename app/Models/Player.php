@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\PlayerProfileUpdated;
 use App\Models;
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Lorisleiva\LaravelSearchString\Concerns\SearchString;
@@ -23,6 +24,7 @@ use Lorisleiva\LaravelSearchString\Concerns\SearchString;
  */
 class Player extends Model
 {
+    use HasFactory;
     use SearchString;
 
     public const CREATED_AT = null;

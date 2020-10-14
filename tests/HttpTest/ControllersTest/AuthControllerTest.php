@@ -45,9 +45,9 @@ class AuthControllerTest extends TestCase
     {
         Event::fake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->changePassword('12345678');
-        $player = factory(Player::class)->create(['uid' => $user->uid]);
+        $player = Player::factory()->create(['uid' => $user->uid]);
 
         // Should return a warning if `identification` is empty
         $this->postJson('/auth/login')->assertJsonValidationErrors('identification');
@@ -218,7 +218,7 @@ class AuthControllerTest extends TestCase
     {
         Event::fake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user)->postJson('/auth/logout')->assertJson(
             [
                 'code' => 0,
@@ -263,7 +263,7 @@ class AuthControllerTest extends TestCase
         )->assertJsonValidationErrors('email');
 
         // An existed user
-        $existedUser = factory(User::class)->create();
+        $existedUser = User::factory()->create();
         $this->postJson(
             '/auth/register',
             ['email' => $existedUser->email]
@@ -328,7 +328,7 @@ class AuthControllerTest extends TestCase
         )->assertJsonValidationErrors('player_name');
 
         // Existed player
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
         $this->postJson(
             '/auth/register',
             [
@@ -559,7 +559,7 @@ class AuthControllerTest extends TestCase
         $this->flushSession();
 
         // Should return a warning if user is not existed
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->withSession(['phrase' => 'a'])->postJson('/auth/forgot', [
             'email' => 'nope@nope.net',
             'captcha' => 'a',
@@ -630,7 +630,7 @@ class AuthControllerTest extends TestCase
 
     public function testReset()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $url = URL::temporarySignedRoute(
             'auth.reset',
             Carbon::now()->addHour(),
@@ -651,7 +651,7 @@ class AuthControllerTest extends TestCase
     {
         Event::fake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $url = URL::temporarySignedRoute(
             'auth.reset',
             Carbon::now()->addHour(),
@@ -711,8 +711,8 @@ class AuthControllerTest extends TestCase
 
     public function testFillEmail()
     {
-        $user = factory(User::class)->create(['email' => '']);
-        $other = factory(User::class)->create();
+        $user = User::factory()->create(['email' => '']);
+        $other = User::factory()->create();
         $this->actingAs($user)->post('/auth/bind')->assertRedirect('/');
         $this->actingAs($user)->post('/auth/bind', ['email' => 'a'])->assertRedirect('/');
         $this->actingAs($user)->post('/auth/bind', ['email' => $other->email])->assertRedirect('/');
@@ -734,14 +734,14 @@ class AuthControllerTest extends TestCase
         // invalid link
         $this->get(route('auth.verify', ['user' => 1]))->assertForbidden();
 
-        $user = factory(User::class)->create(['verified' => false]);
+        $user = User::factory()->create(['verified' => false]);
         $url = URL::signedRoute('auth.verify', ['user' => $user], null, false);
         $this->get($url)->assertViewIs('auth.verify');
     }
 
     public function testHandleVerify()
     {
-        $user = factory(User::class)->create(['verified' => false]);
+        $user = User::factory()->create(['verified' => false]);
         $url = URL::signedRoute('auth.verify', ['user' => $user], null, false);
 
         // empty email
@@ -761,14 +761,14 @@ class AuthControllerTest extends TestCase
 
     public function testApiLogin()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->changePassword('12345678');
 
         $this->postJson('/api/auth/login')->assertJson(['token' => false]);
         $token = $this->postJson('/api/auth/login', [
             'email' => $user->email,
             'password' => '12345678',
-        ])->decodeResponseJson('token');
+        ])->json('token');
         $this->assertTrue(is_string($token));
 
         $this->postJson('/api/auth/login', [
@@ -779,12 +779,12 @@ class AuthControllerTest extends TestCase
 
     public function testApiLogout()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->changePassword('12345678');
         $token = $this->postJson('/api/auth/login', [
             'email' => $user->email,
             'password' => '12345678',
-        ])->decodeResponseJson('token');
+        ])->json('token');
 
         $this->post('/api/auth/logout', [], [
             'Authorization' => "Bearer $token",
@@ -793,16 +793,16 @@ class AuthControllerTest extends TestCase
 
     public function testApiRefresh()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->changePassword('12345678');
         $token = $this->postJson('/api/auth/login', [
             'email' => $user->email,
             'password' => '12345678',
-        ])->decodeResponseJson('token');
+        ])->json('token');
 
         $token = $this->postJson('/api/auth/refresh', [], [
             'Authorization' => "Bearer $token",
-        ])->decodeResponseJson('token');
+        ])->json('token');
         $this->assertTrue(is_string($token));
     }
 }

@@ -20,8 +20,8 @@ class ReportControllerTest extends TestCase
         Event::fake();
 
         $filter = resolve(Filter::class);
-        $user = factory(User::class)->create();
-        $texture = factory(Texture::class)->create();
+        $user = User::factory()->create();
+        $texture = Texture::factory()->create();
 
         // without `tid` field
         $this->actingAs($user)
@@ -104,7 +104,7 @@ class ReportControllerTest extends TestCase
 
     public function testTrack()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $report = new Report();
         $report->tid = 1;
         $report->uploader = 0;
@@ -121,9 +121,9 @@ class ReportControllerTest extends TestCase
 
     public function testManage()
     {
-        $uploader = factory(User::class)->create();
-        $reporter = factory(User::class)->states('admin')->create();
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader = User::factory()->create();
+        $reporter = User::factory()->admin()->create();
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
 
         $report = new Report();
         $report->tid = $texture->tid;
@@ -142,8 +142,8 @@ class ReportControllerTest extends TestCase
     {
         Event::fake();
 
-        $admin = factory(User::class)->states('admin')->create();
-        $texture = factory(Texture::class)->create(['uploader' => $admin->uid]);
+        $admin = User::factory()->admin()->create();
+        $texture = Texture::factory()->create(['uploader' => $admin->uid]);
 
         $report = new Report();
         $report->tid = $texture->tid;
@@ -180,10 +180,10 @@ class ReportControllerTest extends TestCase
     {
         Event::fake();
 
-        $uploader = factory(User::class)->create();
-        $reporter = factory(User::class)->create();
-        $admin = factory(User::class)->states('admin')->create();
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader = User::factory()->create();
+        $reporter = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
 
         $report = new Report();
         $report->tid = $texture->tid;
@@ -238,10 +238,10 @@ class ReportControllerTest extends TestCase
         Event::fake();
         $disk = Storage::fake('textures');
 
-        $uploader = factory(User::class)->create();
-        $reporter = factory(User::class)->create();
-        $admin = factory(User::class)->states('admin')->create();
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader = User::factory()->create();
+        $reporter = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
         $disk->put($texture->hash, '');
 
         $report = new Report();
@@ -306,10 +306,10 @@ class ReportControllerTest extends TestCase
     {
         Event::fake();
 
-        $uploader = factory(User::class)->create();
-        $reporter = factory(User::class)->create();
-        $admin = factory(User::class)->states('admin')->create();
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader = User::factory()->create();
+        $reporter = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
 
         $report = new Report();
         $report->tid = $texture->tid;
@@ -351,10 +351,10 @@ class ReportControllerTest extends TestCase
     {
         Event::fake();
 
-        $uploader = factory(User::class)->create();
-        $reporter = factory(User::class)->create();
-        $admin = factory(User::class)->states('admin')->create();
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader = User::factory()->create();
+        $reporter = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
 
         $report = new Report();
         $report->tid = $texture->tid;

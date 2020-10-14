@@ -15,7 +15,7 @@ class AdminControllerTest extends TestCase
     {
         // Do not use `WithoutMiddleware` trait
         parent::setUp();
-        $this->actingAs(factory(\App\Models\User::class)->states('admin')->create());
+        $this->actingAs(User::factory()->admin()->create());
     }
 
     public function testIndex()
@@ -28,9 +28,9 @@ class AdminControllerTest extends TestCase
 
     public function testChartData()
     {
-        factory(User::class)->create();
-        factory(User::class)->create(['register_at' => '2019-01-01 00:00:00']);
-        factory(Texture::class)->create();
+        User::factory()->create();
+        User::factory()->create(['register_at' => '2019-01-01 00:00:00']);
+        Texture::factory()->create();
         $this->getJson('/admin/chart')
             ->assertJson(['labels' => [
                 trans('admin.index.user-registration'),

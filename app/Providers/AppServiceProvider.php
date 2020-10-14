@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(Request $request)
     {
+        Paginator::useBootstrap();
+
         $this->configureUrlGenerator($request);
     }
 

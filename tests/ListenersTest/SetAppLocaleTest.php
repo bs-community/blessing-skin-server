@@ -11,7 +11,7 @@ class SetAppLocaleTest extends TestCase
 
     public function testUpdateUserLocale()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // This is a hacky way.
         // We must call `get` first before set authentication,
@@ -26,7 +26,7 @@ class SetAppLocaleTest extends TestCase
 
     public function testSetAppLocale()
     {
-        $user = factory(User::class)->create(['locale' => 'zh_CN']);
+        $user = User::factory()->create(['locale' => 'zh_CN']);
 
         event(new \Illuminate\Auth\Events\Authenticated('web', $user));
         $this->assertEquals('zh_CN', app()->getLocale());

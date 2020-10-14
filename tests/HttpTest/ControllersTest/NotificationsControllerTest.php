@@ -11,8 +11,8 @@ class NotificationsControllerTest extends TestCase
 {
     public function testSend()
     {
-        $admin = factory(User::class)->states('admin')->create();
-        $normal = factory(User::class)->create();
+        $admin = User::factory()->admin()->create();
+        $normal = User::factory()->create();
         Notification::fake();
 
         $this->actingAs($admin)
@@ -93,7 +93,7 @@ class NotificationsControllerTest extends TestCase
 
     public function testAll()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $notification = new Notifications\SiteMessage('title', 'content');
         Notification::send([$user], $notification);
@@ -107,7 +107,7 @@ class NotificationsControllerTest extends TestCase
 
     public function testRead()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->notify(new Notifications\SiteMessage('Hyouka', 'Kotenbu?'));
         $user->refresh();
         $notification = $user->unreadNotifications->first();

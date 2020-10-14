@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\User;
 use Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
@@ -18,7 +19,7 @@ class OptionsControllerTest extends BrowserKitTestCase
             \App\Services\Translations\JavaScript::class,
             Mockery::spy(\App\Services\Translations\JavaScript::class)
         );
-        $this->actingAs(factory(\App\Models\User::class)->states('admin')->create());
+        $this->actingAs(User::factory()->admin()->create());
     }
 
     public function testCustomize()

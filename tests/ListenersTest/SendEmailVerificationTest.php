@@ -17,7 +17,7 @@ class SendEmailVerificationTest extends TestCase
         Mail::fake();
         option(['require_verification' => true]);
 
-        $user = factory(User::class)->create(['verified' => false]);
+        $user = User::factory()->create(['verified' => false]);
         Event::dispatch('auth.registration.completed', [$user]);
         Mail::assertSent(EmailVerification::class, function ($mail) use ($user) {
             return $mail->hasTo($user->email);

@@ -17,13 +17,13 @@ class TextureControllerTest extends TestCase
 
     public function testJson()
     {
-        $steve = factory(Texture::class)->create();
+        $steve = Texture::factory()->create();
 
         // Player is not existed
         $this->get('/nope.json')->assertStatus(404);
 
         // Player is banned
-        $player = factory(Player::class)->create(['tid_skin' => $steve->tid]);
+        $player = Player::factory()->create(['tid_skin' => $steve->tid]);
         $player->user->permission = User::BANNED;
         $player->user->save();
         $this->get("/{$player->name}.json")
@@ -50,7 +50,7 @@ class TextureControllerTest extends TestCase
             $mock->shouldReceive('renderCape')->andReturn(Image::canvas(1, 1));
         });
 
-        $skin = factory(Texture::class)->create();
+        $skin = Texture::factory()->create();
         $disk->put($skin->hash, '');
         $this->get(route('preview.hash', ['hash' => $skin->hash]))
             ->assertHeader('Content-Type', 'image/webp');
@@ -65,7 +65,7 @@ class TextureControllerTest extends TestCase
             $mock->shouldReceive('renderCape')->andReturn(Image::canvas(1, 1));
         });
 
-        $skin = factory(Texture::class)->create();
+        $skin = Texture::factory()->create();
         $this->get(route('preview.texture', ['texture' => $skin]))->assertNotFound();
 
         $disk->put($skin->hash, '');
@@ -76,7 +76,7 @@ class TextureControllerTest extends TestCase
             ->assertHeader('Content-Type', 'image/png');
         $this->assertTrue(Cache::has('preview-t'.$skin->tid.'-png'));
 
-        $cape = factory(Texture::class)->states('cape')->create();
+        $cape = Texture::factory()->cape()->create();
         $disk->put($cape->hash, '');
         $this->get(route('preview.texture', ['texture' => $cape, 'height' => 100]))
             ->assertHeader('Content-Type', 'image/webp');
@@ -86,7 +86,7 @@ class TextureControllerTest extends TestCase
     public function testRaw()
     {
         $disk = Storage::fake('textures');
-        $skin = factory(Texture::class)->create();
+        $skin = Texture::factory()->create();
 
         // Not found
         $this->get('/raw/0')->assertNotFound();
@@ -106,7 +106,7 @@ class TextureControllerTest extends TestCase
     public function testTexture()
     {
         $disk = Storage::fake('textures');
-        $skin = factory(Texture::class)->create();
+        $skin = Texture::factory()->create();
 
         $this->get('/textures/'.$skin->hash)->assertNotFound();
 
@@ -125,7 +125,7 @@ class TextureControllerTest extends TestCase
 
         $this->get(route('avatar.player', ['name' => 'abc']))->assertNotFound();
 
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
         $this->get(route('avatar.player', ['name' => $player->name]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
@@ -133,7 +133,7 @@ class TextureControllerTest extends TestCase
         $this->mock(Minecraft::class, function ($mock) {
             $mock->shouldReceive('render2dAvatar')->andReturn(Image::canvas(1, 1));
         });
-        $texture = factory(Texture::class)->create();
+        $texture = Texture::factory()->create();
         $disk->put($texture->hash, '');
         $player->tid_skin = $texture->tid;
         $player->save();
@@ -170,7 +170,7 @@ class TextureControllerTest extends TestCase
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->get(route('avatar.user', ['uid' => $user->uid]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
@@ -178,7 +178,7 @@ class TextureControllerTest extends TestCase
         $this->mock(Minecraft::class, function ($mock) {
             $mock->shouldReceive('render2dAvatar')->andReturn(Image::canvas(1, 1));
         });
-        $texture = factory(Texture::class)->create();
+        $texture = Texture::factory()->create();
         $disk->put($texture->hash, '');
         $user->avatar = $texture->tid;
         $user->save();
@@ -213,7 +213,7 @@ class TextureControllerTest extends TestCase
             $mock->shouldReceive('render3dAvatar')->andReturn(Image::canvas(1, 1));
         });
 
-        $texture = factory(Texture::class)->create();
+        $texture = Texture::factory()->create();
         $disk->put($texture->hash, '');
         $this->get(route('avatar.hash', ['hash' => $texture->hash]))
             ->assertSuccessful()
@@ -236,7 +236,7 @@ class TextureControllerTest extends TestCase
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
 
-        $texture = factory(Texture::class)->create();
+        $texture = Texture::factory()->create();
         $this->get(route('avatar.texture', ['tid' => $texture->tid]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');

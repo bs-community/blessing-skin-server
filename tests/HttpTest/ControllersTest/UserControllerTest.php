@@ -21,7 +21,7 @@ class UserControllerTest extends TestCase
 
     public function testUser()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user, 'jwt')
             ->get('/api/user')
             ->assertJson($user->toArray());
@@ -31,9 +31,9 @@ class UserControllerTest extends TestCase
     {
         $filter = Fakes\Filter::fake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $uid = $user->uid;
-        factory(\App\Models\Player::class)->create(['uid' => $uid]);
+        \App\Models\Player::factory()->create(['uid' => $uid]);
 
         $converter = new GithubFlavoredMarkdownConverter();
         $announcement = $converter->convertToHtml(option_localized('announcement'));
@@ -48,7 +48,7 @@ class UserControllerTest extends TestCase
             return true;
         });
 
-        $unverified = factory(User::class)->create(['verified' => false]);
+        $unverified = User::factory()->create(['verified' => false]);
         $this->actingAs($unverified)
             ->get('/user')
             ->assertDontSee(trans('user.verification.notice.title'));
@@ -56,8 +56,8 @@ class UserControllerTest extends TestCase
 
     public function testScoreInfo()
     {
-        $user = factory(User::class)->create();
-        factory(\App\Models\Player::class)->create(['uid' => $user->uid]);
+        $user = User::factory()->create();
+        \App\Models\Player::factory()->create(['uid' => $user->uid]);
 
         $this->actingAs($user)
             ->get('/user/score-info')
@@ -84,7 +84,7 @@ class UserControllerTest extends TestCase
         Event::fake();
         $filter = Fakes\Filter::fake();
         option(['sign_score' => '50,50']);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // success
         $this->actingAs($user)
@@ -114,7 +114,7 @@ class UserControllerTest extends TestCase
 
         // remaining time is greater than 0
         Event::fake();
-        $user = factory(User::class)->create(['last_sign_at' => Carbon::now()]);
+        $user = User::factory()->create(['last_sign_at' => Carbon::now()]);
         option(['sign_gap_time' => 2]);
         $this->actingAs($user)
             ->postJson('/user/sign')
@@ -125,14 +125,14 @@ class UserControllerTest extends TestCase
         // can sign after 0 o'clock
         Event::fake();
         option(['sign_after_zero' => true]);
-        $user = factory(User::class)->create(['last_sign_at' => Carbon::now()]);
+        $user = User::factory()->create(['last_sign_at' => Carbon::now()]);
         $this->actingAs($user)
             ->postJson('/user/sign')
             ->assertJson(['code' => 1]);
         Event::assertNotDispatched('user.sign.before');
         Event::assertNotDispatched('user.sign.after');
 
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'last_sign_at' => Carbon::today(),
         ]);
         $this->actingAs($user)
@@ -155,8 +155,8 @@ class UserControllerTest extends TestCase
     {
         Mail::fake();
 
-        $unverified = factory(User::class)->create(['verified' => false]);
-        $verified = factory(User::class)->create();
+        $unverified = User::factory()->create(['verified' => false]);
+        $verified = User::factory()->create();
 
         // Should be forbidden if account verification is disabled
         option(['require_verification' => false]);
@@ -222,7 +222,7 @@ class UserControllerTest extends TestCase
     {
         $filter = Fakes\Filter::fake();
 
-        $this->actingAs(factory(User::class)->create())
+        $this->actingAs(User::factory()->create())
             ->get('/user/profile')
             ->assertViewIs('user.profile');
         $filter->assertApplied('grid:user.profile');
@@ -231,7 +231,7 @@ class UserControllerTest extends TestCase
     public function testHandleProfile()
     {
         Event::fake();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->changePassword('12345678');
         $uid = $user->uid;
 
@@ -495,7 +495,7 @@ class UserControllerTest extends TestCase
         $this->assertNull(User::find($user->uid));
 
         // Administrator cannot be deleted
-        $this->actingAs(factory(User::class)->states('admin')->create())
+        $this->actingAs(User::factory()->admin()->create())
             ->postJson('/user/profile', [
             'action' => 'delete',
             'password' => '87654321',
@@ -507,10 +507,10 @@ class UserControllerTest extends TestCase
 
     public function testSetAvatar()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $uid = $user->uid;
-        $steve = factory(Texture::class)->create();
-        $cape = factory(Texture::class)->states('cape')->create();
+        $steve = Texture::factory()->create();
+        $cape = Texture::factory()->cape()->create();
 
         // without `tid` field
         $this->actingAs($user)
@@ -539,7 +539,7 @@ class UserControllerTest extends TestCase
             ]);
 
         // use private texture
-        $private = factory(Texture::class)->state('private')->create();
+        $private = Texture::factory()->private()->create();
         $this->actingAs($user)
             ->postJson('/user/profile/avatar', ['tid' => $private->tid])
             ->assertJson([

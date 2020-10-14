@@ -20,8 +20,8 @@ class SkinlibControllerTest extends TestCase
     {
         Storage::fake('textures');
 
-        $other = factory(User::class)->create();
-        $texture = factory(Texture::class)->create();
+        $other = User::factory()->create();
+        $texture = Texture::factory()->create();
 
         // other user should not be able to delete
         $this->actingAs($other)
@@ -30,24 +30,24 @@ class SkinlibControllerTest extends TestCase
             ->assertForbidden();
 
         // administrators can delete it
-        $this->actingAs(factory(User::class)->states('admin')->create())
+        $this->actingAs(User::factory()->admin()->create())
             ->deleteJson(route('texture.delete', ['texture' => $texture]))
             ->assertJson(['code' => 0]);
     }
 
     public function testLibrary()
     {
-        $steve = factory(Texture::class)->create([
+        $steve = Texture::factory()->create([
             'name' => 'ab',
             'upload_at' => Carbon::now()->subDays(2),
             'likes' => 80,
         ]);
-        $alex = factory(Texture::class)->states('alex')->create([
+        $alex = Texture::factory()->alex()->create([
             'name' => 'cd',
             'upload_at' => Carbon::now()->subDays(1),
             'likes' => 60,
         ]);
-        $private = factory(Texture::class)->states('private')->create([
+        $private = Texture::factory()->private()->create([
             'upload_at' => Carbon::now(),
         ]);
 
@@ -75,10 +75,10 @@ class SkinlibControllerTest extends TestCase
                     ['tid' => $steve->tid, 'nickname' => $steve->owner->nickname],
                 ],
             ]);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $list = $this->actingAs($user)
             ->getJson('/skinlib/list?keyword=a')
-            ->decodeResponseJson('data');
+            ->json('data');
         $this->assertCount(1, $list);
 
         // with uploader
@@ -99,7 +99,7 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // private textures are not available for other user
-        $this->actingAs(factory(User::class)->create())
+        $this->actingAs(User::factory()->create())
             ->getJson('/skinlib/list')
             ->assertJson([
                 'data' => [
@@ -120,7 +120,7 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // private textures are available for administrators
-        $this->actingAs(factory(User::class)->states('admin')->create())
+        $this->actingAs(User::factory()->admin()->create())
             ->getJson('/skinlib/list')
             ->assertJson([
                 'data' => [
@@ -138,7 +138,7 @@ class SkinlibControllerTest extends TestCase
 
         // Invalid texture
         option(['auto_del_invalid_texture' => false]);
-        $texture = factory(Texture::class)->create();
+        $texture = Texture::factory()->create();
         $this->get('/skinlib/show/'.$texture->tid)
             ->assertSee(trans('skinlib.show.deleted'));
         $this->assertNotNull(Texture::find($texture->tid));
@@ -149,14 +149,14 @@ class SkinlibControllerTest extends TestCase
         $this->assertNull(Texture::find($texture->tid));
 
         // Show a texture
-        $texture = factory(Texture::class)->create();
+        $texture = Texture::factory()->create();
         Storage::disk('textures')->put($texture->hash, '');
         $this->get('/skinlib/show/'.$texture->tid)->assertViewHas('texture');
         $filter->assertApplied('grid:skinlib.show');
 
         // Guest should not see private texture
-        $uploader = factory(User::class)->create();
-        $texture = factory(Texture::class)->create([
+        $uploader = User::factory()->create();
+        $texture = Texture::factory()->create([
             'uploader' => $uploader->uid,
             'public' => false,
         ]);
@@ -172,12 +172,12 @@ class SkinlibControllerTest extends TestCase
         option(['status_code_for_private' => 403]);
 
         // Other user should not see private texture
-        $this->actingAs(factory(User::class)->create())
+        $this->actingAs(User::factory()->create())
             ->get('/skinlib/show/'.$texture->tid)
             ->assertSee(trans('skinlib.show.private'));
 
         // Administrators should be able to see private textures
-        $this->actingAs(factory(User::class)->states('admin')->create())
+        $this->actingAs(User::factory()->admin()->create())
             ->get('/skinlib/show/'.$texture->tid)
             ->assertViewHas('texture');
 
@@ -210,7 +210,7 @@ class SkinlibControllerTest extends TestCase
             ->assertNotFound()
             ->assertSee(trans('skinlib.non-existent'));
 
-        $texture = factory(Texture::class)->create();
+        $texture = Texture::factory()->create();
         $this->get(route('texture.info', ['texture' => $texture]))
             ->assertJson($texture->toArray());
     }
@@ -219,7 +219,7 @@ class SkinlibControllerTest extends TestCase
     {
         $filter = Fakes\Filter::fake();
 
-        $this->actingAs(factory(User::class)->create())->get('/skinlib/upload');
+        $this->actingAs(User::factory()->create())->get('/skinlib/upload');
         $filter->assertApplied('grid:skinlib.upload');
 
         option(['texture_name_regexp' => 'abc']);
@@ -232,7 +232,7 @@ class SkinlibControllerTest extends TestCase
         /** @var FilesystemAdapter */
         $disk = Storage::fake('textures');
         $filter = Fakes\Filter::fake();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // without file
         $this->actingAs($user)
@@ -347,7 +347,7 @@ class SkinlibControllerTest extends TestCase
         $upload = UploadedFile::fake()->image('texture.png', 64, 32);
 
         // score is not enough
-        $user = factory(User::class)->create(['score' => 0]);
+        $user = User::factory()->create(['score' => 0]);
         $this->actingAs($user)
             ->postJson(route('texture.upload'), [
                 'name' => 'texture',
@@ -360,7 +360,7 @@ class SkinlibControllerTest extends TestCase
                 'message' => trans('skinlib.upload.lack-score'),
             ]);
 
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'score' => (int) option('score_per_closet_item') + (int) option('score_per_storage'),
         ]);
         $this->actingAs($user)->postJson(
@@ -437,7 +437,7 @@ class SkinlibControllerTest extends TestCase
         );
 
         // upload a duplicated texture
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(route('texture.upload'), [
                 'name' => 'texture',
@@ -487,10 +487,10 @@ class SkinlibControllerTest extends TestCase
         /** @var FilesystemAdapter */
         $disk = Storage::fake('textures');
 
-        $uploader = factory(User::class)->create();
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader = User::factory()->create();
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
 
-        $duplicate = factory(Texture::class)->create([
+        $duplicate = Texture::factory()->create([
             'hash' => $texture->hash,
             'uploader' => $uploader->uid,
         ]);
@@ -545,12 +545,12 @@ class SkinlibControllerTest extends TestCase
     public function testPrivacy()
     {
         Event::fake();
-        $uploader = factory(User::class)->create();
-        $other = factory(User::class)->create();
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader = User::factory()->create();
+        $other = User::factory()->create();
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
 
         // setting a texture to be private needs more scores
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
         $uploader->score = 0;
         $uploader->save();
         $this->actingAs($uploader)
@@ -626,7 +626,7 @@ class SkinlibControllerTest extends TestCase
 
         // When setting a texture to be private,
         // other players should not be able to use it.
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
         $uploader->score += $texture->size * option('private_score_per_storage');
         $uploader->save();
         $this->putJson(route('texture.privacy', ['texture' => $texture]))
@@ -637,7 +637,7 @@ class SkinlibControllerTest extends TestCase
 
         // take back the score
         option(['score_award_per_texture' => 5]);
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
         $uploader->score = $texture->size * (
             option('private_score_per_storage') - option('score_per_storage')
         );
@@ -651,8 +651,8 @@ class SkinlibControllerTest extends TestCase
         option(['return_score' => false, 'private_score_per_storage' => 0]);
         $uploader->score += 1000;
         $uploader->save();
-        $texture = factory(Texture::class)->create(['public' => 'false', 'uploader' => $uploader->uid]);
-        $other = factory(User::class)->create();
+        $texture = Texture::factory()->private()->create(['uploader' => $uploader->uid]);
+        $other = User::factory()->create();
         $other->closet()->attach($texture->tid, ['item_name' => 'a']);
         $this->putJson(route('texture.privacy', ['texture' => $texture]))
             ->assertJson(['code' => 0]);
@@ -662,8 +662,8 @@ class SkinlibControllerTest extends TestCase
     public function testRename()
     {
         Event::fake();
-        $uploader = factory(User::class)->create();
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader = User::factory()->create();
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
 
         // without `name` field
         $this->actingAs($uploader)
@@ -723,10 +723,10 @@ class SkinlibControllerTest extends TestCase
     public function testType()
     {
         Event::fake();
-        $uploader = factory(User::class)->create();
-        $other = factory(User::class)->create();
-        $texture = factory(Texture::class)
-            ->states('alex')
+        $uploader = User::factory()->create();
+        $other = User::factory()->create();
+        $texture = Texture::factory()
+            ->alex()
             ->create(['uploader' => $uploader->uid]);
 
         // missing `type` field
@@ -768,7 +768,7 @@ class SkinlibControllerTest extends TestCase
             }
         );
 
-        $duplicate = factory(Texture::class)->states('alex')->create([
+        $duplicate = Texture::factory()->alex()->create([
             'uploader' => $other->uid,
             'hash' => $texture->hash,
         ]);

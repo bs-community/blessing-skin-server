@@ -14,12 +14,12 @@ class UsersManagementControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(factory(User::class)->states('admin')->create());
+        $this->actingAs(User::factory()->admin()->create());
     }
 
     public function testList()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->getJson(route('admin.users.list'))
             ->assertJson(['data' => [[/* admin is here */], $user->toArray()]]);
@@ -28,7 +28,7 @@ class UsersManagementControllerTest extends TestCase
     public function testAccessControl()
     {
         // an administrator operating on other administrator should be forbidden
-        $otherAdmin = factory(User::class)->states('admin')->create();
+        $otherAdmin = User::factory()->admin()->create();
 
         $this->putJson(route('admin.users.email', ['user' => $otherAdmin->uid]))
             ->assertJson([
@@ -40,7 +40,7 @@ class UsersManagementControllerTest extends TestCase
 
     public function testEmail()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // without `email` field
         $this->putJson(route('admin.users.email', ['user' => $user]))
@@ -53,7 +53,7 @@ class UsersManagementControllerTest extends TestCase
         )->assertJsonValidationErrors(['email']);
 
         // use an existed email address
-        $other = factory(User::class)->create();
+        $other = User::factory()->create();
         $this->putJson(
             route('admin.users.email', ['user' => $user]),
             ['email' => $other->email]
@@ -89,7 +89,7 @@ class UsersManagementControllerTest extends TestCase
     public function testVerification()
     {
         Event::fake();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->putJson(
             route('admin.users.verification', ['user' => $user])
@@ -116,7 +116,7 @@ class UsersManagementControllerTest extends TestCase
 
     public function testNickname()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // without `nickname` field
         $this->putJson(
@@ -152,7 +152,7 @@ class UsersManagementControllerTest extends TestCase
 
     public function testPassword()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // without `password` field
         $this->putJson(
@@ -196,7 +196,7 @@ class UsersManagementControllerTest extends TestCase
 
     public function testScore()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // without `score` field
         $this->putJson(
@@ -238,7 +238,7 @@ class UsersManagementControllerTest extends TestCase
 
     public function testPermission()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // without `permission` field
         $this->putJson(route('admin.users.permission', ['user' => $user]))
@@ -300,7 +300,7 @@ class UsersManagementControllerTest extends TestCase
     public function testDelete()
     {
         Event::fake();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->deleteJson(route('admin.users.delete', ['user' => $user]))
             ->assertJson([

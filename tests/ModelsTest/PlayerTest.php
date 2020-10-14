@@ -12,16 +12,16 @@ class PlayerTest extends TestCase
 
     public function testGetModelAttribute()
     {
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
         $this->assertEquals('default', $player->model);
 
-        $alex = factory(Texture::class)->states('alex')->create();
+        $alex = Texture::factory()->alex()->create();
         $player->tid_skin = $alex->tid;
         $player->save();
         $player->refresh();
         $this->assertEquals('slim', $player->model);
 
-        $steve = factory(Texture::class)->create();
+        $steve = Texture::factory()->create();
         $player->tid_skin = $steve->tid;
         $player->save();
         $player->refresh();

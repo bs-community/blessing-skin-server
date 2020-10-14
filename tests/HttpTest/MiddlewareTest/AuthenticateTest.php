@@ -10,7 +10,7 @@ class AuthenticateTest extends TestCase
     {
         $this->get('/user')->assertRedirect('auth/login');
 
-        $user = factory(User::class)->make();
+        $user = User::factory()->make();
         $this->actingAs($user)->assertAuthenticated();
     }
 }

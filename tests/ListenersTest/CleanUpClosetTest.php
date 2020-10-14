@@ -13,8 +13,8 @@ class CleanUpClosetTest extends TestCase
     public function testPublicTexture()
     {
         option(['return_score' => true]);
-        $texture = factory(Texture::class)->create();
-        $user = factory(User::class)->create(['score' => 0]);
+        $texture = Texture::factory()->create();
+        $user = User::factory()->create(['score' => 0]);
         $user->closet()->attach($texture->tid, ['item_name' => '']);
 
         event('texture.privacy.updated', [$texture]);
@@ -26,13 +26,13 @@ class CleanUpClosetTest extends TestCase
     public function testPrivateTexture()
     {
         option(['return_score' => true]);
-        $uploader = factory(User::class)->create();
-        $texture = factory(Texture::class)->create([
+        $uploader = User::factory()->create();
+        $texture = Texture::factory()->create([
             'uploader' => $uploader->uid,
             'public' => false,
         ]);
         $uploader->closet()->attach($texture->tid, ['item_name' => '']);
-        $user = factory(User::class)->create(['score' => 0]);
+        $user = User::factory()->create(['score' => 0]);
         $user->closet()->attach($texture->tid, ['item_name' => '']);
 
         $replicated = $texture->replicate();
@@ -48,8 +48,8 @@ class CleanUpClosetTest extends TestCase
     public function testDeletedTexture()
     {
         option(['return_score' => true]);
-        $texture = factory(Texture::class)->create();
-        $user = factory(User::class)->create(['score' => 0]);
+        $texture = Texture::factory()->create();
+        $user = User::factory()->create(['score' => 0]);
         $user->closet()->attach($texture->tid, ['item_name' => '']);
 
         $texture->delete();

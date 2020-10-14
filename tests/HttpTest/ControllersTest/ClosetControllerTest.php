@@ -15,7 +15,7 @@ class ClosetControllerTest extends TestCase
     public function testIndex()
     {
         $filter = Fakes\Filter::fake();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)->get('/user/closet')->assertViewIs('user.closet');
         $filter->assertApplied('grid:user.closet');
@@ -23,8 +23,8 @@ class ClosetControllerTest extends TestCase
 
     public function testGetClosetData()
     {
-        $user = factory(User::class)->create();
-        $textures = factory(Texture::class, 10)->create();
+        $user = User::factory()->create();
+        $textures = Texture::factory()->count(10)->create();
         $textures->each(function ($t) use ($user) {
             $user->closet()->attach($t->tid, ['item_name' => $t->name]);
         });
@@ -37,7 +37,7 @@ class ClosetControllerTest extends TestCase
             ]);
 
         // Get capes
-        $cape = factory(Texture::class)->states('cape')->create();
+        $cape = Texture::factory()->cape()->create();
         $user->closet()->attach($cape->tid, ['item_name' => 'custom_name']);
         $this->getJson('/user/closet/list?category=cape')
             ->assertJson(['data' => [[
@@ -60,8 +60,8 @@ class ClosetControllerTest extends TestCase
 
     public function testAllIds()
     {
-        $texture = factory(Texture::class)->create();
-        $user = factory(User::class)->create();
+        $texture = Texture::factory()->create();
+        $user = User::factory()->create();
         $user->closet()->attach($texture->tid, ['item_name' => '']);
 
         $this->actingAs($user)
@@ -72,9 +72,9 @@ class ClosetControllerTest extends TestCase
     public function testAdd()
     {
         Event::fake();
-        $user = factory(User::class)->create();
-        $uploader = factory(User::class)->create(['score' => 0]);
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $user = User::factory()->create();
+        $uploader = User::factory()->create(['score' => 0]);
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
         $likes = $texture->likes;
         $name = 'my';
         option(['score_per_closet_item' => 10]);
@@ -157,7 +157,7 @@ class ClosetControllerTest extends TestCase
 
         // texture is private
         option(['score_award_per_like' => 5]);
-        $privateTexture = factory(Texture::class)->create([
+        $privateTexture = Texture::factory()->create([
             'public' => false,
             'uploader' => $uploader->uid + 1,
         ]);
@@ -170,10 +170,10 @@ class ClosetControllerTest extends TestCase
         ]);
 
         // administrator can add it.
-        $privateTexture = factory(Texture::class)->state('private')->create([
+        $privateTexture = Texture::factory()->private()->create([
             'uploader' => 0,
         ]);
-        $this->actingAs(factory(User::class)->state('admin')->create())
+        $this->actingAs(User::factory()->admin()->create())
             ->postJson(
                 route('user.closet.add'),
                 ['tid' => $privateTexture->tid, 'name' => $name]
@@ -232,8 +232,8 @@ class ClosetControllerTest extends TestCase
     public function testRename()
     {
         Event::fake();
-        $user = factory(User::class)->create();
-        $texture = factory(Texture::class)->create();
+        $user = User::factory()->create();
+        $texture = Texture::factory()->create();
         $name = 'new';
 
         // missing `name` field
@@ -325,9 +325,9 @@ class ClosetControllerTest extends TestCase
     public function testRemove()
     {
         Event::fake();
-        $user = factory(User::class)->create();
-        $uploader = factory(User::class)->create(['score' => 5]);
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $user = User::factory()->create();
+        $uploader = User::factory()->create(['score' => 5]);
+        $texture = Texture::factory()->create(['uploader' => $uploader->uid]);
         $likes = $texture->likes;
 
         // rename a not-existed texture

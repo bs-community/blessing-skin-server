@@ -15,12 +15,12 @@ class PlayersManagementControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(factory(User::class)->states('admin')->create());
+        $this->actingAs(User::factory()->admin()->create());
     }
 
     public function testList()
     {
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
 
         $this->getJson(route('admin.players.list'))
             ->assertJson(['data' => [$player->toArray()]]);
@@ -29,9 +29,9 @@ class PlayersManagementControllerTest extends TestCase
     public function testAccessControl()
     {
         // an admin can't operate another admin's player
-        $admin = factory(User::class)->states('admin')->create();
+        $admin = User::factory()->admin()->create();
         /** @var Player */
-        $player = factory(Player::class)->create(['uid' => $admin->uid]);
+        $player = Player::factory()->create(['uid' => $admin->uid]);
         $this->putJson(
             route('admin.players.name', ['player' => $player->pid]),
             ['player_name' => 'abcd']
@@ -48,9 +48,9 @@ class PlayersManagementControllerTest extends TestCase
             )->assertJson(['code' => 0]);
 
         // super admin
-        $superAdmin = factory(User::class)->states('superAdmin')->create();
+        $superAdmin = User::factory()->superAdmin()->create();
         /** @var Player */
-        $player = factory(Player::class)->create(['uid' => $superAdmin->uid]);
+        $player = Player::factory()->create(['uid' => $superAdmin->uid]);
         $this->putJson(
             route('admin.players.name', ['player' => $player->pid]),
             ['player_name' => 'abcd']
@@ -63,7 +63,7 @@ class PlayersManagementControllerTest extends TestCase
     public function testName()
     {
         /** @var Player */
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
 
         // missing `player_name` field
         $this->putJson(
@@ -113,7 +113,7 @@ class PlayersManagementControllerTest extends TestCase
         Event::fake();
 
         /** @var Player */
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
 
         // missing `uid` field
         $this->putJson(route('admin.players.owner', ['player' => $player->pid]))
@@ -147,7 +147,7 @@ class PlayersManagementControllerTest extends TestCase
         // change owner successfully
         Event::fake();
         /** @var User */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->putJson(
             route('admin.players.owner', ['player' => $player->pid]),
             ['uid' => $user->uid]
@@ -183,7 +183,7 @@ class PlayersManagementControllerTest extends TestCase
         Event::fake();
 
         /** @var Player */
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
 
         // missing `tid` field
         $this->putJson(
@@ -229,9 +229,9 @@ class PlayersManagementControllerTest extends TestCase
         Event::assertNotDispatched('player.texture.updated');
 
         /** @var Texture */
-        $skin = factory(Texture::class)->create();
+        $skin = Texture::factory()->create();
         /** @var Texture */
-        $cape = factory(Texture::class)->states('cape')->create();
+        $cape = Texture::factory()->cape()->create();
 
         // skin
         Event::fake();
@@ -349,7 +349,7 @@ class PlayersManagementControllerTest extends TestCase
         Event::fake();
 
         /** @var Player */
-        $player = factory(Player::class)->create();
+        $player = Player::factory()->create();
 
         $this->deleteJson(route('admin.players.delete', ['player' => $player->pid]))
             ->assertJson([

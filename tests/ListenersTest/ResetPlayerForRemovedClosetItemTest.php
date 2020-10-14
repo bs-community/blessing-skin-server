@@ -12,8 +12,8 @@ class ResetPlayerForRemovedClosetItemTest extends TestCase
 
     public function testHandle()
     {
-        $texture = factory(Texture::class)->create();
-        $player = factory(Player::class)->create(['tid_skin' => $texture->tid]);
+        $texture = Texture::factory()->create();
+        $player = Player::factory()->create(['tid_skin' => $texture->tid]);
 
         event('closet.removed', [$texture, $player->user]);
         $player->refresh();

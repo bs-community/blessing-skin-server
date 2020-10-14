@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\User;
 use App\Services\Translations\JavaScript;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\TranslationLoader\LanguageLine;
@@ -13,7 +14,7 @@ class TranslationsControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(factory(\App\Models\User::class)->states('admin')->create());
+        $this->actingAs(User::factory()->admin()->create());
     }
 
     public function testList()

@@ -12,7 +12,7 @@ class RedirectIfAuthenticatedTest extends TestCase
             ->assertViewIs('auth.login')
             ->assertDontSee(trans('general.user-center'));
 
-        $this->actingAs(factory(User::class)->make())
+        $this->actingAs(User::factory()->make())
             ->get('/auth/login')
             ->assertRedirect('/user');
     }

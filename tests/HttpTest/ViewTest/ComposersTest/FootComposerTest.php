@@ -18,7 +18,7 @@ class FootComposerTest extends TestCase
         option([
             'custom_js' => '"<div></div>"</script><h1 id=disallowed></h1><script>',
         ]);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user);
         $this->get('/user')->assertSee('"<div></div>"', false);
         $crawler = new Crawler($this->get('/user')->getContent());
@@ -53,7 +53,7 @@ class FootComposerTest extends TestCase
             $event->contents[] = '<div id=appended></div>';
         });
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user);
         $this->get('/user')->assertSee('<div id=appended></div>', false);
     }

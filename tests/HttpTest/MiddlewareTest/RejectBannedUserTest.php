@@ -8,7 +8,7 @@ class RejectBannedUserTest extends TestCase
 {
     public function testHandle()
     {
-        $user = factory(User::class)->states('banned')->make();
+        $user = User::factory()->banned()->create();
         $this->actingAs($user)->get('/user')->assertForbidden();
         $this->get('/user', ['accept' => 'application/json'])
             ->assertForbidden()

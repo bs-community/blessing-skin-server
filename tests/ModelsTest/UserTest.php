@@ -12,15 +12,15 @@ class UserTest extends TestCase
 
     public function testGetPlayerNameAttribute()
     {
-        $user = factory(User::class)->create();
-        $player = factory(Player::class)->create(['uid' => $user->uid]);
+        $user = User::factory()->create();
+        $player = Player::factory()->create(['uid' => $user->uid]);
         $this->assertEquals($player->name, $user->player_name);
     }
 
     public function testSetPlayerNameAttribute()
     {
-        $user = factory(User::class)->create();
-        $player = factory(Player::class)->create(['uid' => $user->uid]);
+        $user = User::factory()->create();
+        $player = Player::factory()->create(['uid' => $user->uid]);
         $user->player_name = 'a';
         $player->refresh();
         $this->assertEquals('a', $player->name);
