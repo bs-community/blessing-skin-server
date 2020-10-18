@@ -132,8 +132,12 @@ class TextureController extends Controller
         return $this->avatar($minecraft, $request, $texture);
     }
 
-    protected function avatar(Minecraft $minecraft, Request $request, Texture $texture = null)
+    protected function avatar(Minecraft $minecraft, Request $request, ?Texture $texture)
     {
+        if (!empty($texture) && $texture->type !== 'steve' && $texture->type !== 'alex') {
+            return abort(422);
+        }
+
         $size = (int) $request->query('size', 100);
         $mode = $request->has('3d') ? '3d' : '2d';
         $usePNG = $request->has('png') || !(imagetypes() & IMG_WEBP);

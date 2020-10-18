@@ -224,6 +224,9 @@ class TextureControllerTest extends TestCase
     {
         $disk = Storage::fake('textures');
 
+        $cape = Texture::factory()->cape()->create();
+        $this->get(route('avatar.texture', ['tid' => $cape->tid]))->assertStatus(422);
+
         $this->get(route('avatar.texture', ['tid' => 0]))
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
