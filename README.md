@@ -175,4 +175,4 @@ MIT License
 
 Copyright (c) 2016-present The Blessing Skin Team
 
-程序原作者为 [@printempw](https://blessing.studio/)，转载请注明。
+程序原作者为 [@printempw](https://printempw.github.io/)，转载请注明。
