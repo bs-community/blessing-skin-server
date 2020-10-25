@@ -119,7 +119,9 @@ describe('input file', () => {
     const { getByTitle, getByLabelText, findByLabelText } = render(<Upload />)
 
     fireEvent.click(getByLabelText(t('general.cape')))
-    await waitFor(() => {/* */})
+    await waitFor(() => {
+      /* */
+    })
 
     const file = new File([], 't.png')
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
