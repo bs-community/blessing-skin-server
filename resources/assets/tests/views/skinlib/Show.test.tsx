@@ -613,6 +613,10 @@ describe('change privacy', () => {
     await waitFor(() =>
       expect(fetch.put).toBeCalledWith(urls.texture.privacy(fixtureSkin.tid)),
     )
+
+    // temporary workaround for multiple modals exist
+    document.querySelectorAll('.modal')[0].remove()
+
     expect(queryByText('duplicated')).toBeInTheDocument()
     expect(queryByText(t('skinlib.setAsPublic'))).toBeInTheDocument()
     fireEvent.click(getByText(t('general.cancel')))
