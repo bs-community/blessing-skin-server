@@ -58,13 +58,13 @@ class FootComposer
             ];
         } elseif (!$this->request->is('/')) {
             $scripts[] = [
-                'src' => 'https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js',
-                'integrity' => 'sha256-yUhvEmYVhZ/GGshIQKArLvySDSh6cdmdcIx0spR3UP4=',
+                'src' => 'https://cdn.jsdelivr.net/npm/react@17.0.1/umd/react.production.min.js',
+                'integrity' => 'sha256-Ag0WTc8xFszCJo1qbkTKp3wBMdjpjogsZDAhnSge744=',
                 'crossorigin' => 'anonymous',
             ];
             $scripts[] = [
-                'src' => 'https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js',
-                'integrity' => 'sha256-vFt3l+illeNlwThbDUdoPTqF81M8WNSZZZt3HEjsbSU=',
+                'src' => 'https://cdn.jsdelivr.net/npm/react-dom@17.0.1/umd/react-dom.production.min.js',
+                'integrity' => 'sha256-k8tzaSH8ucPwbsHEO4Wk5szE9zERNVz3XQynfyT66O0=',
                 'crossorigin' => 'anonymous',
             ];
         }
