@@ -13,10 +13,10 @@
     "dev": "webpack-dev-server",
     "build": "webpack -p --progress && webpack -p --config=webpack.meta.config.ts",
     "lint": "eslint --ext=ts -f=beauty .",
-    "fmt": "prettier --write resources/assets scripts webpack.*.ts",
-    "fmt:check": "prettier --check resources/assets scripts webpack.*.ts",
+    "fmt": "prettier --write resources/assets tools webpack.*.ts",
+    "fmt:check": "prettier --check resources/assets tools webpack.*.ts",
     "test": "jest",
-    "build:urls": "ts-node scripts/generateUrls.ts"
+    "build:urls": "ts-node tools/generateUrls.ts"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",

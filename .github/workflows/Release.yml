@@ -12,7 +12,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Build and create archive
-      run: ./scripts/release.ps1
+      run: ./tools/release.ps1
       shell: pwsh
       env:
         AZURE_TOKEN: ${{ secrets.AZURE_TOKEN }}

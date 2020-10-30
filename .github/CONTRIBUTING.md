@@ -46,7 +46,7 @@ location ~* \w+\.hot-update\.json$ {
 }
 ```
 
-当 `APP_ENV` 为其它值时，您需要事先执行 `pwsh ./scripts/build.ps1`。此命令将构建并压缩前端资源。通常用于生产环境。
+当 `APP_ENV` 为其它值时，您需要事先执行 `pwsh ./tools/build.ps1`。此命令将构建并压缩前端资源。通常用于生产环境。
 
 > 如果传递 `-Simple` 参数给 `build.ps1` 脚本，则只会运行 webpack 来编译代码，而不会复制首页背景以及生成 commit 信息。
 

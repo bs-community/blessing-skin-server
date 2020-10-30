@@ -8,7 +8,6 @@ public/app/*
 public/lang/*
 public/plugins/**
 resources/assets/tests/
-scripts/
 storage/debugbar
 storage/framework/cache/**
 storage/framework/sessions/**
@@ -18,6 +17,7 @@ storage/logs/**
 storage/packages/**
 storage/textures/*
 tests/
+tools/
 vendor/
 _ide_helper.php
 .dockerignore

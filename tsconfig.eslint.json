@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "include": [
     "resources/assets",
-    "scripts",
+    "tools",
     "webpack.config.ts",
     "webpack.meta.config.ts"
   ]
