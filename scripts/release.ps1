@@ -3,7 +3,7 @@ $last = $manifest.latest
 $current = (Get-Content package.json | ConvertFrom-Json).version
 
 # Install dependencies
-composer install --no-dev --prefer-dist --no-suggest --no-progress
+composer install --no-dev --prefer-dist --no-progress
 Remove-Item vendor/bin -Recurse -Force
 yarn
 Write-Host "Dependencies have been installed." -ForegroundColor Green
