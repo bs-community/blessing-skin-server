@@ -175,7 +175,6 @@ class OptionsControllerTest extends BrowserKitTestCase
         $this->assertTrue(option('force_ssl'));
         $this->assertFalse(option('auto_detect_asset_url'));
         $this->assertEquals('0', option('cache_expire_time'));
-        $this->visit('/')->see('url/app');
 
         $this->visit('/admin/resource')
             ->type('', 'cdn_address')
