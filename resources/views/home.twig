@@ -2,7 +2,6 @@
 <html lang="{{ locale }}">
   <head>
     {{ include('shared.head') }}
-    <link rel="stylesheet" href="{{ home_page_css }}" crossorigin="anonymous">
     <link rel="preload" as="image" href="{{ home_pic_url }}">
     <title>{{ site_name }}</title>
     <style>
@@ -14,9 +13,9 @@
         {% endif %}
       }
     </style>
+    {{ include('assets.home-css', ignore_missing = true) }}
     <link rel="prefetch" as="script" href="https://cdn.jsdelivr.net/npm/react@17.0.1/umd/react.production.min.js" crossorigin="anonymous">
     <link rel="prefetch" as="script" href="https://cdn.jsdelivr.net/npm/react-dom@17.0.1/umd/react-dom.production.min.js" crossorigin="anonymous">
-    <link rel="prefetch" as="script" href="{{ app_js }}" crossorigin="anonymous">
   </head>
 
   <body class="hold-transition layout-top-nav">
@@ -149,12 +148,10 @@
       </div>
     </div>
 
-    {% if home_page_css_loader %}
-      <script src="{{ home_page_css_loader }}" crossorigin="anonymous"></script>
-    {% endif %}
     <script type="application/json" id="blessing-extra">
       {{ {transparent_navbar: transparent_navbar}|json_encode|raw }}
     </script>
+    {{ include('assets.home', ignore_missing = true) }}
     {{ include('shared.foot') }}
   </body>
 </html>

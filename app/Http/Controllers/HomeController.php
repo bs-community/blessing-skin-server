@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Webpack;
 use Illuminate\Support\Arr;
 
 class HomeController extends Controller
 {
-    public function index(Webpack $webpack)
+    public function index()
     {
         return view('home')
             ->with('user', auth()->user())
@@ -15,13 +14,7 @@ class HomeController extends Controller
             ->with('transparent_navbar', (bool) option('transparent_navbar', false))
             ->with('fixed_bg', option('fixed_bg'))
             ->with('hide_intro', option('hide_intro'))
-            ->with('home_pic_url', option('home_pic_url') ?: config('options.home_pic_url'))
-            ->with('home_page_css', $webpack->url('home.css'))
-            ->with(
-                'home_page_css_loader',
-                config('app.asset.env') === 'development' ? $webpack->url('home.js') : null
-            )
-            ->with('app_js', $webpack->url('app.js'));
+            ->with('home_pic_url', option('home_pic_url') ?: config('options.home_pic_url'));
     }
 
     public function apiRoot()

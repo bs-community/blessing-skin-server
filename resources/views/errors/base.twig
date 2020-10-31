@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="robots" content="noindex,nofollow">
     <title>{% block title %}{% endblock %} - {{ site_name }}</title>
+    {{ include('assets.spectre', ignore_missing = true) }}
     {% for style in styles %}
       <link rel="stylesheet" href="{{ style }}">
     {% endfor %}

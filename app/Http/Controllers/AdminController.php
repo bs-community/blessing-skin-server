@@ -125,11 +125,7 @@ class AdminController extends Controller
                     'version' => config('app.version'),
                     'env' => config('app.env'),
                     'debug' => config('app.debug') ? trans('general.yes') : trans('general.no'),
-                    'commit' => Str::limit(
-                        $commit ?? resolve(\App\Services\Webpack::class)->commit,
-                        16,
-                        ''
-                    ),
+                    'commit' => Str::limit($commit ?? '', 16, ''),
                     'laravel' => app()->version(),
                 ],
                 'server' => [

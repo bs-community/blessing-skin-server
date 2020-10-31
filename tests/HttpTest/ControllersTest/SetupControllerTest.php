@@ -14,7 +14,6 @@ class SetupControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->spy(\App\Services\Webpack::class);
     }
 
     public function testDatabase()

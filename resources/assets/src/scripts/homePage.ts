@@ -1,4 +1,3 @@
-import '@/styles/home.css'
 import './i18n'
 import { getExtraData } from './extra'
 

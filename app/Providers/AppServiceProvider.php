@@ -14,7 +14,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
         $this->app->singleton(Services\Option::class);
         $this->app->alias(Services\Option::class, 'options');
-        $this->app->singleton(Services\Webpack::class);
     }
 
     public function boot(Request $request)

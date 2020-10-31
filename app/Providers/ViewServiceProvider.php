@@ -3,14 +3,12 @@
 namespace App\Providers;
 
 use App\Http\View\Composers;
-use App\Services\Webpack;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use View;
 
 class ViewServiceProvider extends ServiceProvider
 {
-    public function boot(Webpack $webpack)
+    public function boot()
     {
         View::composer([
             'home',
@@ -66,14 +64,8 @@ class ViewServiceProvider extends ServiceProvider
 
         View::composer('shared.foot', Composers\FootComposer::class);
 
-        View::composer(['errors.*', 'setup.*'], function ($view) use ($webpack) {
-            // @codeCoverageIgnoreStart
-            if (Str::startsWith(config('app.asset.env'), 'dev')) {
-                $view->with(['scripts' => [$webpack->url('spectre.js')]]);
-            } else {
-                $view->with('styles', [$webpack->url('spectre.css')]);
-            }
-            // @codeCoverageIgnoreEnd
+        View::composer('assets.*', function ($view) {
+            $view->with('cdn_base', option('cdn_address', ''));
         });
     }
 }

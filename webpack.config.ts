@@ -2,9 +2,12 @@ import * as path from 'path'
 import * as webpack from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserJSPlugin from 'terser-webpack-plugin'
-import ManifestPlugin from 'webpack-manifest-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import HtmlWebpackEnhancementPlugin from './tools/HtmlWebpackEnhancementPlugin'
 
 const devMode = !process.argv.includes('-p')
+
+const htmlPublicPath = devMode ? '//localhost:8080/' : '{{ cdn_base }}/app/'
 
 const config: webpack.Configuration = {
   mode: devMode ? 'development' : 'production',
@@ -12,6 +15,7 @@ const config: webpack.Configuration = {
     app: ['react-hot-loader/patch', '@/index.tsx'],
     style: ['@/styles/common.css'],
     home: '@/scripts/homePage.ts',
+    'home-css': '@/styles/home.css',
     spectre: [
       'spectre.css/dist/spectre.min.css',
       '@/fonts/minecraft.css',
@@ -64,6 +68,41 @@ const config: webpack.Configuration = {
       filename: devMode ? '[name].css' : '[name].[contenthash:7].css',
       chunkFilename: devMode ? '[id].css' : '[id].[contenthash:7].css',
     }),
+    new HtmlWebpackPlugin({
+      templateContent: devMode
+        ? ''
+        : `
+<script src="https://cdn.jsdelivr.net/npm/react@17.0.1/umd/react.production.min.js" integrity="sha256-Ag0WTc8xFszCJo1qbkTKp3wBMdjpjogsZDAhnSge744=" crossorigin></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.1/umd/react-dom.production.min.js" integrity="sha256-k8tzaSH8ucPwbsHEO4Wk5szE9zERNVz3XQynfyT66O0=" crossorigin></script>`,
+      templateParameters: ['app'],
+      filename: 'app.twig',
+      publicPath: htmlPublicPath,
+    }),
+    new HtmlWebpackPlugin({
+      templateContent: '',
+      templateParameters: ['style'],
+      filename: 'style.twig',
+      publicPath: htmlPublicPath,
+    }),
+    new HtmlWebpackPlugin({
+      templateContent: '',
+      templateParameters: ['home'],
+      filename: 'home.twig',
+      publicPath: htmlPublicPath,
+    }),
+    new HtmlWebpackPlugin({
+      templateContent: '',
+      templateParameters: ['home-css'],
+      filename: 'home-css.twig',
+      publicPath: htmlPublicPath,
+    }),
+    new HtmlWebpackPlugin({
+      templateContent: '',
+      templateParameters: ['spectre'],
+      filename: 'spectre.twig',
+      publicPath: htmlPublicPath,
+    }),
+    new HtmlWebpackEnhancementPlugin(),
   ],
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.json'],
@@ -105,8 +144,6 @@ const config: webpack.Configuration = {
 if (devMode) {
   config.plugins!.push(new webpack.NamedModulesPlugin())
   config.plugins!.push(new webpack.HotModuleReplacementPlugin())
-} else {
-  config.plugins!.push(new ManifestPlugin())
 }
 
 export default config

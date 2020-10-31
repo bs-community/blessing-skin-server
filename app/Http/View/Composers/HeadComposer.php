@@ -2,7 +2,6 @@
 
 namespace App\Http\View\Composers;
 
-use App\Services\Webpack;
 use Blessing\Filter;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
@@ -12,8 +11,6 @@ use Illuminate\View\View;
 
 class HeadComposer
 {
-    protected Webpack $webpack;
-
     protected Dispatcher $dispatcher;
 
     protected Request $request;
@@ -21,12 +18,10 @@ class HeadComposer
     protected Filter $filter;
 
     public function __construct(
-        Webpack $webpack,
         Dispatcher $dispatcher,
         Request $request,
         Filter $filter
     ) {
-        $this->webpack = $webpack;
         $this->dispatcher = $dispatcher;
         $this->request = $request;
         $this->filter = $filter;
@@ -85,37 +80,6 @@ class HeadComposer
     public function injectStyles(View $view)
     {
         $links = [];
-        $links[] = [
-            'rel' => 'stylesheet',
-            'href' => 'https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0.5/dist/admin-lte.min.css',
-            'integrity' => 'sha256-zG+BobiRcnWbKPGtQ++LoogyH9qSHjhBwhbFFP8HbDM=',
-            'crossorigin' => 'anonymous',
-        ];
-        $links[] = [
-            'rel' => 'preload',
-            'as' => 'font',
-            'href' => 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/webfonts/fa-solid-900.woff2',
-            'crossorigin' => 'anonymous',
-        ];
-        $links[] = [
-            'rel' => 'preload',
-            'as' => 'font',
-            'href' => 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/webfonts/fa-regular-400.woff2',
-            'crossorigin' => 'anonymous',
-        ];
-        $links[] = [
-            'rel' => 'stylesheet',
-            'href' => 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css',
-            'integrity' => 'sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=',
-            'crossorigin' => 'anonymous',
-        ];
-        if (!$this->request->is('/') && config('app.asset.env') !== 'development') {
-            $links[] = [
-                'rel' => 'stylesheet',
-                'href' => $this->webpack->url('style.css'),
-                'crossorigin' => 'anonymous',
-            ];
-        }
         $links = $this->filter->apply('head_links', $links);
         $view->with('links', $links);
         $view->with('inline_css', option('custom_css'));

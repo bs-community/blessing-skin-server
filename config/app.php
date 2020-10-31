@@ -68,19 +68,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Assets
-    |--------------------------------------------------------------------------
-    |
-    | This is related to front-end assets. The asset URL is only available for
-    | development, not for production.
-    */
-    'asset' => [
-        'env' => env('ASSET_ENV', 'production'),
-        'url' => env('ASSET_URL', 'http://localhost'),
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

@@ -180,7 +180,6 @@ class OptionsControllerTest extends BrowserKitTestCase
         $this->visit('/admin/resource')
             ->type('', 'cdn_address')
             ->press('submit_resources');
-        $this->visit('/')->dontSee('url/app/app.js');
 
         $this->visit('/admin/resource')
             ->see(trans('options.cache.driver', ['driver' => config('cache.default')]))
