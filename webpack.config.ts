@@ -2,6 +2,7 @@ import * as path from 'path'
 import * as webpack from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserJSPlugin from 'terser-webpack-plugin'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import HtmlWebpackEnhancementPlugin from './tools/HtmlWebpackEnhancementPlugin'
 
@@ -122,7 +123,7 @@ const config: webpack.Configuration = {
         },
   ) as Record<string, string>,
   optimization: {
-    minimizer: [new TerserJSPlugin({})],
+    minimizer: [new TerserJSPlugin({}), new CssMinimizerPlugin({})],
   },
   devtool: devMode ? 'cheap-module-eval-source-map' : false,
   devServer: {
