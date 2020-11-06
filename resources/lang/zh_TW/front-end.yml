@@ -84,10 +84,10 @@ skinlib:
     upload-at: 上傳于
     download: 下載
     delete-texture: 刪除材質
-    manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
+    manage-notice: 被刪除或者設爲隱私的材質將從所有人的皮膚庫收藏中刪除。
   report:
-    title: Report
-    reason: Tell us reason please.
+    title: 報告
+    reason: 請向我們反應原因。
     positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
     negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
 user:
