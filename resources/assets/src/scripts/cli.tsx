@@ -77,6 +77,16 @@ const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
       shell.addExternal(name, program)
     })
 
+    const originalLogger = console.log
+    console.log = (data: string, ...args: any[]) => {
+      const stack = new Error().stack
+      if (stack?.includes('outputHelp')) {
+        terminal.writeln(data.replace(/\n/g, '\r\n'))
+      } else {
+        originalLogger(data, ...args)
+      }
+    }
+
     const unbindData = terminal.onData((e) => shell.input(e))
     const unbindKey = terminal.onKey((e) =>
       event.emit('terminalKeyPress', e.key),
@@ -89,6 +99,7 @@ const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
       shell.free()
       fitAddon.dispose()
       terminal.dispose()
+      console.log = originalLogger
       launched = false
     }
   }, [])
@@ -98,7 +109,9 @@ const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
       <TerminalContainer className="card">
         <div className="card-header">
           <div className="d-flex justify-content-between">
-            <h4 className="card-title mt-1">Blessing Skin Shell</h4>
+            <h4 className="card-title d-flex align-items-center">
+              Blessing Skin Shell
+            </h4>
             <button className="btn btn-default" onClick={props.onClose}>
               &times;
             </button>

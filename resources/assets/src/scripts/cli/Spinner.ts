@@ -1,5 +1,7 @@
 import type { Stdio } from 'blessing-skin-shell'
-import { dots } from 'cli-spinners'
+import spinners from 'cli-spinners/spinners.json'
+
+const { dots } = spinners
 
 export class Spinner {
   private timerId = 0

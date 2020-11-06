@@ -1,5 +1,5 @@
 import type { Stdio } from 'blessing-skin-shell'
-import { prompt } from 'enquirer'
+import prompts from 'prompts'
 import * as fetch from '../net'
 import { hackStdout, hackStdin } from './configureStdio'
 import { Spinner } from './Spinner'
@@ -20,7 +20,7 @@ export async function install(plugin: string, stdio: Stdio) {
 }
 
 export async function remove(plugin: string, stdio: Stdio) {
-  const { confirm }: { confirm: boolean } = await prompt({
+  const { confirm }: { confirm: boolean } = await prompts({
     name: 'confirm',
     type: 'confirm',
     message: `Are you sure to remove plugin "${plugin}"?`,

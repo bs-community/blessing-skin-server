@@ -1,24 +1,16 @@
 import type { Stdio } from 'blessing-skin-shell'
-import { Command } from 'commander'
+import cac from 'cac'
 import * as fetch from '../net'
 import { User, Texture } from '../types'
-import { hackStdout, overrideExit } from './configureStdio'
 
 type Response = fetch.ResponseBody<{ user: User; texture: Texture }>
 
 export default async function closet(stdio: Stdio, args: string[]) {
-  const program = new Command()
+  const program = cac('closet')
+  program.help()
 
-  /* istanbul ignore next */
-  if (process.env.NODE_ENV !== 'test') {
-    process.stdout = hackStdout(stdio)
-    overrideExit(program, stdio)
-  }
-
-  program.name('closet').version('0.1.0')
   program
-    .command('add <uid> <tid>')
-    .description("add texture to someone's closet")
+    .command('add <uid> <tid>', "add texture to someone's closet")
     .action(async (uid: string, tid: string) => {
       const { code, data } = await fetch.post<Response>(
         `/admin/closet/${uid}`,
@@ -34,8 +26,7 @@ export default async function closet(stdio: Stdio, args: string[]) {
       }
     })
   program
-    .command('remove <uid> <tid>')
-    .description("remove texture from someone's closet")
+    .command('remove <uid> <tid>', "remove texture from someone's closet")
     .action(async (uid: string, tid: string) => {
       const { code, data } = await fetch.del<Response>(`/admin/closet/${uid}`, {
         tid,
@@ -50,5 +41,6 @@ export default async function closet(stdio: Stdio, args: string[]) {
       }
     })
 
-  await program.parseAsync(args, { from: 'user' })
+  program.parse(['', ''].concat(args), { run: false })
+  await program.runMatchedCommand()
 }

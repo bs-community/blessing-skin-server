@@ -1,24 +1,19 @@
 import type { Stdio } from 'blessing-skin-shell'
-import { Command } from 'commander'
+import cac from 'cac'
 import * as fetch from '../net'
-import { hackStdout, overrideExit } from './configureStdio'
 
 type Options = {
   force?: boolean
   recursive?: boolean
+  help?: boolean
 }
 
 export default async function rm(stdio: Stdio, args: string[]) {
-  const program = new Command()
-
-  /* istanbul ignore next */
-  if (process.env.NODE_ENV !== 'test') {
-    process.stdout = hackStdout(stdio)
-    overrideExit(program, stdio)
-  }
+  const program = cac('rm')
+  program.help()
 
   program
-    .name('rm')
+    .command('<file>')
     .option(
       '-f, --force',
       'ignore nonexistent files and arguments, never prompt',
@@ -28,12 +23,12 @@ export default async function rm(stdio: Stdio, args: string[]) {
       'remove directories and their contents recursively',
     )
     .option('--no-preserve-root', "do not treat '/' specially")
-    .arguments('<file>')
 
-  const opts: Options = program.parse(args, { from: 'user' }).opts()
+  const opts: Options = program.parse(['', ''].concat(args), { run: false })
+    .options
   const path = program.args[0]
 
-  if (!path) {
+  if (!path && !opts.help) {
     stdio.println('rm: missing operand')
     stdio.println("Try 'rm --help' for more information.")
   }

@@ -1,6 +1,5 @@
 import type { Stdio } from 'blessing-skin-shell'
-import { Command } from 'commander'
-import { hackStdout, overrideExit } from './configureStdio'
+import cac from 'cac'
 import { install, remove } from './pluginManager'
 
 type Options = {
@@ -14,24 +13,15 @@ export default async function pacman(stdio: Stdio, args: string[]) {
     return
   }
 
-  const program = new Command()
+  const program = cac('pacman')
+  program.help()
 
-  /* istanbul ignore next */
-  if (process.env.NODE_ENV !== 'test') {
-    process.stdout = hackStdout(stdio)
-    overrideExit(program, stdio)
-  }
+  program.option('-S, --sync <plugin>', 'install or upgrade a plugin')
+  program.option('-R, --remove <plugin>', 'remove a plugin')
 
-  program.name(pacman.name)
+  const { options } = program.parse(['', ''].concat(args), { run: false })
 
-  program
-    .option('-S, --sync <plugin>')
-    .description('install or upgrade a plugin')
-  program.option('-R, --remove <plugin>').description('remove a plugin')
-
-  program.parse(args, { from: 'user' })
-
-  const opts: Options = program.opts()
+  const opts: Options = options
   /* istanbul ignore else */
   if (opts.sync) {
     await install(opts.sync, stdio)

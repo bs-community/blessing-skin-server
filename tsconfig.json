@@ -8,7 +8,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./resources/assets/src/*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "include": [
     "resources/assets/src",
