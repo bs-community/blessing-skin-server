@@ -84,10 +84,10 @@ skinlib:
     upload-at: 上傳于
     download: 下載
     delete-texture: 刪除材質
-    manage-notice: 被刪除或者設爲隱私的材質將從所有人的皮膚庫收藏中刪除。
+    manage-notice: 被刪除或者設爲隱私的材質將從所有人的衣櫃收藏中刪除。
   report:
     title: 報告
-    reason: 請向我們反應原因。
+    reason: 請向我們說明原因。
     positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
     negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
 user:
@@ -205,15 +205,15 @@ admin:
   uploadArchiveNotice: Install a plugin by uploading a Zip archive.
   downloadRemote: Download From Remote
   downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
-  updateButton: Update Now
-  downloading: Downloading...
+  updateButton: 立即更新
+  downloading: 正在下載...
   i18n:
-    group: Group
-    key: Key
-    text: Text
-    empty: (Empty)
+    group: 分組
+    key: 鍵
+    text: 文本
+    empty: '（空）'
     modify: Modify
-    delete: Delete
+    delete: 刪除
     updating: 'Please type new text:'
     confirmDelete: Are you sure? This is irreversible.
 report:
@@ -222,11 +222,11 @@ report:
   reason: Reason
   status-title: 狀態
   status:
-    - Pending
-    - Resolved
-    - Rejected
+    - 待處理
+    - 已解決
+    - 已拒絕
   time: Report Time
-  delete: Delete
+  delete: 刪除
   ban: Ban
   reject: Reject
 general:
@@ -234,40 +234,40 @@ general:
   cape: Cape
   fatalError: Fatal Error
   confirmLogout: Sure to log out?
-  confirm: OK
-  cancel: Cancel
-  submit: Submit
-  close: Close
-  more: More
-  tip: Tip
-  noResult: No result.
-  texturePreview: Texture Preview
+  confirm: 確定
+  cancel: 取消
+  submit: 提交
+  close: 關閉
+  more: 更多
+  tip: 提示
+  noResult: 無結果.
+  texturePreview: 材質預覽
   walk: Walk
   run: Run
   rotation: Rotation
-  pause: Pause
-  reset: Reset
-  skinlib: Skin Library
-  wait: Please wait...
+  pause: 暫停
+  reset: 重置
+  skinlib: 皮膚庫
+  wait: 請稍等...
   csrf: This page is out-dated. Please refresh it.
   user:
-    email: Email
-    nickname: Nick Name
-    score: Score
+    email: 電子郵件
+    nickname: 暱稱
+    score: 積分
     register-at: Registered At
   player:
-    owner: Owner
-    player-name: Player Name
+    owner: 所有者
+    player-name: 角色名
     previews: Texture Previews
-    last-modified: Last Modified
+    last-modified: 最近一次修改
 colors:
-  black: Black
-  white: White
-  gray: Gray
-  prev: Previous Background
-  next: Next Background
+  black: 黑色
+  white: 白色
+  gray: 灰色
+  prev: 上一個背景
+  next: 下一個背景
 vendor:
   datatable:
-    search: Search
-    prev: Prev
-    next: Next
+    search: 搜索
+    prev: 上一頁
+    next: 下一頁
