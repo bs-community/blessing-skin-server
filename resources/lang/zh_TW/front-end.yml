@@ -88,14 +88,14 @@ skinlib:
   report:
     title: 報告
     reason: 請向我們說明原因。
-    positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
-    negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
+    positive: 為激勵用戶對皮膚庫做出貢獻，我們將用 :score 的積分激勵報告非法内容的用戶。但是，非法的報告請求一經發現，您的積分將被扣除。
+    negative: 爲了降低非法報告的壓力，我們向您收取 :score 的積分以提交報告。不過您無需擔憂，在管理員復查過後，被收取的積分將與獎勵一并返還。
 user:
-  signRemainingTime: 'Available after :time :unit'
+  signRemainingTime: '在 :time :unit 后可用'
   timeUnitHour: 時
   timeUnitMin: 分鐘
   emptyClosetMsg: >-
-    <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
+    <p>衣櫃什麽都沒有......</p><p>爲何不前去 <a href=":url">皮膚庫</a> 一探究竟呢？</p>
   renameItem: Rename item
   removeItem: Remove from closet
   setAsAvatar: 設爲頭像
