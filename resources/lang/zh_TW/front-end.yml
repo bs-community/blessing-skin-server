@@ -96,21 +96,21 @@ user:
   timeUnitMin: 分鐘
   emptyClosetMsg: >-
     <p>衣櫃什麽都沒有......</p><p>爲何不前去 <a href=":url">皮膚庫</a> 一探究竟呢？</p>
-  renameItem: Rename item
-  removeItem: Remove from closet
+  renameItem: 重命名材質
+  removeItem: 從衣櫃移除
   setAsAvatar: 設爲頭像
-  viewInSkinlib: View in skin library
-  switch2dPreview: Switch to 2D Preview
-  switch3dPreview: Switch to 3D Preview
-  removeFromClosetNotice: Sure to remove this texture from your closet?
+  viewInSkinlib: 在皮膚庫中瀏覽
+  switch2dPreview: 切換至 2D 預覽
+  switch3dPreview: 切換至 3D 預覽
+  removeFromClosetNotice: 確定要將這個材質從你的衣櫃中移除嗎？
   emptySelectedTexture: 未選擇任何材質。
-  renameClosetItem: 'Set a new name for this item:'
-  changePlayerName: 'Please enter the player name:'
-  emptyPlayerName: Empty player name.
-  deletePlayer: Sure to delete this player?
-  deletePlayerNotice: It's permanent. No backups.
-  chooseClearTexture: Choose texture types you want to clear
-  noClearChoice: You haven't choose any types
+  renameClosetItem: '為這個材質設置新的名稱：'
+  changePlayerName: '請輸入角色名稱。'
+  emptyPlayerName: 空角色名。
+  deletePlayer: 確定要刪除此角色？
+  deletePlayerNotice: 這是永久的，不會再備份。
+  chooseClearTexture: 選取您欲清理的材質類型
+  noClearChoice: 您沒有選取任何類型。
   setAvatar: Sure to set this as your avatar?
   setAvatarNotice: The head segment of skin will bu used.
   resetAvatarConfirm: Are you sure to reset your avatar?
