@@ -111,16 +111,16 @@ user:
   deletePlayerNotice: 這是永久的，不會再備份。
   chooseClearTexture: 選取您欲清理的材質類型
   noClearChoice: 您沒有選取任何類型。
-  setAvatar: Sure to set this as your avatar?
-  setAvatarNotice: The head segment of skin will bu used.
-  resetAvatarConfirm: Are you sure to reset your avatar?
-  typeToSearch: Type to search
-  useAs: Apply...
-  resetSelected: Clear selected
+  setAvatar: 確定將此材質設為頭像嗎？
+  setAvatarNotice: 皮膚材質的頭部將被使用。
+  resetAvatarConfirm: 確定重設您的頭像？
+  typeToSearch: 輸入來搜尋
+  useAs: 應用
+  resetSelected: 清空選擇
   closet:
-    upload: Upload Texture
+    upload: 上載材質
     use-as:
-      title: Which player should be applied to?
+      title: 欲將材質應用與哪一個角色？
       empty: It seems that you own no player...
   used:
     title: Resources Used
