@@ -121,33 +121,33 @@ user:
     upload: 上載材質
     use-as:
       title: 欲將材質應用與哪一個角色？
-      empty: It seems that you own no player...
+      empty: 似乎您沒有可用的角色...
   used:
-    title: Resources Used
-    players: Registered players
-    storage: Storage used
-  cur-score: Current Score
-  score-notice: Click the score to show introduction.
-  sign: Sign
+    title: 已使用的資源
+    players: 已註冊用戶
+    storage: 存儲空間佔用
+  cur-score: 當前積分
+  score-notice: 點擊積分以顯示詳細訊息。
+  sign: 標識
   player:
-    operation: Operations
-    edit-pname: Edit Name
-    delete-texture: Clear Textures
-    delete-player: Delete
-    add-player: Add new player
-    texture-empty: Nothing
+    operation: 操作
+    edit-pname: 編輯名稱
+    delete-texture: 清空材質
+    delete-player: 刪除
+    add-player: 添加新玩家
+    texture-empty: 沒有內容
   verification:
-    title: Verify Your Account
-    message: You must verify your email address before using the skin hosting service. Haven't received the email?
-    resend: Click here to send again.
-    sending: Sending...
+    title: 驗證您的賬戶
+    message: 您必須驗證您的電子郵件地址后才能使用皮膚材質儲存服務。還沒有收到電子郵件？
+    resend: 點擊此處以重新發送。
+    sending: 發送中...
   oauth:
-    id: Client ID
-    name: App Name
-    secret: Client Secret
-    redirect: Callback URL
-    modifyName: Modify app name.
-    modifyUrl: Modify callback URL.
+    id: 客戶端 ID
+    name: 應用程式名稱
+    secret: 客戶端密令
+    redirect: 回溯密令
+    modifyName: 自訂應用程式名稱
+    modifyUrl: 自訂回溯 URL
     create: Create New App
     confirmRemove: Are you sure to delete this app? You won't be able to undo this.
 admin:
