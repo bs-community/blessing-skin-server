@@ -6,7 +6,7 @@ http:
   msg-503: В настоящее время приложение находится в режиме обслуживания.
   method-not-allowed: Метод не поддерживается.
   csrf-token-mismatch: Токен не совпадает, попробуйте перезагрузить страницу.
-  ie: Your browser isn't supported. Please switch to other modern browsers, such as Firefox or Chrome.
+  ie: Ваш браузер не поддерживается. Пожалуйста, используйте другие современные браузеры, такие как Firefox или Chrome.
 general:
   title: Произошла ошибка
 exception:
