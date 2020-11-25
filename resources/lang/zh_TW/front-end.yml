@@ -201,10 +201,10 @@ admin:
   enablePlugin: 啟用
   disablePlugin: 停用
   confirmDeletion: 你確定要刪除這個擴展軟體嗎？
-  uploadArchive: Upload Archive
-  uploadArchiveNotice: Install a plugin by uploading a Zip archive.
-  downloadRemote: Download From Remote
-  downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
+  uploadArchive: 上載壓縮包
+  uploadArchiveNotice: 上載壓縮包來安裝擴展軟體。
+  downloadRemote: 從遠端下載
+  downloadRemoteNotice: 藉由遠端 URL 下載壓縮包來安裝擴展軟體。
   updateButton: 立即更新
   downloading: 正在下載...
   i18n:
@@ -212,28 +212,28 @@ admin:
     key: 鍵
     text: 文本
     empty: '（空）'
-    modify: Modify
+    modify: 修改
     delete: 刪除
-    updating: 'Please type new text:'
-    confirmDelete: Are you sure? This is irreversible.
+    updating: '請輸入新的文字：'
+    confirmDelete: 確定執行此操作？這無法恢復。
 report:
-  tid: Texture ID
-  reporter: Reporter
-  reason: Reason
+  tid: 材質 ID
+  reporter: 舉報者
+  reason: 原因
   status-title: 狀態
   status:
     - 待處理
     - 已解決
     - 已拒絕
-  time: Report Time
+  time: 舉報時間
   delete: 刪除
-  ban: Ban
-  reject: Reject
+  ban: 封禁
+  reject: 駁回
 general:
-  skin: Skin
-  cape: Cape
-  fatalError: Fatal Error
-  confirmLogout: Sure to log out?
+  skin: 皮膚
+  cape: 披風
+  fatalError: 嚴重錯誤
+  confirmLogout: 確定登出嗎？
   confirm: 確定
   cancel: 取消
   submit: 提交
@@ -242,23 +242,23 @@ general:
   tip: 提示
   noResult: 無結果.
   texturePreview: 材質預覽
-  walk: Walk
-  run: Run
-  rotation: Rotation
+  walk: 行走
+  run: 奔跑
+  rotation: 旋轉
   pause: 暫停
   reset: 重置
   skinlib: 皮膚庫
   wait: 請稍等...
-  csrf: This page is out-dated. Please refresh it.
+  csrf: 此頁面加載超時。請刷新頁面。
   user:
     email: 電子郵件
     nickname: 暱稱
     score: 積分
-    register-at: Registered At
+    register-at: 註冊於
   player:
     owner: 所有者
     player-name: 角色名
-    previews: Texture Previews
+    previews: 材質預覽
     last-modified: 最近一次修改
 colors:
   black: 黑色
