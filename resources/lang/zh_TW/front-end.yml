@@ -148,59 +148,59 @@ user:
     redirect: 回溯密令
     modifyName: 自訂應用程式名稱
     modifyUrl: 自訂回溯 URL
-    create: Create New App
-    confirmRemove: Are you sure to delete this app? You won't be able to undo this.
+    create: 創建新應用
+    confirmRemove: 確定刪除此應用？此操作無法撤銷。
 admin:
-  operationsTitle: Operations
-  permission: Permission
-  deleteUser: Delete
-  changeEmail: Edit Email
-  newUserEmail: 'Please enter the new email:'
-  verification: Email Verification
-  toggleVerification: Toggle Verification Status
-  changeNickName: Edit Nickname
-  newUserNickname: 'Please enter the new nickname:'
-  changePassword: Edit Password
-  newUserPassword: 'Please enter the new password:'
-  changeScore: Edit Score
-  newScore: 'Please enter the new score:'
-  changePermission: Change permission
-  newPermission: 'Please select new permission:'
-  deleteUserNotice: Are you sure to delete this user? It' permanent.
-  banned: Banned
-  normal: Normal
-  admin: Admin
-  superAdmin: Super Admin
-  unverified: Unverified
-  verified: Verified
+  operationsTitle: 操作
+  permission: 權限
+  deleteUser: 刪除
+  changeEmail: 編輯電子郵件地址
+  newUserEmail: '請輸入新的電子郵件地址'
+  verification: 電子郵件驗證
+  toggleVerification: 檢查驗證狀態
+  changeNickName: 編輯暱稱
+  newUserNickname: '請輸入新的昵稱：'
+  changePassword: 編輯密碼
+  newUserPassword: '請輸入新密碼:'
+  changeScore: 編輯積分
+  newScore: '請輸入新的積分數目：'
+  changePermission: 變更權限
+  newPermission: '請選擇新的權限：'
+  deleteUserNotice: 確定刪除此用戶？此操作無法撤銷。
+  banned: 封禁
+  normal: 常規
+  admin: 管理員
+  superAdmin: 超級管理員
+  unverified: 未驗證
+  verified: 已驗證
   pidNotice: >-
-    Please enter the tid of texture. Inputing 0 can clear texture of this player.
-  changeTexture: Change Textures
-  changePlayerName: Change Player Name
-  changeOwner: Change Owner
-  textureType: Texture Type
-  deletePlayer: Delete
-  changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
-  deletePlayerNotice: Are you sure to delete this player? It' permanent.
-  changePlayerNameNotice: 'Please input new player name:'
-  emptyPlayerName: Player name cannot be empty.
-  configurePlugin: Configure
-  deletePlugin: Delete
-  noDependencies: No Dependencies
-  pluginTitle: Plugin
-  pluginAuthor: Author
-  pluginVersion: Version
-  pluginReadme: Read Me
-  pluginDescription: Description
-  pluginDependencies: Dependencies
-  installPlugin: Install
-  pluginInstalling: Installing...
-  updatePlugin: Update
-  pluginUpdating: Updating...
-  confirmUpdate: Are you sure to update ":plugin" from :old to :new?
-  enablePlugin: Enable
-  disablePlugin: Disable
-  confirmDeletion: Are you sure to delete this plugin?
+    請輸入應用材質的編號。留空以清空該角色的材質。
+  changeTexture: 更換材質
+  changePlayerName: 變更角色名
+  changeOwner: 變更所有者
+  textureType: 材質種類
+  deletePlayer: 刪除
+  changePlayerOwner: '請輸入欲讓渡角色的用戶編號：'
+  deletePlayerNotice: 確定刪除此角色？此操作無法撤銷。
+  changePlayerNameNotice: '請輸入新的角色名稱：'
+  emptyPlayerName: 角色名不能為空。
+  configurePlugin: 配置
+  deletePlugin: 刪除
+  noDependencies: 沒有依賴項
+  pluginTitle: 擴展軟體
+  pluginAuthor: 作者
+  pluginVersion: 版本號
+  pluginReadme: 自述
+  pluginDescription: 描述資訊
+  pluginDependencies: 依賴項
+  installPlugin: 安裝
+  pluginInstalling: 安裝中...
+  updatePlugin: 更新
+  pluginUpdating: 更新中...
+  confirmUpdate: 確定升級 ":plugin" 由 :old 至 :new ？
+  enablePlugin: 啟用
+  disablePlugin: 停用
+  confirmDeletion: 你確定要刪除這個擴展軟體嗎？
   uploadArchive: Upload Archive
   uploadArchiveNotice: Install a plugin by uploading a Zip archive.
   downloadRemote: Download From Remote
