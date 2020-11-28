@@ -1,12 +1,12 @@
 ---
-sign-success: Signed successfully. You got :score scores.
-announcement: Announcement
-no-unread: No new notifications.
+sign-success: 簽到成功，獲得 :score 積分。
+announcement: 公告
+no-unread: 沒有新通知。
 verification:
-  disabled: Email verification is not available.
-  frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
-  verified: Your account is already verified.
-  success: Verification link was sent, please check your inbox.
+  disabled: 電子郵件驗證不可用。
+  frequent-mail: 您點擊 "發送" 按鈕的速度過快， 請稍等1分鐘。
+  verified: 您的賬戶已經過驗證。
+  success: 驗證鏈接已發送，請檢查您的收件箱。
   failed: We failed to send you the verification link. Detailed message :msg
   mail:
     title: Verify Your Account on :sitename
