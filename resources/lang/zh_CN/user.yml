@@ -61,7 +61,7 @@ player:
 profile:
   avatar:
     title: 更改头像？
-    notice: 在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」图标处点击「设为头像」，即可自动截取该皮肤的头部作为头像。如果看不到这个图标，请尝试关闭你的广告过滤扩展。
+    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to disable your ADs blocking extension.
     wrong-type: 披风不能被设置为头像
     success: 设置成功
     reset: 重置头像
