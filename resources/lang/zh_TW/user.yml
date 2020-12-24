@@ -61,7 +61,7 @@ player:
 profile:
   avatar:
     title: Change Avatar?
-    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to unable your ADs blocking extension.
+    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to disable your ADs blocking extension.
     wrong-type: You can't set a cape as avatar.
     success: New avatar was set successfully.
     reset: Reset Avatar
