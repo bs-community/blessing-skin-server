@@ -61,7 +61,7 @@ player:
 profile:
   avatar:
     title: '¿Cambiar avatar?'
-    notice: Haz clic en el icono del engranaje "<i class="fa fa-cog"></i>" de cualquier aspecto de tu armario, luego haz clic en "Establecer como avatar". Cortaremos el segmento de cabeza de ese skin para ti. Si no hay ningún icono como este, por favor intenta desabilitando su bloqueador de anuncios.
+    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to disable your ADs blocking extension.
     wrong-type: No puedes establecer una capa como avatar.
     success: Nuevo avatar se ha establecido correctamente.
     reset: Restablecer avatar
