@@ -764,7 +764,7 @@ class AuthControllerTest extends TestCase
         $user = User::factory()->create();
         $user->changePassword('12345678');
 
-        $this->postJson('/api/auth/login')->assertJson(['token' => false]);
+        $this->postJson('/api/auth/login')->assertJson(['token' => '']);
         $token = $this->postJson('/api/auth/login', [
             'email' => $user->email,
             'password' => '12345678',
