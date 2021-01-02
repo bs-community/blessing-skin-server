@@ -1,6 +1,6 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 import { useRef } from 'react'
-import { jsx, css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { t } from '@/scripts/i18n'
 
 const hideRawBrowseButton = css`

@@ -1,6 +1,6 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 import React, { useState, useEffect, useRef } from 'react'
-import { jsx, css } from '@emotion/core'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import * as skinview3d from 'skinview3d'
 import { t } from '@/scripts/i18n'

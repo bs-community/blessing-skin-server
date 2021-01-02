@@ -42,7 +42,7 @@ export default function (env?: Env): webpack.Configuration[] {
             test: /\.tsx?$/,
             loader: 'ts-loader',
             options: {
-              configFile: 'tsconfig.build.json',
+              configFile: isDev ? 'tsconfig.dev.json' : 'tsconfig.build.json',
               transpileOnly: true,
             },
           },

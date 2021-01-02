@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core'
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
 import { t } from '@/scripts/i18n'
 import { Player } from '@/scripts/types'
 import ButtonEdit from '@/components/ButtonEdit'

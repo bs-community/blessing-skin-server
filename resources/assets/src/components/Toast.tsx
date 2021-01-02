@@ -1,6 +1,6 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react'
-import { jsx, css } from '@emotion/core'
+import { css } from '@emotion/react'
 
 export type ToastType = 'success' | 'info' | 'warning' | 'error'
 

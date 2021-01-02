@@ -1,7 +1,7 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react'
 import Autosuggest from 'react-autosuggest'
-import { jsx, css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { emit } from '@/scripts/event'
 import { pointerCursor } from '@/styles/utils'
 

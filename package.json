@@ -19,8 +19,8 @@
     "build:urls": "ts-node tools/generateUrls.ts"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.28",
-    "@emotion/styled": "^10.0.27",
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
     "@hot-loader/react-dom": "^17.0.0",
     "@tweenjs/tween.js": "^18.5.0",
     "blessing-skin-shell": "^0.3.4",
