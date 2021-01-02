@@ -312,7 +312,7 @@ class ClosetControllerTest extends TestCase
         );
         Event::assertDispatched(
             'closet.renamed',
-            function ($eventName, $payload) use ($name, $texture, $user) {
+            function ($eventName, $payload) use ($texture, $user) {
                 $this->assertTrue($texture->is($payload[0]));
                 $this->assertEquals($texture->name, $payload[1]);
                 $this->assertTrue($user->is($payload[2]));

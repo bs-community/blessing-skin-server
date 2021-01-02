@@ -82,7 +82,7 @@ class AuthControllerTest extends TestCase
             'code' => 2,
             'message' => trans('auth.validation.user'),
         ]);
-        Event::assertDispatched('auth.login.attempt', function ($event, $payload) use ($user) {
+        Event::assertDispatched('auth.login.attempt', function ($event, $payload) {
             $this->assertEquals('nope@nope.net', $payload[0]);
             $this->assertEquals('12345678', $payload[1]);
             $this->assertEquals('email', $payload[2]);
