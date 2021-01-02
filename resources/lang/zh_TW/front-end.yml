@@ -88,123 +88,123 @@ skinlib:
   report:
     title: 報告
     reason: 請向我們說明原因。
-    positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
-    negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
+    positive: 為激勵用戶對皮膚庫做出貢獻，我們將用 :score 的積分激勵報告非法内容的用戶。但是，非法的報告請求一經發現，您的積分將被扣除。
+    negative: 爲了降低非法報告的壓力，我們向您收取 :score 的積分以提交報告。不過您無需擔憂，在管理員復查過後，被收取的積分將與獎勵一并返還。
 user:
-  signRemainingTime: 'Available after :time :unit'
+  signRemainingTime: '在 :time :unit 后可用'
   timeUnitHour: 時
   timeUnitMin: 分鐘
   emptyClosetMsg: >-
-    <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
-  renameItem: Rename item
-  removeItem: Remove from closet
+    <p>衣櫃什麽都沒有......</p><p>爲何不前去 <a href=":url">皮膚庫</a> 一探究竟呢？</p>
+  renameItem: 重命名材質
+  removeItem: 從衣櫃移除
   setAsAvatar: 設爲頭像
-  viewInSkinlib: View in skin library
-  switch2dPreview: Switch to 2D Preview
-  switch3dPreview: Switch to 3D Preview
-  removeFromClosetNotice: Sure to remove this texture from your closet?
+  viewInSkinlib: 在皮膚庫中瀏覽
+  switch2dPreview: 切換至 2D 預覽
+  switch3dPreview: 切換至 3D 預覽
+  removeFromClosetNotice: 確定要將這個材質從你的衣櫃中移除嗎？
   emptySelectedTexture: 未選擇任何材質。
-  renameClosetItem: 'Set a new name for this item:'
-  changePlayerName: 'Please enter the player name:'
-  emptyPlayerName: Empty player name.
-  deletePlayer: Sure to delete this player?
-  deletePlayerNotice: It's permanent. No backups.
-  chooseClearTexture: Choose texture types you want to clear
-  noClearChoice: You haven't choose any types
-  setAvatar: Sure to set this as your avatar?
-  setAvatarNotice: The head segment of skin will bu used.
-  resetAvatarConfirm: Are you sure to reset your avatar?
-  typeToSearch: Type to search
-  useAs: Apply...
-  resetSelected: Clear selected
+  renameClosetItem: '為這個材質設置新的名稱：'
+  changePlayerName: '請輸入角色名稱。'
+  emptyPlayerName: 空角色名。
+  deletePlayer: 確定要刪除此角色？
+  deletePlayerNotice: 這是永久的，不會再備份。
+  chooseClearTexture: 選取您欲清理的材質類型
+  noClearChoice: 您沒有選取任何類型。
+  setAvatar: 確定將此材質設為頭像嗎？
+  setAvatarNotice: 皮膚材質的頭部將被使用。
+  resetAvatarConfirm: 確定重設您的頭像？
+  typeToSearch: 輸入來搜尋
+  useAs: 應用
+  resetSelected: 清空選擇
   closet:
-    upload: Upload Texture
+    upload: 上載材質
     use-as:
-      title: Which player should be applied to?
-      empty: It seems that you own no player...
+      title: 欲將材質應用與哪一個角色？
+      empty: 似乎您沒有可用的角色...
   used:
-    title: Resources Used
-    players: Registered players
-    storage: Storage used
-  cur-score: Current Score
-  score-notice: Click the score to show introduction.
-  sign: Sign
+    title: 已使用的資源
+    players: 已註冊用戶
+    storage: 存儲空間佔用
+  cur-score: 當前積分
+  score-notice: 點擊積分以顯示詳細訊息。
+  sign: 標識
   player:
-    operation: Operations
-    edit-pname: Edit Name
-    delete-texture: Clear Textures
-    delete-player: Delete
-    add-player: Add new player
-    texture-empty: Nothing
+    operation: 操作
+    edit-pname: 編輯名稱
+    delete-texture: 清空材質
+    delete-player: 刪除
+    add-player: 添加新玩家
+    texture-empty: 沒有內容
   verification:
-    title: Verify Your Account
-    message: You must verify your email address before using the skin hosting service. Haven't received the email?
-    resend: Click here to send again.
-    sending: Sending...
+    title: 驗證您的賬戶
+    message: 您必須驗證您的電子郵件地址后才能使用皮膚材質儲存服務。還沒有收到電子郵件？
+    resend: 點擊此處以重新發送。
+    sending: 發送中...
   oauth:
-    id: Client ID
-    name: App Name
-    secret: Client Secret
-    redirect: Callback URL
-    modifyName: Modify app name.
-    modifyUrl: Modify callback URL.
-    create: Create New App
-    confirmRemove: Are you sure to delete this app? You won't be able to undo this.
+    id: 客戶端 ID
+    name: 應用程式名稱
+    secret: 客戶端密令
+    redirect: 回溯密令
+    modifyName: 自訂應用程式名稱
+    modifyUrl: 自訂回溯 URL
+    create: 創建新應用
+    confirmRemove: 確定刪除此應用？此操作無法撤銷。
 admin:
-  operationsTitle: Operations
-  permission: Permission
-  deleteUser: Delete
-  changeEmail: Edit Email
-  newUserEmail: 'Please enter the new email:'
-  verification: Email Verification
-  toggleVerification: Toggle Verification Status
-  changeNickName: Edit Nickname
-  newUserNickname: 'Please enter the new nickname:'
-  changePassword: Edit Password
-  newUserPassword: 'Please enter the new password:'
-  changeScore: Edit Score
-  newScore: 'Please enter the new score:'
-  changePermission: Change permission
-  newPermission: 'Please select new permission:'
-  deleteUserNotice: Are you sure to delete this user? It' permanent.
-  banned: Banned
-  normal: Normal
-  admin: Admin
-  superAdmin: Super Admin
-  unverified: Unverified
-  verified: Verified
+  operationsTitle: 操作
+  permission: 權限
+  deleteUser: 刪除
+  changeEmail: 編輯電子郵件地址
+  newUserEmail: '請輸入新的電子郵件地址'
+  verification: 電子郵件驗證
+  toggleVerification: 檢查驗證狀態
+  changeNickName: 編輯暱稱
+  newUserNickname: '請輸入新的昵稱：'
+  changePassword: 編輯密碼
+  newUserPassword: '請輸入新密碼:'
+  changeScore: 編輯積分
+  newScore: '請輸入新的積分數目：'
+  changePermission: 變更權限
+  newPermission: '請選擇新的權限：'
+  deleteUserNotice: 確定刪除此用戶？此操作無法撤銷。
+  banned: 封禁
+  normal: 常規
+  admin: 管理員
+  superAdmin: 超級管理員
+  unverified: 未驗證
+  verified: 已驗證
   pidNotice: >-
-    Please enter the tid of texture. Inputing 0 can clear texture of this player.
-  changeTexture: Change Textures
-  changePlayerName: Change Player Name
-  changeOwner: Change Owner
-  textureType: Texture Type
-  deletePlayer: Delete
-  changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
-  deletePlayerNotice: Are you sure to delete this player? It' permanent.
-  changePlayerNameNotice: 'Please input new player name:'
-  emptyPlayerName: Player name cannot be empty.
-  configurePlugin: Configure
-  deletePlugin: Delete
-  noDependencies: No Dependencies
-  pluginTitle: Plugin
-  pluginAuthor: Author
-  pluginVersion: Version
-  pluginReadme: Read Me
-  pluginDescription: Description
-  pluginDependencies: Dependencies
-  installPlugin: Install
-  pluginInstalling: Installing...
-  updatePlugin: Update
-  pluginUpdating: Updating...
-  confirmUpdate: Are you sure to update ":plugin" from :old to :new?
-  enablePlugin: Enable
-  disablePlugin: Disable
-  confirmDeletion: Are you sure to delete this plugin?
-  uploadArchive: Upload Archive
-  uploadArchiveNotice: Install a plugin by uploading a Zip archive.
-  downloadRemote: Download From Remote
-  downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
+    請輸入應用材質的編號。留空以清空該角色的材質。
+  changeTexture: 更換材質
+  changePlayerName: 變更角色名
+  changeOwner: 變更所有者
+  textureType: 材質種類
+  deletePlayer: 刪除
+  changePlayerOwner: '請輸入欲讓渡角色的用戶編號：'
+  deletePlayerNotice: 確定刪除此角色？此操作無法撤銷。
+  changePlayerNameNotice: '請輸入新的角色名稱：'
+  emptyPlayerName: 角色名不能為空。
+  configurePlugin: 配置
+  deletePlugin: 刪除
+  noDependencies: 沒有依賴項
+  pluginTitle: 擴展軟體
+  pluginAuthor: 作者
+  pluginVersion: 版本號
+  pluginReadme: 自述
+  pluginDescription: 描述資訊
+  pluginDependencies: 依賴項
+  installPlugin: 安裝
+  pluginInstalling: 安裝中...
+  updatePlugin: 更新
+  pluginUpdating: 更新中...
+  confirmUpdate: 確定升級 ":plugin" 由 :old 至 :new ？
+  enablePlugin: 啟用
+  disablePlugin: 停用
+  confirmDeletion: 你確定要刪除這個擴展軟體嗎？
+  uploadArchive: 上載壓縮包
+  uploadArchiveNotice: 上載壓縮包來安裝擴展軟體。
+  downloadRemote: 從遠端下載
+  downloadRemoteNotice: 藉由遠端 URL 下載壓縮包來安裝擴展軟體。
   updateButton: 立即更新
   downloading: 正在下載...
   i18n:
@@ -212,28 +212,28 @@ admin:
     key: 鍵
     text: 文本
     empty: '（空）'
-    modify: Modify
+    modify: 修改
     delete: 刪除
-    updating: 'Please type new text:'
-    confirmDelete: Are you sure? This is irreversible.
+    updating: '請輸入新的文字：'
+    confirmDelete: 確定執行此操作？這無法恢復。
 report:
-  tid: Texture ID
-  reporter: Reporter
-  reason: Reason
+  tid: 材質 ID
+  reporter: 舉報者
+  reason: 原因
   status-title: 狀態
   status:
     - 待處理
     - 已解決
     - 已拒絕
-  time: Report Time
+  time: 舉報時間
   delete: 刪除
-  ban: Ban
-  reject: Reject
+  ban: 封禁
+  reject: 駁回
 general:
-  skin: Skin
-  cape: Cape
-  fatalError: Fatal Error
-  confirmLogout: Sure to log out?
+  skin: 皮膚
+  cape: 披風
+  fatalError: 嚴重錯誤
+  confirmLogout: 確定登出嗎？
   confirm: 確定
   cancel: 取消
   submit: 提交
@@ -242,23 +242,23 @@ general:
   tip: 提示
   noResult: 無結果.
   texturePreview: 材質預覽
-  walk: Walk
-  run: Run
-  rotation: Rotation
+  walk: 行走
+  run: 奔跑
+  rotation: 旋轉
   pause: 暫停
   reset: 重置
   skinlib: 皮膚庫
   wait: 請稍等...
-  csrf: This page is out-dated. Please refresh it.
+  csrf: 此頁面加載超時。請刷新頁面。
   user:
     email: 電子郵件
     nickname: 暱稱
     score: 積分
-    register-at: Registered At
+    register-at: 註冊於
   player:
     owner: 所有者
     player-name: 角色名
-    previews: Texture Previews
+    previews: 材質預覽
     last-modified: 最近一次修改
 colors:
   black: 黑色

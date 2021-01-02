@@ -1,30 +1,30 @@
 ---
 general:
-  upload-new-skin: Upload new skin
+  upload-new-skin: 上載新皮膚
 show:
-  title: Texture Details
-  deleted: The requested texture was already deleted.
-  private: The requested texture is private and only visible to the uploader and admins.
+  title: 材質詳細訊息
+  deleted: 請求的材質已被刪除。
+  private: 請求的材質為私有材質，僅擁有者與管理員可見。
 upload:
-  title: Upload Texture
-  name-rule: Less than 32 characters and must not contain any special one.
-  name-rule-regexp: Custom name rules are applied as :regexp
-  private-score-notice: It will spend you more scores for setting it as private. You will be charged :score scores for per KB storage.
-  invalid-size: Invalid :type file (width :width, height :height)
-  invalid-hd-skin: Invalid HD skin (width and height should be divisible by 32)
-  lack-score: You don't have enough score to upload this texture.
-  repeated: The texture is already uploaded by someone else. You can add it to your closet directly.
-  success: Texture :name was uploaded successfully.
+  title: 上載材質
+  name-rule: 少於32個字元，且不包含特殊字元。
+  name-rule-regexp: 自訂名稱規則為 :regexp
+  private-score-notice: 將材質設爲私有將花費更多積分。您將為每一KB花費 :score 積分。
+  invalid-size: 不可用的 :type 文件（寬度 :width，高度 :height）
+  invalid-hd-skin: 不可用的皮膚（寬度與高度應爲32的整倍數）
+  lack-score: 您沒有足夠的積分上載材質。
+  repeated: 材質已被其他人上載過。您可以直接將其添加到衣櫃。
+  success: 材質 :name 上載成功。
 delete:
-  success: The texture was deleted successfully.
+  success: 成功刪除材質。
 privacy:
-  success: The texture was set to :privacy successfully.
+  success: 將材質設定爲 :privacy 成功。
 rename:
-  success: The texture was renamed to :name successfully.
+  success: 材質重命名爲 :name 成功。
 model:
-  success: The texture's model was changed to :model successfully.
-no-permission: You have no permission to moderate this texture.
-non-existent: No such texture.
+  success: 材質模型已成功變更為 :model。
+no-permission: 您沒有權限瀏覽此材質。
+non-existent: 無此材質。
 report:
-  duplicate: You have already reported this texture. The administrators will review it as soon as possible. You can also track the status of your report at User Center.
-  success: Thanks for reporting! The administrators will review it as soon as possible.
+  duplicate: 您已成功舉報此材質。管理員將速即審閲。您可以同時在“用戶中心”追蹤舉報進展。
+  success: 感謝您的舉報！管理員將速即審閲。

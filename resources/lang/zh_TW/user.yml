@@ -1,17 +1,17 @@
 ---
-sign-success: Signed successfully. You got :score scores.
-announcement: Announcement
-no-unread: No new notifications.
+sign-success: 簽到成功，獲得 :score 積分。
+announcement: 公告
+no-unread: 沒有新通知。
 verification:
-  disabled: Email verification is not available.
-  frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
-  verified: Your account is already verified.
-  success: Verification link was sent, please check your inbox.
-  failed: We failed to send you the verification link. Detailed message :msg
+  disabled: 電子郵件驗證不可用。
+  frequent-mail: 您點擊 "發送" 按鈕的速度過快， 請稍等1分鐘。
+  verified: 您的賬戶已經過驗證。
+  success: 驗證鏈接已發送，請檢查您的收件箱。
+  failed: 我們未能向您發送驗證鏈接。以下是詳細訊息 :msg
   mail:
-    title: Verify Your Account on :sitename
-    message: You are receiving this email because someone registered an account with this email address on :sitename.
-    reset: 'Click here to verify your account: <a href=":url">:url</a>'
+    title: 在 :sitename 上驗證您的電子郵件地址
+    message: 您因有人在 :sitename 上使用此電子郵件地址注冊賬戶而收到此電子郵件。
+    reset: '點擊以驗證您的賬戶：<a href=":url">:url</a>'
     ignore: If you did not register an account, no further action is required.
 score-intro:
   title: What is score?
@@ -61,7 +61,7 @@ player:
 profile:
   avatar:
     title: Change Avatar?
-    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to unable your ADs blocking extension.
+    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to disable your ADs blocking extension.
     wrong-type: You can't set a cape as avatar.
     success: New avatar was set successfully.
     reset: Reset Avatar
