@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "550bb66ca01d0b4638d154cae44fd0d8",
+    "content-hash": "b828621ee3669ed9d8a40bd8cde3d545",
     "packages": [
         {
             "name": "blessing/filter",
@@ -4782,22 +4782,22 @@
         },
         {
             "name": "sanmai/hoa-protocol",
-            "version": "1.17.01.14",
+            "version": "1.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sanmai/Protocol.git",
-                "reference": "c8d9ac20711f92abba774af33eef1a87ab44bf0e"
+                "reference": "3cf1a72c12fed6aa0169433a10f0275face91362"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sanmai/Protocol/zipball/c8d9ac20711f92abba774af33eef1a87ab44bf0e",
-                "reference": "c8d9ac20711f92abba774af33eef1a87ab44bf0e",
+                "url": "https://api.github.com/repos/sanmai/Protocol/zipball/3cf1a72c12fed6aa0169433a10f0275face91362",
+                "reference": "3cf1a72c12fed6aa0169433a10f0275face91362",
                 "shasum": ""
             },
             "require": {
                 "hoa/consistency": "*",
                 "hoa/exception": "*",
-                "php": "^7.0"
+                "php": ">=7.0"
             },
             "replace": {
                 "hoa/protocol": "*"
@@ -4844,9 +4844,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sanmai/Protocol/issues",
-                "source": "https://github.com/sanmai/Protocol/tree/master"
+                "source": "https://github.com/sanmai/Protocol/tree/1.21"
             },
-            "time": "2019-09-15T07:01:41+00:00"
+            "time": "2021-01-01T15:57:23+00:00"
         },
         {
             "name": "spatie/laravel-translation-loader",
@@ -8060,33 +8060,31 @@
             "time": "2020-11-10T18:47:58+00:00"
         },
         {
-            "name": "fzaninotto/faker",
-            "version": "v1.9.2",
+            "name": "fakerphp/faker",
+            "version": "v1.13.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "848d8125239d7dbf8ab25cb7f054f1a630e68c2e"
+                "url": "https://github.com/FakerPHP/Faker.git",
+                "reference": "ab3f5364d01f2c2c16113442fb987d26e4004913"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/848d8125239d7dbf8ab25cb7f054f1a630e68c2e",
-                "reference": "848d8125239d7dbf8ab25cb7f054f1a630e68c2e",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/ab3f5364d01f2c2c16113442fb987d26e4004913",
+                "reference": "ab3f5364d01f2c2c16113442fb987d26e4004913",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.3 || ^7.0"
+                "php": "^7.1 || ^8.0"
+            },
+            "conflict": {
+                "fzaninotto/faker": "*"
             },
             "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.4.1",
                 "ext-intl": "*",
-                "phpunit/phpunit": "^4.8.35 || ^5.7",
-                "squizlabs/php_codesniffer": "^2.9.2"
+                "phpunit/phpunit": "^7.5.20 || ^8.5.8 || ^9.4.2"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.9-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Faker\\": "src/Faker/"
@@ -8108,11 +8106,10 @@
                 "fixtures"
             ],
             "support": {
-                "issues": "https://github.com/fzaninotto/Faker/issues",
-                "source": "https://github.com/fzaninotto/Faker/tree/v1.9.2"
+                "issues": "https://github.com/FakerPHP/Faker/issues",
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.13.0"
             },
-            "abandoned": true,
-            "time": "2020-12-11T09:56:16+00:00"
+            "time": "2020-12-18T16:50:48+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",

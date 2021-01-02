@@ -39,7 +39,7 @@
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.5",
-    "fzaninotto/faker": "~1.9",
+    "fakerphp/faker": "^1.13",
     "laravel/browser-kit-testing": "^6.1",
     "laravel/tinker": "^2.4",
     "mockery/mockery": "^1.4",
