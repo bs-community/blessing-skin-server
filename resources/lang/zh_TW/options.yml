@@ -71,54 +71,54 @@ sign:
     label: 用戶每天僅可在零時后簽到。
     hint: 若此選項選中，上述的設定將被捨棄。
 sharing:
-  title: Awarding Sharing
+  title: 獎勵分享
   score_award_per_texture:
-    title: Uploader will be rewarded for each uploading texture with
+    title: 上傳材質的用戶將被獎勵
   take_back_scores_after_deletion:
-    title: Return scores
-    label: Return scores if uploader setting private or deleting texture.
+    title: 返還積分
+    label: 儅上傳用戶將材質設定為私有或刪除材質時返還積分
   score_award_per_like:
-    title: Each time the texture is collected, uploader will be rewarded with
+    title: 每次材質被收集時，上傳用戶將被獎勵
 general:
-  title: General Options
-  site_name: Site Name
+  title: 一般設定
+  site_name: 網站名稱
   site_description:
-    title: Site Description
-    description: You can also specify a different site name and description for each language. To edit a specific language's corresponding site name or description text, please switch to that language and submit your edit.
+    title: 網站訊息描述
+    description: 您也可以為每一種語言自訂描述文字。如欲編輯每一種語言下的描述文字，請切換到對應語言編輯並保存。
   site_url:
-    title: Site URL
-    hint: Begin with http(s)://, nerver ends with slash.
+    title: 網站 URL
+    hint: 以 http(s):// 開頭，不能以斜杠結尾。
   register_with_player_name:
-    title: Register with Player Name
-    label: Require Minecraft's player name when user register
+    title: 以角色名注冊
+    label: 注冊時需要正版Minecraft角色名稱
   require_verification:
-    title: Account Verification
-    label: Users must verify their email address first.
-  regs_per_ip: Max accounts of one IP
+    title: 賬戶驗證
+    label: 用戶必須首先驗證其電子郵件地址。
+  regs_per_ip: 同一個 IP 的最大賬戶數
   max_upload_file_size:
-    title: Max Upload Size
-    hint: "Limit specified in php.ini: :size"
+    title: 最大檔案上傳大小
+    hint: "php.ini 設定的最大上傳大小： :size"
   player_name_rule:
-    title: Player Name Rule
-    official: Letters, numbers and underscores (Mojang's official rule)
-    cjk: Allow CJK Unified Ideographs
-    custom: Use custom rules (regular expression)
+    title: 角色名規則
+    official: 字元、數字和下劃綫（Mojang 官方角色名規則）
+    cjk: 允許中日韓統一表意字元
+    custom: 使用自訂規則（正則表達式）
   custom_player_name_regexp:
-    title: Custom Player Name Rules
-    hint: Only takes effect when the above option is set to 'custom'. Leave empty to allow any character.
-    placeholder: Regular Expressions
+    title: 自訂角色名規則
+    hint: 只有在上述設定為“自訂”時才會生效。留空以允許任何字元。
+    placeholder: 正則表達式
   player_name_length:
-    title: Player Name Length
-    suffix: characters
+    title: 角色名長度
+    suffix: 字元
   auto_del_invalid_texture:
-    title: Invalid Textures
-    label: Delete invalid textures automatically.
-    hint: Delete textures records whose file no longer exists from skinlib.
+    title: 不可用的材質
+    label: 自動刪除不可用的材質
+    hint: 刪除不在皮膚庫中存在的材質記錄
   allow_downloading_texture:
-    title: Downloading Textures
-    label: Allow users to directly download the source file of a skinlib item.
+    title: 下載材質
+    label: 允許用戶從皮膚庫中下載材質源文件
   status_code_for_private:
-    title: HTTP Code for Rejecting Accessing Private Textures
+    title: 拒絕私有材質的 HTTP 響應碼
   texture_name_regexp:
     title: Texture Name Rules
     hint: The RegExp for validating name of uploaded textures. Leave empty to allow any character except single, double quote and backslash.
