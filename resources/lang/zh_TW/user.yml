@@ -72,29 +72,29 @@ profile:
     confirm: 重複新密碼
     button: 修改密碼
     wrong-password: 舊密碼錯誤。
-    success: Password updated successfully, please log in again.
+    success: 密碼已更新，請重新登入。
   nickname:
-    title: Change Nickname
-    empty: No nickname is set now.
-    success: Nickname is successfully updated to :nickname
+    title: 更改暱稱
+    empty: 現在未設置昵稱。
+    success: 昵稱已更新爲 :nickname
   email:
-    title: Change Email
-    new: New Email
-    password: Current Password
-    button: Change email
-    wrong-password: Wrong password.
-    existed: This email address is occupied.
-    success: Email address updated successfully, please log in again.
+    title: 更改電子郵件地址
+    new: 新電子郵件地址
+    password: 當前密碼
+    button: 更改電子郵件地址
+    wrong-password: 錯誤的密碼。
+    existed: 這個電子郵件地址已被佔用。
+    success: 電子郵件地址已更新，請重新登入。
   delete:
-    title: Delete Account
-    notice: Sure to delete your account on :site?
-    admin: Admin account can not be deleted.
-    button: Delete my account
-    modal-title: You need to enter your password to continue
+    title: 刪除賬戶
+    notice: 確認在 :site 上刪除您的賬戶？
+    admin: 管理員賬戶不能被刪除。
+    button: 刪除我的賬戶
+    modal-title: 您需要輸入密碼來繼續
     modal-notice: |
-      You're about to delete your account.
-      This is permanent! No backups, no restores, no magic undo button.
-      We warned you, ok?
-    password: Current Password
-    wrong-password: Wrong password.
-    success: Your account is deleted successfully.
+      您將要刪除您的賬戶。
+      此操作無法撤銷！站點不會備份、恢復或者撤銷您的操作。
+      這是我們最後一次提示，繼續嗎？
+    password: 當前密碼
+    wrong-password: 錯誤的密碼。
+    success: 您的賬戶已成功刪除。
