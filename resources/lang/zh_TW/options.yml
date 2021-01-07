@@ -163,17 +163,16 @@ resources:
     title: 前端資源 CDN
     hint: 前端資源 URL 不可用時將不從該處加載資源文件。
     description: |
-      The CDN URL you give must refer to a mirror of <code>/public</code> directory,
-      all the files of that directory will be loaded as CDN.<br>
-      <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/manifest.json</code> can be accessed.
+      您所輸入的 CDN URL 必須是指向 <code>/public</code> 目錄的鏡像資源，該目錄的所有檔案都將由 CDN 加載。<br>
+      <b>如何驗證?</b> 請驗證 <code>{您的 CDN 地址}/app/manifest.json</code> 是否可訪問。
 cache:
-  title: Cache Configuration
-  clear: Clear Cache
-  cleared: Cache has been cleared.
-  driver: Current cache driver is 「:driver」.
+  title: 緩存選項
+  clear: 清除緩存
+  cleared: 緩存已清除。
+  driver: 當前緩存驅動是 「:driver」。
   enable_avatar_cache:
-    title: Avatar
-    label: Enable caching avatar
+    title: 頭像
+    label: 啓用頭像緩存
   enable_preview_cache:
-    title: Texture Preivew
-    label: Enable caching texture preivew
+    title: 材質預覽
+    label: 啓用材質預覽緩存
