@@ -12,9 +12,9 @@ verification:
     title: 在 :sitename 上驗證您的電子郵件地址
     message: 您因有人在 :sitename 上使用此電子郵件地址注冊賬戶而收到此電子郵件。
     reset: '點擊以驗證您的賬戶：<a href=":url">:url</a>'
-    ignore: If you did not register an account, no further action is required.
+    ignore: 如果您未注冊賬戶，請忽略這封郵件。
 score-intro:
-  title: What is score?
+  title: 什麼是積分?
   introduction: |
     We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
     Either adding players, uplaoding textures or adding a skinlib item to your closet will consume scores.
