@@ -1,28 +1,28 @@
 ---
-option-saved: Option saved.
+option-saved: 設置已保存。
 homepage:
-  title: Homepage
+  title: 主頁
   home_pic_url:
-    title: Picture URL at Homepage
-    hint: Path relative to homepage or full URL, leave empty to use default image.
+    title: 主頁圖片 URL
+    hint: 主頁的相對路徑或者完整 URL，留空以使用預設圖像。
   favicon_url:
-    title: Website Icon
-    hint: Path relative to public/ or full URL.
-    description: The given image must have same width and height (leave blank to use default icon).
+    title: 網站圖標
+    hint: 相對於 public/ 的路徑或者完整 URL 。
+    description: 提供的圖片必須是寬度和高度相同（留空以應用預設圖標）
   transparent_navbar:
-    title: Transparent Navigation Bar
-    label: This will enable transparent navigation bar of home page, but it will turn to be normal if page is scrolled to bottom.
+    title: 透明導航欄
+    label: 這將在主頁啓用透明導航欄，但當頁面滾動至底部時將恢復正常。
   hide_intro:
-    title: Hide Introduction at Bottom
-    label: Scroll bar will be disabled if this option is enabled, as version 2.x.
+    title: 隱藏底部介紹
+    label: 頁面滾動條將被禁用，和2.x版本一樣。
   fixed_bg:
-    title: Fixed Background
-    label: This option will make background fixed, not scrolled with scroll bar.
+    title: 固定背景圖
+    label: 此選項將使背景圖固定，不再滾動。
   copyright_prefer:
-    title: Program Copyright
-    description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."
+    title: 軟體版權
+    description: "您可以為每種語言指定不同形式的軟體版權。若要編輯它們，請切換到該語言並提交您的編輯訊息。 <br><b>警告:</b> <b>禁止</b>對頁脚軟體版權進行任何惡意的修改 (包括刪除, 修改作者, 更改連結對象)。相關作者保留追究相關責任的權利。"
   copyright_text:
-    title: Custom Copyright Text
+    title: 自定義版權文字
     description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
 customJsCss:
   title: Custom CSS/JavaScript
