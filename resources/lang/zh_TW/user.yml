@@ -16,13 +16,13 @@ verification:
 score-intro:
   title: 什麼是積分?
   introduction: |
-    We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
-    Either adding players, uplaoding textures or adding a skinlib item to your closet will consume scores.
+    我們使用積分系統來阻止濫發巨大材質和濫用角色注冊的行爲。
+    除了添加角色，上載材質或從皮膚庫中添加材質均消耗積分。
     :return-score
 
-    New users will get :initial_score scores initially, and you can acquire :score-from ~ :score-to scores by daily signing in.
-  will-return-score: The score will be returned if you deleted players, uploaded textures or closet items.
-  no-return-score: The score will NOT be returned if you deleted players, uploaded textures or closet items.
+    新用戶將得到 :initial_score 積分，且您可以通過每日簽到獲得 :score-from ~ :score-to 的積分。
+  will-return-score: 如果您刪除角色、材質或衣櫃物品，積分將返還。
+  no-return-score: 如果您刪除角色、材質或衣櫃物品，積分將不會返還。
   rates:
     storage: ':score scores = 1 KB storage'
     player: ':score scores = 1 player'
