@@ -22,54 +22,54 @@ homepage:
     title: 軟體版權
     description: "您可以為每種語言指定不同形式的軟體版權。若要編輯它們，請切換到該語言並提交您的編輯訊息。 <br><b>警告:</b> <b>禁止</b>對頁脚軟體版權進行任何惡意的修改 (包括刪除, 修改作者, 更改連結對象)。相關作者保留追究相關責任的權利。"
   copyright_text:
-    title: 自定義版權文字
-    description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
+    title: 自訂版權文字
+    description: 自訂版權文字中允許使用形如<code>{site_name}</code> & <code>{site_url}</code>的佔位符。您也可以為每一種顯示語言自訂不同的文字。如欲編輯不同語言的文字，請切換到對應語言並提交修改。
 customJsCss:
-  title: Custom CSS/JavaScript
+  title: 自訂 CSS/Javascript
   message: |
-    The contents will be attached to &lt;style&gt; and &lt;script&gt; tags.<br>
-    - Here are some useful examples: <a href="https://blessing.netlify.com/css-js.html">Examples of Custom CSS & JavaScript</a>
+    此處的内容將被追加至每個頁面的 &lt;style&gt; 和 &lt;script&gt; 標簽之中。<br>
+    - 以下是有用的示範：<a href="https://blessing.netlify.com/css-js.html">自訂 CSS & JavaScript 示範</a>
   custom_css: CSS
   custom_js: JavaScript
 rate:
-  title: Scores
+  title: 積分
   score_per_storage:
-    title: Storage
-    addon: scores = 1 KB
+    title: 存儲空間
+    addon: 積分 = 1KB
   private_score_per_storage:
-    title: Private Storage
-    addon: scores = 1 KB
-    hint: Uploading private textures will cost more scores.
+    title: 私有存儲空間
+    addon: 積分 = 1KB
+    hint: 上載私密材質消耗更多積分。
   score_per_closet_item:
-    title: Favorites
-    addon: score = 1 closet item
+    title: 收藏夾
+    addon: 積分 = 1個衣櫃物品
   return_score:
-    title: Score Return
-    label: Return scores back to user after deleting players/textures/closet items.
+    title: 積分返還
+    label: 在用戶刪除角色、材質或衣櫃物品時退還積分。
   score_per_player:
-    title: Players
-    addon: scores = 1 player
-  user_initial_score: User Initial Score
+    title: 角色
+    addon: 積分 = 1 個角色
+  user_initial_score: 用戶初始積分
 report:
-  title: Reporting Textures
+  title: 舉報材質
   reporter_score_modification:
-    title: Scores for Submitting an Report
-    description: Set a positive integer value to reward user who submits new reports. Set to a negative value will require scores for submitting reports, and the suspended scores will be available if user's report was resolved. Set to 0 to disable.
+    title: 提交舉報所需積分
+    description: 設置正整數值以獎勵提交舉報的用戶。 設置為負值將在用戶提交舉報時消耗積分，如果采納了用戶的舉報，則收取的積分將退還。 設置為0禁用此設定。
   reporter_reward_score:
-    title: Reward the Reporter with Scores If Report Resolved
+    title: 舉報采納時獎勵舉報用戶
 sign:
-  title: Signing
+  title: 簽到
   sign_score:
-    title: Score Granted
-    addon1: scores ~
-    addon2: scores
+    title: 獲得積分
+    addon1: 積分 ~
+    addon2: 積分
   sign_gap_time:
-    title: Gap Time
-    addon: hours
+    title: 間隔時間
+    addon: 小時
   sign_after_zero:
-    title: Time
-    label: Users can sign in after 0 everyday.
-    hint: The above option will be ignored if this is checked.
+    title: 時間
+    label: 用戶每天僅可在零時后簽到。
+    hint: 若此選項選中，上述的設定將被捨棄。
 sharing:
   title: Awarding Sharing
   score_award_per_texture:
