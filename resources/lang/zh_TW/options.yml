@@ -120,48 +120,48 @@ general:
   status_code_for_private:
     title: 拒絕私有材質的 HTTP 響應碼
   texture_name_regexp:
-    title: Texture Name Rules
-    hint: The RegExp for validating name of uploaded textures. Leave empty to allow any character except single, double quote and backslash.
-    placeholder: Regular Expressions
+    title: 材質名規則
+    hint: RegExp 用於驗證上載材質的名稱。 留空以允許除單引號，雙引號和反斜杠之外的任何字元。
+    placeholder: 正則表達式
   content_policy:
-    title: Content Policy
-    description: Display content policy at texture uploading page, supporting Markdown. To edit a specific language's corresponding content policy, please switch to that language and submit your edit.
+    title: 内容策略
+    description: 在材質上載頁上顯示內容策略，支持Markdown語法。 要編輯特定語言的相應內容政策，請切換到該語言並提交您的修改。
 announ:
-  title: Announcement
+  title: 公告欄
   announcement:
-    description: Styling with Markdown is supported. You can also specify a different announcement for each language. To edit a specific language's corresponding announcement, please switch to that language and submit your edit.
+    description: 支持Markdown語法。 您可以為每種語言指定不同的公告。 要編輯特定語言的公告，請切換到該語言並提交您的公告文字。
 meta:
-  title: SEO <meta> tags
+  title: SEO <meta> 標簽
   meta_keywords:
-    title: Keywords
-    hint: Split with commas.
+    title: 關鍵字
+    hint: 使用逗號分隔。
   meta_description:
-    title: Description
-    hint: Description defined in "general options" will be used if you left it empty.
+    title: 描述資訊
+    hint: 留空使用“網站描述”中的文字。
   meta_extras:
-    title: Other Custom <meta> Tags
+    title: 其他自訂<meta>標簽
 recaptcha:
   recaptcha_invisible:
-    title: Invisible
-    label: Enable Invisible Mode
-res-warning: This page is ONLY for advanced users. If you aren't familiar with these, please don't modify them!
+    title: 隱式驗證
+    label: 啓用隱式 reCAPTCHA 驗證
+res-warning: 本頁面僅供高級用戶使用。如果您不熟悉請勿修改此頁面！
 resources:
-  title: Resource Files
-  hint: Please check these options if you enabled CDN for your site.
+  title: 資源檔案
+  hint: 如果您爲您的網站啓用了CDN，請在此選項打勾。
   force_ssl:
-    title: Force SSL
-    label: Use HTTPS protocol to load all front-end assets.
-    hint: Please check if SSL really available before turning on.
+    title: 強制應用 SSL
+    label: 使用 HTTPS 協議加載所有前後端元素。
+    hint: 請在應用 SSL 之前確定其可用。
   auto_detect_asset_url:
-    title: Assets URL
-    label: Determine assets url automatically.
-    description: Please unable this if assets URLs are wrongly generated under a CDN. The site url will be used if this is not enabled.
+    title: 資源 URL
+    label: 自動判斷資源 URL
+    description: 如果 CDN 資源地址生成錯誤請禁用。禁用時從網站 URL 加載資源。
   cache_expire_time:
-    title: Cache Exipre Time
-    hint: In seconds, 86400 = one day, 31536000 = one year.
+    title: 緩存刷新時間
+    hint: 以秒計。86400 = 一天，31536000 = 一年。
   cdn_address:
-    title: Front-end Assets CDN
-    hint: Front-end files won't be loaded if URL is unavailable.
+    title: 前端資源 CDN
+    hint: 前端資源 URL 不可用時將不從該處加載資源文件。
     description: |
       The CDN URL you give must refer to a mirror of <code>/public</code> directory,
       all the files of that directory will be loaded as CDN.<br>
