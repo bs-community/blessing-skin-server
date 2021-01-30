@@ -25,7 +25,7 @@ homepage:
     title: 自訂版權文字
     description: 自訂版權文字中允許使用形如<code>{site_name}</code> & <code>{site_url}</code>的佔位符。您也可以為每一種顯示語言自訂不同的文字。如欲編輯不同語言的文字，請切換到對應語言並提交修改。
 customJsCss:
-  title: 自訂 CSS/Javascript
+  title: 自訂 CSS/JavaScript
   message: |
     此處的内容將被追加至每個頁面的 &lt;style&gt; 和 &lt;script&gt; 標簽之中。<br>
     - 以下是有用的示範：<a href="https://blessing.netlify.com/css-js.html">自訂 CSS & JavaScript 示範</a>
@@ -37,11 +37,11 @@ rate:
     title: 存儲空間
     addon: 積分 = 1KB
   private_score_per_storage:
-    title: 私有存儲空間
+    title: 私有材質存儲
     addon: 積分 = 1KB
     hint: 上載私密材質消耗更多積分。
   score_per_closet_item:
-    title: 收藏夾
+    title: 收藏
     addon: 積分 = 1個衣櫃物品
   return_score:
     title: 積分返還
@@ -69,7 +69,7 @@ sign:
   sign_after_zero:
     title: 時間
     label: 用戶每天僅可在零時后簽到。
-    hint: 若此選項選中，上述的設定將被捨棄。
+    hint: 若此選項選中，上述的設定將被忽略。
 sharing:
   title: 獎勵分享
   score_award_per_texture:
@@ -90,7 +90,7 @@ general:
     hint: 以 http(s):// 開頭，不能以斜杠結尾。
   register_with_player_name:
     title: 以角色名注冊
-    label: 注冊時需要正版Minecraft角色名稱
+    label: 注冊時需要 Minecraft 角色名稱
   require_verification:
     title: 賬戶驗證
     label: 用戶必須首先驗證其電子郵件地址。
@@ -121,15 +121,15 @@ general:
     title: 拒絕私有材質的 HTTP 響應碼
   texture_name_regexp:
     title: 材質名規則
-    hint: RegExp 用於驗證上載材質的名稱。 留空以允許除單引號，雙引號和反斜杠之外的任何字元。
+    hint: 正則表達式用於驗證上載材質的名稱。 留空以允許除單引號，雙引號和反斜杠之外的任何字元。
     placeholder: 正則表達式
   content_policy:
     title: 内容策略
-    description: 在材質上載頁上顯示內容策略，支持Markdown語法。 要編輯特定語言的相應內容政策，請切換到該語言並提交您的修改。
+    description: 在材質上載頁上顯示內容策略，支持 Markdown 語法。 要編輯特定語言的相應內容政策，請切換到該語言並提交您的修改。
 announ:
   title: 公告欄
   announcement:
-    description: 支持Markdown語法。 您可以為每種語言指定不同的公告。 要編輯特定語言的公告，請切換到該語言並提交您的公告文字。
+    description: 支持 Markdown 語法。 您可以為每種語言指定不同的公告。 要編輯特定語言的公告，請切換到該語言並提交您的公告文字。
 meta:
   title: SEO <meta> 標簽
   meta_keywords:
@@ -150,7 +150,7 @@ resources:
   hint: 如果您爲您的網站啓用了CDN，請在此選項打勾。
   force_ssl:
     title: 強制應用 SSL
-    label: 使用 HTTPS 協議加載所有前後端元素。
+    label: 使用 HTTPS 協議加載所有前端資源。
     hint: 請在應用 SSL 之前確定其可用。
   auto_detect_asset_url:
     title: 資源 URL
