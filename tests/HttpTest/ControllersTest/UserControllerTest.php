@@ -19,14 +19,6 @@ class UserControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testUser()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'jwt')
-            ->get('/api/user')
-            ->assertJson($user->toArray());
-    }
-
     public function testIndex()
     {
         $filter = Fakes\Filter::fake();

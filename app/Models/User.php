@@ -9,7 +9,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Lorisleiva\LaravelSearchString\Concerns\SearchString;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * @property int         $uid
@@ -28,7 +27,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property Collection  $players
  * @property Collection  $closet
  */
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
     use Notifiable;
     use HasFactory;
@@ -109,15 +108,5 @@ class User extends Authenticatable implements JWTSubject
     public function getAuthIdentifier()
     {
         return $this->uid;
-    }
-
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    public function getJWTCustomClaims()
-    {
-        return [];
     }
 }

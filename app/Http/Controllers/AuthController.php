@@ -370,26 +370,4 @@ class AuthController extends Controller
 
         return redirect()->route('user.home');
     }
-
-    public function jwtLogin(Request $request)
-    {
-        $token = Auth::guard('jwt')->attempt([
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-        ]) ?: '';
-
-        return json(compact('token'));
-    }
-
-    public function jwtLogout()
-    {
-        Auth::guard('jwt')->logout();
-
-        return response('', 204);
-    }
-
-    public function jwtRefresh()
-    {
-        return json(['token' => Auth::guard('jwt')->refresh()]);
-    }
 }

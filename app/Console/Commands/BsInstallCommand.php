@@ -25,7 +25,6 @@ class BsInstallCommand extends Command
         if (!$this->getLaravel()->runningUnitTests()) {
             // @codeCoverageIgnoreStart
             $this->call('key:generate');
-            $this->call('jwt:secret', ['--no-interaction' => true]);
             $this->call('passport:keys', ['--no-interaction' => true]);
             // @codeCoverageIgnoreEnd
         }

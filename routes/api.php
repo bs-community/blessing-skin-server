@@ -2,20 +2,14 @@
 
 Route::any('', 'HomeController@apiRoot');
 
-Route::prefix('auth')->group(function () {
-    Route::post('login', 'AuthController@jwtLogin');
-    Route::post('logout', 'AuthController@jwtLogout')->middleware('auth:jwt');
-    Route::post('refresh', 'AuthController@jwtRefresh')->middleware('auth:jwt');
-});
-
-Route::prefix('user')->middleware('auth:jwt,oauth')->group(function () {
+Route::prefix('user')->middleware('auth:oauth')->group(function () {
     Route::get('', 'UserController@user');
 
     Route::get('notifications', 'NotificationsController@all');
     Route::post('notifications/{id}', 'NotificationsController@read');
 });
 
-Route::prefix('players')->middleware('auth:jwt,oauth')->group(function () {
+Route::prefix('players')->middleware('auth:oauth')->group(function () {
     Route::get('', 'PlayerController@list');
     Route::post('', 'PlayerController@add');
     Route::delete('{player}', 'PlayerController@delete');
@@ -24,7 +18,7 @@ Route::prefix('players')->middleware('auth:jwt,oauth')->group(function () {
     Route::delete('{player}/textures', 'PlayerController@clearTexture');
 });
 
-Route::prefix('closet')->middleware('auth:jwt,oauth')->group(function () {
+Route::prefix('closet')->middleware('auth:oauth')->group(function () {
     Route::get('', 'ClosetController@getClosetData');
     Route::post('', 'ClosetController@add');
     Route::put('{tid}', 'ClosetController@rename');
@@ -32,7 +26,7 @@ Route::prefix('closet')->middleware('auth:jwt,oauth')->group(function () {
 });
 
 Route::prefix('admin')
-    ->middleware(['auth:jwt,oauth', 'role:admin'])
+    ->middleware(['auth:oauth', 'role:admin'])
     ->group(function () {
         Route::prefix('users')->group(function () {
             Route::get('', 'UsersManagementController@list')->name('list');

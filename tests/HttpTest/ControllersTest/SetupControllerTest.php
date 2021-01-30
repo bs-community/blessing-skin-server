@@ -128,9 +128,6 @@ class SetupControllerTest extends TestCase
 
         $this->spy(Artisan::class, function ($spy) {
             $spy->shouldReceive('call')
-                ->with('jwt:secret', ['--no-interaction' => true])
-                ->once();
-            $spy->shouldReceive('call')
                 ->with('passport:keys', ['--no-interaction' => true])
                 ->once();
             $spy->shouldReceive('call')

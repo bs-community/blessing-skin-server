@@ -112,7 +112,6 @@ class SetupController extends Controller
             'site_name' => 'required',
         ]);
 
-        $artisan->call('jwt:secret', ['--no-interaction' => true]);
         $artisan->call('passport:keys', ['--no-interaction' => true]);
 
         // Create tables

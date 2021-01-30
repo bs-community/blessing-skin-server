@@ -34,7 +34,6 @@
     "symfony/process": "^5.0",
     "symfony/yaml": "^5.0",
     "twig/twig": "^2.11",
-    "tymon/jwt-auth": "^1.0",
     "vectorface/whip": "^0.3.2"
   },
   "require-dev": {
