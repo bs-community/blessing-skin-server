@@ -9,9 +9,9 @@ upload:
   title: 上載材質
   name-rule: 少於32個字元，且不包含特殊字元。
   name-rule-regexp: 自訂名稱規則為 :regexp
-  private-score-notice: 將材質設爲私有將花費更多積分。您將為每一KB花費 :score 積分。
-  invalid-size: 不可用的 :type 文件（寬度 :width，高度 :height）
-  invalid-hd-skin: 不可用的皮膚（寬度與高度應爲32的整倍數）
+  private-score-notice: 將材質設爲私有將花費更多積分。您將為每一 KB 花費 :score 積分。
+  invalid-size: 無效的 :type 文件（寬度 :width，高度 :height）
+  invalid-hd-skin: 無效的皮膚（寬度與高度應爲 32 的整倍數）
   lack-score: 您沒有足夠的積分上載材質。
   repeated: 材質已被其他人上載過。您可以直接將其添加到衣櫃。
   success: 材質 :name 上載成功。
@@ -23,7 +23,7 @@ rename:
   success: 材質重命名爲 :name 成功。
 model:
   success: 材質模型已成功變更為 :model。
-no-permission: 您沒有權限瀏覽此材質。
+no-permission: 您沒有權限操作此材質。
 non-existent: 無此材質。
 report:
   duplicate: 您已成功舉報此材質。管理員將速即審閲。您可以同時在“用戶中心”追蹤舉報進展。
