@@ -37,7 +37,7 @@ closet:
     success: 物品重命名為 :name 成功。
   remove:
     success: 材質已成功從衣櫃移除。
-    non-existent: 材質在您的衣櫃不存在。
+    non-existent: 您的衣櫃沒有這個材質。
 player:
   login-notice: 現在您可以使用您的角色名登入，而無需電子郵件地址。
   player-name-rule:
