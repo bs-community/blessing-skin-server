@@ -45,7 +45,7 @@ bind:
 verify:
   title: Verificación de correo electrónico
   invalid: Enlace inválido.
-  not-matched: Email doesn't match.
+  not-matched: El Email no coincide.
 validation:
   user: No existe tal usuario.
   password: Contraseña incorrecta.

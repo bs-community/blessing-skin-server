@@ -6,95 +6,95 @@ verification:
   disabled: 電子郵件驗證不可用。
   frequent-mail: 您點擊 "發送" 按鈕的速度過快， 請稍等1分鐘。
   verified: 您的賬戶已經過驗證。
-  success: 驗證鏈接已發送，請檢查您的收件箱。
+  success: 驗證鏈接已發送。請檢查您的郵箱。
   failed: 我們未能向您發送驗證鏈接。以下是詳細訊息 :msg
   mail:
     title: 在 :sitename 上驗證您的電子郵件地址
     message: 您因有人在 :sitename 上使用此電子郵件地址注冊賬戶而收到此電子郵件。
     reset: '點擊以驗證您的賬戶：<a href=":url">:url</a>'
-    ignore: If you did not register an account, no further action is required.
+    ignore: 如果您未注冊賬戶，請忽略這封郵件。
 score-intro:
-  title: What is score?
+  title: 什麼是積分?
   introduction: |
-    We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
-    Either adding players, uplaoding textures or adding a skinlib item to your closet will consume scores.
+    我們使用積分系統來阻止濫發巨大材質和濫用角色注冊的行爲。
+    添加角色，上載材質或從皮膚庫中添加材質均消耗積分。
     :return-score
 
-    New users will get :initial_score scores initially, and you can acquire :score-from ~ :score-to scores by daily signing in.
-  will-return-score: The score will be returned if you deleted players, uploaded textures or closet items.
-  no-return-score: The score will NOT be returned if you deleted players, uploaded textures or closet items.
+    新用戶將得到 :initial_score 積分，且您可以通過每日簽到獲得 :score-from ~ :score-to 的積分。
+  will-return-score: 如果您刪除角色、材質或衣櫃物品，積分將返還。
+  no-return-score: 如果您刪除角色、材質或衣櫃物品，積分將不會返還。
   rates:
-    storage: ':score scores = 1 KB storage'
-    player: ':score scores = 1 player'
-    closet: ':score socres = 1 closet item'
+    storage: ':score 積分 = 1KB 存儲空間'
+    player: ':score 積分 = 1 個角色'
+    closet: ':score 積分 = 1個衣櫃物品'
 closet:
   add:
-    success: Added :name to closet successfully.
-    repeated: You have already added this texture.
-    not-found: We cannot find this texture.
-    lack-score: You don't have enough score to add it to closet.
+    success: 成功將 :name 添加到衣櫃。
+    repeated: 您已經添加了這個材質。
+    not-found: 無法找到這個材質。
+    lack-score: 您沒有足夠的積分將其添加至衣櫃。
   rename:
-    success: The item is successfully renamed to :name
+    success: 物品重命名為 :name 成功。
   remove:
-    success: The texture was removed from closet successfully.
-    non-existent: The texture does not exist in your closet.
+    success: 材質已成功從衣櫃移除。
+    non-existent: 您的衣櫃沒有這個材質。
 player:
-  login-notice: Now you can log in with player names you owned instead email address.
+  login-notice: 現在您可以使用您的角色名登入，而無需電子郵件地址。
   player-name-rule:
-    official: Player name may only contains letters, numbers and underscores.
-    cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
-    custom: Custom player name rules are applied on this site. Please contact admins for further information.
-  player-name-length: The player name should be at least :min characters and not greater than :max characters.
+    official: 角色名稱只能由字母、數字或下劃綫組成。
+    cjk: 角色名應包含字元、數字、下劃綫和中日韓統一表意字元。
+    custom: 自訂角色名規則已啓用。請聯係管理員獲取詳細訊息。
+  player-name-length: 角色名長度至少爲 :min 個字元，並不得超過 :max 個字元。
   add:
-    repeated: The player name is already registered.
-    lack-score: You don't have enough score to add a player.
-    success: Player :name was added successfully.
+    repeated: 角色名已被注冊。
+    lack-score: 您沒有足夠的積分添加角色。
+    success: 角色名 :name 修改成功。
   delete:
-    success: Player :name was deleted successfully.
+    success: 角色名 :name 刪除成功。
   rename:
-    repeated: This player name is occupied. Please choose another one.
-    success: Player :old was renamed to :new
+    repeated: 這個角色名已被占用。請選用另一個。
+    success: 角色名 :old 已更改爲 :new 。
   set:
-    success: The texture was applied to player :name successfully.
+    success: 材質成功應用於 :name 角色。
   clear:
-    success: The textures of player :name was resetted successfully.
+    success: 角色 :name 的材質重設成功。
 profile:
   avatar:
-    title: Change Avatar?
-    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to disable your ADs blocking extension.
-    wrong-type: You can't set a cape as avatar.
-    success: New avatar was set successfully.
-    reset: Reset Avatar
+    title: 修改頭像？
+    notice: 在您的衣櫃的任何材質中點擊齒輪圖標"<i class="fa fa-cog"></i>"，隨後點擊“設爲頭像”。我們將爲您擷取皮膚頭部。如果您未能看到頭像，請嘗試禁用您的廣告攔截軟體。
+    wrong-type: 您不能將披風設置爲頭像。
+    success: 新的頭像設置成功。
+    reset: 重設頭像
   password:
-    title: Change Password
-    old: Old Password
-    new: New Password
-    confirm: Repeat Password
-    button: Change password
-    wrong-password: Wrong original password.
-    success: Password updated successfully, please log in again.
+    title: 修改密碼
+    old: 舊密碼
+    new: 新密碼
+    confirm: 重複新密碼
+    button: 修改密碼
+    wrong-password: 舊密碼錯誤。
+    success: 密碼已更新，請重新登入。
   nickname:
-    title: Change Nickname
-    empty: No nickname is set now.
-    success: Nickname is successfully updated to :nickname
+    title: 更改暱稱
+    empty: 現在未設置昵稱。
+    success: 昵稱已更新爲 :nickname
   email:
-    title: Change Email
-    new: New Email
-    password: Current Password
-    button: Change email
-    wrong-password: Wrong password.
-    existed: This email address is occupied.
-    success: Email address updated successfully, please log in again.
+    title: 更改電子郵件地址
+    new: 新電子郵件地址
+    password: 當前密碼
+    button: 更改電子郵件地址
+    wrong-password: 錯誤的密碼。
+    existed: 這個電子郵件地址已被佔用。
+    success: 電子郵件地址已更新，請重新登入。
   delete:
-    title: Delete Account
-    notice: Sure to delete your account on :site?
-    admin: Admin account can not be deleted.
-    button: Delete my account
-    modal-title: You need to enter your password to continue
+    title: 刪除賬戶
+    notice: 確認在 :site 上刪除您的賬戶？
+    admin: 管理員賬戶不能被刪除。
+    button: 刪除我的賬戶
+    modal-title: 您需要輸入密碼來繼續
     modal-notice: |
-      You're about to delete your account.
-      This is permanent! No backups, no restores, no magic undo button.
-      We warned you, ok?
-    password: Current Password
-    wrong-password: Wrong password.
-    success: Your account is deleted successfully.
+      您將要刪除您的賬戶。
+      此操作無法撤銷！站點不會備份、恢復或者撤銷您的操作。
+      這是我們最後一次提示，繼續嗎？
+    password: 當前密碼
+    wrong-password: 錯誤的密碼。
+    success: 您的賬戶已成功刪除。

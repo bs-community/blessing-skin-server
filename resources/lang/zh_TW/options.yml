@@ -1,179 +1,178 @@
 ---
-option-saved: Option saved.
+option-saved: 設置已保存。
 homepage:
-  title: Homepage
+  title: 主頁
   home_pic_url:
-    title: Picture URL at Homepage
-    hint: Path relative to homepage or full URL, leave empty to use default image.
+    title: 主頁圖片 URL
+    hint: 主頁的相對路徑或者完整 URL，留空以使用預設圖像。
   favicon_url:
-    title: Website Icon
-    hint: Path relative to public/ or full URL.
-    description: The given image must have same width and height (leave blank to use default icon).
+    title: 網站圖標
+    hint: 相對於 public/ 的路徑或者完整 URL 。
+    description: 提供的圖片必須是寬度和高度相同（留空以應用預設圖標）
   transparent_navbar:
-    title: Transparent Navigation Bar
-    label: This will enable transparent navigation bar of home page, but it will turn to be normal if page is scrolled to bottom.
+    title: 透明導航欄
+    label: 這將在主頁啓用透明導航欄，但當頁面滾動至底部時將恢復正常。
   hide_intro:
-    title: Hide Introduction at Bottom
-    label: Scroll bar will be disabled if this option is enabled, as version 2.x.
+    title: 隱藏底部介紹
+    label: 頁面滾動條將被禁用，和2.x版本一樣。
   fixed_bg:
-    title: Fixed Background
-    label: This option will make background fixed, not scrolled with scroll bar.
+    title: 固定背景圖
+    label: 此選項將使背景圖固定，不再滾動。
   copyright_prefer:
-    title: Program Copyright
-    description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."
+    title: 軟體版權
+    description: "您可以為每種語言指定不同形式的軟體版權。若要編輯它們，請切換到該語言並提交您的編輯訊息。 <br><b>警告:</b> <b>禁止</b>對頁脚軟體版權進行任何惡意的修改 (包括刪除, 修改作者, 更改連結對象)。相關作者保留追究相關責任的權利。"
   copyright_text:
-    title: Custom Copyright Text
-    description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
+    title: 自訂版權文字
+    description: 自訂版權文字中允許使用形如<code>{site_name}</code> & <code>{site_url}</code>的佔位符。您也可以為每一種顯示語言自訂不同的文字。如欲編輯不同語言的文字，請切換到對應語言並提交修改。
 customJsCss:
-  title: Custom CSS/JavaScript
+  title: 自訂 CSS/JavaScript
   message: |
-    The contents will be attached to &lt;style&gt; and &lt;script&gt; tags.<br>
-    - Here are some useful examples: <a href="https://blessing.netlify.com/css-js.html">Examples of Custom CSS & JavaScript</a>
+    此處的内容將被追加至每個頁面的 &lt;style&gt; 和 &lt;script&gt; 標簽之中。<br>
+    - 以下是有用的示範：<a href="https://blessing.netlify.com/css-js.html">自訂 CSS & JavaScript 示範</a>
   custom_css: CSS
   custom_js: JavaScript
 rate:
-  title: Scores
+  title: 積分
   score_per_storage:
-    title: Storage
-    addon: scores = 1 KB
+    title: 存儲空間
+    addon: 積分 = 1KB
   private_score_per_storage:
-    title: Private Storage
-    addon: scores = 1 KB
-    hint: Uploading private textures will cost more scores.
+    title: 私有材質存儲
+    addon: 積分 = 1KB
+    hint: 上載私密材質消耗更多積分。
   score_per_closet_item:
-    title: Favorites
-    addon: score = 1 closet item
+    title: 收藏
+    addon: 積分 = 1個衣櫃物品
   return_score:
-    title: Score Return
-    label: Return scores back to user after deleting players/textures/closet items.
+    title: 積分返還
+    label: 在用戶刪除角色、材質或衣櫃物品時退還積分。
   score_per_player:
-    title: Players
-    addon: scores = 1 player
-  user_initial_score: User Initial Score
+    title: 角色
+    addon: 積分 = 1 個角色
+  user_initial_score: 用戶初始積分
 report:
-  title: Reporting Textures
+  title: 舉報材質
   reporter_score_modification:
-    title: Scores for Submitting an Report
-    description: Set a positive integer value to reward user who submits new reports. Set to a negative value will require scores for submitting reports, and the suspended scores will be available if user's report was resolved. Set to 0 to disable.
+    title: 提交舉報所需積分
+    description: 設置正整數值以獎勵提交舉報的用戶。 設置為負值將在用戶提交舉報時消耗積分，如果采納了用戶的舉報，則收取的積分將退還。 設置為0禁用此設定。
   reporter_reward_score:
-    title: Reward the Reporter with Scores If Report Resolved
+    title: 舉報采納時獎勵舉報用戶
 sign:
-  title: Signing
+  title: 簽到
   sign_score:
-    title: Score Granted
-    addon1: scores ~
-    addon2: scores
+    title: 獲得積分
+    addon1: 積分 ~
+    addon2: 積分
   sign_gap_time:
-    title: Gap Time
-    addon: hours
+    title: 間隔時間
+    addon: 小時
   sign_after_zero:
-    title: Time
-    label: Users can sign in after 0 everyday.
-    hint: The above option will be ignored if this is checked.
+    title: 時間
+    label: 用戶每天僅可在零時后簽到。
+    hint: 若此選項選中，上述的設定將被忽略。
 sharing:
-  title: Awarding Sharing
+  title: 獎勵分享
   score_award_per_texture:
-    title: Uploader will be rewarded for each uploading texture with
+    title: 上傳材質的用戶將被獎勵
   take_back_scores_after_deletion:
-    title: Return scores
-    label: Return scores if uploader setting private or deleting texture.
+    title: 返還積分
+    label: 儅上傳用戶將材質設定為私有或刪除材質時返還積分
   score_award_per_like:
-    title: Each time the texture is collected, uploader will be rewarded with
+    title: 每次材質被收集時，上傳用戶將被獎勵
 general:
-  title: General Options
-  site_name: Site Name
+  title: 一般設定
+  site_name: 網站名稱
   site_description:
-    title: Site Description
-    description: You can also specify a different site name and description for each language. To edit a specific language's corresponding site name or description text, please switch to that language and submit your edit.
+    title: 網站訊息描述
+    description: 您也可以為每一種語言自訂描述文字。如欲編輯每一種語言下的描述文字，請切換到對應語言編輯並保存。
   site_url:
-    title: Site URL
-    hint: Begin with http(s)://, nerver ends with slash.
+    title: 網站 URL
+    hint: 以 http(s):// 開頭，不能以斜杠結尾。
   register_with_player_name:
-    title: Register with Player Name
-    label: Require Minecraft's player name when user register
+    title: 以角色名注冊
+    label: 注冊時需要 Minecraft 角色名稱
   require_verification:
-    title: Account Verification
-    label: Users must verify their email address first.
-  regs_per_ip: Max accounts of one IP
+    title: 賬戶驗證
+    label: 用戶必須首先驗證其電子郵件地址。
+  regs_per_ip: 同一個 IP 的最大賬戶數
   max_upload_file_size:
-    title: Max Upload Size
-    hint: "Limit specified in php.ini: :size"
+    title: 最大檔案上傳大小
+    hint: "php.ini 設定的最大上傳大小： :size"
   player_name_rule:
-    title: Player Name Rule
-    official: Letters, numbers and underscores (Mojang's official rule)
-    cjk: Allow CJK Unified Ideographs
-    custom: Use custom rules (regular expression)
+    title: 角色名規則
+    official: 字元、數字和下劃綫（Mojang 官方角色名規則）
+    cjk: 允許中日韓統一表意字元
+    custom: 使用自訂規則（正則表達式）
   custom_player_name_regexp:
-    title: Custom Player Name Rules
-    hint: Only takes effect when the above option is set to 'custom'. Leave empty to allow any character.
-    placeholder: Regular Expressions
+    title: 自訂角色名規則
+    hint: 只有在上述設定為“自訂”時才會生效。留空以允許任何字元。
+    placeholder: 正則表達式
   player_name_length:
-    title: Player Name Length
-    suffix: characters
+    title: 角色名長度
+    suffix: 字元
   auto_del_invalid_texture:
-    title: Invalid Textures
-    label: Delete invalid textures automatically.
-    hint: Delete textures records whose file no longer exists from skinlib.
+    title: 不可用的材質
+    label: 自動刪除不可用的材質
+    hint: 刪除不在皮膚庫中存在的材質記錄
   allow_downloading_texture:
-    title: Downloading Textures
-    label: Allow users to directly download the source file of a skinlib item.
+    title: 下載材質
+    label: 允許用戶從皮膚庫中下載材質源文件
   status_code_for_private:
-    title: HTTP Code for Rejecting Accessing Private Textures
+    title: 拒絕私有材質的 HTTP 響應碼
   texture_name_regexp:
-    title: Texture Name Rules
-    hint: The RegExp for validating name of uploaded textures. Leave empty to allow any character except single, double quote and backslash.
-    placeholder: Regular Expressions
+    title: 材質名規則
+    hint: 正則表達式用於驗證上載材質的名稱。 留空以允許除單引號，雙引號和反斜杠之外的任何字元。
+    placeholder: 正則表達式
   content_policy:
-    title: Content Policy
-    description: Display content policy at texture uploading page, supporting Markdown. To edit a specific language's corresponding content policy, please switch to that language and submit your edit.
+    title: 内容策略
+    description: 在材質上載頁上顯示內容策略，支持 Markdown 語法。 要編輯特定語言的相應內容政策，請切換到該語言並提交您的修改。
 announ:
-  title: Announcement
+  title: 公告欄
   announcement:
-    description: Styling with Markdown is supported. You can also specify a different announcement for each language. To edit a specific language's corresponding announcement, please switch to that language and submit your edit.
+    description: 支持 Markdown 語法。 您可以為每種語言指定不同的公告。 要編輯特定語言的公告，請切換到該語言並提交您的公告文字。
 meta:
-  title: SEO <meta> tags
+  title: SEO <meta> 標簽
   meta_keywords:
-    title: Keywords
-    hint: Split with commas.
+    title: 關鍵字
+    hint: 使用逗號分隔。
   meta_description:
-    title: Description
-    hint: Description defined in "general options" will be used if you left it empty.
+    title: 描述資訊
+    hint: 留空使用“網站描述”中的文字。
   meta_extras:
-    title: Other Custom <meta> Tags
+    title: 其他自訂<meta>標簽
 recaptcha:
   recaptcha_invisible:
-    title: Invisible
-    label: Enable Invisible Mode
-res-warning: This page is ONLY for advanced users. If you aren't familiar with these, please don't modify them!
+    title: 隱式驗證
+    label: 啓用隱式 reCAPTCHA 驗證
+res-warning: 本頁面僅供高級用戶使用。如果您不熟悉請勿修改此頁面！
 resources:
-  title: Resource Files
-  hint: Please check these options if you enabled CDN for your site.
+  title: 資源檔案
+  hint: 如果您爲您的網站啓用了CDN，請在此選項打勾。
   force_ssl:
-    title: Force SSL
-    label: Use HTTPS protocol to load all front-end assets.
-    hint: Please check if SSL really available before turning on.
+    title: 強制應用 SSL
+    label: 使用 HTTPS 協議加載所有前端資源。
+    hint: 請在應用 SSL 之前確定其可用。
   auto_detect_asset_url:
-    title: Assets URL
-    label: Determine assets url automatically.
-    description: Please unable this if assets URLs are wrongly generated under a CDN. The site url will be used if this is not enabled.
+    title: 資源 URL
+    label: 自動判斷資源 URL
+    description: 如果 CDN 資源地址生成錯誤請禁用。禁用時從網站 URL 加載資源。
   cache_expire_time:
-    title: Cache Exipre Time
-    hint: In seconds, 86400 = one day, 31536000 = one year.
+    title: 緩存刷新時間
+    hint: 以秒計。86400 = 一天，31536000 = 一年。
   cdn_address:
-    title: Front-end Assets CDN
-    hint: Front-end files won't be loaded if URL is unavailable.
+    title: 前端資源 CDN
+    hint: 前端資源 URL 不可用時將不從該處加載資源文件。
     description: |
-      The CDN URL you give must refer to a mirror of <code>/public</code> directory,
-      all the files of that directory will be loaded as CDN.<br>
-      <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/manifest.json</code> can be accessed.
+      您所輸入的 CDN URL 必須是指向 <code>/public</code> 目錄的鏡像資源，該目錄的所有檔案都將由 CDN 加載。<br>
+      <b>如何驗證?</b> 請驗證 <code>{您的 CDN 地址}/app/manifest.json</code> 是否可訪問。
 cache:
-  title: Cache Configuration
-  clear: Clear Cache
-  cleared: Cache has been cleared.
-  driver: Current cache driver is 「:driver」.
+  title: 緩存選項
+  clear: 清除緩存
+  cleared: 緩存已清除。
+  driver: 當前緩存驅動是 「:driver」。
   enable_avatar_cache:
-    title: Avatar
-    label: Enable caching avatar
+    title: 頭像
+    label: 啓用頭像緩存
   enable_preview_cache:
-    title: Texture Preivew
-    label: Enable caching texture preivew
+    title: 材質預覽
+    label: 啓用材質預覽緩存

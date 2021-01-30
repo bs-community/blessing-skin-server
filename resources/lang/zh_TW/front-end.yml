@@ -106,10 +106,10 @@ user:
   emptySelectedTexture: 未選擇任何材質。
   renameClosetItem: '為這個材質設置新的名稱：'
   changePlayerName: '請輸入角色名稱。'
-  emptyPlayerName: 空角色名。
+  emptyPlayerName: 請輸入角色名。
   deletePlayer: 確定要刪除此角色？
-  deletePlayerNotice: 這是永久的，不會再備份。
-  chooseClearTexture: 選取您欲清理的材質類型
+  deletePlayerNotice: 這是永久的，沒有備份。
+  chooseClearTexture: 選取您欲重置的材質類型
   noClearChoice: 您沒有選取任何類型。
   setAvatar: 確定將此材質設為頭像嗎？
   setAvatarNotice: 皮膚材質的頭部將被使用。
@@ -121,21 +121,21 @@ user:
     upload: 上載材質
     use-as:
       title: 欲將材質應用與哪一個角色？
-      empty: 似乎您沒有可用的角色...
+      empty: 您似乎沒有可用的角色...
   used:
-    title: 已使用的資源
+    title: 資源使用情況
     players: 已註冊用戶
     storage: 存儲空間佔用
   cur-score: 當前積分
   score-notice: 點擊積分以顯示詳細訊息。
-  sign: 標識
+  sign: 簽到
   player:
     operation: 操作
     edit-pname: 編輯名稱
     delete-texture: 清空材質
     delete-player: 刪除
-    add-player: 添加新玩家
-    texture-empty: 沒有內容
+    add-player: 添加新角色
+    texture-empty: 沒有材質
   verification:
     title: 驗證您的賬戶
     message: 您必須驗證您的電子郵件地址后才能使用皮膚材質儲存服務。還沒有收到電子郵件？
@@ -145,9 +145,9 @@ user:
     id: 客戶端 ID
     name: 應用程式名稱
     secret: 客戶端密令
-    redirect: 回溯密令
-    modifyName: 自訂應用程式名稱
-    modifyUrl: 自訂回溯 URL
+    redirect: 回傳網址
+    modifyName: 變更應用程式名稱
+    modifyUrl: 自訂回傳網址
     create: 創建新應用
     confirmRemove: 確定刪除此應用？此操作無法撤銷。
 admin:
@@ -168,7 +168,7 @@ admin:
   newPermission: '請選擇新的權限：'
   deleteUserNotice: 確定刪除此用戶？此操作無法撤銷。
   banned: 封禁
-  normal: 常規
+  normal: 普通用戶
   admin: 管理員
   superAdmin: 超級管理員
   unverified: 未驗證
@@ -249,7 +249,7 @@ general:
   reset: 重置
   skinlib: 皮膚庫
   wait: 請稍等...
-  csrf: 此頁面加載超時。請刷新頁面。
+  csrf: 此頁面已過期。請刷新頁面。
   user:
     email: 電子郵件
     nickname: 暱稱
