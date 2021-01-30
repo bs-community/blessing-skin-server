@@ -16,6 +16,10 @@ return [
     'zh_HANS_CN' => [
         'alias' => 'zh_CN',
     ],
+    'zh_TW' => [
+        'name' => '中文 (正體)',
+        'short_name' => 'zh-TW',
+    ],
     'en' => [
         'name' => 'English',
         'short_name' => 'en',
