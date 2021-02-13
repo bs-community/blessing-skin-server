@@ -221,7 +221,7 @@ class SkinlibController extends Controller
         $size = getimagesize($file);
         $ratio = $size[0] / $size[1];
         if ($type == 'steve' || $type == 'alex') {
-            if ($ratio != 2 && $ratio != 1) {
+            if ($ratio != 2 && $ratio != 1 || $type === 'alex' && $ratio === 2) {
                 $message = trans('skinlib.upload.invalid-size', [
                     'type' => trans('general.skin'),
                     'width' => $size[0],
