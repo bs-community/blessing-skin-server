@@ -80,6 +80,13 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
         </a>
       </td>
       <td align=center>
+        <a href="https://afdian.net/@kcraft233">
+          <img src="https://pic1.afdiancdn.com/user/2aac23481b1b11ea9f6e52540025c377/avatar/14ed7996f36eec4d9feec0fe613663cf_w512_h512_s68.jpg" width="120" height="120">
+          <br>
+          gao_cai_sheng
+        </a>
+      </td>
+      <td align=center>
         <a href="https://afdian.net/@Luohuayu">
           <img src="https://pic1.afdiancdn.com/user/66c740fad75011ea9fce52540025c377/avatar/870ee9ea29a1c179c435f1ad64aee79b_w640_h640_s52.jpg" width="120" height="120">
           <br>
@@ -87,10 +94,10 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
         </a>
       </td>
       <td align=center>
-        <a href="">
-          <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
+        <a href="https://afdian.net/@nmzy2018">
+          <img src="https://pic1.afdiancdn.com/user/a66f79d2f5a311e9af4e52540025c377/avatar/e7f69cacfb8d77f431eb97293e569c72_w500_h500_s21.jpg" width="120" height="120">
           <br>
-          graytoowolf
+          虎牙伊南
         </a>
       </td>
       <td align=center>
@@ -100,6 +107,8 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
           mcha0
         </a>
       </td>
+      </tr>
+    <tr>
       <td align=center>
         <a href="https://afdian.net/@miaowoo">
           <img src="https://pic1.afdiancdn.com/user/efd59774327511e9bf3d52540025c377/avatar/8ac4598ea31f02db2666810518ea1b5e_w3000_h3000_s1022.jpg" width="120" height="120">
@@ -117,6 +126,13 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
   <tbody>
     <tr>
       <td align=center>
+        <a href="https://afdian.net/@ValiantShishu976400">
+          <img src="https://pic1.afdiancdn.com/user/178a08963a5e11e9addd52540025c377/avatar/ece9f089aaf2c2f83204a8de11697caf_w350_h350_s16.jpg" width="75" height="75">
+          <br>
+          飒爽师叔
+        </a>
+      </td>
+      <td align=center>
         <a href="https://afdian.net/@mfwg6">
           <img src="https://pic1.afdiancdn.com/user/18ad3338e58a11e9b29352540025c377/avatar/eb04b4b54975d0d229e77fbcd4220dc4_w1080_h1920_s541.jpg" width="75" height="75">
           <br>
@@ -128,20 +144,6 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
           <img src="https://pic1.afdiancdn.com/user/5ae206b6573c11e9b32352540025c377/avatar/27be12f855c0d52ee4a3abeb8e5e9274_w900_h900_s710.jpg" width="75" height="75">
           <br>
           fsj
-        </a>
-      </td>
-      <td align=center>
-        <a href="">
-          <img src="https://pic1.afdiancdn.com/user/68d07bf851fc11e98e5652540025c377/avatar/48538be153c8eebc3eb5cb6bc085cde9_w574_h574_s173.jpg" width="75" height="75">
-          <br>
-          dz_paji
-        </a>
-      </td>
-      <td align=center>
-        <a href="">
-          <img src="https://pic1.afdiancdn.com/user/b68f3a9aaef511e9826f52540025c377/avatar/03b244e92f9c4198672ce46e3fd7e100_w690_h690_s129.jpeg" width="75" height="75">
-          <br>
-          神奇威廉
         </a>
       </td>
       </tr>
