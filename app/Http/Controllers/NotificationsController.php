@@ -65,7 +65,7 @@ class NotificationsController extends Controller
 
         return [
             'title' => $notification->data['title'],
-            'content' => $converter->convertToHtml($notification->data['content']),
+            'content' => $converter->convertToHtml($notification->data['content'] ?? ''),
             'time' => $notification->created_at->toDateTimeString(),
         ];
     }
