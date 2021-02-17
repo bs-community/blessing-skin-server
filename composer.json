@@ -15,7 +15,7 @@
     "ext-zip": "*",
     "blessing/filter": "^1.0",
     "blessing/rejection": "^1.0",
-    "blessing/texture-renderer": "^0.1.1",
+    "blessing/texture-renderer": "^0.2",
     "composer/ca-bundle": "^1.2",
     "composer/semver": "^1.5",
     "doctrine/dbal": "^2.10",

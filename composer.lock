@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "432bbf625bffaf7e4742ff6a4a2fdbba",
+    "content-hash": "7c01e671a01d414a0e857a45f18ee5f5",
     "packages": [
         {
             "name": "blessing/filter",
@@ -108,16 +108,16 @@
         },
         {
             "name": "blessing/texture-renderer",
-            "version": "0.1.2",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bs-community/texture-renderer.git",
-                "reference": "f1ecd7fceab48e7cefb907b64908a7e53a6c78de"
+                "reference": "6c6597a9282c559b966c09109e6f621fc67d918b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bs-community/texture-renderer/zipball/f1ecd7fceab48e7cefb907b64908a7e53a6c78de",
-                "reference": "f1ecd7fceab48e7cefb907b64908a7e53a6c78de",
+                "url": "https://api.github.com/repos/bs-community/texture-renderer/zipball/6c6597a9282c559b966c09109e6f621fc67d918b",
+                "reference": "6c6597a9282c559b966c09109e6f621fc67d918b",
                 "shasum": ""
             },
             "require": {
@@ -143,9 +143,9 @@
             "description": "Minecraft texture renderer.",
             "support": {
                 "issues": "https://github.com/bs-community/texture-renderer/issues",
-                "source": "https://github.com/bs-community/texture-renderer/tree/0.1.2"
+                "source": "https://github.com/bs-community/texture-renderer/tree/0.2.0"
             },
-            "time": "2020-01-11T06:37:09+00:00"
+            "time": "2021-02-17T07:51:59+00:00"
         },
         {
             "name": "brick/math",
