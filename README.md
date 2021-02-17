@@ -1,5 +1,5 @@
-- **简体中文**
-- [English](./README_EN.md)
+- [简体中文](./README-zh.md)
+- **English**
 
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
@@ -11,37 +11,37 @@
 <a href="https://discord.com/invite/QAsyEyt"><img alt="Discord" src="https://discord.com/api/guilds/761226550921658380/widget.png"></a>
 </p>
 
-优雅的开源 Minecraft 皮肤站，现在，回应您的等待。
+Puzzled by losing your custom skins in Minecraft servers runing in offline mode? Now you can easily get them back with the help of Blessing Skin!
 
-Blessing Skin 是一款能让您上传、管理和分享您的 Minecraft 皮肤和披风的 Web 应用程序。与修改游戏材质包不同的是，所有人都能在游戏中看到各自的皮肤和披风（当然，前提是玩家们要使用同一个皮肤站）。
+Blessing Skin is a web application where you can upload, manage and share your custom skins & capes! Unlike modifying a resource pack, everyone in the game will see the different skins of each other (of course they should register at the same website too).
 
-Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在您的服务器上部署它。
+Blessing Skin is an open-source project written in PHP, which means you can deploy it freely on your own web server!
 
-## 特性
+## Features
 
-- 完整实现了一个皮肤站该有的功能
-- 支持单用户多个角色
-- 通过皮肤库来分享您的皮肤和披风！
-- 易于使用
-  - 可视化的用户、角色、材质管理页面
-  - 详细的站点配置页面
-  - 多处 UI/UX 优化只为更好的用户体验
-- 安全
-  - 支持多种安全密码 Hash 算法
-  - 注册可要求 Email 验证
-  - 防止恶意请求的积分系统
-- 强大的可扩展性
-  - 多种多样的插件
-  - 支持与 Authme/Discuz 等程序的用户数据对接（插件）
-  - 支持自定义 Yggdrasil API 外置登录系统（插件）
+- A fully functional skin hosting service
+- Multiple player names can be owned by one user on the website
+- Share your skins and capes online with skin library!
+- Easy-to-use
+  - Visual page for user/player/texture management
+  - Detailed option pages
+  - Many tweaks for a better UI/UX
+- Security
+  - Support many secure password hash algorithms
+  - Email verification for registration
+  - Score system for preventing evil requests
+- Incredibly extensible
+  - Plenty of plugins available
+  - Integration with Authme/CrazyLogin/Discuz (available as plugin)
+  - Support custom Yggdrasil API authentication (available as plugin)
 
-## 环境要求
+## Requirements
 
-Blessing Skin 对您的服务器有一定的要求。在大多数情况下，下列所需的 PHP 扩展已经开启。
+Blessing Skin has only a few system requirements. In most cases, these PHP extensions are already enabled.
 
-- 一台支持 URL 重写的主机，Nginx 或 Apache
+- Web server with URL rewriting enabled (Nginx or Apache)
 - PHP >= 7.4.0
-- 安装并启用如下 PHP 扩展：
+- PHP Extensions
   - OpenSSL
   - PDO
   - Mbstring
@@ -53,19 +53,19 @@ Blessing Skin 对您的服务器有一定的要求。在大多数情况下，下
   - fileinfo
   - zip
 
-## 快速使用
+## Quick Install
 
-请参阅 [安装指南](https://blessing.netlify.app/setup.html)。
+Please read [Installation Guide](https://blessing.netlify.app/en/setup.html).
 
-## 插件系统
+## Plugin System
 
-Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样的插件来为您的皮肤站添加功能。
+Blessing Skin provides an elegant and powerful plugin system, and you can attach plenty of functions and customization to your site via installing plugins.
 
-## 支持并赞助 Blessing Skin
+## Supporting Blessing Skin
 
-如果您觉得这个软件对您很有帮助，欢迎通过赞助来支持开发！
+Welcome to sponsoring Blessing Skin if this software is useful for you!
 
-目前可在 [爱发电](https://afdian.net/@blessing-skin) 上赞助。
+Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
 
 ### Sponsors
 
@@ -150,31 +150,29 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
     </tbody>
 </table>
 
-## 自行构建
+## Build From Source
 
-详情可阅读 [这里](https://blessing.netlify.com/build.html)。
+Please refer to [Manual Build](https://blessing.netlify.app/build.html).
 
-> 您可以订阅我们的 Telegram 频道 [Blessing Skin News](https://t.me/blessing_skin_news) 来获取最新开发动态。当有新的 Commit 被推送时，我们的机器人将会在频道内发送一条消息来提示您能否拉取最新代码，以及拉取后应该做什么。
+## Internationalization
 
-## 国际化（i18n）
+Blessing Skin supports multiple languages, while currently supporting English, Simplified Chinese and Spanish.
 
-Blessing Skin 可支持多种语言，当前支持英语、简体中文和西班牙语。
+If you are willing to contribute your translation, welcome to join [our Crowdin project](https://crowdin.com/project/blessing-skin).
 
-如果您愿意将您的翻译贡献出来，欢迎参与 [我们的 Crowdin 项目](https://crowdin.com/project/blessing-skin)。
+## Report Bugs
 
-## 问题报告
+Read [FAQ](https://blessing.netlify.app/faq.html) and double check if your situation doesn't suit any case mentioned there before reporting.
 
-请参阅 [报告问题的正确姿势](https://blessing.netlify.com/report.html)。
+When reporting a problem, please attach your log file (located at `storage/logs/laravel.log`) and the information of your server where the error occured on. You should also read this [guide](https://blessing.netlify.app/report.html) before reporting a problem.
 
-## 相关链接
+## Related Links
 
-- [用户手册](https://blessing.netlify.app/)
-- [插件开发文档](https://bs-plugin.netlify.app/)
+- [User Manual](https://blessing.netlify.app/en/)
+- [Plugins Development Documentation](https://bs-plugin.netlify.app/)
 
-## 版权
+## Copyright & License
 
 MIT License
 
 Copyright (c) 2016-present The Blessing Skin Team
-
-程序原作者为 [@printempw](https://printempw.github.io/)，转载请注明。
