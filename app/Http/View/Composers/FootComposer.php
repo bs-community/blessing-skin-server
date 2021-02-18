@@ -39,14 +39,10 @@ class FootComposer
     public function injectJavaScript(View $view)
     {
         $scripts = [];
-
-        $locale = app()->getLocale();
-        $scripts[] = [
-            'src' => $this->javascript->generate($locale),
-        ];
         $scripts = $this->filter->apply('scripts', $scripts);
 
         $view->with([
+            'i18n' => $this->javascript->generate(app()->getLocale()),
             'scripts' => $scripts,
             'inline_js' => option('custom_js'),
         ]);

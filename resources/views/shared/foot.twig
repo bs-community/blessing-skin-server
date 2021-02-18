@@ -1,4 +1,5 @@
 <script src="https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0.5/dist/admin-lte.min.js" integrity="sha256-8RoBtV28TLYWlTMCRwqGv4NQW9bgc4jZphsQV3iLV4g=" crossorigin="anonymous"></script>
+<script src="{{ i18n }}" crossorigin="anonymous"></script>
 {{ include('assets.app', ignore_missing = true) }}
 {% for script in scripts %}
   <script{% for attribute, value in script %} {{ attribute }}="{{ value }}"{% endfor %}></script>

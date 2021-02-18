@@ -9,5 +9,6 @@ test('translate text', () => {
   expect(t('a.b.c')).toBe('text')
   expect(t('a.b.d')).toBe('Hi, :name!')
   expect(t('a.b.d', { name: 'me' })).toBe('Hi, me!')
+  expect(t('a.b.e')).toBe('a.b.e')
   expect(t('d.e')).toBe('d.e')
 })
