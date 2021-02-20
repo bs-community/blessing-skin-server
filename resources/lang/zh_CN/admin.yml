@@ -44,7 +44,7 @@ players:
   name:
     success: 角色名成功更改为 :player
   owner:
-    success: 角色 :player 已成功让渡至 :user
+    success: 角色 :player 已被转给用户 :user 。
   delete:
     success: 角色已被成功删除
 customize:
