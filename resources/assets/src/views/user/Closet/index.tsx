@@ -71,9 +71,19 @@ const Closet: React.FC = () => {
     getItems()
   }, [category, query, page])
 
-  const switchCategoryToSkin = () => setCategory('skin')
+  const switchCategoryToSkin = () => {
+    if (category !== 'skin') {
+      setCategory('skin')
+      setPage(1)
+    }
+  }
 
-  const switchCategoryToCape = () => setCategory('cape')
+  const switchCategoryToCape = () => {
+    if (category !== 'cape') {
+      setCategory('cape')
+      setPage(1)
+    }
+  }
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value

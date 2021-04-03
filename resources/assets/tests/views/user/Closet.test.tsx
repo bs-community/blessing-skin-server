@@ -128,6 +128,57 @@ describe('switch category', () => {
     fireEvent.click(getByText(t('general.skin')))
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
   })
+
+  it('reset page', async () => {
+    fetch.get
+      .mockResolvedValueOnce(
+        createPaginator(
+          Array.from({ length: 30 }).map((_, i) => ({
+            ...fixtureSkin,
+            tid: i + 1,
+          })),
+        ),
+      )
+      .mockResolvedValueOnce(
+        createPaginator(
+          Array.from({ length: 30 }).map((_, i) => ({
+            ...fixtureSkin,
+            tid: i + 1,
+          })),
+        ),
+      )
+      .mockResolvedValueOnce(createPaginator([fixtureCape]))
+
+    const { getByText } = render(<Closet />)
+    await waitFor(() =>
+      expect(fetch.get).toBeCalledWith(urls.user.closet.list(), {
+        category: 'skin',
+        q: '',
+        page: 1,
+        perPage: 6,
+      }),
+    )
+
+    fireEvent.click(getByText('3'))
+    await waitFor(() =>
+      expect(fetch.get).toBeCalledWith(urls.user.closet.list(), {
+        category: 'skin',
+        q: '',
+        page: 3,
+        perPage: 6,
+      }),
+    )
+
+    fireEvent.click(getByText(t('general.cape')))
+    await waitFor(() =>
+      expect(fetch.get).toBeCalledWith(urls.user.closet.list(), {
+        category: 'cape',
+        q: '',
+        page: 1,
+        perPage: 6,
+      }),
+    )
+  })
 })
 
 describe('rename item', () => {
