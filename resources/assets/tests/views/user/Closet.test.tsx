@@ -71,28 +71,6 @@ test('empty closet', async () => {
   expect(queryByText(/skin library/i)).toBeInTheDocument()
 })
 
-test('categories', async () => {
-  fetch.get
-    .mockResolvedValueOnce(createPaginator([fixtureSkin]))
-    .mockResolvedValueOnce(createPaginator([fixtureCape]))
-    .mockResolvedValueOnce(createPaginator([fixtureSkin]))
-
-  const { getByText, queryByText } = render(<Closet />)
-  await waitFor(() => expect(fetch.get).toBeCalled())
-  expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
-  expect(queryByText(fixtureCape.pivot.item_name)).not.toBeInTheDocument()
-
-  fireEvent.click(getByText(t('general.cape')))
-  await waitFor(() => expect(fetch.get).toBeCalled())
-  expect(queryByText(fixtureSkin.pivot.item_name)).not.toBeInTheDocument()
-  expect(queryByText(fixtureCape.pivot.item_name)).toBeInTheDocument()
-
-  fireEvent.click(getByText(t('general.skin')))
-  await waitFor(() => expect(fetch.get).toBeCalled())
-  expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
-  expect(queryByText(fixtureCape.pivot.item_name)).not.toBeInTheDocument()
-})
-
 test('search textures', async () => {
   fetch.get
     .mockResolvedValueOnce(createPaginator([fixtureSkin]))
@@ -116,6 +94,40 @@ test('switch page', async () => {
   await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
   fireEvent.click(getByText('2'))
   expect(await findByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
+})
+
+describe('switch category', () => {
+  it('click tab', async () => {
+    fetch.get
+      .mockResolvedValueOnce(createPaginator([fixtureSkin]))
+      .mockResolvedValueOnce(createPaginator([fixtureCape]))
+      .mockResolvedValueOnce(createPaginator([fixtureSkin]))
+
+    const { getByText, queryByText } = render(<Closet />)
+    await waitFor(() => expect(fetch.get).toBeCalled())
+    expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
+    expect(queryByText(fixtureCape.pivot.item_name)).not.toBeInTheDocument()
+
+    fireEvent.click(getByText(t('general.cape')))
+    await waitFor(() => expect(fetch.get).toBeCalled())
+    expect(queryByText(fixtureSkin.pivot.item_name)).not.toBeInTheDocument()
+    expect(queryByText(fixtureCape.pivot.item_name)).toBeInTheDocument()
+
+    fireEvent.click(getByText(t('general.skin')))
+    await waitFor(() => expect(fetch.get).toBeCalled())
+    expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
+    expect(queryByText(fixtureCape.pivot.item_name)).not.toBeInTheDocument()
+  })
+
+  it('click current tab should not switch category', async () => {
+    fetch.get.mockResolvedValue(createPaginator([fixtureSkin]))
+
+    const { getByText } = render(<Closet />)
+    await waitFor(() => expect(fetch.get).toBeCalled())
+
+    fireEvent.click(getByText(t('general.skin')))
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
+  })
 })
 
 describe('rename item', () => {
