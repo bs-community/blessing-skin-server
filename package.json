@@ -52,8 +52,8 @@
   },
   "devDependencies": {
     "@gplane/tsconfig": "^1.1.0",
-    "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^11.1.0",
+    "@testing-library/jest-dom": "^5.11.10",
+    "@testing-library/react": "^11.2.6",
     "@types/bootstrap": "^4.3.3",
     "@types/css-minimizer-webpack-plugin": "^1.1.0",
     "@types/echarts": "^4.6.0",
