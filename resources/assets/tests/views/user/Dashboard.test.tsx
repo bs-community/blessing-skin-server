@@ -96,10 +96,7 @@ describe('sign', () => {
     fireEvent.click(getByRole('button'))
     await waitFor(() => expect(fetch.post).toBeCalledWith(urls.user.sign()))
 
-    const remainingTime = 24 * 3600 * 1000
-    expect(
-      getByText(scoreUtils.remainingTimeText(remainingTime)),
-    ).toBeInTheDocument()
+    expect(getByText(/2[34]\sh/)).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-warning')
   })
 
