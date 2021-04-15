@@ -15,7 +15,7 @@ class CreateScopeTable extends Migration
     {
         if (!Schema::hasTable('scopes')) {
             Schema::create('scopes', function (Blueprint $table) {
-                $table->id();
+                $table->increments('id');
                 $table->string('name')->unique();
                 $table->string('description');
             });
