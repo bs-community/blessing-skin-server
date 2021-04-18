@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Laravel\Passport\Exceptions\MissingScopeException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -30,6 +31,8 @@ class Handler extends ExceptionHandler
             if (Str::endsWith($model, 'Texture')) {
                 $exception = new ModelNotFoundException(trans('skinlib.non-existent'));
             }
+        } elseif ($exception instanceof MissingScopeException) {
+            return json($exception->getMessage(), 403);
         }
 
         return parent::render($request, $exception);

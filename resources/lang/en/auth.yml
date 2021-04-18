@@ -64,6 +64,31 @@ oauth:
     title: Authorization
     introduction: A 3rd-party application ":name" is requesting permission to access your account.
     button: Authorize
+    permissions: Permissions
+  scope:
+    user:
+      read: Sign you in and read your profile
+    notification:
+      read: Allows the app to read your notifications.
+      readwrite: Allows the app to send notifications.
+    player:
+      read: Allows the app to read your players.
+      readwrite: Allows the app to create, read, update and delete your players.
+    closet:
+      read: Allows the app to read your closet items.
+      readwrite: Allows the app to create, read, update and delete your closet items.
+    users-management:
+      read: Allows the app to read site's users.
+      readwrite: Allows the app to create, read, update and delete site's users.
+    players-management:
+      read: Allows the app to read site's players.
+      readwrite: Allows the app to create, read, update and delete site's players.
+    closet-management:
+      read: Allows the app to read user's of your site closet items.
+      readwrite: Allows the app to create, read, update and delete user's closet items.
+    reports-management:
+      read: Allows the app to read user's reports.
+      readwrite: Allows the app to read and review user's reports.
 
 email: Email
 register-link: Register a new account
