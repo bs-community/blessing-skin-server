@@ -10,12 +10,14 @@
 	</p>
 	{% if scopes %}
 		<div class="scopes">
-			<p><strong>{{ trans('auth.oauth.authorization.permission') }}</strong></p>
-				<ul>
+			<p>
+				<strong>{{ trans('auth.oauth.authorization.permission') }}</strong>
+			</p>
+			<ul>
 				{% for scope in scopes %}
 					<li>{{ trans(scope.description) }}</li>
 				{% endfor %}
-				</ul>
+			</ul>
 		</div>
 	{% endif %}
 	<div class="d-flex justify-content-between">
