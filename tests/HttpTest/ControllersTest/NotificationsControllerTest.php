@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\User;
 use App\Notifications;
 use Illuminate\Support\Facades\Notification;
+use Laravel\Passport\Passport;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class NotificationsControllerTest extends TestCase
@@ -100,8 +101,8 @@ class NotificationsControllerTest extends TestCase
 
         $id = $user->unreadNotifications->first()->id;
 
-        $this->actingAs($user, 'oauth')
-            ->getJson('/api/user/notifications')
+        Passport::actingAs($user, ['Notification.Read'], 'oauth');
+        $this->getJson('/api/user/notifications')
             ->assertJson([['id' => $id, 'title' => 'title']]);
     }
 

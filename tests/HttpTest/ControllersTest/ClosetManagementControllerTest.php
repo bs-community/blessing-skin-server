@@ -6,6 +6,7 @@ use App\Models\Texture;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
+use Laravel\Passport\Passport;
 
 class ClosetManagementControllerTest extends TestCase
 {
@@ -23,8 +24,8 @@ class ClosetManagementControllerTest extends TestCase
         $admin = User::factory()->admin()->create();
         $admin->closet()->attach($texture->tid);
 
-        $this->actingAs($admin, 'oauth')
-            ->getJson('/api/admin/closet/'.$admin->uid)
+        Passport::actingAs($admin, ['ClosetManagement.Read'], 'oauth');
+        $this->getJson('/api/admin/closet/'.$admin->uid)
             ->assertJson([['tid' => $texture->tid]]);
     }
 
