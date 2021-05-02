@@ -4,7 +4,6 @@ import * as fetch from '@/scripts/net'
 import { t } from '@/scripts/i18n'
 import urls from '@/scripts/urls'
 import Dashboard from '@/views/user/Dashboard'
-import * as scoreUtils from '@/views/user/Dashboard/scoreUtils'
 
 jest.mock('@/scripts/net')
 
