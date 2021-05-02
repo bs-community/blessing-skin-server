@@ -73,13 +73,6 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
   <tbody>
     <tr>
       <td align=center>
-        <a href="https://afdian.net/@ValiantShishu976400">
-          <img src="https://pic1.afdiancdn.com/user/178a08963a5e11e9addd52540025c377/avatar/ece9f089aaf2c2f83204a8de11697caf_w350_h350_s16.jpg" width="120" height="120">
-          <br>
-          飒爽师叔
-        </a>
-      </td>
-      <td align=center>
         <a href="https://afdian.net/@kcraft233">
           <img src="https://pic1.afdiancdn.com/user/2aac23481b1b11ea9f6e52540025c377/avatar/14ed7996f36eec4d9feec0fe613663cf_w512_h512_s68.jpg" width="120" height="120">
           <br>
@@ -94,6 +87,13 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
         </a>
       </td>
       <td align=center>
+        <a href="https://afdian.net/@LD_fantasy">
+          <img src="https://pic1.afdiancdn.com/user/9bed7bb454f011eb821652540025c377/avatar/cb679e3eac693e0eea2eac527c7954e0_w700_h1307_s137.jpg" width="120" height="120">
+          <br>
+          K_LazyCat
+        </a>
+      </td>
+      <td align=center>
         <a href="https://afdian.net/@nmzy2018">
           <img src="https://pic1.afdiancdn.com/user/a66f79d2f5a311e9af4e52540025c377/avatar/e7f69cacfb8d77f431eb97293e569c72_w500_h500_s21.jpg" width="120" height="120">
           <br>
@@ -102,13 +102,20 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
       </td>
       <td align=center>
         <a href="">
+          <img src="https://pic1.afdiancdn.com/default/avatar/avatar-blue.png" width="120" height="120">
+          <br>
+          家乐
+        </a>
+      </td>
+      </tr>
+    <tr>
+      <td align=center>
+        <a href="">
           <img src="https://pic1.afdiancdn.com/user/e227ea708ac911eaa6c852540025c377/avatar/a56a7ceafa12e96ba6750e880f04b7e4_w1024_h1024_s883.jpg" width="120" height="120">
           <br>
           mcha0
         </a>
       </td>
-      </tr>
-    <tr>
       <td align=center>
         <a href="https://afdian.net/@miaowoo">
           <img src="https://pic1.afdiancdn.com/user/efd59774327511e9bf3d52540025c377/avatar/8ac4598ea31f02db2666810518ea1b5e_w3000_h3000_s1022.jpg" width="120" height="120">
