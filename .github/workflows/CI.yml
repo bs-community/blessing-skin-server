@@ -24,13 +24,12 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 7.4
+        php-version: 8.0
         coverage: none
         extensions: mbstring, dom, fileinfo, gd
     - name: Install dependencies
       run: |
         composer install --prefer-dist --no-progress
-        composer global require friendsofphp/php-cs-fixer
     - name: Prepare
       run: |
         cp .env.example .env
@@ -39,7 +38,7 @@ jobs:
     - name: Validate Twig templates
       run: php artisan twig:lint -v
     - name: Check coding style
-      run: php-cs-fixer fix --dry-run --stop-on-violation --diff-format=udiff
+      run: ./vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --diff --format=txt
   php:
     name: PHP ${{ matrix.php }} Tests
     runs-on: ubuntu-latest

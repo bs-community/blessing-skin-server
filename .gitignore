@@ -24,7 +24,7 @@ storage/oauth-private.key
 storage/install.lock
 storage/options.php
 .phpunit.result.cache
-.php_cs.cache
+.php-cs-fixer.cache
 resources/views/overrides
 public/sw.js
 public/meta.js
