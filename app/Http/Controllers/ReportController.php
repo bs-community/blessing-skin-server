@@ -150,7 +150,11 @@ class ReportController extends Controller
 
     public static function returnScore($report)
     {
-        if ($report->status == Report::PENDING && ($score = option('reporter_score_modification', 0)) < 0) {
+        if (
+            $report->status == Report::PENDING &&
+            ($score = option('reporter_score_modification', 0)) < 0 &&
+            $report->informer
+        ) {
             $report->informer->score -= $score;
             $report->informer->save();
         }
@@ -158,7 +162,7 @@ class ReportController extends Controller
 
     public static function giveAward($report)
     {
-        if ($report->status == Report::PENDING) {
+        if ($report->status == Report::PENDING && $report->informer) {
             $report->informer->score += option('reporter_reward_score', 0);
             $report->informer->save();
         }

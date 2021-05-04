@@ -300,6 +300,26 @@ class ReportControllerTest extends TestCase
 
             return true;
         });
+
+        $texture = Texture::factory()->create();
+        // no errors should be occurred even reporter doesn't exist
+        $report = new Report();
+        $report->tid = $texture->tid;
+        $report->uploader = $uploader->uid;
+        $report->reporter = 0;
+        $report->reason = 'test';
+        $report->status = Report::PENDING;
+        $report->save();
+        $report->refresh();
+        $id = $report->id;
+        $tid = $texture->tid;
+        $this->actingAs($admin)
+            ->putJson('/admin/reports/'.$report->id, ['action' => 'delete'])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('general.op-success'),
+                'data' => ['status' => Report::RESOLVED],
+            ]);
     }
 
     public function testReviewDeleteNonExistentTexture()
@@ -425,6 +445,26 @@ class ReportControllerTest extends TestCase
             ->assertJson([
                 'code' => 1,
                 'message' => trans('admin.users.operations.non-existent'),
+            ]);
+
+        $uploader->permission = User::NORMAL;
+        $uploader->save();
+        // no errors should be occurred even reporter doesn't exist
+        $report = new Report();
+        $report->tid = $texture->tid;
+        $report->uploader = $uploader->uid;
+        $report->reporter = $reporter->uid;
+        $report->reason = 'test';
+        $report->status = Report::PENDING;
+        $report->save();
+        $report->refresh();
+        $id = $report->id;
+        $this->actingAs($admin)
+            ->putJson('/admin/reports/'.$report->id, ['action' => 'ban'])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('general.op-success'),
+                'data' => ['status' => Report::RESOLVED],
             ]);
     }
 }
