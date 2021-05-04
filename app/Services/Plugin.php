@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class Plugin
 {
-    const README_FILES = [
+    public const README_FILES = [
         'README.md',
         'readme.md',
         'README.MD',

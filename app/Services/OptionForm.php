@@ -21,7 +21,7 @@ class OptionForm
      * Pass this value to tell generator to
      * load text from language files automatically.
      */
-    const AUTO_DETECT = 0x97ab1;
+    public const AUTO_DETECT = 0x97ab1;
 
     protected $id;
     protected $title;

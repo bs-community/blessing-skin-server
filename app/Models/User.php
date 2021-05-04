@@ -35,10 +35,10 @@ class User extends Authenticatable
     use HasApiTokens;
     use SearchString;
 
-    const BANNED = -1;
-    const NORMAL = 0;
-    const ADMIN = 1;
-    const SUPER_ADMIN = 2;
+    public const BANNED = -1;
+    public const NORMAL = 0;
+    public const ADMIN = 1;
+    public const SUPER_ADMIN = 2;
 
     protected $primaryKey = 'uid';
     public $timestamps = false;

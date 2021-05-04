@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Http;
 
 class UpdateController extends Controller
 {
-    const SPEC = 2;
+    public const SPEC = 2;
 
     public function showUpdatePage()
     {
