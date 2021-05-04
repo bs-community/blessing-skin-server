@@ -337,8 +337,21 @@ class SkinlibControllerTest extends TestCase
             'file' => UploadedFile::fake()->image('texture.png', 100, 50),
         ])->assertJson([
             'code' => 1,
-            'message' => trans('skinlib.upload.invalid-hd-skin', [
+            'message' => trans('skinlib.upload.invalid-size', [
                 'type' => trans('general.skin'),
+                'width' => 100,
+                'height' => 50,
+            ]),
+        ]);
+        $this->postJson(route('texture.upload'), [
+            'name' => 'texture',
+            'public' => true,
+            'type' => 'cape',
+            'file' => UploadedFile::fake()->image('texture.png', 100, 50),
+        ])->assertJson([
+            'code' => 1,
+            'message' => trans('skinlib.upload.invalid-size', [
+                'type' => trans('general.cape'),
                 'width' => 100,
                 'height' => 50,
             ]),

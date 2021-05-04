@@ -219,19 +219,21 @@ class SkinlibController extends Controller
 
         $type = $data['type'];
         $size = getimagesize($file);
+
+        if ($size[0] % 64 != 0 || $size[1] % 32 != 0) {
+            $message = trans('skinlib.upload.invalid-size', [
+                'type' => $type === 'cape' ? trans('general.cape') : trans('general.skin'),
+                'width' => $size[0],
+                'height' => $size[1],
+            ]);
+
+            return json($message, 1);
+        }
+
         $ratio = $size[0] / $size[1];
         if ($type == 'steve' || $type == 'alex') {
             if ($ratio != 2 && $ratio != 1 || $type === 'alex' && $ratio === 2) {
                 $message = trans('skinlib.upload.invalid-size', [
-                    'type' => trans('general.skin'),
-                    'width' => $size[0],
-                    'height' => $size[1],
-                ]);
-
-                return json($message, 1);
-            }
-            if ($size[0] % 64 != 0 || $size[1] % 32 != 0) {
-                $message = trans('skinlib.upload.invalid-hd-skin', [
                     'type' => trans('general.skin'),
                     'width' => $size[0],
                     'height' => $size[1],
