@@ -56,7 +56,7 @@ oauth:
     title: 身份認証
     introduction: 第三方軟體 :name 正在向你請求獲取權限。
     button: 認證
-    permissions: Permissions
+    permissions: 權限
   scope:
     user:
       read: Sign you in and read your profile
