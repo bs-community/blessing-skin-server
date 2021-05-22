@@ -70,7 +70,7 @@ oauth:
       read: Allows the app to read your closet items.
       readwrite: Allows the app to create, read, update and delete your closet items.
     users-management:
-      read: Allows the app to read site's users.
+      read: 允许应用读取站点的用户
       readwrite: Allows the app to create, read, update and delete site's users.
     players-management:
       read: Allows the app to read site's players.
@@ -79,7 +79,7 @@ oauth:
       read: Allows the app to read user's of your site closet items.
       readwrite: Allows the app to create, read, update and delete user's closet items.
     reports-management:
-      read: Allows the app to read user's reports.
-      readwrite: Allows the app to read and review user's reports.
+      read: 允许应用读取用户的举报
+      readwrite: 允许应用读取和处理用户的举报
 email: 电子邮箱
 register-link: 注册新账号
