@@ -56,5 +56,30 @@ oauth:
     title: 授权
     introduction: 第三方应用 :name 正在向您请求获取权限。
     button: 授权
+    permissions: 权限
+  scope:
+    user:
+      read: 登录并读取您的个人信息
+    notification:
+      read: 允许应用读取您的通知
+      readwrite: 允许应用发送通知
+    player:
+      read: 允许应用读取您的角色
+      readwrite: 允许应用创建、读取、更改和删除您的角色
+    closet:
+      read: 允许应用读取您的衣柜物品
+      readwrite: 允许应用创建、读取、更改和删除您的衣柜物品
+    users-management:
+      read: 允许应用读取皮肤站的用户
+      readwrite: 允许应用创建、读取、更改和删除皮肤站的用户
+    players-management:
+      read: 允许应用读取皮肤站的角色
+      readwrite: 允许应用创建、读取、更改和删除皮肤站的角色
+    closet-management:
+      read: 允许应用读取您的皮肤站内用户的衣柜物品
+      readwrite: 允许应用创建、读取、更改和删除用户的衣柜物品
+    reports-management:
+      read: 允许应用读取用户的举报
+      readwrite: 允许应用读取和处理用户的举报
 email: 电子邮箱
 register-link: 注册新账号

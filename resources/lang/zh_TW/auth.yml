@@ -56,5 +56,30 @@ oauth:
     title: 身份認証
     introduction: 第三方軟體 :name 正在向你請求獲取權限。
     button: 認證
+    permissions: 權限
+  scope:
+    user:
+      read: Sign you in and read your profile
+    notification:
+      read: Allows the app to read your notifications.
+      readwrite: Allows the app to send notifications.
+    player:
+      read: Allows the app to read your players.
+      readwrite: Allows the app to create, read, update and delete your players.
+    closet:
+      read: Allows the app to read your closet items.
+      readwrite: Allows the app to create, read, update and delete your closet items.
+    users-management:
+      read: Allows the app to read site's users.
+      readwrite: Allows the app to create, read, update and delete site's users.
+    players-management:
+      read: Allows the app to read site's players.
+      readwrite: Allows the app to create, read, update and delete site's players.
+    closet-management:
+      read: Allows the app to read user's of your site closet items.
+      readwrite: Allows the app to create, read, update and delete user's closet items.
+    reports-management:
+      read: Allows the app to read user's reports.
+      readwrite: Allows the app to read and review user's reports.
 email: 電子郵件
 register-link: 註冊新帳戶
