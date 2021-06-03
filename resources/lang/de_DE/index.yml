@@ -11,7 +11,7 @@ features:
     desc: Explore the skin library, send a "like" and share them with your friends.
   third:
     icon: fa-cloud
-    name: Free
-    desc: It is free forever. No ads. No subscription fees.
+    name: Kostenlos
+    desc: Für immer kostenlos. Ohne Werbung. Ohne Abos.
 introduction: ':sitename provides the service of uploading and hosting Minecraft skins. By coordinating with skin mods (e.g. CustomSkinLoader), you can choose skin and cape for your game character, and make it visible to other players in Minecraft.'
 start: Join Us
