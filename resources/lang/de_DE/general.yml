@@ -1,17 +1,17 @@
 ---
-index: Homepage
-skinlib: Skin Library
+index: Startseite
+skinlib: Gallerie
 user-center: User Center
-logout: Log Out
-login: Log In
-register: Register Now
-profile: User Profile
+logout: Abmelden
+login: Anmelden
+register: Registrieren
+profile: Kontoeinstellungen
 admin-panel: Admin Panel
 explore: Explore
 manage: Manage
 anonymous: Guest
 back: Back
-dashboard: Dashboard
+dashboard: Übersicht
 my-closet: Closet
 my-reports: Reports
 developer: Advanced
