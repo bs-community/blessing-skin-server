@@ -1,19 +1,19 @@
 ---
 http:
-  msg-403: You have no permission to access this page.
-  msg-404: Nothing here.
-  msg-500: Please try again later.
-  msg-503: The application is now in maintenance mode.
-  method-not-allowed: Method not allowed.
-  csrf-token-mismatch: Token does not match, try reloading the page.
-  ie: Your browser isn't supported. Please switch to other modern browsers, such as Firefox or Chrome.
+  msg-403: Sie haben keine Zugriffsberechtigung für diese Seite.
+  msg-404: Hier ist nichts.
+  msg-500: Bitte später nochmal versuchen.
+  msg-503: Die Anwendung befindet sich jetzt im Wartungsmodus.
+  method-not-allowed: Methode ist nicht zulässig.
+  csrf-token-mismatch: Token stimmt nicht überein. Laden Sie die Seite neu.
+  ie: Ihr Browser wird nicht unterstützt. Bitte wechseln Sie zu anderen modernen Browsern wie Firefox oder Chrome.
 general:
-  title: Error occurred
+  title: Fehler aufgetreten
 exception:
-  code: 'Error code: :code'
+  code: 'Fehlercode: :code'
   detail: 'Details: :msg'
   message: |
-    Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)
+    Hoppla, sieht so aus, als ob etwas schief gelaufen ist. (Aktiviere APP_DEBUG in .env, um Details zu sehen)
 plugins:
-  duplicate: The plugin [:dir1] has a duplicated plugin name definition which is same to plugin [:dir2]. Please check your plugins directory, remove one of them or use another name definition.
-  boot: There is something wrong with plugin ":plugin".
+  duplicate: Das Plugin [:dir1] hat eine doppelte Plugin-Namensdefinition, die mit Plugin [:dir2] identisch ist. Bitte überprüfen Sie Ihr Plugin-Verzeichnis, entfernen Sie eines davon oder verwenden Sie eine andere Namensdefinition.
+  boot: Es stimmt etwas mit dem Plugin ":plugin".
