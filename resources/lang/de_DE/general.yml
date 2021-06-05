@@ -51,9 +51,9 @@ user:
   nickname: Benutzername
   password: Passwort
   score: Punkte
-  register-at: Registered At
+  register-at: Registriert am
 player:
-  owner: Owner
+  owner: Besitzer
   player-name: Player Name
   previews: Texturvorschau
-  last-modified: Last Modified
+  last-modified: Letzte Änderung
