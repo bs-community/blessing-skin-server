@@ -56,12 +56,12 @@ customize:
       dark: Seitenleiste (dunkel)
       light: Seitenleiste (Licht)
 i18n:
-  add: Add New Language Line
-  added: Language line added.
-  updated: Language line updated.
-  deleted: Language line deleted.
+  add: Neue Sprache hinzufügen
+  added: Sprache hinzugefügt
+  updated: Sprache aktualisiert
+  deleted: Sprache gelöscht
   group: Gruppe
-  key: Key
+  key: Schlüssel
   text: Text
   tip: Wie kann ich diese Seite benutzen?
 status:
@@ -123,9 +123,9 @@ update:
     title: Warnungen
     link: schaue dir das an.
     text: |
-      Please choose update source according to your host's network environment.
-      Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
-      To change the default update source,
+      Bitte wählen Sie die Updatequelle entsprechend der Netzwerkumgebung Ihres Hosts aus.
+      Langsame Verbindungen zwischen Updatequelle und Ihrem Host verlangsamen das Überprüfen und Herunterladen der Seite.
+      Um die Standard-Updatequelle zu ändern,
   errors:
     connection: "Zugriff auf die aktuelle Updatequelle nicht möglich. Details: :error"
     spec: Aktuelle Updatequelle wird nicht unterstützt.
