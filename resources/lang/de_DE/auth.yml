@@ -1,7 +1,7 @@
 ---
 login:
-  title: Log In
-  message: Log in to manage your skin & players
+  title: Anmeldung
+  message: Melden Sie sich an, um Ihren Skin & Ihre Spieler zu verwalten
   success: Erfolgreich angemeldet.
 check:
   anonymous: Ungültiger Zugriff. Bitte melden Sie sich zuerst an.
@@ -12,7 +12,7 @@ register:
   title: Konto erstellen
   message: Willkommen bei :sitename!
   success: Konto wurde registriert. Weiterleitung...
-  max: You can't register more than :regs accounts.
+  max: Sie können nicht mehr als :regs Konten registrieren.
 forgot:
   title: Passwort vergessen
   message: Wir senden Ihnen eine E-Mail zur Überprüfung.
@@ -25,7 +25,7 @@ forgot:
   reset: Passwort zurücksetzen
   notice: Diese E-Mail wurde automatisch gesendet. Bitte nicht antworten!
   mail:
-    title: Reset your password on :sitename
+    title: Passworts zurücksetzen auf :sitename
     message: Sie erhalten diese E-Mail, weil jemand versucht hat, Ihr Passwort zurückzusetzen.
     reset: 'Um Ihr Passwort zurückzusetzen, besuchen Sie bitte: <a href=":url">:url</a>'
     ignore: Wenn Sie keine Passwortzurücksetzung angefordert haben, ist keine weitere Aktion erforderlich.
@@ -37,9 +37,9 @@ reset:
   message: ':username, setze deine E-Mail-Adresse hier zurück.'
   success: Passwort erfolgreich zurückgesetzt.
 bind:
-  title: Bind Email
-  button: Bind
-  message: You need to provide your email adderss to continue.
+  title: E-Mail verbinden
+  button: verbinden
+  message: Du musst deinen E-Mail-Addersse angeben, um fortfahren zu können.
   introduction: Wir werden dir keinen Spam senden.
   registered: Diese E-Mail-Adresse ist bereits vergeben.
 verify:
@@ -55,20 +55,20 @@ oauth:
   authorization:
     title: Autorisierung
     introduction: Eine Drittanbieter-Anwendung ":name" bittet um Erlaubnis, auf Ihr Konto zuzugreifen.
-    button: Authorize
+    button: Autorisieren
     permissions: Berechtigungen
   scope:
     user:
-      read: Sign you in and read your profile
+      read: Anmelden und Profil einstellen
     notification:
       read: Ermöglicht der App, Ihre Benachrichtigungen zu lesen.
       readwrite: Ermöglicht der App, Benachrichtigungen zu senden.
     player:
       read: Ermöglicht der App, Benachrichtigungen zu lesen.
-      readwrite: Allows the app to create, read, update and delete your players.
+      readwrite: Ermöglicht der App, Ihre Spieler zu erstellen, zu lesen, zu aktualisieren und zu löschen.
     closet:
-      read: Allows the app to read your closet items.
-      readwrite: Allows the app to create, read, update and delete your closet items.
+      read: Ermöglicht der App, den Kleiderschrank zu sehen.
+      readwrite: Ermöglicht der App, den Kleiderschrank zu ändern.
     users-management:
       read: Allows the app to read site's users.
       readwrite: Allows the app to create, read, update and delete site's users.
@@ -81,5 +81,5 @@ oauth:
     reports-management:
       read: Allows the app to read user's reports.
       readwrite: Allows the app to read and review user's reports.
-email: Email
-register-link: Register a new account
+email: E-Mail-Adresse
+register-link: Registrieren
