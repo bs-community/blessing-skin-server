@@ -44,60 +44,60 @@ players:
   name:
     success: Spielername wurde aktualisiert auf :player
   owner:
-    success: The player :player was transferred to user :user.
+    success: Der Spieler :player wurde an den Benutzer :user übertragen.
   delete:
-    success: The player has been deleted successfully.
+    success: Der Spieler wurde erfolgreich gelöscht.
 customize:
   change-color:
-    title: Change Theme Color
+    title: Designfarbe ändern
   colors:
-    navbar: Top Navigation Bar
+    navbar: Navigationsleiste
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: Seitenleiste (dunkel)
+      light: Seitenleiste (Licht)
 i18n:
   add: Add New Language Line
   added: Language line added.
   updated: Language line updated.
   deleted: Language line deleted.
-  group: Group
+  group: Gruppe
   key: Key
   text: Text
-  tip: How can I use this page?
+  tip: Wie kann ich diese Seite benutzen?
 status:
   info: Information
-  health: Health
+  health: Gesundheit
   bs:
     name: Blessing Skin
     version: Version
-    env: Application Environment
-    debug: Debugging or Not?
-    commit: Commit
+    env: Anwendungsumgebung
+    debug: Debuggen oder nicht?
+    commit: Änderung einreichen
     laravel: Laravel Version
   server:
     name: Server
     php: PHP Version
-    web: Web Server Software
-    os: OS
+    web: Webserver Software
+    os: Betriebssystem
   db:
-    name: Database
+    name: Datenbank
     type: Server
     host: Host
     port: Port
-    username: Username
-    database: Database
-    prefix: Table Prefix
-  plugins: Enabled Plugins (:amount)
+    username: DB-Benutzername
+    database: Datenbankstatus
+    prefix: Tabellen-Präfix
+  plugins: Aktivierte Plugins (:amount)
 plugins:
-  readme: Read Me
+  readme: Anleitung
   operations:
-    title: Operations
-    enabled: ':plugin has been enabled.'
+    title: Aufgaben
+    enabled: ':plugin wurde aktiviert.'
     unsatisfied:
-      notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The ":name" plugin is not enabled.'
-      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
-      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
+      notice: Es gibt Konflikte oder unzufriedene Abhängigkeiten im Plugin, daher können wir es nicht aktivieren. Bitte installieren oder aktualisieren Sie die unten aufgeführten Plugins und deaktivieren Sie diese Konflikte.
+      disabled: '":name" Plugin ist nicht aktiviert.'
+      version: 'Die Version von ":title" erfüllt nicht die Einschränkung ":constraint".'
+      conflict: 'Das Plugin ":title" kann nicht gleichzeitig mit diesem Plugin ausgeführt werden.'
     disabled: ':plugin has been disabled.'
     deleted: The plugin was deleted successfully.
     no-config-notice: The plugin is not installed or doesn't provide a configuration page.
@@ -132,7 +132,7 @@ update:
     php: Your PHP version is too low to update. Requires :version or later.
 download:
   errors:
-    download: 'Failed to download. Error: :error'
-    shasum: File validation failed. Please download again.
-    unzip: Failed to unpack files.
-invalid-action: Invalid action
+    download: 'Download fehlgeschlagen. Fehler: :error'
+    shasum: Dateiüberprüfung fehlgeschlagen. Bitte erneut herunterladen.
+    unzip: Fehler beim Entpacken der Dateien.
+invalid-action: Ungültiger Vorgang
