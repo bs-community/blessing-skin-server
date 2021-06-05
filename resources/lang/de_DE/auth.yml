@@ -2,26 +2,26 @@
 login:
   title: Log In
   message: Log in to manage your skin & players
-  success: Logged in successfully.
+  success: Erfolgreich angemeldet.
 check:
-  anonymous: Illegal access. Please log in first.
-  verified: To access this page, you should verify your email address first.
-  admin: Only admins are permitted to access this page.
-  banned: You are banned on this site. Please contact the admin.
+  anonymous: Ungültiger Zugriff. Bitte melden Sie sich zuerst an.
+  verified: Um auf diese Seite zuzugreifen, bitte zuerst E-Mail-Adresse bestätigen.
+  admin: Nur Administratoren dürfen auf diese Seite zugreifen.
+  banned: Du bist auf dieser Seite gebannt. Bitte kontaktiere den Administrator.
 register:
-  title: Register
-  message: Welcome to :sitename!
-  success: Your account was registered. Redirecting...
+  title: Konto erstellen
+  message: Willkommen bei :sitename!
+  success: Konto wurde registriert. Weiterleitung...
   max: You can't register more than :regs accounts.
 forgot:
-  title: Forgot Password
-  message: We will send you an E-mail to verify.
-  disabled: Password resetting is not available.
-  frequent-mail: You click the send button too fast. Wait for some minutes.
-  unregistered: The email address is not registered.
-  success: Mail sent, please check your inbox. The link will be expired in 1 hour.
-  failed: Failed to send verification mail. :msg
-  ignore: If you haven't signed up on our site, please ignore this email. No unsubscribing is required.
+  title: Passwort vergessen
+  message: Wir senden Ihnen eine E-Mail zur Überprüfung.
+  disabled: Zurücksetzen des Passworts ist nicht verfügbar.
+  frequent-mail: Du klickst zu schnell auf den Senden-Button. Warte einige Minuten.
+  unregistered: Diese E-Mail-Adresse ist nicht registriert.
+  success: E-Mail gesendet, bitte überprüfen Sie Ihren Posteingang. Der Link wird in 1 Stunde abgelaufen.
+  failed: Verifizierungs-E-Mail konnte nicht versendet werden
+  ignore: Wenn Sie sich nicht auf unserer Seite angemeldet haben, ignorieren Sie bitte diese E-Mail. Es ist kein Abmelden erforderlich.
   reset: Reset your password
   notice: This mail is sending automatically, no reponses will be sent if you reply.
   mail:
