@@ -6,8 +6,8 @@ logout: Abmelden
 login: Anmelden
 register: Registrieren
 profile: Kontoeinstellungen
-admin-panel: Admin Panel
-explore: Explore
+admin-panel: Administration
+explore: Entdecken
 manage: Manage
 anonymous: Guest
 back: Back
@@ -42,18 +42,18 @@ unknown: Unknown
 notice: Notice
 illegal-parameters: Illegal parameters.
 private: Private
-public: Public
-unexistent-user: No such user.
-player-banned: The owner of this player has been banned.
-texture-deleted: The requested texture has been deleted.
+public: Öffentlich
+unexistent-user: Benutzer nicht gefunden.
+player-banned: Das Konto dieses Spielers wurde gebannt.
+texture-deleted: Die angeforderte Textur wurde gelöscht.
 user:
-  email: Email
-  nickname: Nickname
-  password: Password
+  email: E-Mail-Adresse
+  nickname: Benutzername
+  password: Passwort
   score: Score
   register-at: Registered At
 player:
   owner: Owner
   player-name: Player Name
-  previews: Texture Previews
+  previews: Texturvorschau
   last-modified: Last Modified
