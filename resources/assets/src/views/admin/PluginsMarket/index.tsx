@@ -56,11 +56,16 @@ const PluginsMarket: React.FC = () => {
       installings.add(plugin.name)
     })
 
-    const { code, message, data = { reason: [] } } = await fetch.post<
-      fetch.ResponseBody<{ reason: string[] }>
-    >('/admin/plugins/market/download', {
-      name: plugin.name,
-    })
+    const {
+      code,
+      message,
+      data = { reason: [] },
+    } = await fetch.post<fetch.ResponseBody<{ reason: string[] }>>(
+      '/admin/plugins/market/download',
+      {
+        name: plugin.name,
+      },
+    )
     if (code === 0) {
       toast.success(message)
       setPlugins((plugins) => {

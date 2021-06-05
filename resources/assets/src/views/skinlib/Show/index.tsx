@@ -266,9 +266,8 @@ const Show: React.FC = () => {
           <React.Suspense fallback={<ViewerSkeleton />}>
             <Previewer
               {...{
-                [texture.type === TextureType.Cape
-                  ? TextureType.Cape
-                  : 'skin']: textureUrl,
+                [texture.type === TextureType.Cape ? TextureType.Cape : 'skin']:
+                  textureUrl,
               }}
               isAlex={texture.type === TextureType.Alex}
               initPositionZ={60}
@@ -476,9 +475,8 @@ const Show: React.FC = () => {
         show={showModalApply}
         canAdd={false}
         {...{
-          [texture.type === TextureType.Cape
-            ? TextureType.Cape
-            : 'skin']: texture.tid,
+          [texture.type === TextureType.Cape ? TextureType.Cape : 'skin']:
+            texture.tid,
         }}
         onClose={handleCloseModalApply}
       />

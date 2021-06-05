@@ -82,12 +82,8 @@ describe('input file', () => {
   })
 
   it('do not overwrite existing name', () => {
-    const {
-      getByTitle,
-      getByLabelText,
-      queryByDisplayValue,
-      queryByText,
-    } = render(<Upload />)
+    const { getByTitle, getByLabelText, queryByDisplayValue, queryByText } =
+      render(<Upload />)
 
     fireEvent.input(getByLabelText(t('skinlib.upload.texture-name')), {
       target: { value: 'my texture' },
@@ -170,13 +166,8 @@ describe('upload texture', () => {
   })
 
   it('no name', () => {
-    const {
-      getByText,
-      getByLabelText,
-      getByTitle,
-      getByRole,
-      queryByText,
-    } = render(<Upload />)
+    const { getByText, getByLabelText, getByTitle, getByRole, queryByText } =
+      render(<Upload />)
 
     const file = new File([], 't.png')
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {

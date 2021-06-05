@@ -101,12 +101,8 @@ describe('submit form', () => {
       data: { login_fails: 4 },
     })
 
-    const {
-      getByPlaceholderText,
-      getByText,
-      queryByText,
-      queryByAltText,
-    } = render(<Login />)
+    const { getByPlaceholderText, getByText, queryByText, queryByAltText } =
+      render(<Login />)
     fireEvent.input(getByPlaceholderText(t('auth.identification')), {
       target: { value: 'a@b.c' },
     })

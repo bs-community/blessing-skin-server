@@ -88,9 +88,14 @@ const Upload: React.FC = () => {
     formData.append('public', isPrivate ? '0' : '1')
 
     setIsUploading(true)
-    const { code, message, data: { tid } = { tid: 0 } } = await fetch.post<
-      fetch.ResponseBody<{ tid: number }>
-    >(urls.texture.upload(), formData)
+    const {
+      code,
+      message,
+      data: { tid } = { tid: 0 },
+    } = await fetch.post<fetch.ResponseBody<{ tid: number }>>(
+      urls.texture.upload(),
+      formData,
+    )
     setIsUploading(false)
 
     if (code === 0) {

@@ -27,9 +27,13 @@ const ModalAddPlayer: React.FC<Props> = (props) => {
   }
 
   const handleConfirm = async () => {
-    const { code, message, data: player } = await fetch.post<
-      fetch.ResponseBody<Player>
-    >(urls.user.player.add(), { name })
+    const {
+      code,
+      message,
+      data: player,
+    } = await fetch.post<fetch.ResponseBody<Player>>(urls.user.player.add(), {
+      name,
+    })
     if (code === 0) {
       toast.success(message)
       props.onAdd(player)

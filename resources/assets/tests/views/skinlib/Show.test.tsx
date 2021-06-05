@@ -288,13 +288,8 @@ describe('edit texture type', () => {
   it('succeeded', async () => {
     fetch.put.mockResolvedValue({ code: 0, message: 'ok' })
 
-    const {
-      getByText,
-      getAllByTitle,
-      getByLabelText,
-      getByRole,
-      queryByText,
-    } = render(<Show />)
+    const { getByText, getAllByTitle, getByLabelText, getByRole, queryByText } =
+      render(<Show />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getAllByTitle(t('skinlib.show.edit'))[1]!)
@@ -313,13 +308,8 @@ describe('edit texture type', () => {
   it('failed', async () => {
     fetch.put.mockResolvedValue({ code: 1, message: 'failed' })
 
-    const {
-      getByText,
-      getAllByTitle,
-      getByLabelText,
-      getByRole,
-      queryByText,
-    } = render(<Show />)
+    const { getByText, getAllByTitle, getByLabelText, getByRole, queryByText } =
+      render(<Show />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getAllByTitle(t('skinlib.show.edit'))[1]!)

@@ -7,10 +7,10 @@ export default async function handler(event: Event) {
   const form = event.target as HTMLFormElement
   const password: string = form.password.value
 
-  const {
-    code,
-    message,
-  }: ResponseBody = await post('/user/profile?action=delete', { password })
+  const { code, message }: ResponseBody = await post(
+    '/user/profile?action=delete',
+    { password },
+  )
 
   await showModal({ mode: 'alert', text: message })
   if (code === 0) {

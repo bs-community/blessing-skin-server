@@ -267,13 +267,8 @@ describe('edit player name', () => {
   it('succeeded', async () => {
     fetch.put.mockResolvedValue({ code: 0, message: 'success' })
 
-    const {
-      getByText,
-      getByTitle,
-      getByDisplayValue,
-      getByRole,
-      queryByText,
-    } = render(<Players />)
+    const { getByText, getByTitle, getByDisplayValue, getByRole, queryByText } =
+      render(<Players />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByTitle(t('user.player.edit-pname')))
@@ -312,13 +307,8 @@ describe('edit player name', () => {
   it('failed', async () => {
     fetch.put.mockResolvedValue({ code: 1, message: 'failed' })
 
-    const {
-      getByText,
-      getByTitle,
-      getByDisplayValue,
-      getByRole,
-      queryByText,
-    } = render(<Players />)
+    const { getByText, getByTitle, getByDisplayValue, getByRole, queryByText } =
+      render(<Players />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByTitle(t('user.player.edit-pname')))

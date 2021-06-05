@@ -24,12 +24,11 @@ const EmailSuggestion: React.FC<Props> = (props) => {
     emit('emailDomainsSuggestion', domainNames)
   }, [])
 
-  const handleSuggestionsFetchRequested: Autosuggest.SuggestionsFetchRequested = ({
-    value,
-  }) => {
-    const segments = value.split('@')
-    setSuggestions([...domainNames].map((name) => `${segments[0]}@${name}`))
-  }
+  const handleSuggestionsFetchRequested: Autosuggest.SuggestionsFetchRequested =
+    ({ value }) => {
+      const segments = value.split('@')
+      setSuggestions([...domainNames].map((name) => `${segments[0]}@${name}`))
+    }
 
   const handleSuggestionsClearRequested = () => {
     setSuggestions([])
