@@ -28,16 +28,16 @@ options: Options
 score-options: Score Options
 res-options: Resource Options
 status: Status
-check-update: Check Update
-download-update: Download Updates
-close: Close
+check-update: Nach Updates suchen
+download-update: Aktualisierung herunterladen
+close: Schließen
 skin: Skin
-cape: Cape
-submit: Submit
-cancel: Cancel
+cape: Umhang
+submit: Speichern
+cancel: Abbrechen
 yes: true
 no: false
-op-success: Operated successfully.
+op-success: Gespeichert.
 unknown: Unknown
 notice: Notice
 illegal-parameters: Illegal parameters.
@@ -50,7 +50,7 @@ user:
   email: E-Mail-Adresse
   nickname: Benutzername
   password: Passwort
-  score: Score
+  score: Punkte
   register-at: Registered At
 player:
   owner: Owner
