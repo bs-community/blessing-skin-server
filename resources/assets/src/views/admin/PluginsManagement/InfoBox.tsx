@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
-import { Plugin } from './types'
+import type { Plugin } from './types'
 
 const Box = styled.div`
   cursor: default;

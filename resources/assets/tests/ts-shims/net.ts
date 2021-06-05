@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/indent */
-import * as net from '../../src/scripts/net'
+import type * as net from '../../src/scripts/net'
 
-export { ResponseBody } from '../../src/scripts/net'
+export type { ResponseBody } from '../../src/scripts/net'
 
 export const init = {} as typeof net.init
 

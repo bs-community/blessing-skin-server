@@ -33,7 +33,7 @@ export default async function rm(stdio: Stdio, args: string[]) {
     stdio.println("Try 'rm --help' for more information.")
   }
 
-  if (opts.force && opts.recursive && path.startsWith('/')) {
+  if (opts.force && opts.recursive && path?.startsWith('/')) {
     await fetch.post('/admin/resource?clear-cache')
   }
 }

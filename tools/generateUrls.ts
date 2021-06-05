@@ -12,7 +12,7 @@ const tree: TreeObject = {}
 
 function parseURI(uri: string): ts.ArrowFunction {
   const matches = /\{([a-z]+)\}/.exec(uri)
-  if (matches) {
+  if (matches?.[0] && matches?.[1]) {
     const param = matches[1]
     const type =
       param.endsWith('id') ||

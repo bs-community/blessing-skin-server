@@ -6,7 +6,7 @@ import { showModal, toast } from '@/scripts/notify'
 import Loading from '@/components/Loading'
 import Row from './Row'
 import ModalCreate from './ModalCreate'
-import { App } from './types'
+import type { App } from './types'
 
 type Exception = {
   message: string

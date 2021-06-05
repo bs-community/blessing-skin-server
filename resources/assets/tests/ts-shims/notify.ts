@@ -1,5 +1,5 @@
-import { ModalOptions, ModalResult } from '../../src/components/Modal'
-import { Toast } from '../../src/scripts/toast'
+import type { ModalOptions, ModalResult } from '../../src/components/Modal'
+import type { Toast } from '../../src/scripts/toast'
 
 export const showModal = {} as jest.Mock<
   Promise<ModalResult>,

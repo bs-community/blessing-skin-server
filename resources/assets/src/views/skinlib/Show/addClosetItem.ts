@@ -1,7 +1,7 @@
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
-import { Texture } from '@/scripts/types'
+import type { Texture } from '@/scripts/types'
 import urls from '@/scripts/urls'
 
 export default async function addClosetItem(

@@ -1,13 +1,13 @@
 import React from 'react'
 import { t } from '@/scripts/i18n'
-import { ClosetItem } from '@/scripts/types'
+import type { ClosetItem as ClosetItemType } from '@/scripts/types'
 import setAsAvatar from './setAsAvatar'
 import { Card, DropdownButton } from './styles'
 
 interface Props {
-  item: ClosetItem
+  item: ClosetItemType
   selected: boolean
-  onClick(item: ClosetItem): void
+  onClick(item: ClosetItemType): void
   onRename(): void
   onRemove(): void
 }

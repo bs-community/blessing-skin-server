@@ -441,7 +441,7 @@ describe('apply textures to player', () => {
 
     expect(await findByText(fixturePlayer.name)).toBeInTheDocument()
 
-    fireEvent.input(getAllByPlaceholderText(t('user.typeToSearch'))[1], {
+    fireEvent.input(getAllByPlaceholderText(t('user.typeToSearch'))[1]!, {
       target: { value: 'reina' },
     })
     expect(queryByText(fixturePlayer.name)).not.toBeInTheDocument()

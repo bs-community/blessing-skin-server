@@ -236,7 +236,7 @@ describe('upload plugin archive', () => {
     const { getAllByText } = render(<PluginsManagement />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
-    fireEvent.click(getAllByText(t('general.submit'))[0])
+    fireEvent.click(getAllByText(t('general.submit'))[0]!)
     expect(fetch.post).not.toBeCalled()
   })
 
@@ -253,7 +253,7 @@ describe('upload plugin archive', () => {
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
       target: { files: [file] },
     })
-    fireEvent.click(getAllByText(t('general.submit'))[0])
+    fireEvent.click(getAllByText(t('general.submit'))[0]!)
     await waitFor(() => {
       expect(fetch.get).toBeCalledTimes(2)
       expect(fetch.post).toBeCalledWith(
@@ -261,7 +261,7 @@ describe('upload plugin archive', () => {
         expect.any(FormData),
       )
     })
-    const formData = fetch.post.mock.calls[0][1] as FormData
+    const formData = fetch.post.mock.calls[0]![1] as FormData
     expect(formData.get('file')).toStrictEqual(file)
     expect(queryByText('plugin.zip')).not.toBeInTheDocument()
     expect(queryByText('ok')).toBeInTheDocument()
@@ -281,7 +281,7 @@ describe('upload plugin archive', () => {
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
       target: { files: [file] },
     })
-    fireEvent.click(getAllByText(t('general.submit'))[0])
+    fireEvent.click(getAllByText(t('general.submit'))[0]!)
     await waitFor(() => {
       expect(fetch.get).toBeCalledTimes(1)
       expect(fetch.post).toBeCalledWith(
@@ -312,7 +312,7 @@ describe('submit remote URL', () => {
     fireEvent.input(getByLabelText('URL'), {
       target: { value: 'https://example.com/a.zip' },
     })
-    fireEvent.click(getAllByText(t('general.submit'))[1])
+    fireEvent.click(getAllByText(t('general.submit'))[1]!)
     await waitFor(() => {
       expect(fetch.get).toBeCalledTimes(2)
       expect(fetch.post).toBeCalledWith('/admin/plugins/wget', {
@@ -342,7 +342,7 @@ describe('submit remote URL', () => {
     fireEvent.input(getByLabelText('URL'), {
       target: { value: 'https://example.com/a.zip' },
     })
-    fireEvent.click(getAllByText(t('general.submit'))[1])
+    fireEvent.click(getAllByText(t('general.submit'))[1]!)
     await waitFor(() => {
       expect(fetch.get).toBeCalledTimes(1)
       expect(fetch.post).toBeCalledWith('/admin/plugins/wget', {

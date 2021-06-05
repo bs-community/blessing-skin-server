@@ -1,7 +1,7 @@
 import type { Stdio } from 'blessing-skin-shell'
 import cac from 'cac'
 import * as fetch from '../net'
-import { User, Texture } from '../types'
+import type { User, Texture } from '../types'
 
 type Response = fetch.ResponseBody<{ user: User; texture: Texture }>
 

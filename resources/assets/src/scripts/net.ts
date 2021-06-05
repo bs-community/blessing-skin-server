@@ -58,7 +58,7 @@ export async function walkFetch(request: Request): Promise<any> {
       } = body
       return {
         code: 1,
-        message: Object.keys(errors).map((field) => errors[field][0])[0],
+        message: Object.keys(errors).map((field) => errors[field]![0])[0],
       }
     } else if (response.status === 419) {
       return showModal({

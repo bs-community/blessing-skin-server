@@ -40,7 +40,7 @@ describe('edit line', () => {
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('admin.i18n.modify')))
-    fireEvent.input(getByDisplayValue(fixtureLine.text.en), {
+    fireEvent.input(getByDisplayValue(fixtureLine.text.en!), {
       target: { value: 'finish' },
     })
     fireEvent.click(getByText(t('general.confirm')))
@@ -63,7 +63,7 @@ describe('edit line', () => {
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('admin.i18n.modify')))
-    fireEvent.input(getByDisplayValue(fixtureLine.text.en), {
+    fireEvent.input(getByDisplayValue(fixtureLine.text.en!), {
       target: { value: 'finish' },
     })
     fireEvent.click(getByText(t('general.confirm')))
@@ -72,7 +72,7 @@ describe('edit line', () => {
         text: 'finish',
       }),
     )
-    expect(queryByText(fixtureLine.text.en)).toBeInTheDocument()
+    expect(queryByText(fixtureLine.text.en!)).toBeInTheDocument()
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
   })
@@ -84,12 +84,12 @@ describe('edit line', () => {
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('admin.i18n.modify')))
-    fireEvent.input(getByDisplayValue(fixtureLine.text.en), {
+    fireEvent.input(getByDisplayValue(fixtureLine.text.en!), {
       target: { value: 'finish' },
     })
     fireEvent.click(getByText(t('general.cancel')))
     await waitFor(() => expect(fetch.put).not.toBeCalled())
-    expect(queryByText(fixtureLine.text.en)).toBeInTheDocument()
+    expect(queryByText(fixtureLine.text.en!)).toBeInTheDocument()
   })
 })
 
@@ -109,7 +109,7 @@ describe('delete line', () => {
     await waitFor(() =>
       expect(fetch.del).toBeCalledWith(`/admin/i18n/${fixtureLine.id}`),
     )
-    expect(queryByText(fixtureLine.text.en)).not.toBeInTheDocument()
+    expect(queryByText(fixtureLine.text.en!)).not.toBeInTheDocument()
     expect(queryByText('ok')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
   })
@@ -121,6 +121,6 @@ describe('delete line', () => {
     fireEvent.click(getByText(t('admin.i18n.delete')))
     fireEvent.click(getByText(t('general.cancel')))
     await waitFor(() => expect(fetch.del).not.toBeCalled())
-    expect(queryByText(fixtureLine.text.en)).toBeInTheDocument()
+    expect(queryByText(fixtureLine.text.en!)).toBeInTheDocument()
   })
 })

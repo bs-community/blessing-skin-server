@@ -1,6 +1,6 @@
 import React from 'react'
 import { t } from '@/scripts/i18n'
-import { Plugin } from './types'
+import type { Plugin } from './types'
 
 interface Props {
   plugin: Plugin

@@ -5,6 +5,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "declaration": false,
+    "declarationMap": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./resources/assets/src/*"]

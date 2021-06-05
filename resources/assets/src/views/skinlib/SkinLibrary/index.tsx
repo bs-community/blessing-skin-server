@@ -14,7 +14,7 @@ import removeClosetItem from '@/views/user/Closet/removeClosetItem'
 import FilterSelector from './FilterSelector'
 import Button from './Button'
 import Item from './Item'
-import { Filter, LibraryItem } from './types'
+import type { Filter, LibraryItem } from './types'
 
 const SkinLibrary: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)

@@ -8,7 +8,7 @@ import { toast, showModal } from '@/scripts/notify'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import ViewerSkeleton from '@/components/ViewerSkeleton'
-import { Report, Status } from './types'
+import type { Report, Status } from './types'
 import ImageBox from './ImageBox'
 
 const Previewer = React.lazy(() => import('@/components/Viewer'))
@@ -62,7 +62,7 @@ const ReportsManagement: React.FC = () => {
     if (resp.code === 0) {
       toast.success(resp.message)
       setReports((reports) => {
-        reports[index].status = resp.data.status
+        reports[index]!.status = resp.data.status
       })
     } else {
       toast.error(resp.message)

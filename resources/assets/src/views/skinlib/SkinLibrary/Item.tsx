@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
 import * as cssUtils from '@/styles/utils'
-import { LibraryItem } from './types'
+import type { LibraryItem } from './types'
 import { humanizeType } from './utils'
 
 const Card = styled.div`

@@ -3,7 +3,7 @@ import { render, waitFor, fireEvent } from '@testing-library/react'
 import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { Player } from '@/scripts/types'
+import type { Player } from '@/scripts/types'
 import urls from '@/scripts/urls'
 import PlayersManagement from '@/views/admin/PlayersManagement'
 

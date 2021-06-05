@@ -1,6 +1,6 @@
 /* eslint-disable max-params */
 /* eslint-disable max-classes-per-file */
-import { PlayerObject, SkinObject, CapeObject } from 'skinview3d'
+import type { PlayerObject, SkinObject, CapeObject } from 'skinview3d'
 
 export class SkinViewer {
   disposed: boolean

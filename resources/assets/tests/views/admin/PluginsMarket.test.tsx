@@ -3,7 +3,7 @@ import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import PluginsMarket from '@/views/admin/PluginsMarket'
-import { Plugin } from '@/views/admin/PluginsMarket/types'
+import type { Plugin } from '@/views/admin/PluginsMarket/types'
 
 jest.mock('@/scripts/net')
 

@@ -92,7 +92,7 @@ const UsersManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setUsers((users) => {
-        users[index].email = email
+        users[index]!.email = email
       })
     } else {
       toast.error(message)
@@ -124,7 +124,7 @@ const UsersManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setUsers((users) => {
-        users[index].nickname = nickname
+        users[index]!.nickname = nickname
       })
     } else {
       toast.error(message)
@@ -152,7 +152,7 @@ const UsersManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setUsers((users) => {
-        users[index].score = score
+        users[index]!.score = score
       })
     } else {
       toast.error(message)
@@ -189,7 +189,7 @@ const UsersManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setUsers((users) => {
-        users[index].permission = permission
+        users[index]!.permission = permission
       })
     } else {
       toast.error(message)
@@ -203,7 +203,7 @@ const UsersManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setUsers((users) => {
-        users[index].verified = !users[index].verified
+        users[index]!.verified = !users[index]!.verified
       })
     } else {
       toast.error(message)

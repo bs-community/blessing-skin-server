@@ -1,6 +1,6 @@
 import { t } from '@/scripts/i18n'
 import { TextureType } from '@/scripts/types'
-import { Filter } from './types'
+import type { Filter } from './types'
 
 export function humanizeType(type: Filter): string {
   switch (type) {

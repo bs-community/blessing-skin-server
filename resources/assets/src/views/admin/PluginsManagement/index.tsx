@@ -7,7 +7,7 @@ import { toast, showModal } from '@/scripts/notify'
 import FileInput from '@/components/FileInput'
 import Loading from '@/components/Loading'
 import InfoBox from './InfoBox'
-import { Plugin } from './types'
+import type { Plugin } from './types'
 
 const PluginsManagement: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -43,7 +43,7 @@ const PluginsManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setPlugins((plugins) => {
-        plugins[i].enabled = true
+        plugins[i]!.enabled = true
       })
     } else {
       showModal({
@@ -73,7 +73,7 @@ const PluginsManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setPlugins((plugins) => {
-        plugins[i].enabled = false
+        plugins[i]!.enabled = false
       })
     } else {
       toast.error(message)
@@ -108,7 +108,7 @@ const PluginsManagement: React.FC = () => {
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(event.target.files![0])
+    setFile(event.target.files![0]!)
   }
 
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,7 +161,7 @@ const PluginsManagement: React.FC = () => {
 
   const chunks = Array(Math.ceil(plugins.length / 2))
     .fill(null)
-    .map((_, i) => plugins.slice(i * 2, (i + 1) * 2))
+    .map((_, i) => plugins.slice(i * 2, (i + 1) * 2) as [Plugin, Plugin?])
 
   return (
     <div className="row">
@@ -173,7 +173,7 @@ const PluginsManagement: React.FC = () => {
         ) : (
           chunks.map((chunk, i) => (
             <div className="row" key={`${chunk[0].name}&${chunk[1]?.name}`}>
-              {chunk.map((plugin, j) => (
+              {(chunk as Plugin[]).map((plugin, j) => (
                 <div className="col-md-6" key={plugin.name}>
                   <InfoBox
                     plugin={plugin}

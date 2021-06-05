@@ -10,3 +10,5 @@ if (process.env.NODE_ENV === 'development') {
   const base = link?.href ?? blessing.base_url
   __webpack_public_path__ = `${base}/app/`
 }
+
+export {}

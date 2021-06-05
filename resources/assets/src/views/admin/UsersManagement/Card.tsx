@@ -1,6 +1,6 @@
 import React from 'react'
 import { t } from '@/scripts/i18n'
-import { User } from '@/scripts/types'
+import type { User } from '@/scripts/types'
 import { Box, Icon, InfoTable } from './styles'
 import {
   humanizePermission,

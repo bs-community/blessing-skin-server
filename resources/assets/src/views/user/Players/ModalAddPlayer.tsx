@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
-import { Player } from '@/scripts/types'
+import type { Player } from '@/scripts/types'
 import urls from '@/scripts/urls'
 import Modal from '@/components/Modal'
 

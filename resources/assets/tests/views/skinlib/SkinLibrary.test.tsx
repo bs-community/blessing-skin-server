@@ -6,7 +6,7 @@ import * as fetch from '@/scripts/net'
 import { TextureType } from '@/scripts/types'
 import urls from '@/scripts/urls'
 import SkinLibrary from '@/views/skinlib/SkinLibrary'
-import { LibraryItem } from '@/views/skinlib/SkinLibrary/types'
+import type { LibraryItem } from '@/views/skinlib/SkinLibrary/types'
 
 jest.mock('@/scripts/net')
 

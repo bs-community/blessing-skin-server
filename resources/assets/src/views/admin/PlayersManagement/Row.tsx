@@ -1,6 +1,6 @@
 import React from 'react'
 import { t } from '@/scripts/i18n'
-import { Player } from '@/scripts/types'
+import type { Player } from '@/scripts/types'
 import ButtonEdit from '@/components/ButtonEdit'
 
 interface Props {

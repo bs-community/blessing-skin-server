@@ -50,7 +50,7 @@ describe('remove plugin', () => {
   it('cancelled', async () => {
     const stdio = new Stdio()
 
-    setImmediate(() => process.stdin.emit('keypress', 'n', 'n'))
+    setTimeout(() => process.stdin.emit('keypress', 'n', 'n'), 0)
     await dnf(stdio, ['remove', 'test'])
     expect(fetch.post).not.toBeCalled()
   })
@@ -59,7 +59,7 @@ describe('remove plugin', () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
     const stdio = new Stdio()
 
-    setImmediate(() => process.stdin.emit('keypress', 'y', 'y'))
+    setTimeout(() => process.stdin.emit('keypress', 'y', 'y'), 0)
     await dnf(stdio, ['remove', 'test'])
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
       action: 'delete',

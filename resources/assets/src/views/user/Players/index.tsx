@@ -39,7 +39,7 @@ const Players: React.FC = () => {
       const players = await fetch.get<Player[]>('/user/player/list')
       setPlayers(players)
       if (players.length === 1) {
-        selectPlayer(players[0])
+        selectPlayer(players[0]!)
       }
       setIsLoading(false)
     }

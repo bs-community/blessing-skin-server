@@ -2,7 +2,7 @@ import React from 'react'
 import { t } from '@/scripts/i18n'
 import { TextureType } from '@/scripts/types'
 import Button from './Button'
-import { Filter } from './types'
+import type { Filter } from './types'
 import { humanizeType } from './utils'
 
 interface Props {

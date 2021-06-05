@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { t } from '@/scripts/i18n'
-import { Player } from '@/scripts/types'
+import type { Player } from '@/scripts/types'
 import ButtonEdit from '@/components/ButtonEdit'
 import * as cssUtils from '@/styles/utils'
 

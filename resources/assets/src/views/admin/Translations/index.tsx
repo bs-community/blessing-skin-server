@@ -49,7 +49,7 @@ const Translations: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setLines((lines) => {
-        lines[index].text[blessing.locale] = text
+        lines[index]!.text[blessing.locale] = text
       })
     } else {
       toast.error(message)

@@ -1,4 +1,4 @@
-import { TextureType } from '@/scripts/types'
+import type { TextureType } from '@/scripts/types'
 
 export type Filter = 'skin' | TextureType
 

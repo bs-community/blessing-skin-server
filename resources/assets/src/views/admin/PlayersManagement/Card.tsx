@@ -1,7 +1,7 @@
 import React from 'react'
 import { t } from '@/scripts/i18n'
 import { showModal } from '@/scripts/notify'
-import { Player } from '@/scripts/types'
+import type { Player } from '@/scripts/types'
 import { Box } from './styles'
 
 interface Props {

@@ -3,7 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
 import { t } from '@/scripts/i18n'
 import OAuth from '@/views/user/OAuth'
-import { App } from '@/views/user/OAuth/types'
+import type { App } from '@/views/user/OAuth/types'
 
 jest.mock('@/scripts/net')
 

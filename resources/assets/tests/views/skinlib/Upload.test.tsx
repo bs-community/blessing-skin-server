@@ -221,7 +221,7 @@ describe('upload texture', () => {
       expect.any(FormData),
     )
 
-    const formData = fetch.post.mock.calls[0][1] as FormData
+    const formData = fetch.post.mock.calls[0]![1] as FormData
     expect(formData.get('name')).toBe('t')
     expect(formData.get('type')).toBe('steve')
     expect(formData.get('file')).toStrictEqual(file)
@@ -241,7 +241,7 @@ describe('upload texture', () => {
     fireEvent.click(getByText(t('skinlib.upload.button')))
 
     await waitFor(() => expect(fetch.post).toBeCalled())
-    const formData = fetch.post.mock.calls[0][1] as FormData
+    const formData = fetch.post.mock.calls[0]![1] as FormData
     expect(formData.get('public')).toBe('0')
   })
 

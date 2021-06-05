@@ -1,4 +1,4 @@
-import { Texture, User } from '@/scripts/types'
+import type { Texture, User } from '@/scripts/types'
 
 export const enum Status {
   Pending = 0,

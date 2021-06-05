@@ -1,7 +1,7 @@
 import React from 'react'
 import { t } from '@/scripts/i18n'
 import ButtonEdit from '@/components/ButtonEdit'
-import { App } from './types'
+import type { App } from './types'
 
 interface Props {
   app: App

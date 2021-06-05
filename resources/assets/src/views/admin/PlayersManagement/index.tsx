@@ -4,7 +4,7 @@ import { useImmer } from 'use-immer'
 import useIsLargeScreen from '@/scripts/hooks/useIsLargeScreen'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { Player, Paginator } from '@/scripts/types'
+import type { Player, Paginator } from '@/scripts/types'
 import { toast, showModal } from '@/scripts/notify'
 import urls from '@/scripts/urls'
 import Pagination from '@/components/Pagination'
@@ -87,7 +87,7 @@ const PlayersManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setPlayers((players) => {
-        players[index].name = name
+        players[index]!.name = name
       })
     } else {
       toast.error(message)
@@ -115,7 +115,7 @@ const PlayersManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setPlayers((players) => {
-        players[index].uid = uid
+        players[index]!.uid = uid
       })
     } else {
       toast.error(message)
@@ -126,15 +126,15 @@ const PlayersManagement: React.FC = () => {
 
   const handleUpdateTexture = async (type: 'skin' | 'cape', tid: number) => {
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      urls.admin.players.texture(players[textureUpdating].pid),
+      urls.admin.players.texture(players[textureUpdating]!.pid),
       { type, tid },
     )
 
     if (code === 0) {
       toast.success(message)
       setPlayers((players) => {
-        const field = `tid_${type}` as 'tid_skin' | 'tid_cape'
-        players[textureUpdating][field] = tid
+        const field = `tid_${type}` as const
+        players[textureUpdating]![field] = tid
       })
     } else {
       toast.error(message)

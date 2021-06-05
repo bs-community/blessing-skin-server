@@ -1,4 +1,4 @@
-import { Stdio } from 'blessing-skin-shell'
+import type { Stdio } from 'blessing-skin-shell'
 import * as event from '../event'
 
 /* istanbul ignore next */
