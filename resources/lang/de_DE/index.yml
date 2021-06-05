@@ -1,6 +1,6 @@
 ---
 features:
-  title: Features
+  title: Funktionen
   first:
     icon: fa-users
     name: Multi Accounts
@@ -14,4 +14,4 @@ features:
     name: Kostenlos
     desc: Für immer kostenlos. Ohne Werbung. Ohne Abos.
 introduction: ':sitename bietet einen Service zum Hochladen und Hosten von Minecraft-Skins. Durch die Installation von Skinmods (z.B. CustomSkinLoader), kannst du Skins und Capes für deinen Spielcharakter auswählen und andere Spieler können deinen Skin sehen.'
-start: Join Us
+start: Registrieren
