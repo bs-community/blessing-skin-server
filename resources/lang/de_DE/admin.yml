@@ -1,48 +1,48 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
+  total-users: Registrierte Nutzer
+  total-players: Spieler
+  total-textures: Hochgeladene Texturen
+  disk-usage: Speichernutzung
+  overview: Übersicht
   texture-uploads: Texture Uploads
   user-registration: User Registration
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: Nachricht verfassen
+    success: Erfolgreich versandt!
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
-    email: Specified Email
-  title: Title
-  content: Content (Markdown is supported.)
+    title: EmpfängerIn
+    all: Alle Nutzer
+    normal: Einfache Benutzer
+    uid: Angegebene UID
+    email: Angegebene E-Mail
+  title: Betreff
+  content: Inhalt (Markdown wird unterstützt)
 users:
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
+    non-existent: Benutzer nicht gefunden.
+    no-permission: Sie haben keine Berechtigung diesen Nutzer zu Löschen.
     email:
-      success: Email changed successfully.
+      success: Die E-Mail-Adresse wurde erfolgreich geändert.
     verification:
-      success: Account verification status toggled successfully.
+      success: Bestätigungsstatus wurde erfolgreich geändert.
     nickname:
-      success: Nickname changed successfully.
+      success: Benutzername erfolgreich geändert.
     password:
-      success: Password changed successfully.
+      success: Kennwort erfolgreich geändert.
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: Punktestand erfolgreich geändert.
+    permission: Berechtigungen aktualisiert.
     delete:
-      success: The account has been deleted successfully.
+      success: Das Konto wurde erfolgreich gelöscht.
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: Sie haben keine Berechtigung diesen Nutzer zu Löschen.
   textures:
-    non-existent: No such texture tid.:tid
-    success: The textures of :player has been updated.
+    non-existent: Keine solche Textur tid.:tid
+    success: Die Texturen von :player wurden aktualisiert.
   name:
-    success: Player name has been updated to :player
+    success: Spielername wurde aktualisiert auf :player
   owner:
     success: The player :player was transferred to user :user.
   delete:
