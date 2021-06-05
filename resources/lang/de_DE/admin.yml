@@ -5,8 +5,8 @@ index:
   total-textures: Hochgeladene Texturen
   disk-usage: Speichernutzung
   overview: Übersicht
-  texture-uploads: Texture Uploads
-  user-registration: User Registration
+  texture-uploads: Hochgeladene Texturen
+  user-registration: Benutzerregistrierungen
 notifications:
   send:
     title: Nachricht verfassen
@@ -98,38 +98,38 @@ plugins:
       disabled: '":name" Plugin ist nicht aktiviert.'
       version: 'Die Version von ":title" erfüllt nicht die Einschränkung ":constraint".'
       conflict: 'Das Plugin ":title" kann nicht gleichzeitig mit diesem Plugin ausgeführt werden.'
-    disabled: ':plugin has been disabled.'
-    deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
-    no-readme-notice: The plugin doesn't contain a readme file.
-    not-found: No such plugin.
+    disabled: ':plugin wurde deaktiviert.'
+    deleted: Das Plugin wurde erfolgreich gelöscht.
+    no-config-notice: Das Plugin ist nicht installiert oder bietet keine Konfigurationsseite.
+    no-readme-notice: Das Plugin enthält keine Readme-Datei.
+    not-found: Plugin existiert nicht.
   market:
-    unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
-    connection-error: Unable to connect to the plugins registry. :error
-    non-existent: The plugin :plugin does not exist.
-    install-success: Plugin was installed.
+    unresolved: Es gibt Konflikte oder unzufriedene Abhängigkeiten im Plugin, daher können wir es nicht aktivieren. Bitte installieren oder aktualisieren Sie die unten aufgeführten Plugins und deaktivieren Sie diese Konflikte.
+    connection-error: Keine Verbindung zur Registry der Plugins. :error
+    non-existent: Das Plugin :plugin existiert nicht.
+    install-success: Plugin installiert.
 update:
-  complete: Update completed
+  complete: Aktualisierung abgeschlossen
   info:
-    title: Update Information
-    up-to-date: Already up-to-date.
-    available: New version available.
+    title: Update-Informationen
+    up-to-date: Bereits aktuell.
+    available: Neue Version verfügbar.
     versions:
-      latest: "Latest Version:"
-      current: "Current Version:"
-    check-github: Check GitHub Releases
-    button: Update Now
+      latest: "Neueste Version:"
+      current: "Aktuelle Version:"
+    check-github: GitHub Versionen prüfen
+    button: Jetzt aktualisieren
   cautions:
-    title: Cautions
-    link: check out this.
+    title: Warnungen
+    link: schaue dir das an.
     text: |
       Please choose update source according to your host's network environment.
       Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
       To change the default update source,
   errors:
-    connection: "Unable to access to current update source. Details: :error"
-    spec: Current update source is not supported.
-    php: Your PHP version is too low to update. Requires :version or later.
+    connection: "Zugriff auf die aktuelle Updatequelle nicht möglich. Details: :error"
+    spec: Aktuelle Updatequelle wird nicht unterstützt.
+    php: Ihre PHP-Version ist zu niedrig zum Aktualisieren. Benötigt :version oder neuer.
 download:
   errors:
     download: 'Download fehlgeschlagen. Fehler: :error'
