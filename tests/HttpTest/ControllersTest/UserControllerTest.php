@@ -597,4 +597,14 @@ class UserControllerTest extends TestCase
             ->postJson('/user/profile/avatar', ['tid' => $steve->tid])
             ->assertJson(['code' => 1, 'message' => 'rejected']);
     }
+
+    public function testToggleDarkMode()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user)->putJson('/user/dark-mode')->assertNoContent();
+        $this->assertTrue($user->fresh()->is_dark_mode);
+
+        $this->putJson('/user/dark-mode')->assertNoContent();
+        $this->assertFalse($user->fresh()->is_dark_mode);
+    }
 }

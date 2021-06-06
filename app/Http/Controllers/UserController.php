@@ -347,4 +347,14 @@ class UserController extends Controller
             return json(trans('skinlib.non-existent'), 1);
         }
     }
+
+    public function toggleDarkMode()
+    {
+        /** @var User */
+        $user = auth()->user();
+        $user->is_dark_mode = !$user->is_dark_mode;
+        $user->save();
+
+        return response()->noContent();
+    }
 }

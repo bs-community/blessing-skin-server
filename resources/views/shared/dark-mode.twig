@@ -1,0 +1,7 @@
+{% if auth_check() %}
+  <li class="nav-item" id="toggle-dark-mode">
+    <a class="nav-link" href="#" role="button">
+      <i class="fas fa-{{ dark_mode ? 'moon' : 'sun' }}"></i>
+    </a>
+  </li>
+{% endif %}

@@ -69,6 +69,12 @@ class ViewServiceProvider extends ServiceProvider
 
         View::composer('shared.foot', Composers\FootComposer::class);
 
+        View::composer('shared.dark-mode', function ($view) {
+            $view->with([
+                'dark_mode' => (bool) optional(auth()->user())->is_dark_mode,
+            ]);
+        });
+
         View::composer('assets.*', function ($view) {
             $view->with('cdn_base', option('cdn_address', ''));
         });

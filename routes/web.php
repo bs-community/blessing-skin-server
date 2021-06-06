@@ -62,6 +62,8 @@ Route::prefix('user')
 
         Route::post('email-verification', 'UserController@sendVerificationEmail');
 
+        Route::put('dark-mode', 'UserController@toggleDarkMode');
+
         Route::prefix('player')
             ->name('player.')
             ->middleware('verified')
