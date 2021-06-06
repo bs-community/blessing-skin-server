@@ -23,6 +23,7 @@ const fixture: Readonly<Report> = Object.freeze<Report>({
     avatar: 0,
     permission: UserPermission.Normal,
     ip: '::1',
+    is_dark_mode: false,
     last_sign_at: new Date().toString(),
     register_at: new Date().toString(),
     verified: true,
@@ -37,6 +38,7 @@ const fixture: Readonly<Report> = Object.freeze<Report>({
     avatar: 0,
     permission: UserPermission.Normal,
     ip: '::1',
+    is_dark_mode: false,
     last_sign_at: new Date().toString(),
     register_at: new Date().toString(),
     verified: true,
@@ -69,7 +71,7 @@ test('search reports', async () => {
   )
 })
 
-test('empty reporter or texture uploader', async () => {
+test('empty reporter or texture uploader', () => {
   const report = { ...fixture, texture_uploader: null, informer: null }
   fetch.get.mockResolvedValue(createPaginator([report]))
 

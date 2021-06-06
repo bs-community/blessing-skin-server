@@ -18,6 +18,7 @@ const fixture: Readonly<User> = Object.freeze<User>({
   avatar: 0,
   permission: UserPermission.Normal,
   ip: '::1',
+  is_dark_mode: false,
   last_sign_at: new Date().toString(),
   register_at: new Date().toString(),
   verified: true,
