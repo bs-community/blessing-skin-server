@@ -19,6 +19,9 @@ const ActionButton = styled.a`
   transition-property: color;
   transition-duration: 0.3s;
   color: #000;
+  .dark-mode & {
+    color: #fff;
+  }
   &:hover {
     color: #999;
   }

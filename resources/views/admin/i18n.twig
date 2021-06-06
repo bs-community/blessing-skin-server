@@ -24,7 +24,7 @@
               </div>
             {% endif %}
             {{ csrf_field() }}
-            <div class="container-fluid my-4 px-2">
+            <div class="container-fluid my-4 px-4">
               <div class="row mb-3">
                 <div class="col-sm-3">{{ trans('admin.i18n.group') }}</div>
                 <div class="col-sm-9">
@@ -54,11 +54,9 @@
           </div>
         </div>
       </form>
-      <div class="callout callout-info">
-        <a href="https://blessing.netlify.com/ui-text.html" target="_blank">
-          {{ trans('admin.i18n.tip') }}
-        </a>
-      </div>
+      <a class="btn btn-block btn-outline-info" href="https://blessing.netlify.com/ui-text.html" target="_blank">
+        {{ trans('admin.i18n.tip') }}
+      </a>
     </div>
   </div>
 {% endblock %}

@@ -80,7 +80,9 @@ const Viewer: React.FC<Props> = (props) => {
   const [paused, setPaused] = useState(false)
   const [running, setRunning] = useState(false)
   const [reset, setReset] = useState(0)
-  const [background, setBackground] = useState('#fff')
+  const [background, setBackground] = useState(() =>
+    document.body.classList.contains('dark-mode') ? '#6c757d' : '#fff',
+  )
   const [bgPicture, setBgPicture] = useState(-1)
 
   const indicator = (() => {

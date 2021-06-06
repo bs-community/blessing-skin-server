@@ -13,8 +13,14 @@ interface ChartData {
 }
 
 async function createChart(el: HTMLDivElement) {
+  const isDarkMode = document.body.classList.contains('dark-mode')
+  const textColor = isDarkMode ? '#fff' : '#000'
+
   const chart = echarts.init(el, void 0, { renderer: 'svg' })
   chart.setOption({
+    textStyle: {
+      color: textColor,
+    },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -27,6 +33,9 @@ async function createChart(el: HTMLDivElement) {
     ],
     legend: {
       data: [],
+      textStyle: {
+        color: textColor,
+      },
     },
     xAxis: [
       {

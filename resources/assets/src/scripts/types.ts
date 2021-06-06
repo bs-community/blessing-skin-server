@@ -7,6 +7,7 @@ export type User = {
   avatar: number
   permission: UserPermission
   ip: string
+  is_dark_mode: boolean
   last_sign_at: string
   register_at: string
   verified: boolean

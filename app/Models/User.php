@@ -20,6 +20,7 @@ use Lorisleiva\LaravelSearchString\Concerns\SearchString;
  * @property int         $score
  * @property int         $permission
  * @property string      $ip
+ * @property bool        $is_dark_mode
  * @property string      $last_sign_at
  * @property string      $register_at
  * @property bool        $verified
@@ -53,6 +54,7 @@ class User extends Authenticatable
         'avatar' => 'integer',
         'permission' => 'integer',
         'verified' => 'bool',
+        'is_dark_mode' => 'bool',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -65,6 +67,7 @@ class User extends Authenticatable
         'last_sign_at' => ['date' => true],
         'register_at' => ['date' => true],
         'verified' => ['boolean' => true],
+        'is_dark_mode' => ['boolean' => true],
     ];
 
     public function isAdmin(): bool

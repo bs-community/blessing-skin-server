@@ -5,7 +5,7 @@
     <title>{% block title %}{% endblock %} - {{ site_name }}</title>
   </head>
 
-  <body class="hold-transition layout-top-nav">
+  <body class="{{ dark_mode ? 'dark-mode' : '' }} hold-transition layout-top-nav">
     <div class="wrapper">
       <nav class="main-header navbar navbar-expand navbar-{{ navbar_color }} navbar-{{ color_mode }} ml-0">
         <div class="container">

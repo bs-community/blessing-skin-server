@@ -131,4 +131,15 @@ describe('background', () => {
       baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
     ).toStartWith('url')
   })
+
+  it('default for dark mode', () => {
+    document.body.classList.add('dark-mode')
+
+    const { baseElement } = render(<Viewer isAlex={false} />)
+    expect(
+      baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
+    ).toBe('rgb(108, 117, 125)')
+
+    document.body.classList.remove('dark-mode')
+  })
 })
