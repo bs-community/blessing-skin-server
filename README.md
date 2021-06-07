@@ -32,7 +32,7 @@ Blessing Skin is an open-source project written in PHP, which means you can depl
   - Score system for preventing evil requests
 - Incredibly extensible
   - Plenty of plugins available
-  - Integration with Authme/CrazyLogin/Discuz (available as plugin)
+  - Integration with Authme/Discuz (available as plugin)
   - Support custom Yggdrasil API authentication (available as plugin)
 
 ## Requirements
