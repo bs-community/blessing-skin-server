@@ -1,19 +1,19 @@
 ---
 auth:
-  login: Log In
-  loggingIn: Logging In
+  login: Anmeldung
+  loggingIn: Anmeldung erfolgt
   tooManyFails:
-    captcha: You fails too many times! Please enter the CAPTCHA.
-    recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
-  emptyEmail: Empty email address.
-  invalidConfirmPwd: Confirming password is not equal with password.
+    captcha: Zu viele falsche Anmeldungen! Bitte gib das CAPTCHA ein.
+    recaptcha: Zu viele falsche Anmeldungen! Bitte gib das reCAPTCHA ein.
+  emptyEmail: Leere E-Mail-Adresse.
+  invalidConfirmPwd: Die Passwörter stimmen nicht überein.
   emptyNickname: Empty nickname.
-  register: Register
-  registering: Registering
-  send: Send
-  sending: Sending
-  reset: Reset
-  resetting: Resetting
+  register: Registrieren
+  registering: Registrierung läuft
+  send: Senden
+  sending: Senden...
+  reset: Zurücksetzen
+  resetting: Wird zurückgesetzt...
   nickname: Nickname
   player-name: Minecraft player name
   email: Email
