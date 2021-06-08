@@ -92,11 +92,11 @@ size:
   array: ':attribute muss genau :size Elemente haben.'
 starts_with: ':attribute muss mit einem der folgenden Elemente beginnen: :values.'
 string: ':attribute muss eine Zeichenfolge sein.'
-timezone: 'The :attribute must be a valid zone.'
-unique: 'The :attribute has already been taken.'
-uploaded: 'The :attribute failed to upload.'
-url: 'The :attribute format is invalid.'
-uuid: 'The :attribute must be a valid UUID.'
+timezone: ':attribute muss eine gültige Zeitzone sein.'
+unique: ':attribute ist schon vergeben.'
+uploaded: ':attribute konnte nicht hochgeladen werden.'
+url: ':attribute Format ungültig.'
+uuid: ':attribute muss eine gültige UUID sein.'
 #--------------------------------------------------------------------------
 #Custom Validation Language Lines
 #--------------------------------------------------------------------------
@@ -113,9 +113,9 @@ uuid: 'The :attribute must be a valid UUID.'
 #with something more reader friendly such as E-Mail Address instead
 #of "email". This simply helps us make messages a little cleaner.
 attributes:
-  name: name
-  player_name: player name
-  identification: email or player name
+  name: Name
+  player_name: Spielername
+  identification: E-Mail oder Spielername
   email: E-Mail
   password: Passwort
   password_confirmation: 'Passwort bestätigen'
