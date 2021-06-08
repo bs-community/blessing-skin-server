@@ -32,7 +32,7 @@ auth:
 skinlib:
   private: Private
   anonymous: Bitte zuerst anmelden.
-  reset: Reset Filter
+  reset: Filter zurücksetzen
   addToCloset: Zum Kleiderschrank hinzufügen
   removeFromCloset: Aus Kleiderschrank entfernen
   setItemName: Benenne diese Textur
@@ -48,17 +48,17 @@ skinlib:
     alex: (Alex)
     cape: (Cape)
     uploader: 'Benutzer (UID = :uid) hochgeladen'
-    allUsers: All Users
+    allUsers: Alle Nutzer
   sort:
     title: Anordnen nach
     time: Neueste
     likes: Beliebteste
   emptyTextureName: Leerer Texturname.
   emptyUploadFile: Sie haben noch keine Dateien hochgeladen.
-  fileExtError: 'Error: Textures should be PNG files.'
+  fileExtError: 'Fehler: Texturen sollten PNG-Dateien sein.'
   uploading: Uploading
-  setAsPrivate: Set as Private
-  setAsPublic: Set as Public
+  setAsPrivate: Auf Privat stellen
+  setAsPublic: Auf Öffentlich stellen
   setPublicNotice: Sure to set this as public texture?
   setPrivateNotice: Sure to set this as private texture?
   deleteNotice: Are you sure to delete this texture?
@@ -66,27 +66,27 @@ skinlib:
   upload:
     texture-name: Texture Name
     texture-type: Texture Type
-    select-file: Select File
+    select-file: Datei auswählen
     privacy-notice: Prevent it from being visible at skin library.
     set-as-private: Make it Private
-    button: Upload
-    cost: It costs you about :score score.
+    button: Hochladen
+    cost: Dies kostet dich :score Punkte.
     award: You'll be awarded :score score(s) by uploading public texture.
   show:
-    anonymous: You must login to use closets
+    anonymous: Sie müssen sich anmelden, um den Kleiderschrank zu verwenden
     likes: People who like this
     detail: Details
-    name: Texture Name
-    edit: Edit
-    model: Applicable Model
-    size: File Size
-    uploader: Uploader
-    upload-at: Upload At
-    download: Download
-    delete-texture: Delete Texture
+    name: Texturname
+    edit: bearbeiten
+    model: Modell
+    size: Dateigröße
+    uploader: Hochgeladen von
+    upload-at: Hochgeladen am
+    download: Herunterladen
+    delete-texture: Textur löschen
     manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
   report:
-    title: Report
+    title: Melden
     reason: Tell us reason please.
     positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
     negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
@@ -96,12 +96,12 @@ user:
   timeUnitMin: min
   emptyClosetMsg: >-
     <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
-  renameItem: Rename item
-  removeItem: Remove from closet
-  setAsAvatar: Set as avatar
-  viewInSkinlib: View in skin library
-  switch2dPreview: Switch to 2D Preview
-  switch3dPreview: Switch to 3D Preview
+  renameItem: Eintrag umbenennen
+  removeItem: Aus Kleiderschrank entfernen
+  setAsAvatar: Als Avatar festlegen
+  viewInSkinlib: In der Skingallerie anzeigen
+  switch2dPreview: Zur 2D-Vorschau wechseln
+  switch3dPreview: Wechsel zur Vorschau
   removeFromClosetNotice: Sure to remove this texture from your closet?
   emptySelectedTexture: Kein Textur ausgewählt.
   renameClosetItem: 'Gib einen neuen Namen für dieses Element ein:'
@@ -110,10 +110,10 @@ user:
   deletePlayer: Sure to delete this player?
   deletePlayerNotice: It's permanent. No backups.
   chooseClearTexture: Choose texture types you want to clear
-  noClearChoice: You haven't choose any types
-  setAvatar: Sure to set this as your avatar?
-  setAvatarNotice: The head segment of skin will bu used.
-  resetAvatarConfirm: Are you sure to reset your avatar?
+  noClearChoice: Kein Typ ausgewählt
+  setAvatar: Sind Sie sicher, dies als Ihr Avatar zu setzen?
+  setAvatarNotice: Das Kopfsegment des Skins wird verwendet.
+  resetAvatarConfirm: Möchten Sie Ihren Avatar wirklich zurücksetzen?
   typeToSearch: Suchen…
   useAs: Anwenden...
   resetSelected: Ausgewählte löschen
@@ -138,8 +138,8 @@ user:
     texture-empty: Nothing
   verification:
     title: Verifiziere dein Konto
-    message: You must verify your email address before using the skin hosting service. Haven't received the email?
-    resend: Click here to send again.
+    message: Du musst deine E-Mail-Adresse verifizieren, bevor du den Skin Hosting-Dienst nutzen kannst. Du hast die E-Mail noch nicht erhalten?
+    resend: Klicke hier, um die Bestätigungsmail erneut zu senden.
     sending: Wird gesendet...
   oauth:
     id: Client-ID
@@ -175,10 +175,10 @@ admin:
   verified: Verifiziert
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this player.
-  changeTexture: Change Textures
-  changePlayerName: Change Player Name
-  changeOwner: Change Owner
-  textureType: Texture Type
+  changeTexture: Texturen ändern
+  changePlayerName: Spielernamen ändern
+  changeOwner: Besitzer ändern
+  textureType: Texturen-Typ
   deletePlayer: Löschen
   changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
   deletePlayerNotice: Are you sure to delete this player? It' permanent.
@@ -214,8 +214,8 @@ admin:
     empty: (Leer)
     modify: Ändern
     delete: Löschen
-    updating: 'Please type new text:'
-    confirmDelete: Are you sure? This is irreversible.
+    updating: 'Bitte geben Sie einen neuen Text ein:'
+    confirmDelete: Sind Sie sicher? Diese Aktion ist unwiderruflich.
 report:
   tid: Textur ID
   reporter: Gemeldet von
