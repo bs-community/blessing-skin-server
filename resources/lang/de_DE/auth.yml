@@ -70,8 +70,8 @@ oauth:
       read: Ermöglicht der App, den Kleiderschrank zu sehen.
       readwrite: Ermöglicht der App, den Kleiderschrank zu ändern.
     users-management:
-      read: Allows the app to read site's users.
-      readwrite: Allows the app to create, read, update and delete site's users.
+      read: Ermöglicht der App, das Benutzerprofil zu lesen.
+      readwrite: Ermöglicht der App, das Benutzerprofil zu erstellen, zu lesen, zu aktualisieren und zu löschen.
     players-management:
       read: Allows the app to read site's players.
       readwrite: Allows the app to create, read, update and delete site's players.
