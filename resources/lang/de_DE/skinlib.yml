@@ -20,11 +20,11 @@ delete:
 privacy:
   success: Die Textur ist auf :privacy gesetzt.
 rename:
-  success: The texture was renamed to :name successfully.
+  success: Die Textur wurde erfolgreich in :name umbenannt.
 model:
-  success: The texture's model was changed to :model successfully.
-no-permission: You have no permission to moderate this texture.
-non-existent: No such texture.
+  success: Das Modell der Textur wurde erfolgreich in :model geändert.
+no-permission: Sie haben keine Zugriffsberechtigung für diese Textur.
+non-existent: Textur nicht gefunden.
 report:
   duplicate: Sie haben diese Textur bereits gemeldet. Die Administratoren werden sie so bald wie möglich überprüfen. Sie können auch den Status Ihres Berichts im User Center verfolgen.
   success: Vielen Dank für Ihre Meldung! Die Administratoren werden sie so bald wie möglich überprüfen.
