@@ -103,8 +103,8 @@ user:
   switch2dPreview: Switch to 2D Preview
   switch3dPreview: Switch to 3D Preview
   removeFromClosetNotice: Sure to remove this texture from your closet?
-  emptySelectedTexture: No texture is selected.
-  renameClosetItem: 'Set a new name for this item:'
+  emptySelectedTexture: Kein Textur ausgewählt.
+  renameClosetItem: 'Gib einen neuen Namen für dieses Element ein:'
   changePlayerName: 'Please enter the player name:'
   emptyPlayerName: Empty player name.
   deletePlayer: Sure to delete this player?
@@ -114,19 +114,19 @@ user:
   setAvatar: Sure to set this as your avatar?
   setAvatarNotice: The head segment of skin will bu used.
   resetAvatarConfirm: Are you sure to reset your avatar?
-  typeToSearch: Type to search
-  useAs: Apply...
-  resetSelected: Clear selected
+  typeToSearch: Suchen…
+  useAs: Anwenden...
+  resetSelected: Ausgewählte löschen
   closet:
-    upload: Upload Texture
+    upload: Textur hochladen
     use-as:
       title: Which player should be applied to?
       empty: It seems that you own no player...
   used:
     title: Resources Used
     players: Registered players
-    storage: Storage used
-  cur-score: Current Score
+    storage: Speichernutzung
+  cur-score: Aktuelle Punktzahl
   score-notice: Click the score to show introduction.
   sign: Sign
   player:
