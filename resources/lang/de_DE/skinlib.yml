@@ -11,14 +11,14 @@ upload:
   name-rule-regexp: Benutzerdefinierte Namensregeln werden als :regexp angewendet
   private-score-notice: Es kostet mehr Punkte, dies als privat zu setzen. Es werden dir :score Punkte pro KB-Speicher berechnet.
   invalid-size: Ungültige :type Datei (Breite :width, Höhe :height)
-  invalid-hd-skin: Invalid HD skin (width and height should be divisible by 32)
-  lack-score: You don't have enough score to upload this texture.
-  repeated: The texture is already uploaded by someone else. You can add it to your closet directly.
-  success: Texture :name was uploaded successfully.
+  invalid-hd-skin: Der HD-Skin hat die falsche Größe (Breite und Höhe müssen durch 32 teilbar sein)
+  lack-score: Du hast nicht genug Punkte, um diese Textur hochzuladen.
+  repeated: Die Textur wurde bereits von jemand anderem hochgeladen. Du kannst sie direkt zu deinem Kleiderschrank hinzufügen.
+  success: Die Texture :name wurde erfolgreich hochgeladen.
 delete:
-  success: The texture was deleted successfully.
+  success: Die Textur wurde gelöscht.
 privacy:
-  success: The texture was set to :privacy successfully.
+  success: Die Textur ist auf :privacy gesetzt.
 rename:
   success: The texture was renamed to :name successfully.
 model:
