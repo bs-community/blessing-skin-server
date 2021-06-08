@@ -123,12 +123,12 @@ user:
       title: Which player should be applied to?
       empty: It seems that you own no player...
   used:
-    title: Resources Used
+    title: Verwendete Ressourcen
     players: Registered players
     storage: Speichernutzung
   cur-score: Aktuelle Punktzahl
-  score-notice: Click the score to show introduction.
-  sign: Sign
+  score-notice: Klicken Sie auf die Punktzahl, für weitere Informationen.
+  sign: Punkte einsammeln
   player:
     operation: Operations
     edit-pname: Edit Name
@@ -140,28 +140,28 @@ user:
     title: Verify Your Account
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
     resend: Click here to send again.
-    sending: Sending...
+    sending: Wird gesendet...
   oauth:
-    id: Client ID
-    name: App Name
+    id: Client-ID
+    name: App-Name
     secret: Client Secret
     redirect: Callback URL
-    modifyName: Modify app name.
-    modifyUrl: Modify callback URL.
-    create: Create New App
-    confirmRemove: Are you sure to delete this app? You won't be able to undo this.
+    modifyName: Appnamen ändern.
+    modifyUrl: Callback URL ändern.
+    create: Neue Anwendung erstellen
+    confirmRemove: Sind Sie sicher, diese App löschen zu wollen? Sie können dies nicht rückgängig machen.
 admin:
   operationsTitle: Operations
-  permission: Permission
-  deleteUser: Delete
-  changeEmail: Edit Email
-  newUserEmail: 'Please enter the new email:'
-  verification: Email Verification
-  toggleVerification: Toggle Verification Status
+  permission: Berechtigung
+  deleteUser: Löschen
+  changeEmail: E-Mail-Adresse bearbeiten
+  newUserEmail: 'Bitte neue E-Mail Adresse eingeben:'
+  verification: E-Mail-Adresse bestätigen
+  toggleVerification: Bestätigungsstatus umschalten
   changeNickName: Edit Nickname
   newUserNickname: 'Please enter the new nickname:'
-  changePassword: Edit Password
-  newUserPassword: 'Please enter the new password:'
+  changePassword: Passwort ändern
+  newUserPassword: 'Bitte geben Sie ein neues Passwort ein:'
   changeScore: Edit Score
   newScore: 'Please enter the new score:'
   changePermission: Change permission
@@ -171,8 +171,8 @@ admin:
   normal: Normal
   admin: Admin
   superAdmin: Super Admin
-  unverified: Unverified
-  verified: Verified
+  unverified: Unverifiziert
+  verified: Verifiziert
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this player.
   changeTexture: Change Textures
@@ -193,10 +193,10 @@ admin:
   pluginReadme: Read Me
   pluginDescription: Description
   pluginDependencies: Dependencies
-  installPlugin: Install
-  pluginInstalling: Installing...
-  updatePlugin: Update
-  pluginUpdating: Updating...
+  installPlugin: Installieren
+  pluginInstalling: Installiere...
+  updatePlugin: Akutalisieren
+  pluginUpdating: Aktualisierung läuft...
   confirmUpdate: Are you sure to update ":plugin" from :old to :new?
   enablePlugin: Enable
   disablePlugin: Disable
@@ -231,7 +231,7 @@ report:
   reject: Reject
 general:
   skin: Skin
-  cape: Cape
+  cape: Umhang
   fatalError: Fatal Error
   confirmLogout: Sure to log out?
   confirm: OK
@@ -242,32 +242,32 @@ general:
   tip: Tip
   noResult: No result.
   texturePreview: Texture Preview
-  walk: Walk
-  run: Run
+  walk: Gehen
+  run: Laufen
   rotation: Rotation
-  pause: Pause
-  reset: Reset
-  skinlib: Skin Library
-  wait: Please wait...
-  csrf: This page is out-dated. Please refresh it.
+  pause: Pausieren
+  reset: Zurücksetzen
+  skinlib: Gallerie
+  wait: Bitte warten...
+  csrf: Diese Seite ist veraltet. Bitte aktualisieren Sie sie.
   user:
-    email: Email
+    email: E-Mail-Adresse
     nickname: Nick Name
-    score: Score
-    register-at: Registered At
+    score: Punkte
+    register-at: Registriert am
   player:
-    owner: Owner
-    player-name: Player Name
-    previews: Texture Previews
-    last-modified: Last Modified
+    owner: Besitzer
+    player-name: Spielername
+    previews: Texturvorschau
+    last-modified: Letzte Änderung
 colors:
-  black: Black
-  white: White
-  gray: Gray
-  prev: Previous Background
-  next: Next Background
+  black: Schwarz
+  white: Weiß
+  gray: Grau
+  prev: Vorheriger Hintergrund
+  next: Nächster Hintergrund
 vendor:
   datatable:
-    search: Search
-    prev: Prev
-    next: Next
+    search: Suchen
+    prev: Vorheriges
+    next: Nächstes
