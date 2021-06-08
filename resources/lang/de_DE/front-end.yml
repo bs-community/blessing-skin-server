@@ -15,46 +15,46 @@ auth:
   reset: Zurücksetzen
   resetting: Wird zurückgesetzt...
   nickname: Nickname
-  player-name: Minecraft player name
-  email: Email
-  identification: Email or player name
-  password: Password
+  player-name: Minecraft-Spielername
+  email: E-Mail-Adresse
+  identification: E-Mail oder Spielername
+  password: Passwort
   captcha: CAPTCHA
-  change-captcha: Click to change CAPTCHA image.
-  login-link: Already registered? Log in here.
-  forgot-link: Forgot password?
-  keep: Remember me
-  repeat-pwd: Repeat your password
+  change-captcha: Klicken, für ein neues CAPTCHA-Bild.
+  login-link: Bereits registriert? Hier anmelden.
+  forgot-link: Passwort vergessen?
+  keep: Angemeldet bleiben
+  repeat-pwd: Passwort wiederholen
   nickname-intro: Whatever you like expect special characters
   player-name-intro: Player name in Minecraft, can be changed later
   forgot:
-    login-link: I do remember it
+    login-link: Ich erinnere mich noch
 skinlib:
   private: Private
-  anonymous: Please login first.
+  anonymous: Bitte zuerst anmelden.
   reset: Reset Filter
-  addToCloset: Add to closet
-  removeFromCloset: Remove from closet
-  setItemName: Set a name for this texture
+  addToCloset: Zum Kleiderschrank hinzufügen
+  removeFromCloset: Aus Kleiderschrank entfernen
+  setItemName: Benenne diese Textur
   applyNotice: You can apply it to player at your closet
-  emptyItemName: Empty texture name.
-  setNewTextureName: 'Please enter the new texture name:'
-  emptyNewTextureName: Empty new texture name.
-  seeMyUpload: My Uploads
-  apply: Apply
+  emptyItemName: Leerer Texturname.
+  setNewTextureName: 'Lege einen neuen Namen für diese Textur fest:'
+  emptyNewTextureName: Leerer Texturname.
+  seeMyUpload: Meine Uploads
+  apply: Anwenden
   filter:
-    skin: (Any Model)
+    skin: (Automatisch)
     steve: (Steve)
     alex: (Alex)
     cape: (Cape)
-    uploader: 'User (UID = :uid) Uploaded'
+    uploader: 'Benutzer (UID = :uid) hochgeladen'
     allUsers: All Users
   sort:
-    title: Sort
-    time: Latest
-    likes: Most Likes
-  emptyTextureName: Empty texture name.
-  emptyUploadFile: You have not uploaded any file.
+    title: Anordnen nach
+    time: Neueste
+    likes: Beliebteste
+  emptyTextureName: Leerer Texturname.
+  emptyUploadFile: Sie haben noch keine Dateien hochgeladen.
   fileExtError: 'Error: Textures should be PNG files.'
   uploading: Uploading
   setAsPrivate: Set as Private
