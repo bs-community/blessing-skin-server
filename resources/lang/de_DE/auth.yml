@@ -73,13 +73,13 @@ oauth:
       read: Ermöglicht der App, das Benutzerprofil zu lesen.
       readwrite: Ermöglicht der App, das Benutzerprofil zu erstellen, zu lesen, zu aktualisieren und zu löschen.
     players-management:
-      read: Allows the app to read site's players.
-      readwrite: Allows the app to create, read, update and delete site's players.
+      read: Ermöglicht der App, die hinzugefügten Spielerdaten zu lesen.
+      readwrite: Ermöglicht der App, Spielerdaten zu erstellen, zu lesen, zu aktualisieren und zu löschen.
     closet-management:
-      read: Allows the app to read user's of your site closet items.
-      readwrite: Allows the app to create, read, update and delete user's closet items.
+      read: Ermöglicht der App, den Kleiderschrank zu sehen.
+      readwrite: Ermöglicht der App, Skins hinzuzufügen, zu ändern, und zu löschen.
     reports-management:
-      read: Allows the app to read user's reports.
-      readwrite: Allows the app to read and review user's reports.
+      read: Ermöglicht der App, Meldungen zu lesen.
+      readwrite: Ermöglicht der App, Meldungen des Benutzers zu lesen und zu überprüfen.
 email: E-Mail-Adresse
 register-link: Registrieren
