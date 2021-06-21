@@ -1,12 +1,12 @@
 ---
-option-saved: Option saved.
+option-saved: Optionen gespeichert.
 homepage:
-  title: Homepage
+  title: Startseite
   home_pic_url:
-    title: Picture URL at Homepage
+    title: Bild-URL auf der Startseite
     hint: Path relative to homepage or full URL, leave empty to use default image.
   favicon_url:
-    title: Website Icon
+    title: Favicon
     hint: Path relative to public/ or full URL.
     description: The given image must have same width and height (leave blank to use default icon).
   transparent_navbar:

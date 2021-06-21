@@ -45,7 +45,7 @@ bind:
 verify:
   title: Vérification de l'adresse e-mail
   invalid: Lien invalide.
-  not-matched: Email doesn't match.
+  not-matched: Le nom de courriel ne correspond pas.
 validation:
   user: Cet utilisateur n'existe pas.
   password: Mot de passe incorrect.
@@ -80,6 +80,6 @@ oauth:
       readwrite: Allows the app to create, read, update and delete user's closet items.
     reports-management:
       read: Allows the app to read user's reports.
-      readwrite: Allows the app to read and review user's reports.
+      readwrite: Autoriser l'application à lire et à examiner les rapports des utilisateurs.
 email: Adresse e-mail
 register-link: Créer un nouveau compte

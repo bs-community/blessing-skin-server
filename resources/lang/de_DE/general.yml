@@ -1,17 +1,17 @@
 ---
-index: Homepage
-skinlib: Skin Library
+index: Startseite
+skinlib: Gallerie
 user-center: User Center
-logout: Log Out
-login: Log In
-register: Register Now
-profile: User Profile
-admin-panel: Admin Panel
-explore: Explore
+logout: Abmelden
+login: Anmelden
+register: Registrieren
+profile: Kontoeinstellungen
+admin-panel: Administration
+explore: Entdecken
 manage: Manage
 anonymous: Guest
 back: Back
-dashboard: Dashboard
+dashboard: Übersicht
 my-closet: Closet
 my-reports: Reports
 developer: Advanced
@@ -28,32 +28,32 @@ options: Options
 score-options: Score Options
 res-options: Resource Options
 status: Status
-check-update: Check Update
-download-update: Download Updates
-close: Close
+check-update: Nach Updates suchen
+download-update: Aktualisierung herunterladen
+close: Schließen
 skin: Skin
-cape: Cape
-submit: Submit
-cancel: Cancel
+cape: Umhang
+submit: Speichern
+cancel: Abbrechen
 yes: true
 no: false
-op-success: Operated successfully.
+op-success: Gespeichert.
 unknown: Unknown
 notice: Notice
 illegal-parameters: Illegal parameters.
 private: Private
-public: Public
-unexistent-user: No such user.
-player-banned: The owner of this player has been banned.
-texture-deleted: The requested texture has been deleted.
+public: Öffentlich
+unexistent-user: Benutzer nicht gefunden.
+player-banned: Das Konto dieses Spielers wurde gebannt.
+texture-deleted: Die angeforderte Textur wurde gelöscht.
 user:
-  email: Email
-  nickname: Nickname
-  password: Password
-  score: Score
-  register-at: Registered At
+  email: E-Mail-Adresse
+  nickname: Benutzername
+  password: Passwort
+  score: Punkte
+  register-at: Registriert am
 player:
-  owner: Owner
+  owner: Besitzer
   player-name: Player Name
-  previews: Texture Previews
-  last-modified: Last Modified
+  previews: Texturvorschau
+  last-modified: Letzte Änderung

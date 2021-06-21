@@ -1,30 +1,30 @@
 ---
 general:
-  upload-new-skin: Upload new skin
+  upload-new-skin: Neuen Skin hochladen
 show:
-  title: Texture Details
-  deleted: The requested texture was already deleted.
-  private: The requested texture is private and only visible to the uploader and admins.
+  title: Texturdetails
+  deleted: Diese Textur wurde bereits gelöscht.
+  private: Die angeforderte Textur ist privat und nur für den Uploader sichtbar.
 upload:
-  title: Upload Texture
-  name-rule: Less than 32 characters and must not contain any special one.
-  name-rule-regexp: Custom name rules are applied as :regexp
-  private-score-notice: It will spend you more scores for setting it as private. You will be charged :score scores for per KB storage.
-  invalid-size: Invalid :type file (width :width, height :height)
-  invalid-hd-skin: Invalid HD skin (width and height should be divisible by 32)
-  lack-score: You don't have enough score to upload this texture.
-  repeated: The texture is already uploaded by someone else. You can add it to your closet directly.
-  success: Texture :name was uploaded successfully.
+  title: Textur hochladen
+  name-rule: Weniger als 32 Zeichen und darf keine Sonderzeichen enthalten.
+  name-rule-regexp: Benutzerdefinierte Namensregeln werden als :regexp angewendet
+  private-score-notice: Es kostet mehr Punkte, dies als privat zu setzen. Es werden dir :score Punkte pro KB-Speicher berechnet.
+  invalid-size: Ungültige :type Datei (Breite :width, Höhe :height)
+  invalid-hd-skin: Der HD-Skin hat die falsche Größe (Breite und Höhe müssen durch 32 teilbar sein)
+  lack-score: Du hast nicht genug Punkte, um diese Textur hochzuladen.
+  repeated: Die Textur wurde bereits von jemand anderem hochgeladen. Du kannst sie direkt zu deinem Kleiderschrank hinzufügen.
+  success: Die Texture :name wurde erfolgreich hochgeladen.
 delete:
-  success: The texture was deleted successfully.
+  success: Die Textur wurde gelöscht.
 privacy:
-  success: The texture was set to :privacy successfully.
+  success: Die Textur ist auf :privacy gesetzt.
 rename:
-  success: The texture was renamed to :name successfully.
+  success: Die Textur wurde erfolgreich in :name umbenannt.
 model:
-  success: The texture's model was changed to :model successfully.
-no-permission: You have no permission to moderate this texture.
-non-existent: No such texture.
+  success: Das Modell der Textur wurde erfolgreich in :model geändert.
+no-permission: Sie haben keine Zugriffsberechtigung für diese Textur.
+non-existent: Textur nicht gefunden.
 report:
-  duplicate: You have already reported this texture. The administrators will review it as soon as possible. You can also track the status of your report at User Center.
-  success: Thanks for reporting! The administrators will review it as soon as possible.
+  duplicate: Sie haben diese Textur bereits gemeldet. Die Administratoren werden sie so bald wie möglich überprüfen. Sie können auch den Status Ihres Berichts im User Center verfolgen.
+  success: Vielen Dank für Ihre Meldung! Die Administratoren werden sie so bald wie möglich überprüfen.

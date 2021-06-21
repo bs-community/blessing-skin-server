@@ -3,11 +3,11 @@ general:
   upload-new-skin: Ajouter un nouveau skin
 show:
   title: Détails de la texture
-  deleted: The requested texture was already deleted.
-  private: The requested texture is private and only visible to the uploader and admins.
+  deleted: La texture demandée a déjà été supprimée supprimée.
+  private: La texture demandée est privée et visible uniquement par le chargeur et les administrateurs.
 upload:
   title: Ajouter la texture
-  name-rule: Less than 32 characters and must not contain any special one.
+  name-rule: Moins de 32 caractères et ne doit pas contenir de caractères spéciaux.
   name-rule-regexp: Custom name rules are applied as :regexp
   private-score-notice: It will spend you more scores for setting it as private. You will be charged :score scores for per KB storage.
   invalid-size: Invalid :type file (width :width, height :height)

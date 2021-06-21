@@ -1,17 +1,17 @@
 ---
 features:
-  title: Features
+  title: Funktionen
   first:
     icon: fa-users
-    name: Multi Player
-    desc: You can add multiple players within one registered account.
+    name: Multi Accounts
+    desc: Verwalte alle Minecraft-Accounts mit nur einem LittleSkin-Konto.
   second:
     icon: fa-share-alt
-    name: Sharing
-    desc: Explore the skin library, send a "like" and share them with your friends.
+    name: Riesige Auswahl
+    desc: Erkunde die Skin Gallerie, entdecke deine Favoriten und teile sie mit deinen Freunden.
   third:
     icon: fa-cloud
-    name: Free
-    desc: It is free forever. No ads. No subscription fees.
-introduction: ':sitename provides the service of uploading and hosting Minecraft skins. By coordinating with skin mods (e.g. CustomSkinLoader), you can choose skin and cape for your game character, and make it visible to other players in Minecraft.'
-start: Join Us
+    name: Kostenlos
+    desc: Für immer kostenlos. Ohne Werbung. Ohne Abos.
+introduction: ':sitename bietet einen Service zum Hochladen und Hosten von Minecraft-Skins. Durch die Installation von Skinmods (z.B. CustomSkinLoader), kannst du Skins und Capes für deinen Spielcharakter auswählen und andere Spieler können deinen Skin sehen.'
+start: Registrieren

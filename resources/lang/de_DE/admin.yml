@@ -1,138 +1,138 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
-  texture-uploads: Texture Uploads
-  user-registration: User Registration
+  total-users: Registrierte Nutzer
+  total-players: Spieler
+  total-textures: Hochgeladene Texturen
+  disk-usage: Speichernutzung
+  overview: Übersicht
+  texture-uploads: Hochgeladene Texturen
+  user-registration: Benutzerregistrierungen
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: Nachricht verfassen
+    success: Erfolgreich versandt!
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
-    email: Specified Email
-  title: Title
-  content: Content (Markdown is supported.)
+    title: EmpfängerIn
+    all: Alle Nutzer
+    normal: Einfache Benutzer
+    uid: Angegebene UID
+    email: Angegebene E-Mail
+  title: Betreff
+  content: Inhalt (Markdown wird unterstützt)
 users:
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
+    non-existent: Benutzer nicht gefunden.
+    no-permission: Sie haben keine Berechtigung diesen Nutzer zu Löschen.
     email:
-      success: Email changed successfully.
+      success: Die E-Mail-Adresse wurde erfolgreich geändert.
     verification:
-      success: Account verification status toggled successfully.
+      success: Bestätigungsstatus wurde erfolgreich geändert.
     nickname:
-      success: Nickname changed successfully.
+      success: Benutzername erfolgreich geändert.
     password:
-      success: Password changed successfully.
+      success: Kennwort erfolgreich geändert.
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: Punktestand erfolgreich geändert.
+    permission: Berechtigungen aktualisiert.
     delete:
-      success: The account has been deleted successfully.
+      success: Das Konto wurde erfolgreich gelöscht.
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: Sie haben keine Berechtigung diesen Nutzer zu Löschen.
   textures:
-    non-existent: No such texture tid.:tid
-    success: The textures of :player has been updated.
+    non-existent: Keine solche Textur tid.:tid
+    success: Die Texturen von :player wurden aktualisiert.
   name:
-    success: Player name has been updated to :player
+    success: Spielername wurde aktualisiert auf :player
   owner:
-    success: The player :player was transferred to user :user.
+    success: Der Spieler :player wurde an den Benutzer :user übertragen.
   delete:
-    success: The player has been deleted successfully.
+    success: Der Spieler wurde erfolgreich gelöscht.
 customize:
   change-color:
-    title: Change Theme Color
+    title: Designfarbe ändern
   colors:
-    navbar: Top Navigation Bar
+    navbar: Navigationsleiste
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: Seitenleiste (dunkel)
+      light: Seitenleiste (Licht)
 i18n:
-  add: Add New Language Line
-  added: Language line added.
-  updated: Language line updated.
-  deleted: Language line deleted.
-  group: Group
-  key: Key
+  add: Neue Sprache hinzufügen
+  added: Sprache hinzugefügt
+  updated: Sprache aktualisiert
+  deleted: Sprache gelöscht
+  group: Gruppe
+  key: Schlüssel
   text: Text
-  tip: How can I use this page?
+  tip: Wie kann ich diese Seite benutzen?
 status:
   info: Information
-  health: Health
+  health: Gesundheit
   bs:
     name: Blessing Skin
     version: Version
-    env: Application Environment
-    debug: Debugging or Not?
-    commit: Commit
+    env: Anwendungsumgebung
+    debug: Debuggen oder nicht?
+    commit: Änderung einreichen
     laravel: Laravel Version
   server:
     name: Server
     php: PHP Version
-    web: Web Server Software
-    os: OS
+    web: Webserver Software
+    os: Betriebssystem
   db:
-    name: Database
+    name: Datenbank
     type: Server
     host: Host
     port: Port
-    username: Username
-    database: Database
-    prefix: Table Prefix
-  plugins: Enabled Plugins (:amount)
+    username: DB-Benutzername
+    database: Datenbankstatus
+    prefix: Tabellen-Präfix
+  plugins: Aktivierte Plugins (:amount)
 plugins:
-  readme: Read Me
+  readme: Anleitung
   operations:
-    title: Operations
-    enabled: ':plugin has been enabled.'
+    title: Aufgaben
+    enabled: ':plugin wurde aktiviert.'
     unsatisfied:
-      notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The ":name" plugin is not enabled.'
-      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
-      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
-    disabled: ':plugin has been disabled.'
-    deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
-    no-readme-notice: The plugin doesn't contain a readme file.
-    not-found: No such plugin.
+      notice: Es gibt Konflikte oder unzufriedene Abhängigkeiten im Plugin, daher können wir es nicht aktivieren. Bitte installieren oder aktualisieren Sie die unten aufgeführten Plugins und deaktivieren Sie diese Konflikte.
+      disabled: '":name" Plugin ist nicht aktiviert.'
+      version: 'Die Version von ":title" erfüllt nicht die Einschränkung ":constraint".'
+      conflict: 'Das Plugin ":title" kann nicht gleichzeitig mit diesem Plugin ausgeführt werden.'
+    disabled: ':plugin wurde deaktiviert.'
+    deleted: Das Plugin wurde erfolgreich gelöscht.
+    no-config-notice: Das Plugin ist nicht installiert oder bietet keine Konfigurationsseite.
+    no-readme-notice: Das Plugin enthält keine Readme-Datei.
+    not-found: Plugin existiert nicht.
   market:
-    unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
-    connection-error: Unable to connect to the plugins registry. :error
-    non-existent: The plugin :plugin does not exist.
-    install-success: Plugin was installed.
+    unresolved: Es gibt Konflikte oder unzufriedene Abhängigkeiten im Plugin, daher können wir es nicht aktivieren. Bitte installieren oder aktualisieren Sie die unten aufgeführten Plugins und deaktivieren Sie diese Konflikte.
+    connection-error: Keine Verbindung zur Registry der Plugins. :error
+    non-existent: Das Plugin :plugin existiert nicht.
+    install-success: Plugin installiert.
 update:
-  complete: Update completed
+  complete: Aktualisierung abgeschlossen
   info:
-    title: Update Information
-    up-to-date: Already up-to-date.
-    available: New version available.
+    title: Update-Informationen
+    up-to-date: Bereits aktuell.
+    available: Neue Version verfügbar.
     versions:
-      latest: "Latest Version:"
-      current: "Current Version:"
-    check-github: Check GitHub Releases
-    button: Update Now
+      latest: "Neueste Version:"
+      current: "Aktuelle Version:"
+    check-github: GitHub Versionen prüfen
+    button: Jetzt aktualisieren
   cautions:
-    title: Cautions
-    link: check out this.
+    title: Warnungen
+    link: schaue dir das an.
     text: |
-      Please choose update source according to your host's network environment.
-      Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
-      To change the default update source,
+      Bitte wählen Sie die Updatequelle entsprechend der Netzwerkumgebung Ihres Hosts aus.
+      Langsame Verbindungen zwischen Updatequelle und Ihrem Host verlangsamen das Überprüfen und Herunterladen der Seite.
+      Um die Standard-Updatequelle zu ändern,
   errors:
-    connection: "Unable to access to current update source. Details: :error"
-    spec: Current update source is not supported.
-    php: Your PHP version is too low to update. Requires :version or later.
+    connection: "Zugriff auf die aktuelle Updatequelle nicht möglich. Details: :error"
+    spec: Aktuelle Updatequelle wird nicht unterstützt.
+    php: Ihre PHP-Version ist zu niedrig zum Aktualisieren. Benötigt :version oder neuer.
 download:
   errors:
-    download: 'Failed to download. Error: :error'
-    shasum: File validation failed. Please download again.
-    unzip: Failed to unpack files.
-invalid-action: Invalid action
+    download: 'Download fehlgeschlagen. Fehler: :error'
+    shasum: Dateiüberprüfung fehlgeschlagen. Bitte erneut herunterladen.
+    unzip: Fehler beim Entpacken der Dateien.
+invalid-action: Ungültiger Vorgang

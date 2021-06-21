@@ -1,85 +1,85 @@
 ---
 login:
-  title: Log In
-  message: Log in to manage your skin & players
-  success: Logged in successfully.
+  title: Anmeldung
+  message: Melden Sie sich an, um Ihren Skin & Ihre Spieler zu verwalten
+  success: Erfolgreich angemeldet.
 check:
-  anonymous: Illegal access. Please log in first.
-  verified: To access this page, you should verify your email address first.
-  admin: Only admins are permitted to access this page.
-  banned: You are banned on this site. Please contact the admin.
+  anonymous: Ungültiger Zugriff. Bitte melden Sie sich zuerst an.
+  verified: Um auf diese Seite zuzugreifen, bitte zuerst E-Mail-Adresse bestätigen.
+  admin: Nur Administratoren dürfen auf diese Seite zugreifen.
+  banned: Du bist auf dieser Seite gebannt. Bitte kontaktiere den Administrator.
 register:
-  title: Register
-  message: Welcome to :sitename!
-  success: Your account was registered. Redirecting...
-  max: You can't register more than :regs accounts.
+  title: Konto erstellen
+  message: Willkommen bei :sitename!
+  success: Konto wurde registriert. Weiterleitung...
+  max: Sie können nicht mehr als :regs Konten registrieren.
 forgot:
-  title: Forgot Password
-  message: We will send you an E-mail to verify.
-  disabled: Password resetting is not available.
-  frequent-mail: You click the send button too fast. Wait for some minutes.
-  unregistered: The email address is not registered.
-  success: Mail sent, please check your inbox. The link will be expired in 1 hour.
-  failed: Failed to send verification mail. :msg
-  ignore: If you haven't signed up on our site, please ignore this email. No unsubscribing is required.
-  reset: Reset your password
-  notice: This mail is sending automatically, no reponses will be sent if you reply.
+  title: Passwort vergessen
+  message: Wir senden Ihnen eine E-Mail zur Überprüfung.
+  disabled: Zurücksetzen des Passworts ist nicht verfügbar.
+  frequent-mail: Du klickst zu schnell auf den Senden-Button. Warte einige Minuten.
+  unregistered: Diese E-Mail-Adresse ist nicht registriert.
+  success: E-Mail gesendet, bitte überprüfen Sie Ihren Posteingang. Der Link wird in 1 Stunde abgelaufen.
+  failed: Verifizierungs-E-Mail konnte nicht versendet werden
+  ignore: Wenn Sie sich nicht auf unserer Seite angemeldet haben, ignorieren Sie bitte diese E-Mail. Es ist kein Abmelden erforderlich.
+  reset: Passwort zurücksetzen
+  notice: Diese E-Mail wurde automatisch gesendet. Bitte nicht antworten!
   mail:
-    title: Reset your password on :sitename
-    message: You are receiving this email because we received a password reset request for your account on :sitename.
-    reset: 'To reset your password, please visit: <a href=":url">:url</a>'
-    ignore: If you did not request a password reset, no further action is required.
+    title: Passworts zurücksetzen auf :sitename
+    message: Sie erhalten diese E-Mail, weil jemand versucht hat, Ihr Passwort zurückzusetzen.
+    reset: 'Um Ihr Passwort zurückzusetzen, besuchen Sie bitte: <a href=":url">:url</a>'
+    ignore: Wenn Sie keine Passwortzurücksetzung angefordert haben, ist keine weitere Aktion erforderlich.
 reset:
-  title: Reset Password
-  button: Reset
-  invalid: Invalid link.
-  expired: This link is expired.
-  message: ':username, reset your email address here.'
-  success: Password resetted successfully.
+  title: Passwort zurücksetzen
+  button: Zurücksetzen
+  invalid: Ungültiger Link.
+  expired: Dieser Link ist abgelaufen.
+  message: ':username, setze deine E-Mail-Adresse hier zurück.'
+  success: Passwort erfolgreich zurückgesetzt.
 bind:
-  title: Bind Email
-  button: Bind
-  message: You need to provide your email adderss to continue.
-  introduction: We won't send you any spam.
-  registered: The email address was already taken.
+  title: E-Mail verbinden
+  button: verbinden
+  message: Du musst deinen E-Mail-Addersse angeben, um fortfahren zu können.
+  introduction: Wir werden dir keinen Spam senden.
+  registered: Diese E-Mail-Adresse ist bereits vergeben.
 verify:
-  title: Email Verification
-  invalid: Invalid link.
-  not-matched: Email doesn't match.
+  title: E-Mail-Adresse bestätigen
+  invalid: Ungültiger Link.
+  not-matched: Die Email-Adresse stimmt nicht überein.
 validation:
-  user: No such user.
-  password: Wrong password.
+  user: Benutzer nicht gefunden.
+  password: Falsches Passwort.
 logout:
-  success: You are now logged out.
+  success: Du hast dich erfolgreich abgemeldet.
 oauth:
   authorization:
-    title: Authorization
-    introduction: A 3rd-party application ":name" is requesting permission to access your account.
-    button: Authorize
-    permissions: Permissions
+    title: Autorisierung
+    introduction: Eine Drittanbieter-Anwendung ":name" bittet um Erlaubnis, auf Ihr Konto zuzugreifen.
+    button: Autorisieren
+    permissions: Berechtigungen
   scope:
     user:
-      read: Sign you in and read your profile
+      read: Anmelden und Profil einstellen
     notification:
-      read: Allows the app to read your notifications.
-      readwrite: Allows the app to send notifications.
+      read: Ermöglicht der App, Ihre Benachrichtigungen zu lesen.
+      readwrite: Ermöglicht der App, Benachrichtigungen zu senden.
     player:
-      read: Allows the app to read your players.
-      readwrite: Allows the app to create, read, update and delete your players.
+      read: Ermöglicht der App, Benachrichtigungen zu lesen.
+      readwrite: Ermöglicht der App, Ihre Spieler zu erstellen, zu lesen, zu aktualisieren und zu löschen.
     closet:
-      read: Allows the app to read your closet items.
-      readwrite: Allows the app to create, read, update and delete your closet items.
+      read: Ermöglicht der App, den Kleiderschrank zu sehen.
+      readwrite: Ermöglicht der App, den Kleiderschrank zu ändern.
     users-management:
-      read: Allows the app to read site's users.
-      readwrite: Allows the app to create, read, update and delete site's users.
+      read: Ermöglicht der App, das Benutzerprofil zu lesen.
+      readwrite: Ermöglicht der App, das Benutzerprofil zu erstellen, zu lesen, zu aktualisieren und zu löschen.
     players-management:
-      read: Allows the app to read site's players.
-      readwrite: Allows the app to create, read, update and delete site's players.
+      read: Ermöglicht der App, die hinzugefügten Spielerdaten zu lesen.
+      readwrite: Ermöglicht der App, Spielerdaten zu erstellen, zu lesen, zu aktualisieren und zu löschen.
     closet-management:
-      read: Allows the app to read user's of your site closet items.
-      readwrite: Allows the app to create, read, update and delete user's closet items.
+      read: Ermöglicht der App, den Kleiderschrank zu sehen.
+      readwrite: Ermöglicht der App, Skins hinzuzufügen, zu ändern, und zu löschen.
     reports-management:
-      read: Allows the app to read user's reports.
-      readwrite: Allows the app to read and review user's reports.
-email: Email
-register-link: Register a new account
+      read: Ermöglicht der App, Meldungen zu lesen.
+      readwrite: Ermöglicht der App, Meldungen des Benutzers zu lesen und zu überprüfen.
+email: E-Mail-Adresse
+register-link: Registrieren
