@@ -17,14 +17,14 @@ notifications:
     normal: 一般ユーザー
     uid: UIDを指定
     email: メールアドレスを指定
-  title: Title
-  content: Content (Markdown is supported.)
+  title: トップ
+  content: コンテンツ (Markdown サポート されて いませ)
 users:
   operations:
-    non-existent: No such user.
+    non-existent: ユーザーが存在しません。
     no-permission: You have no permission to operate this user.
     email:
-      success: Email changed successfully.
+      success: メールの変更が済みました。
     verification:
       success: Account verification status toggled successfully.
     nickname:
