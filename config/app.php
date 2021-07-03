@@ -9,7 +9,7 @@ return [
     | Version of Blessing Skin Server.
     |
     */
-    'version' => '6.0.0-beta.2',
+    'version' => '6.0.0-beta.3',
 
     /*
     |--------------------------------------------------------------------------

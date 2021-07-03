@@ -1,6 +1,6 @@
 {
   "name": "blessing-skin-server",
-  "version": "6.0.0-beta.2",
+  "version": "6.0.0-beta.3",
   "description": "A web application brings your custom skins back in offline Minecraft servers.",
   "repository": {
     "type": "git",
