@@ -37,7 +37,7 @@ reset:
   button: Reset
   invalid: Invalid link.
   expired: This link is expired.
-  message: :username, reset your email address here.
+  message: :username, reset your password here.
   success: Password resetted successfully.
 
 bind:
