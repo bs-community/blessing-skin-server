@@ -34,7 +34,7 @@ reset:
   button: Сброс
   invalid: Неверная ссылка.
   expired: Срок действия ссылки истёк.
-  message: ':username, сбросьте свой адрес электронной почты здесь.'
+  message: ':username, reset your password here.'
   success: Пароль успешно сброшен.
 bind:
   title: Привязка электронной почты
