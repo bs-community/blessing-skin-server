@@ -34,7 +34,7 @@ reset:
   button: Réinitialiser
   invalid: Lien invalide.
   expired: Le lien a expiré.
-  message: ':username, réinitialisez votre adresse e-mail ici.'
+  message: ':username, reset your password here.'
   success: Mot de passe réinitialisé avec succès.
 bind:
   title: Lier l'adresse e-mail
