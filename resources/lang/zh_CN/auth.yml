@@ -34,7 +34,7 @@ reset:
   button: 重置
   invalid: 无效的链接
   expired: 链接已过期
-  message: ':username，在这里重置你的密码'
+  message: ':username, reset your password here.'
   success: 密码重置成功
 bind:
   title: 绑定邮箱
