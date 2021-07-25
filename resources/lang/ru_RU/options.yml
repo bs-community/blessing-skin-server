@@ -102,6 +102,7 @@ general:
     title: Правило имени игрока
     official: Буквы, цифры и подчеркивание (официальное правило Mojang)
     cjk: Разрешить унифицированные идеографы CJK
+    utf8: Allow all valid UTF-8 characters
     custom: Использовать пользовательские правила (регулярное выражение)
   custom_player_name_regexp:
     title: Пользовательские правила имени игрока

@@ -34,7 +34,7 @@ reset:
   button: Zurücksetzen
   invalid: Ungültiger Link.
   expired: Dieser Link ist abgelaufen.
-  message: ':username, setze deine E-Mail-Adresse hier zurück.'
+  message: ':username, reset your password here.'
   success: Passwort erfolgreich zurückgesetzt.
 bind:
   title: E-Mail verbinden

@@ -43,6 +43,7 @@ player:
   player-name-rule:
     official: Player name may only contains letters, numbers and underscores.
     cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
+    utf8: Player name must be a UTF-8 string.
     custom: Custom player name rules are applied on this site. Please contact admins for further information.
   player-name-length: The player name should be at least :min characters and not greater than :max characters.
   add:

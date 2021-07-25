@@ -17,23 +17,23 @@ notifications:
     normal: 一般ユーザー
     uid: UIDを指定
     email: メールアドレスを指定
-  title: Title
-  content: Content (Markdown is supported.)
+  title: トップ
+  content: コンテンツ (Markdown サポート されて いませ)
 users:
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
+    non-existent: ユーザーが存在しません。
+    no-permission: このユーザーを操作する権限がありません。
     email:
-      success: Email changed successfully.
+      success: メールの変更が済みました。
     verification:
-      success: Account verification status toggled successfully.
+      success: アカウントの確認ステータスが正常に切り替わりました。
     nickname:
-      success: Nickname changed successfully.
+      success: ニックネームの変更が済みました。
     password:
-      success: Password changed successfully.
+      success: パスワードの変更が済みました。
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: スコアの変更が済みました。
+    permission: アクセス許可が更新されました。
     delete:
       success: The account has been deleted successfully.
 players:
@@ -60,30 +60,30 @@ i18n:
   added: Language line added.
   updated: Language line updated.
   deleted: Language line deleted.
-  group: Group
-  key: Key
-  text: Text
+  group: グループ
+  key: 鍵
+  text: テキスト
   tip: How can I use this page?
 status:
   info: Information
   health: Health
   bs:
     name: Blessing Skin
-    version: Version
+    version: バージョン
     env: Application Environment
     debug: Debugging or Not?
     commit: Commit
     laravel: Laravel Version
   server:
-    name: Server
-    php: PHP Version
-    web: Web Server Software
-    os: OS
+    name: サーバー
+    php: PHP バージョン
+    web: Web サーバーソフトウェア
+    os: オペレーティングシステム
   db:
-    name: Database
-    type: Server
-    host: Host
-    port: Port
+    name: データベース
+    type: サーバー
+    host: ホスト
+    port: ポート
     username: Username
     database: Database
     prefix: Table Prefix

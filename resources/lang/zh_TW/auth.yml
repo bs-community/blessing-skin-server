@@ -34,7 +34,7 @@ reset:
   button: 重設
   invalid: 無效的鏈接。
   expired: 此連結已過期。
-  message: ':username, 請在此處重置你的電郵地址。'
+  message: ':username, reset your password here.'
   success: 密碼已成功重置。
 bind:
   title: 綁定電郵地址

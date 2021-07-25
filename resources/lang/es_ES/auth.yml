@@ -34,7 +34,7 @@ reset:
   button: Restablecer
   invalid: Enlace inválido.
   expired: Este enlace ha caducado.
-  message: ':username, restablezca su dirección de correo electrónico aquí.'
+  message: ':username, reset your password here.'
   success: Contraseña restablecida con éxito.
 bind:
   title: Enlazar email
