@@ -102,6 +102,7 @@ general:
     title: Regla de nombre de jugador
     official: Letras, números y guiones bajos (regla oficial de Mojang)
     cjk: Permitir Ideografías unificadas CJK
+    utf8: Allow all valid UTF-8 characters
     custom: Usar reglas personalizadas (expresión regular)
   custom_player_name_regexp:
     title: Reglas de nombre de jugador personalizadas
