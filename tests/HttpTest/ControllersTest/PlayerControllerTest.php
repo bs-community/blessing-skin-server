@@ -71,7 +71,6 @@ class PlayerControllerTest extends TestCase
             ['name' => 'yjsnpi']
         )->assertJsonValidationErrors('name');
 
-
         // allow UTF-8
         option(['player_name_rule' => 'utf8']);
         $this->postJson(route('user.player.add'), ['name' => '響け！ユーフォニアム'])
