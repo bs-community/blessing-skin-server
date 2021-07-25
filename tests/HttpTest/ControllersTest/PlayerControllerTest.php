@@ -53,9 +53,6 @@ class PlayerControllerTest extends TestCase
 
     public function testAdd()
     {
-        Event::fake();
-        $filter = Fakes\Filter::fake();
-
         // Without player name
         $this->postJson(route('user.player.add'))->assertJsonValidationErrors('name');
 
@@ -74,11 +71,22 @@ class PlayerControllerTest extends TestCase
             ['name' => 'yjsnpi']
         )->assertJsonValidationErrors('name');
 
+
+        // allow UTF-8
+        option(['player_name_rule' => 'utf8']);
+        $this->postJson(route('user.player.add'), ['name' => '響け！ユーフォニアム'])
+            ->assertJson(['code' => 0]);
+        $this->postJson(route('user.player.add'), ['name' => 'मूलपाठ'])
+            ->assertJson(['code' => 0]);
+
         // with an existed player name
         option(['player_name_rule' => 'official']);
         $existed = Player::factory()->create();
         $this->postJson(route('user.player.add'), ['name' => $existed->name])
             ->assertJsonValidationErrors('name');
+
+        Event::fake();
+        $filter = Fakes\Filter::fake();
 
         // Lack of score
         $user = User::factory()->create(['score' => 0]);

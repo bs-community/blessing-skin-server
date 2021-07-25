@@ -21,6 +21,9 @@ class PlayerName implements Rule
                 $regexp = '/^[A-Za-z0-9_§\x{4e00}-\x{9fff}]+$/u';
                 break;
 
+            case 'utf8':
+                return mb_check_encoding($value, 'UTF-8');
+
             case 'custom':
                 $regexp = option('custom_player_name_regexp') ?: $regexp;
                 break;

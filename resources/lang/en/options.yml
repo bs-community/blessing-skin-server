@@ -115,6 +115,7 @@ general:
     title: Player Name Rule
     official: Letters, numbers and underscores (Mojang's official rule)
     cjk: Allow CJK Unified Ideographs
+    utf8: Allow all valid UTF-8 characters
     custom: Use custom rules (regular expression)
   custom_player_name_regexp:
     title: Custom Player Name Rules

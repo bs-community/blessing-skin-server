@@ -164,6 +164,7 @@ class OptionsController extends Controller
             $form->select('player_name_rule')
                     ->option('official', trans('options.general.player_name_rule.official'))
                     ->option('cjk', trans('options.general.player_name_rule.cjk'))
+                    ->option('utf8', trans('options.general.player_name_rule.utf8'))
                     ->option('custom', trans('options.general.player_name_rule.custom'));
 
             $form->text('custom_player_name_regexp')->hint()->placeholder();
