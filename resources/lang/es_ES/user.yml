@@ -43,6 +43,7 @@ player:
   player-name-rule:
     official: El nombre del jugador sólo puede contener letras, números y guiones bajos.
     cjk: El nombre del jugador puede contener letras, números, guiones bajos e ideógrafos unificados de CJK.
+    utf8: Player name must be a UTF-8 string.
     custom: Las reglas de nombre del jugador personalizadas se aplican en este sitio Por favor, contacte a los administradores para obtener más información.
   player-name-length: El nombre del jugador debe tener al menos :min caracteres y no más de :max caracteres.
   add:
