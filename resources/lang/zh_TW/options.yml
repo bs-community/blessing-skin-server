@@ -102,6 +102,7 @@ general:
     title: 角色名規則
     official: 字元、數字和下劃綫（Mojang 官方角色名規則）
     cjk: 允許中日韓統一表意字元
+    utf8: Allow all valid UTF-8 characters
     custom: 使用自訂規則（正則表達式）
   custom_player_name_regexp:
     title: 自訂角色名規則
