@@ -1,0 +1,71 @@
+name: Bug 报告
+description: 发起 bug 报告
+body:
+  - type: markdown
+    attributes:
+      value: |
+        在报告问题之前，请确保您已经 **认真** 阅读：
+        - [FAQ](https://blessing.netlify.app/en/faq.html)
+        - [报告问题的正确姿势](https://blessing.netlify.app/report.html)
+  - type: input
+    id: bs
+    attributes:
+      label: Blessing Skin 版本
+    validations:
+      required: true
+  - type: dropdown
+    id: php
+    attributes:
+      label: PHP 版本
+      options:
+        - '7.3'
+        - '7.4'
+        - '8.0'
+        - '8.1'
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: 出现问题时所使用的浏览器
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+    validations:
+      required: true
+  - type: dropdown
+    id: web-server
+    attributes:
+      label: 您正在使用的 Web Server
+      options:
+        - Nginx
+        - Apache
+  - type: checkboxes
+    id: baota
+    attributes:
+      label: 您正在使用宝塔吗？
+      options:
+        - label: 是
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 出现了什么问题？
+      description: 顺便告诉我们，您期望的行为是怎样的？
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 错误日志
+      description: 您可以粘贴 Blessing Skin 的日志或 Web Server 的日志。Blessing Skin 的日志位于 `storage/logs` 目录里。
+      render: text
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 重现步骤
+      description: 详细描述您出错前的操作步骤
+    validations:
+      required: true

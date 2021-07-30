@@ -1,0 +1,64 @@
+name: Bug Report
+description: File a bug report
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please filing an issue, please make sure you've read:
+        - [FAQ](https://blessing.netlify.app/en/faq.html)
+  - type: input
+    id: bs
+    attributes:
+      label: Which version of Blessing Skin are you using?
+    validations:
+      required: true
+  - type: dropdown
+    id: php
+    attributes:
+      label: Which version of PHP are you using?
+      options:
+        - '7.3'
+        - '7.4'
+        - '8.0'
+        - '8.1'
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+    validations:
+      required: true
+  - type: dropdown
+    id: web-server
+    attributes:
+      label: Which web server are you using?
+      options:
+        - Nginx
+        - Apache
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs
+      description: You can paste logs of Blessing Skin or your web server. Logs of Blessing Skin can be found at `storage/logs` directory.
+      render: text
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Tell us how to reproduce this issue.
+    validations:
+      required: true
