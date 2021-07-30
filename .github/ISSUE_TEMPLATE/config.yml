@@ -1,11 +1,17 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Ask questions about using Blessing Skin
+    url: https://github.com/bs-community/blessing-skin-server/discussions
+    about: If you're not going to report a bug, please ask and answer questions there.
   - name: Report Issue about Blessing Skin plugins
     url: https://github.com/bs-community/blessing-skin-plugins/issues
     about: Please ask and answer questions there.
   - name: Report Issue about integrating with Flarum
     url: https://github.com/bs-community/flarum-oauth-client/issues
     about: Please ask and answer questions there.
+  - name: 询问关于使用 Blessing Skin 的问题
+    url: https://github.com/bs-community/blessing-skin-server/discussions
+    about: 如果您并不是要报告 bug，请在那里进行讨论。
   - name: 报告与 Blessing Skin 插件有关的问题
     url: https://github.com/bs-community/blessing-skin-plugins/issues
     about: 请在那里报告问题。
