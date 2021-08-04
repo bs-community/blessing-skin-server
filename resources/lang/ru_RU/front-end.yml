@@ -149,32 +149,32 @@ user:
     modifyName: Изменить имя приложения.
     modifyUrl: Измените URL-адрес обратного вызова.
     create: Создать новое приложение
-    confirmRemove: Are you sure to delete this app? You won't be able to undo this.
+    confirmRemove: Вы уверены, что хотите удалить это приложение? Вы не сможете отменить это действие.
 admin:
-  operationsTitle: Operations
-  permission: Permission
-  deleteUser: Delete
-  changeEmail: Edit Email
-  newUserEmail: 'Please enter the new email:'
-  verification: Email Verification
-  toggleVerification: Toggle Verification Status
-  changeNickName: Edit Nickname
-  newUserNickname: 'Please enter the new nickname:'
-  changePassword: Edit Password
-  newUserPassword: 'Please enter the new password:'
-  changeScore: Edit Score
-  newScore: 'Please enter the new score:'
-  changePermission: Change permission
-  newPermission: 'Please select new permission:'
-  deleteUserNotice: Are you sure to delete this user? It' permanent.
-  banned: Banned
-  normal: Normal
-  admin: Admin
-  superAdmin: Super Admin
-  unverified: Unverified
-  verified: Verified
+  operationsTitle: Операции
+  permission: Разрешение
+  deleteUser: Удалить
+  changeEmail: Редактировать электронную почту
+  newUserEmail: 'Пожалуйста, введите новый адрес электронной почты:'
+  verification: Подтверждение адреса электронной почты
+  toggleVerification: Переключить статус проверки
+  changeNickName: Изменить ник
+  newUserNickname: 'Пожалуйста, введите новый ник:'
+  changePassword: Изменить пароль
+  newUserPassword: 'Пожалуйста, введите новый пароль:'
+  changeScore: Изменить балл
+  newScore: 'Пожалуйста, введите новый балл:'
+  changePermission: Изменить разрешение
+  newPermission: 'Пожалуйста, выберите новое разрешение:'
+  deleteUserNotice: Вы уверены, что хотите удалить этого пользователя? Это необратимо.
+  banned: Забанен
+  normal: Обычный
+  admin: Админ
+  superAdmin: Супер админ
+  unverified: Не подтверждено
+  verified: Подтверждено
   pidNotice: >-
-    Please enter the tid of texture. Inputing 0 can clear texture of this player.
+    Пожалуйста, введите диапазон текстуры. Ввод 0 может очистить текстуру этого игрока.
   changeTexture: Изменить текстуры
   changePlayerName: Изменить имя игрока
   changeOwner: Изменить владельца
@@ -201,10 +201,10 @@ admin:
   enablePlugin: Включить
   disablePlugin: Отключить
   confirmDeletion: Вы уверены, что хотите удалить этот плагин?
-  uploadArchive: Upload Archive
-  uploadArchiveNotice: Install a plugin by uploading a Zip archive.
-  downloadRemote: Download From Remote
-  downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
+  uploadArchive: Загрузить архив
+  uploadArchiveNotice: Установите плагин загрузив архив Zip.
+  downloadRemote: Загрузить удалённо
+  downloadRemoteNotice: Установите плагин, загрузив Zip-архив с удалённого URL.
   updateButton: Обновить сейчас
   downloading: Загрузка...
   i18n:
@@ -223,10 +223,10 @@ report:
   status-title: Статус
   status:
     - В ожидании
-    - Resolved
-    - Rejected
-  time: Report Time
-  delete: Delete
+    - Решена
+    - Отклонено
+  time: Время отчета
+  delete: Удалить
   ban: Заблокировать
   reject: Отклонить
 general:
