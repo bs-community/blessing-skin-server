@@ -75,7 +75,7 @@ not_regex: 'Выбранный формат для :attribute ошибочный
 numeric: 'Поле :attribute должно быть числом.'
 password: Неверный пароль.
 present: 'Поле :attribute должно присутствовать.'
-recaptcha: 'reCAPTCHA validation failed.'
+recaptcha: 'Проверка reCAPTCHA не удалась.'
 regex: 'Поле :attribute имеет ошибочный формат.'
 required: 'Поле :attribute обязательно для заполнения.'
 required_if: 'Поле :attribute обязательно для заполнения, когда :other равно :value.'
@@ -114,8 +114,8 @@ uuid: 'Поле :attribute должно быть корректным UUID.'
 #of "email". This simply helps us make messages a little cleaner.
 attributes:
   name: Имя
-  player_name: player name
-  identification: email or player name
+  player_name: имя игрока
+  identification: адрес электронной почты или имя игрока
   email: E-Mail адрес
   password: Пароль
   password_confirmation: 'Подтверждение пароля'
