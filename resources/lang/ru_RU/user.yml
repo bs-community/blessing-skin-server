@@ -65,18 +65,18 @@ profile:
     notice: Нажмите на иконку шестерёнки "<i class="fa fa-cog"></i>" на любом скине в гардеробе, затем нажмите "Установить как аватар". Мы изменим вашу голову, текстурой этого скина. Если такой иконки нет, попробуйте отключить блокирующее расширение для рекламы.
     wrong-type: Вы не можете установить плащ в качестве аватара.
     success: Новый аватар успешно установлен.
-    reset: Reset Avatar
+    reset: Сбросить аватар
   password:
-    title: Change Password
-    old: Old Password
-    new: New Password
-    confirm: Repeat Password
-    button: Change password
-    wrong-password: Wrong original password.
-    success: Password updated successfully, please log in again.
+    title: Изменить пароль
+    old: Старый пароль
+    new: Новый пароль
+    confirm: Повторите пароль
+    button: Сменить пароль
+    wrong-password: Неверный исходный пароль.
+    success: Пароль успешно обновлен, пожалуйста, войдите снова.
   nickname:
-    title: Change Nickname
-    empty: No nickname is set now.
+    title: Изменить никнейм
+    empty: На данный момент, никнейм не установлен.
     success: Ник успешно обновлен на :nickname
   email:
     title: Изменить e-mail
