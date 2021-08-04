@@ -34,7 +34,7 @@ reset:
   button: Сброс
   invalid: Неверная ссылка.
   expired: Срок действия ссылки истёк.
-  message: ':username, reset your password here.'
+  message: ':username, сбросить пароль здесь.'
   success: Пароль успешно сброшен.
 bind:
   title: Привязка электронной почты
@@ -45,7 +45,7 @@ bind:
 verify:
   title: Подтверждение адреса электронной почты
   invalid: Неверная ссылка.
-  not-matched: Email doesn't match.
+  not-matched: Адрес электронной почты не совпадает.
 validation:
   user: Такого пользователя нет.
   password: Неверный пароль.
@@ -56,10 +56,10 @@ oauth:
     title: Авторизация
     introduction: Стороннее приложение ":name" запрашивает разрешение на доступ к вашей учетной записи.
     button: Авторизироваться
-    permissions: Permissions
+    permissions: Права доступа
   scope:
     user:
-      read: Sign you in and read your profile
+      read: Войдите и прочтите свой профиль
     notification:
       read: Allows the app to read your notifications.
       readwrite: Allows the app to send notifications.
