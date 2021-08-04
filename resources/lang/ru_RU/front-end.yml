@@ -147,8 +147,8 @@ user:
     secret: Пароль клиента
     redirect: URL обратного вызова
     modifyName: Изменить имя приложения.
-    modifyUrl: Modify callback URL.
-    create: Create New App
+    modifyUrl: Измените URL-адрес обратного вызова.
+    create: Создать новое приложение
     confirmRemove: Are you sure to delete this app? You won't be able to undo this.
 admin:
   operationsTitle: Operations
