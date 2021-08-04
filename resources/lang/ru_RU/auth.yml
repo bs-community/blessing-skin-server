@@ -61,25 +61,25 @@ oauth:
     user:
       read: Войдите и прочтите свой профиль
     notification:
-      read: Allows the app to read your notifications.
-      readwrite: Allows the app to send notifications.
+      read: Приложение сможет читать ваши уведомления.
+      readwrite: Приложение сможет отправлять уведомления.
     player:
-      read: Allows the app to read your players.
-      readwrite: Allows the app to create, read, update and delete your players.
+      read: Приложение сможет читать ваших игроков.
+      readwrite: Приложение сможет создавать, читать, обновлять и удалять ваших игроков.
     closet:
-      read: Allows the app to read your closet items.
-      readwrite: Allows the app to create, read, update and delete your closet items.
+      read: Приложение сможет читать ваши предметы в шкафу.
+      readwrite: Приложение сможет создавать, читать, обновлять и удалять предметы из шкафа.
     users-management:
-      read: Allows the app to read site's users.
-      readwrite: Allows the app to create, read, update and delete site's users.
+      read: Приложение сможет читать пользователей сайта.
+      readwrite: Приложение сможет создавать, читать, обновлять и удалять пользователей сайта.
     players-management:
-      read: Allows the app to read site's players.
-      readwrite: Allows the app to create, read, update and delete site's players.
+      read: Приложение сможет читать игроков на сайте.
+      readwrite: Приложение сможет создавать, читать, обновлять и удалять игроков на сайте.
     closet-management:
-      read: Allows the app to read user's of your site closet items.
-      readwrite: Allows the app to create, read, update and delete user's closet items.
+      read: Позволяет приложению читать пользовательские предметы в шкафу на вашем сайте.
+      readwrite: Приложение сможет создавать, читать, обновлять и удалять предметы гардероба пользователя.
     reports-management:
-      read: Allows the app to read user's reports.
-      readwrite: Allows the app to read and review user's reports.
+      read: Приложение сможет читать отчеты пользователей.
+      readwrite: Приложение сможет читать и просматривать отчеты пользователей.
 email: Адрес электронной почты
 register-link: Зарегистрировать новый аккаунт
