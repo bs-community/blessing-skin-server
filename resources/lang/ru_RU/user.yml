@@ -47,24 +47,24 @@ player:
     custom: Пользовательские правила имен игроков применяются на этом сайте. Пожалуйста, свяжитесь с администраторами для получения дополнительной информации.
   player-name-length: Имя игрока должно быть не менее :min символов и не более :max символов.
   add:
-    repeated: The player name is already registered.
-    lack-score: You don't have enough score to add a player.
-    success: Player :name was added successfully.
+    repeated: Имя игрока уже зарегистрировано.
+    lack-score: У вас недостаточно баллов, чтобы положить его в гардероб.
+    success: Имя игрока успешно изменено!
   delete:
-    success: Player :name was deleted successfully.
+    success: Имя игрока успешно изменено!
   rename:
-    repeated: This player name is occupied. Please choose another one.
-    success: Player :old was renamed to :new
+    repeated: Это имя игрока занято. Пожалуйста, выберите другое.
+    success: Игрок :old был переименован на :new
   set:
-    success: The texture was applied to player :name successfully.
+    success: Текстура была успешно применена на игроке :name.
   clear:
-    success: The textures of player :name was resetted successfully.
+    success: Текстуры игрока :name были успешно сброшены.
 profile:
   avatar:
-    title: Change Avatar?
-    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to disable your ADs blocking extension.
-    wrong-type: You can't set a cape as avatar.
-    success: New avatar was set successfully.
+    title: Изменить аватар?
+    notice: Нажмите на иконку шестерёнки "<i class="fa fa-cog"></i>" на любом скине в гардеробе, затем нажмите "Установить как аватар". Мы изменим вашу голову, текстурой этого скина. Если такой иконки нет, попробуйте отключить блокирующее расширение для рекламы.
+    wrong-type: Вы не можете установить плащ в качестве аватара.
+    success: Новый аватар успешно установлен.
     reset: Reset Avatar
   password:
     title: Change Password
