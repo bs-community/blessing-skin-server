@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Listeners;
+use App\Models\Scope;
+use App\Observers\ScopeObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -39,4 +41,14 @@ class EventServiceProvider extends ServiceProvider
             Listeners\SetAppLocale::class,
         ],
     ];
+
+    /**
+     * Register any events for your application.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Scope::observe(ScopeObserver::class);
+    }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Scope;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
@@ -45,7 +45,7 @@ class AuthServiceProvider extends ServiceProvider
             'ReportsManagement.ReadWrite' => 'auth.oauth.scope.reports-management.readwrite',
         ];
 
-        $scopes = Scope::all()->pluck('description', 'name')->all();
+        $scopes = Cache::get('scopes', []);
 
         Passport::tokensCan(array_merge($defaultScopes, $scopes));
 
