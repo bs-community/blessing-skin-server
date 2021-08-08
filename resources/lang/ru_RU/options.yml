@@ -54,9 +54,9 @@ report:
   title: Отчет о текстурах
   reporter_score_modification:
     title: Очки за отправку отчёта
-    description: Set a positive integer value to reward user who submits new reports. Set to a negative value will require scores for submitting reports, and the suspended scores will be available if user's report was resolved. Set to 0 to disable.
+    description: Установите положительное целое значение для поощрения пользователя, который отправляет новые отчеты. Если задано отрицательное значение, то для отправки отчетов потребуются баллы за отправку отчетов, а если отчёт пользователя будет решен, то баллы будут доступны. 0 для отключения.
   reporter_reward_score:
-    title: Reward the Reporter with Scores If Report Resolved
+    title: Награды за отчёт с баллами если отчёт Решен
 sign:
   title: Подпись
   sign_score:
@@ -102,7 +102,7 @@ general:
     title: Правило имени игрока
     official: Буквы, цифры и подчеркивание (официальное правило Mojang)
     cjk: Разрешить унифицированные идеографы CJK
-    utf8: Allow all valid UTF-8 characters
+    utf8: Разрешить все допустимые символы UTF-8
     custom: Использовать пользовательские правила (регулярное выражение)
   custom_player_name_regexp:
     title: Пользовательские правила имени игрока
@@ -148,33 +148,33 @@ recaptcha:
 res-warning: Эта страница ТОЛЬКО для продвинутых пользователей. Если вы не знакомы с этим, то не трогайте это!
 resources:
   title: Файлы ресурсов
-  hint: Please check these options if you enabled CDN for your site.
+  hint: Пожалуйста, проверьте эти опции, если вы включили CDN для вашего сайта.
   force_ssl:
-    title: Force SSL
-    label: Use HTTPS protocol to load all front-end assets.
-    hint: Please check if SSL really available before turning on.
+    title: Принудительно использовать SSL
+    label: Используйте протокол HTTPS для загрузки всех клиентских ресурсов.
+    hint: Пожалуйста, проверьте, действительно ли SSL доступен перед включением.
   auto_detect_asset_url:
-    title: Assets URL
-    label: Determine assets url automatically.
-    description: Please unable this if assets URLs are wrongly generated under a CDN. The site url will be used if this is not enabled.
+    title: URL медиафайлов
+    label: Определить адрес ресурса автоматически.
+    description: Пожалуйста, не удается это если URL-адреса активов создаются неправильно под CDN. URL сайта будет использован, если он не включен.
   cache_expire_time:
-    title: Cache Exipre Time
-    hint: In seconds, 86400 = one day, 31536000 = one year.
+    title: Время кеширования
+    hint: В секундах, 86400 = один день, 31536000 = один год.
   cdn_address:
-    title: Front-end Assets CDN
-    hint: Front-end files won't be loaded if URL is unavailable.
+    title: Личный актив CDN
+    hint: Файлы интерфейса не загружаются, если URL-адрес недоступен.
     description: |
-      The CDN URL you give must refer to a mirror of <code>/public</code> directory,
-      all the files of that directory will be loaded as CDN.<br>
-      <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/manifest.json</code> can be accessed.
+      CDN URL, который вы указываете, должен ссылаться на зеркало <code>/public</code> каталога,
+      все файлы этого каталога будут загружены как CDN.<br>
+      <b>Как проверить?</b> Проверьте доступность <code>{Your CDN URL}/app/manifest.json</code>.
 cache:
-  title: Cache Configuration
-  clear: Clear Cache
-  cleared: Cache has been cleared.
-  driver: Current cache driver is 「:driver」.
+  title: Конфигурация кэша
+  clear: Очистить кэш
+  cleared: Кэш был очищен.
+  driver: Текущий драйвер кэша <unk> :driver<unk> .
   enable_avatar_cache:
-    title: Avatar
-    label: Enable caching avatar
+    title: Аватар
+    label: Включить кэширование аватара
   enable_preview_cache:
-    title: Texture Preivew
-    label: Enable caching texture preivew
+    title: Предварительный просмотр текстур
+    label: Включить кэширование текстур

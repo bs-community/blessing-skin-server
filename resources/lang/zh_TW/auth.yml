@@ -34,7 +34,7 @@ reset:
   button: 重設
   invalid: 無效的鏈接。
   expired: 此連結已過期。
-  message: ':username, reset your password here.'
+  message: ':username，請在此處重置密碼。'
   success: 密碼已成功重置。
 bind:
   title: 綁定電郵地址
@@ -59,27 +59,27 @@ oauth:
     permissions: 權限
   scope:
     user:
-      read: Sign you in and read your profile
+      read: 登錄並讀取您的個人資料
     notification:
-      read: Allows the app to read your notifications.
-      readwrite: Allows the app to send notifications.
+      read: 允許應用讀取您的通知
+      readwrite: 允許應用發送通知
     player:
-      read: Allows the app to read your players.
-      readwrite: Allows the app to create, read, update and delete your players.
+      read: 允許應用讀取您的角色
+      readwrite: 允許應用創建、讀取、修改、刪除您的角色
     closet:
-      read: Allows the app to read your closet items.
-      readwrite: Allows the app to create, read, update and delete your closet items.
+      read: 允許應用讀取您的衣櫃物品
+      readwrite: 允許應用創建、讀取、修改、刪除您的衣櫃物品
     users-management:
-      read: Allows the app to read site's users.
-      readwrite: Allows the app to create, read, update and delete site's users.
+      read: 允許應用讀取網站上的使用者
+      readwrite: 允許應用創建、讀取、修改、刪除您網站上的使用者
     players-management:
-      read: Allows the app to read site's players.
-      readwrite: Allows the app to create, read, update and delete site's players.
+      read: 允許應用讀取網站上的角色
+      readwrite: 允許應用創建、讀取、修改、刪除您網站上的角色
     closet-management:
-      read: Allows the app to read user's of your site closet items.
-      readwrite: Allows the app to create, read, update and delete user's closet items.
+      read: 允許應用讀取使用者的衣櫃物品
+      readwrite: 允許應用創建、讀取、修改、刪除使用者的衣櫃物品
     reports-management:
-      read: Allows the app to read user's reports.
-      readwrite: Allows the app to read and review user's reports.
+      read: 允許應用讀取用戶的舉報
+      readwrite: 允許應用讀取並處理用戶的舉報
 email: 電子郵件
 register-link: 註冊新帳戶

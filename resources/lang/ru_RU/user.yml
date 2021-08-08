@@ -22,61 +22,61 @@ score-intro:
 
     Сначала новые пользователи получат очков: :initial_scores, и вы можете получить очков: :score-from ~ :score-to, ежедневно выполняя вход в систему.
   will-return-score: Очки будут возвращены, если вы удалили игроков, загруженные текстуры или элементы шкафа.
-  no-return-score: The score will NOT be returned if you deleted players, uploaded textures or closet items.
+  no-return-score: Баллы НЕ будут возвращены, если вы удалили игроков, загруженные текстуры или элементы гардероба.
   rates:
-    storage: ':score scores = 1 KB storage'
-    player: ':score scores = 1 player'
-    closet: ':score socres = 1 closet item'
+    storage: ':scores = 1 KB хранилище'
+    player: ':scores = 1 игрок'
+    closet: ':score = 1 предмет в шкафу'
 closet:
   add:
-    success: Added :name to closet successfully.
+    success: ':name успешно добавлен в гардероб.'
     repeated: Вы уже добавили эту текстуру.
     not-found: Мы не можем найти эту текстуру.
-    lack-score: You don't have enough score to add it to closet.
+    lack-score: У вас недостаточно баллов, чтобы положить его в гардероб.
   rename:
     success: Элемент успешно переименован в :name
   remove:
     success: Текстура была успешно удалена из шкафа.
     non-existent: Текстура не существует в шкафу.
 player:
-  login-notice: Now you can log in with player names you owned instead email address.
+  login-notice: Теперь вы можете войти в систему с именем игрока, которым вы владеете вместо адреса электронной почты.
   player-name-rule:
-    official: Player name may only contains letters, numbers and underscores.
-    cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
-    utf8: Player name must be a UTF-8 string.
-    custom: Custom player name rules are applied on this site. Please contact admins for further information.
-  player-name-length: The player name should be at least :min characters and not greater than :max characters.
+    official: Имя игрока может содержать только буквы, цифры и подчеркивания.
+    cjk: Имя игрока может содержать буквы, цифры, подчеркивания и унифицированные идеографии CJK.
+    utf8: Имя игрока должно быть строкой UTF-8.
+    custom: Пользовательские правила имен игроков применяются на этом сайте. Пожалуйста, свяжитесь с администраторами для получения дополнительной информации.
+  player-name-length: Имя игрока должно быть не менее :min символов и не более :max символов.
   add:
-    repeated: The player name is already registered.
-    lack-score: You don't have enough score to add a player.
-    success: Player :name was added successfully.
+    repeated: Имя игрока уже зарегистрировано.
+    lack-score: У вас недостаточно баллов, чтобы положить его в гардероб.
+    success: Имя игрока успешно изменено!
   delete:
-    success: Player :name was deleted successfully.
+    success: Имя игрока успешно изменено!
   rename:
-    repeated: This player name is occupied. Please choose another one.
-    success: Player :old was renamed to :new
+    repeated: Это имя игрока занято. Пожалуйста, выберите другое.
+    success: Игрок :old был переименован на :new
   set:
-    success: The texture was applied to player :name successfully.
+    success: Текстура была успешно применена на игроке :name.
   clear:
-    success: The textures of player :name was resetted successfully.
+    success: Текстуры игрока :name были успешно сброшены.
 profile:
   avatar:
-    title: Change Avatar?
-    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to disable your ADs blocking extension.
-    wrong-type: You can't set a cape as avatar.
-    success: New avatar was set successfully.
-    reset: Reset Avatar
+    title: Изменить аватар?
+    notice: Нажмите на иконку шестерёнки "<i class="fa fa-cog"></i>" на любом скине в гардеробе, затем нажмите "Установить как аватар". Мы изменим вашу голову, текстурой этого скина. Если такой иконки нет, попробуйте отключить блокирующее расширение для рекламы.
+    wrong-type: Вы не можете установить плащ в качестве аватара.
+    success: Новый аватар успешно установлен.
+    reset: Сбросить аватар
   password:
-    title: Change Password
-    old: Old Password
-    new: New Password
-    confirm: Repeat Password
-    button: Change password
-    wrong-password: Wrong original password.
-    success: Password updated successfully, please log in again.
+    title: Изменить пароль
+    old: Старый пароль
+    new: Новый пароль
+    confirm: Повторите пароль
+    button: Сменить пароль
+    wrong-password: Неверный исходный пароль.
+    success: Пароль успешно обновлен, пожалуйста, войдите снова.
   nickname:
-    title: Change Nickname
-    empty: No nickname is set now.
+    title: Изменить никнейм
+    empty: На данный момент, никнейм не установлен.
     success: Ник успешно обновлен на :nickname
   email:
     title: Изменить e-mail

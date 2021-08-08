@@ -43,7 +43,7 @@ player:
   player-name-rule:
     official: 角色名稱只能由字母、數字或下劃綫組成。
     cjk: 角色名應包含字元、數字、下劃綫和中日韓統一表意字元。
-    utf8: Player name must be a UTF-8 string.
+    utf8: 角色名必須是 UTF-8 字串。
     custom: 自訂角色名規則已啓用。請聯係管理員獲取詳細訊息。
   player-name-length: 角色名長度至少爲 :min 個字元，並不得超過 :max 個字元。
   add:
