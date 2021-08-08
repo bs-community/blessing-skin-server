@@ -31,4 +31,11 @@ return [
         'name' => 'Español',
         'short_name' => 'es'
     ],
+    'ru' => [
+        'alias' => 'ru_RU',
+    ],
+    'ru_RU' => [
+        'name' => 'Русский язык',
+        'short_name' => 'ru',
+    ],
 ];
