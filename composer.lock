@@ -108,16 +108,16 @@
         },
         {
             "name": "blessing/texture-renderer",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bs-community/texture-renderer.git",
-                "reference": "6c6597a9282c559b966c09109e6f621fc67d918b"
+                "reference": "78480e5df9c7ae7d56c5966994b06e49265fbab4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bs-community/texture-renderer/zipball/6c6597a9282c559b966c09109e6f621fc67d918b",
-                "reference": "6c6597a9282c559b966c09109e6f621fc67d918b",
+                "url": "https://api.github.com/repos/bs-community/texture-renderer/zipball/78480e5df9c7ae7d56c5966994b06e49265fbab4",
+                "reference": "78480e5df9c7ae7d56c5966994b06e49265fbab4",
                 "shasum": ""
             },
             "require": {
@@ -143,9 +143,9 @@
             "description": "Minecraft texture renderer.",
             "support": {
                 "issues": "https://github.com/bs-community/texture-renderer/issues",
-                "source": "https://github.com/bs-community/texture-renderer/tree/0.2.0"
+                "source": "https://github.com/bs-community/texture-renderer/tree/0.2.1"
             },
-            "time": "2021-02-17T07:51:59+00:00"
+            "time": "2021-08-15T06:57:22+00:00"
         },
         {
             "name": "brick/math",
