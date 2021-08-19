@@ -32,44 +32,44 @@ users:
     password:
       success: 비밀번호 변경에 성공했습니다
     score:
-      success: Score changed successfully.
+      success: 수정 성공
     permission: 권한이 업데이트 되었습니다!
     delete:
       success: 계정이 성공적으로 삭제되었습니다.
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: 이 사용자을 설정하는 권한이 없습니다.
   textures:
-    non-existent: No such texture tid.:tid
+    non-existent: 텍스처 tid.:tid 가 존재하지 않음
     success: The textures of :player has been updated.
   name:
     success: Player name has been updated to :player
   owner:
     success: The player :player was transferred to user :user.
   delete:
-    success: The player has been deleted successfully.
+    success: 플레이어를 성공적으로 삭제되었습니다.
 customize:
   change-color:
-    title: Change Theme Color
+    title: 태마 색상변경
   colors:
-    navbar: Top Navigation Bar
+    navbar: 탑 내비게이션 바
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: 사이드바 (다크)
+      light: 사이드바 (라이트)
 i18n:
   add: Add New Language Line
   added: Language line added.
   updated: Language line updated.
   deleted: Language line deleted.
-  group: Group
-  key: Key
-  text: Text
-  tip: How can I use this page?
+  group: 그룹
+  key: 키
+  text: 텍스트
+  tip: 본 패이지의 사용 방법
 status:
-  info: Information
-  health: Health
+  info: 정보
+  health: 상태
   bs:
     name: Blessing Skin
-    version: Version
+    version: 버전
     env: Application Environment
     debug: Debugging or Not?
     commit: Commit
