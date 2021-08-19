@@ -3,9 +3,9 @@ auth:
   login: 로그인
   loggingIn: 로그인 중
   tooManyFails:
-    captcha: You fails too many times! Please enter the CAPTCHA.
-    recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
-  emptyEmail: Empty email address.
+    captcha: 시도 회수 초과! CAPTCHA인증를 해주세요.
+    recaptcha: 시도 회수 초과! reCAPTCHA인증를 해주세요.
+  emptyEmail: 빈 이메일주소.
   invalidConfirmPwd: Confirming password is not equal with password.
   emptyNickname: Empty nickname.
   register: Register
