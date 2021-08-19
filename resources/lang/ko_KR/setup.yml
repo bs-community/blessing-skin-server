@@ -1,30 +1,30 @@
 ---
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
+  connection-error: "목표 :type 데이터배이스를 연결할 수 없으니다. 설정를 확인하세요. 서버가 전송된 메세지: :msg"
 locked:
-  title: Already installed
-  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
-  button: Back to homepage
+  title: 이미 설치됨
+  text: Blessing Skin Server가 이미 설치 된 겄을 확인되었습니다. 다시 설치하고 싶으면, storage 목록에 있는 install.lock 파일을 삭재하세요.
+  button: 홈페이지로 돌아가기
 updates:
   success:
-    title: Update complete
+    title: 업데이트 완료
 wizard:
   master:
-    title: Install Wizard - Blessing Skin Server
+    title: Blessing Skin Server 설치 프로그램
   welcome:
-    title: Welcome
-    button: Next
-    text: Welcome to Blessing Skin Server v:version!
+    title: 환영합니다!
+    button: 다음
+    text: Blessing Skin Server v:version 를 사용 하는겄을 환영합니다!
   database:
-    title: Database
+    title: 데이터베이스
     text: The database is used for storing data of Blessing Skin.
-    type: Database Type
-    host: Database Host
-    port: Database Port
-    username: Database Username
-    password: Database Password
-    db: Database Name
-    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
+    type: 데이터베이스 유형
+    host: 데이터베이스 주소
+    port: 데이터베이스 포트
+    username: 데이터베이스 사용자명
+    password: 데이터베이스 비밀번호
+    db: 데이터베이스 이름
+    db-notice: 만약 SQLite를 사용하신다면, SQLite 데이터베이스파일 위치만 입력하고, 따른 데이터베이스 설정가 필요없읍니다.
     prefix: Prefix of Database Table (Optional)
     prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
   info:
