@@ -198,10 +198,10 @@ test('private texture', async () => {
   const item = { ...fixtureItem, public: false }
   fetch.get.mockResolvedValue(createPaginator([item]))
 
-  const { queryByText } = render(<SkinLibrary />)
+  const { queryByTitle } = render(<SkinLibrary />)
   await waitFor(() => expect(fetch.get).toBeCalled())
 
-  expect(queryByText(t('skinlib.private'))).toBeInTheDocument()
+  expect(queryByTitle(t('skinlib.private'))).toBeInTheDocument()
 })
 
 describe('by filter', () => {

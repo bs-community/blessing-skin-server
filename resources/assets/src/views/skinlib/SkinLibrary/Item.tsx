@@ -22,6 +22,10 @@ const Card = styled.div`
   }
 `
 
+const Icon = styled.i`
+  height: 24px;
+`
+
 const Badge = styled.span`
   padding-top: 0.4rem;
 `
@@ -73,19 +77,22 @@ const Item: React.FC<Props> = (props) => {
     <a href={link} className="ml-3 mr-2 mb-2 d-block" target="_blank">
       <Card className="card">
         <div className="card-body">
-          {item.public || (
-            <div className="ribbon-wrapper">
-              <div className="ribbon bg-pink">{t('skinlib.private')}</div>
-            </div>
-          )}
           <a href={link} target="_blank">
             <img src={preview} alt={item.name} className="card-img-top" />
           </a>
         </div>
         <div className="card-footer">
-          <span className="d-block mb-1 text-truncate" title={item.name}>
-            {item.name}
-          </span>
+          <div className="d-flex align-items-center">
+            {item.public || (
+              <Icon
+                className="fas fa-lock text-warning mr-2"
+                title={t('skinlib.private')}
+              />
+            )}
+            <span className="d-block mb-1 text-truncate" title={item.name}>
+              {item.name}
+            </span>
+          </div>
           <div className="d-flex justify-content-between">
             <div className="d-flex">
               <Badge className="badge bg-teal mr-1">
