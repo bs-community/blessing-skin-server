@@ -5,36 +5,36 @@ auth:
   tooManyFails:
     captcha: 시도 회수 초과! CAPTCHA인증를 해주세요.
     recaptcha: 시도 회수 초과! reCAPTCHA인증를 해주세요.
-  emptyEmail: 빈 이메일주소.
-  invalidConfirmPwd: Confirming password is not equal with password.
-  emptyNickname: Empty nickname.
-  register: Register
-  registering: Registering
-  send: Send
-  sending: Sending
-  reset: Reset
-  resetting: Resetting
-  nickname: Nickname
-  player-name: Minecraft player name
-  email: Email
-  identification: Email or player name
-  password: Password
-  captcha: CAPTCHA
+  emptyEmail: 이메일주소를 입력해주세요.
+  invalidConfirmPwd: 비밀번호가 일치하지 않음.
+  emptyNickname: 닉네임을 입력해 주세요.
+  register: 회원가입
+  registering: 등록하는 중...
+  send: 전송
+  sending: 전송 중...
+  reset: 재설정
+  resetting: 재설정 중...
+  nickname: 닉네임
+  player-name: Minecraft 사용자명
+  email: 이메일
+  identification: 이메일 또는 플레이어명
+  password: 비밀번호
+  captcha: CAPTCHA 보안 문자
   change-captcha: Click to change CAPTCHA image.
-  login-link: Already registered? Log in here.
-  forgot-link: Forgot password?
-  keep: Remember me
-  repeat-pwd: Repeat your password
-  nickname-intro: Whatever you like expect special characters
-  player-name-intro: Player name in Minecraft, can be changed later
+  login-link: 이미 등록했다면 나를 클릭해서 로그인하세요.
+  forgot-link: 비밀번호를 잊으셨나요?
+  keep: 로그인 상태 기억하기
+  repeat-pwd: 비밀번호를 재입력하세요
+  nickname-intro: 특수문자 외의 문자 사용가능
+  player-name-intro: 인게임 닉네임은 나중에도 변경 가능 합니다
   forgot:
-    login-link: I do remember it
+    login-link: 오잉? 기억난 네요
 skinlib:
-  private: Private
-  anonymous: Please login first.
-  reset: Reset Filter
-  addToCloset: Add to closet
-  removeFromCloset: Remove from closet
+  private: 비공개
+  anonymous: 우선 로그인하십시오.
+  reset: 필터 초기화
+  addToCloset: 스킨 옷장에 추가
+  removeFromCloset: 스킨 옷장에 삭제
   setItemName: Set a name for this texture
   applyNotice: You can apply it to player at your closet
   emptyItemName: Empty texture name.
