@@ -45,13 +45,13 @@ private: 비공개
 public: 공개
 unexistent-user: 해당 유저를 찾을 수 없습니다.
 player-banned: 본 사용자가 정지되었습니다.
-texture-deleted: The requested texture has been deleted.
+texture-deleted: 요청한 택스쳐가 삭재되었습니다
 user:
-  email: Email
-  nickname: Nickname
-  password: Password
+  email: 이메일
+  nickname: 닉네임
+  password: 비밀번호
   score: Score
-  register-at: Registered At
+  register-at: 등록 날짜
 player:
   owner: Owner
   player-name: Player Name
