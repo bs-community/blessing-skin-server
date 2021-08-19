@@ -31,32 +31,32 @@ forgot:
     ignore: 암호 재설정을 요청하지 않은 경우 추가 조치가 필요하지 않습니다.
 reset:
   title: 비밀번호 초기화
-  button: Reset
-  invalid: Invalid link.
-  expired: This link is expired.
+  button: 재설정
+  invalid: 유효하지 않은 링크
+  expired: 이 링크는 만료 되었습니다.
   message: ':username, reset your password here.'
-  success: Password resetted successfully.
+  success: 비밀번호 변경에 성공했습니다
 bind:
   title: Bind Email
   button: Bind
   message: You need to provide your email adderss to continue.
   introduction: We won't send you any spam.
-  registered: The email address was already taken.
+  registered: 이미 사용 중인 이메일 주소입니다.
 verify:
   title: Email Verification
-  invalid: Invalid link.
-  not-matched: Email doesn't match.
+  invalid: 유효하지 않은 링크
+  not-matched: 이메일 주소가 일치하지 않습니다.
 validation:
-  user: No such user.
+  user: 해당 유저를 찾을 수 없습니다.
   password: Wrong password.
 logout:
-  success: You are now logged out.
+  success: 로그아웃 됐습니다
 oauth:
   authorization:
-    title: Authorization
+    title: 인증
     introduction: A 3rd-party application ":name" is requesting permission to access your account.
-    button: Authorize
-    permissions: Permissions
+    button: 승인
+    permissions: 권한
   scope:
     user:
       read: Sign you in and read your profile
