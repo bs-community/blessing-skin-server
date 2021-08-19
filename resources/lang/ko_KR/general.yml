@@ -53,7 +53,7 @@ user:
   score: Score
   register-at: 등록 날짜
 player:
-  owner: Owner
-  player-name: Player Name
+  owner: 소유자
+  player-name: 플레이어 이름
   previews: Texture Previews
-  last-modified: Last Modified
+  last-modified: 마지막 수정 시간
