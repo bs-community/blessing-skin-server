@@ -64,12 +64,13 @@ const Item: React.FC<Props> = (props) => {
     props.onUploaderClick(item.uploader)
   }
 
-  const handleHeartClick = () => {
+  const handleHeartClick = (event: React.MouseEvent) => {
+    event.preventDefault()
     props.liked ? props.onRemove(item) : props.onAdd(item)
   }
 
   return (
-    <div className="ml-3 mr-2 mb-2">
+    <a href={link} className="ml-3 mr-2 mb-2 d-block" target="_blank">
       <Card className="card">
         <div className="card-body">
           {item.public || (
@@ -82,14 +83,9 @@ const Item: React.FC<Props> = (props) => {
           </a>
         </div>
         <div className="card-footer">
-          <a
-            className="d-block mb-1 text-truncate"
-            title={item.name}
-            href={link}
-            target="_blank"
-          >
+          <span className="d-block mb-1 text-truncate" title={item.name}>
             {item.name}
-          </a>
+          </span>
           <div className="d-flex justify-content-between">
             <div className="d-flex">
               <Badge className="badge bg-teal mr-1">
@@ -114,7 +110,7 @@ const Item: React.FC<Props> = (props) => {
           </div>
         </div>
       </Card>
-    </div>
+    </a>
   )
 }
 
