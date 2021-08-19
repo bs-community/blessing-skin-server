@@ -1,50 +1,50 @@
 ---
-index: Homepage
+index: 홈페이지
 skinlib: Skin Library
-user-center: User Center
-logout: Log Out
-login: Log In
-register: Register Now
-profile: User Profile
-admin-panel: Admin Panel
-explore: Explore
-manage: Manage
-anonymous: Guest
-back: Back
-dashboard: Dashboard
-my-closet: Closet
-my-reports: Reports
-developer: Advanced
-oauth-manage: OAuth2 Apps
-player-manage: Players
-user-manage: Users
-report-manage: Reports
-plugin-manage: Plugins
-plugin-market: Plugin Market
-plugin-configs: Plugin Configs
-customize: Customize
-i18n: Internationalization
-options: Options
+user-center: 사용자 센터
+logout: 로그아웃
+login: 로그인
+register: 지금 가입하기
+profile: 사용자 프로파일
+admin-panel: 관리자 패널
+explore: 둘러보기
+manage: 관리
+anonymous: 비회원
+back: 뒤로가기
+dashboard: 대시보드
+my-closet: 나의 옷장
+my-reports: 신고내역
+developer: 고급설정
+oauth-manage: OAuth2 앱
+player-manage: 플레이어
+user-manage: 사용자
+report-manage: 신고관리
+plugin-manage: 플러그인 관리
+plugin-market: 플러그인 마켓
+plugin-configs: 플러그인 설정
+customize: 사용자 정의
+i18n: 다국어
+options: 설정
 score-options: Score Options
-res-options: Resource Options
-status: Status
-check-update: Check Update
-download-update: Download Updates
-close: Close
-skin: Skin
-cape: Cape
-submit: Submit
-cancel: Cancel
+res-options: 자원설정
+status: 상태
+check-update: 업데이트 확인
+download-update: 업데이트 다운로드
+close: 닫기
+skin: 스킨
+cape: 케이프
+submit: 제출
+cancel: 취소
 yes: true
 no: false
-op-success: Operated successfully.
-unknown: Unknown
-notice: Notice
-illegal-parameters: Illegal parameters.
-private: Private
-public: Public
-unexistent-user: No such user.
-player-banned: The owner of this player has been banned.
+op-success: 작업이 완료됨
+unknown: 알 수 없음
+notice: 공지
+illegal-parameters: 파라미터 정확하지 않음
+private: 비공개
+public: 공개
+unexistent-user: 해당 유저를 찾을 수 없습니다.
+player-banned: 본 사용자가 정지되었습니다.
 texture-deleted: The requested texture has been deleted.
 user:
   email: Email
