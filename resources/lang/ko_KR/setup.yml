@@ -26,19 +26,19 @@ wizard:
     db: 데이터베이스 이름
     db-notice: 만약 SQLite를 사용하신다면, SQLite 데이터베이스파일 위치만 입력하고, 따른 데이터베이스 설정가 필요없읍니다.
     prefix: Prefix of Database Table (Optional)
-    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
+    prefix-notice: 다른 Blessing Skin서버를 같은 데이터베이스에 설치하지 않은 경우, 본 옵션을 필요없읍니다.
   info:
     title: Information needed
-    button: Run install
-    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
-    admin-email: Admin Email
-    admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
-    nickname: Nickname
-    password: Password
-    pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
-    confirm-pwd: Confirm password
-    site-name: Site name
+    button: 설치 시작하기
+    text: 기본적인 내용이 필요합니다. 잘못 입력한 걱정 필요없어요, 나중에 수정이 가능 하니까요.
+    admin-email: 관리자의 이메일주소
+    admin-notice: 이것은 슈퍼관리자 계정입니다, 따른 관리자를 추가 또는 제거 가능합니다.
+    nickname: 닉네임
+    password: 비밀번호
+    pwd-notice: '주의: 본 비밀번호로 로그인이 가능합니다, 안전한 곳으로 저장해주세요.'
+    confirm-pwd: 암호 확인
+    site-name: 사이트명
     site-name-notice: This will be shown on every page.
   finish:
-    title: Installation complete
+    title: 설치가 완료되었습니다
     text: Blessing Skin Server has been installed. Thank you, and enjoy!
