@@ -70,37 +70,37 @@ status:
   bs:
     name: Blessing Skin
     version: 버전
-    env: Application Environment
+    env: 앱플리케이션 환경
     debug: Debugging or Not?
-    commit: Commit
-    laravel: Laravel Version
+    commit: 재출
+    laravel: Laravel 버전
   server:
-    name: Server
-    php: PHP Version
-    web: Web Server Software
-    os: OS
+    name: 서버
+    php: PHP 버전
+    web: 웹 서버 소프트웨어
+    os: 운영 체제
   db:
-    name: Database
-    type: Server
-    host: Host
-    port: Port
-    username: Username
-    database: Database
-    prefix: Table Prefix
-  plugins: Enabled Plugins (:amount)
+    name: 데이터베이스
+    type: 서버
+    host: 호스트
+    port: 포트
+    username: 사용자명
+    database: 데이터베이스
+    prefix: 테이블 접두사
+  plugins: 활성화된 플러그인 수 (:amount)
 plugins:
   readme: Read Me
   operations:
-    title: Operations
-    enabled: ':plugin has been enabled.'
+    title: 동작
+    enabled: 플러그인이 활성화되었습니다.
     unsatisfied:
       notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The ":name" plugin is not enabled.'
-      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
-      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
-    disabled: ':plugin has been disabled.'
-    deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
+      disabled: '":name" 플러그인을 활성화 상태가 안닙니다'
+      version: '":title" 의 버전이 ":constraint"에 비준수합니다'
+      conflict: '":title" 플러그인와 본 플러그인이 동시에 사용할수없음.'
+    disabled: 플러그인이 비활성화되었습니다.
+    deleted: 플러그인이 삭제되었습니다.
+    no-config-notice: 플러그인이 설정패이지를 재공하지않음 또는 설치하지않음
     no-readme-notice: The plugin doesn't contain a readme file.
     not-found: No such plugin.
   market:
