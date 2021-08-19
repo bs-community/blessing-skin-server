@@ -40,23 +40,23 @@ skinlib:
   emptyItemName: Empty texture name.
   setNewTextureName: 'Please enter the new texture name:'
   emptyNewTextureName: Empty new texture name.
-  seeMyUpload: My Uploads
-  apply: Apply
+  seeMyUpload: 나의 업로드
+  apply: 적용하기
   filter:
     skin: (Any Model)
     steve: (Steve)
     alex: (Alex)
     cape: (Cape)
-    uploader: 'User (UID = :uid) Uploaded'
-    allUsers: All Users
+    uploader: '사용자 (UID = :uid) 가 업로드함'
+    allUsers: 모든 사용자
   sort:
-    title: Sort
-    time: Latest
-    likes: Most Likes
+    title: 정렬
+    time: 최신 항목
+    likes: 좋아요순
   emptyTextureName: Empty texture name.
-  emptyUploadFile: You have not uploaded any file.
-  fileExtError: 'Error: Textures should be PNG files.'
-  uploading: Uploading
+  emptyUploadFile: 아직 파일을 업로드하지 않았습니다!
+  fileExtError: 'PNG 형식의 파일이어야 합니다.'
+  uploading: 업로드 중...
   setAsPrivate: Set as Private
   setAsPublic: Set as Public
   setPublicNotice: Sure to set this as public texture?
