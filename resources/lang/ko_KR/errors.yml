@@ -1,16 +1,16 @@
 ---
 http:
-  msg-403: You have no permission to access this page.
-  msg-404: Nothing here.
-  msg-500: Please try again later.
+  msg-403: 이 페이지의 액세스 권한이 없습니다.
+  msg-404: 여기에 아무것도 없어!
+  msg-500: 나중에 다시 시도해주십시오.
   msg-503: The application is now in maintenance mode.
-  method-not-allowed: Method not allowed.
+  method-not-allowed: 지원되지 않는 방법입니다.
   csrf-token-mismatch: Token does not match, try reloading the page.
   ie: Your browser isn't supported. Please switch to other modern browsers, such as Firefox or Chrome.
 general:
-  title: Error occurred
+  title: 오류가 발생했습니다
 exception:
-  code: 'Error code: :code'
+  code: '오류 코드: :code'
   detail: 'Details: :msg'
   message: |
     Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)
