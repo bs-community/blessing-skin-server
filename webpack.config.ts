@@ -158,9 +158,9 @@ export default function (env?: Env): webpack.Configuration[] {
         host: '0.0.0.0',
         hot: true,
         hotOnly: true,
-        stats: 'errors-only',
+        stats: 'errors-warnings',
       },
-      stats: 'errors-only',
+      stats: 'errors-warnings',
     },
     {
       name: 'meta',
@@ -189,7 +189,7 @@ export default function (env?: Env): webpack.Configuration[] {
       resolve: {
         extensions: ['.js', '.ts'],
       },
-      stats: 'errors-only',
+      stats: 'errors-warnings',
     },
   ]
 }
