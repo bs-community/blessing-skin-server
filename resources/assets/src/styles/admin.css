@@ -3,6 +3,10 @@
   height: 400px;
 }
 
+.stats {
+  font-family: Minecraft;
+}
+
 .btn-color {
   width: 40px;
   height: 20px;
