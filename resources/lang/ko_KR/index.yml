@@ -1,17 +1,17 @@
 ---
 features:
-  title: Features
+  title: 특징
   first:
     icon: fa-users
-    name: Multi Player
-    desc: You can add multiple players within one registered account.
+    name: Multi-Accounts
+    desc: 한 이미 가입된 계정에서 여러 유저파일를 만들수있읍니다
   second:
     icon: fa-share-alt
-    name: Sharing
+    name: 공유
     desc: Explore the skin library, send a "like" and share them with your friends.
   third:
     icon: fa-cloud
-    name: Free
-    desc: It is free forever. No ads. No subscription fees.
+    name: 무료
+    desc: 영원히 무료입니다. 광고도 없고 이용료도 없습니다.
 introduction: ':sitename provides the service of uploading and hosting Minecraft skins. By coordinating with skin mods (e.g. CustomSkinLoader), you can choose skin and cape for your game character, and make it visible to other players in Minecraft.'
-start: Join Us
+start: 가입하기

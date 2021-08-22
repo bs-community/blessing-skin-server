@@ -1,44 +1,44 @@
 ---
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
+  connection-error: "목표 :type 데이터배이스를 연결할 수 없으니다. 설정를 확인하세요. 서버가 전송된 메세지: :msg"
 locked:
-  title: Already installed
-  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
-  button: Back to homepage
+  title: 이미 설치됨
+  text: Blessing Skin Server가 이미 설치 된 겄을 확인되었습니다. 다시 설치하고 싶으면, storage 목록에 있는 install.lock 파일을 삭재하세요.
+  button: 홈페이지로 돌아가기
 updates:
   success:
-    title: Update complete
+    title: 업데이트 완료
 wizard:
   master:
-    title: Install Wizard - Blessing Skin Server
+    title: Blessing Skin Server 설치 프로그램
   welcome:
-    title: Welcome
-    button: Next
-    text: Welcome to Blessing Skin Server v:version!
+    title: 환영합니다!
+    button: 다음
+    text: Blessing Skin Server v:version 를 사용 하는겄을 환영합니다!
   database:
-    title: Database
+    title: 데이터베이스
     text: The database is used for storing data of Blessing Skin.
-    type: Database Type
-    host: Database Host
-    port: Database Port
-    username: Database Username
-    password: Database Password
-    db: Database Name
-    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
+    type: 데이터베이스 유형
+    host: 데이터베이스 주소
+    port: 데이터베이스 포트
+    username: 데이터베이스 사용자명
+    password: 데이터베이스 비밀번호
+    db: 데이터베이스 이름
+    db-notice: 만약 SQLite를 사용하신다면, SQLite 데이터베이스파일 위치만 입력하고, 따른 데이터베이스 설정가 필요없읍니다.
     prefix: Prefix of Database Table (Optional)
-    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
+    prefix-notice: 다른 Blessing Skin서버를 같은 데이터베이스에 설치하지 않은 경우, 본 옵션을 필요없읍니다.
   info:
     title: Information needed
-    button: Run install
-    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
-    admin-email: Admin Email
-    admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
-    nickname: Nickname
-    password: Password
-    pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
-    confirm-pwd: Confirm password
-    site-name: Site name
+    button: 설치 시작하기
+    text: 기본적인 내용이 필요합니다. 잘못 입력한 걱정 필요없어요, 나중에 수정이 가능 하니까요.
+    admin-email: 관리자의 이메일주소
+    admin-notice: 이것은 슈퍼관리자 계정입니다, 따른 관리자를 추가 또는 제거 가능합니다.
+    nickname: 닉네임
+    password: 비밀번호
+    pwd-notice: '주의: 본 비밀번호로 로그인이 가능합니다, 안전한 곳으로 저장해주세요.'
+    confirm-pwd: 암호 확인
+    site-name: 사이트명
     site-name-notice: This will be shown on every page.
   finish:
-    title: Installation complete
-    text: Blessing Skin Server has been installed. Thank you, and enjoy!
+    title: 설치가 완료되었습니다
+    text: Blessing Skin Server가 설치완료됬읍니다! Blessing Skin Sevrer를 이용하는것 감사합니다!

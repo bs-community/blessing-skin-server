@@ -58,16 +58,16 @@ report:
   reporter_reward_score:
     title: Reward the Reporter with Scores If Report Resolved
 sign:
-  title: Signing
+  title: 체크인
   sign_score:
     title: Score Granted
     addon1: scores ~
     addon2: scores
   sign_gap_time:
-    title: Gap Time
-    addon: hours
+    title: 체크인 간격시간
+    addon: 시
   sign_after_zero:
-    title: Time
+    title: 시각
     label: Users can sign in after 0 everyday.
     hint: The above option will be ignored if this is checked.
 sharing:

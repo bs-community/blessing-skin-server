@@ -32,75 +32,75 @@ users:
     password:
       success: 비밀번호 변경에 성공했습니다
     score:
-      success: Score changed successfully.
+      success: 수정 성공
     permission: 권한이 업데이트 되었습니다!
     delete:
       success: 계정이 성공적으로 삭제되었습니다.
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: 이 사용자을 설정하는 권한이 없습니다.
   textures:
-    non-existent: No such texture tid.:tid
+    non-existent: 텍스처 tid.:tid 가 존재하지 않음
     success: The textures of :player has been updated.
   name:
     success: Player name has been updated to :player
   owner:
     success: The player :player was transferred to user :user.
   delete:
-    success: The player has been deleted successfully.
+    success: 플레이어를 성공적으로 삭제되었습니다.
 customize:
   change-color:
-    title: Change Theme Color
+    title: 태마 색상변경
   colors:
-    navbar: Top Navigation Bar
+    navbar: 탑 내비게이션 바
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: 사이드바 (다크)
+      light: 사이드바 (라이트)
 i18n:
   add: Add New Language Line
   added: Language line added.
   updated: Language line updated.
   deleted: Language line deleted.
-  group: Group
-  key: Key
-  text: Text
-  tip: How can I use this page?
+  group: 그룹
+  key: 키
+  text: 텍스트
+  tip: 본 패이지의 사용 방법
 status:
-  info: Information
-  health: Health
+  info: 정보
+  health: 상태
   bs:
     name: Blessing Skin
-    version: Version
-    env: Application Environment
+    version: 버전
+    env: 앱플리케이션 환경
     debug: Debugging or Not?
-    commit: Commit
-    laravel: Laravel Version
+    commit: 재출
+    laravel: Laravel 버전
   server:
-    name: Server
-    php: PHP Version
-    web: Web Server Software
-    os: OS
+    name: 서버
+    php: PHP 버전
+    web: 웹 서버 소프트웨어
+    os: 운영 체제
   db:
-    name: Database
-    type: Server
-    host: Host
-    port: Port
-    username: Username
-    database: Database
-    prefix: Table Prefix
-  plugins: Enabled Plugins (:amount)
+    name: 데이터베이스
+    type: 서버
+    host: 호스트
+    port: 포트
+    username: 사용자명
+    database: 데이터베이스
+    prefix: 테이블 접두사
+  plugins: 활성화된 플러그인 수 (:amount)
 plugins:
   readme: Read Me
   operations:
-    title: Operations
-    enabled: ':plugin has been enabled.'
+    title: 동작
+    enabled: 플러그인이 활성화되었습니다.
     unsatisfied:
       notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The ":name" plugin is not enabled.'
-      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
-      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
-    disabled: ':plugin has been disabled.'
-    deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
+      disabled: '":name" 플러그인을 활성화 상태가 안닙니다'
+      version: '":title" 의 버전이 ":constraint"에 비준수합니다'
+      conflict: '":title" 플러그인와 본 플러그인이 동시에 사용할수없음.'
+    disabled: 플러그인이 비활성화되었습니다.
+    deleted: 플러그인이 삭제되었습니다.
+    no-config-notice: 플러그인이 설정패이지를 재공하지않음 또는 설치하지않음
     no-readme-notice: The plugin doesn't contain a readme file.
     not-found: No such plugin.
   market:
