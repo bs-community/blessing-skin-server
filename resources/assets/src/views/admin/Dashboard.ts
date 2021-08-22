@@ -1,9 +1,12 @@
-import 'zrender/lib/svg/svg'
-import echarts from 'echarts/lib/echarts'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/dataZoom'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/tooltip'
+import * as echarts from 'echarts/core'
+import { SVGRenderer } from 'echarts/renderers'
+import { LineChart } from 'echarts/charts'
+import {
+  DataZoomComponent,
+  GridComponent,
+  TitleComponent,
+  TooltipComponent,
+} from 'echarts/components'
 import { get } from '../../scripts/net'
 
 interface ChartData {
@@ -12,36 +15,79 @@ interface ChartData {
   data: number[][]
 }
 
-async function createChart(el: HTMLDivElement) {
+interface SingleChartData {
+  label: string
+  xAxis: string[]
+  data: number[]
+}
+
+echarts.use([
+  SVGRenderer,
+  LineChart,
+  DataZoomComponent,
+  GridComponent,
+  TitleComponent,
+  TooltipComponent,
+])
+
+async function main() {
+  const elUsersRegistration = document.querySelector<HTMLDivElement>(
+    '#chart-users-registration',
+  )
+  const elTexturesUpload = document.querySelector<HTMLDivElement>(
+    '#chart-textures-upload',
+  )
+  if (!elUsersRegistration || !elTexturesUpload) {
+    return
+  }
+
   const isDarkMode = document.body.classList.contains('dark-mode')
   const textColor = isDarkMode ? '#fff' : '#000'
 
-  const chart = echarts.init(el, void 0, { renderer: 'svg' })
+  const chartData: ChartData = await get('/admin/chart')
+  createLineChart(
+    elUsersRegistration,
+    isDarkMode ? '#3498db' : '#17a2b8',
+    textColor,
+    {
+      label: chartData.labels[0]!,
+      xAxis: chartData.xAxis,
+      data: chartData.data[0]!.map(() => ~~(Math.random() * 300)),
+    },
+  )
+  createLineChart(elTexturesUpload, '#6f42c1', textColor, {
+    label: chartData.labels[1]!,
+    xAxis: chartData.xAxis,
+    data: chartData.data[1]!.map(() => ~~(Math.random() * 300)),
+  })
+}
+
+function createLineChart(
+  el: HTMLDivElement,
+  color: string,
+  textColor: string,
+  data: SingleChartData,
+) {
+  const chart = echarts.init(el)
   chart.setOption({
+    title: {
+      text: data.label,
+    },
     textStyle: {
       color: textColor,
     },
     tooltip: {
       trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-      },
     },
     dataZoom: [
       { type: 'inside', start: 75 },
       { type: 'slider', start: 75 },
     ],
-    legend: {
-      data: [],
-      textStyle: {
-        color: textColor,
-      },
-    },
     xAxis: [
       {
         type: 'category',
         boundaryGap: false,
-        data: [],
+        data: data.xAxis,
       },
     ],
     yAxis: [
@@ -49,88 +95,23 @@ async function createChart(el: HTMLDivElement) {
         type: 'value',
         minInterval: 1,
         boundaryGap: false,
-        position: 'left',
-        splitLine: {
-          show: false,
-        },
-        axisPointer: {
-          label: {
-            precision: 0,
-          },
-        },
-      },
-      {
-        type: 'value',
-        minInterval: 1,
-        boundaryGap: false,
-        position: 'right',
-        splitLine: {
-          show: false,
-        },
-        axisPointer: {
-          label: {
-            precision: 0,
-          },
-        },
       },
     ],
     series: [
       {
-        name: '',
+        name: data.label,
         type: 'line',
-        stack: '',
         itemStyle: {
-          color: '#B5F079',
+          color,
         },
         areaStyle: {
-          color: '#B5F079',
+          color,
         },
-        data: [],
-      },
-      {
-        name: '',
-        type: 'line',
-        stack: '',
-        itemStyle: {
-          color: '#6FADEB',
-        },
-        areaStyle: {
-          color: '#6FADEB',
-        },
-        data: [],
-      },
-    ],
-  })
-
-  const chartData: ChartData = await get('/admin/chart')
-  chart.setOption({
-    legend: {
-      data: chartData.labels,
-    },
-    xAxis: [
-      {
-        type: 'category',
-        boundaryGap: false,
-        data: chartData.xAxis,
-        axisLabel: { margin: 16 },
-      },
-    ],
-    series: chartData.labels.map(
-      (label: string, index: number): echarts.EChartOption.SeriesLine => ({
-        name: label,
-        type: 'line',
-        data: chartData.data[index],
+        data: data.data,
         smooth: true,
-        symbol: 'circle',
-        yAxisIndex: index,
-      }),
-    ),
+      },
+    ],
   })
-
-  return chart
 }
 
-const el = document.querySelector<HTMLDivElement>('#chart')
-if (el) {
-  createChart(el)
-}
+main()

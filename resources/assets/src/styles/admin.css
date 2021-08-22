@@ -1,6 +1,9 @@
-#chart {
+.chart {
   width: 100%;
   height: 400px;
+}
+.chart:not(:first-of-type) {
+  margin-top: 12px;
 }
 
 .stats {
