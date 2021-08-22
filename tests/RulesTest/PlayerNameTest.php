@@ -43,6 +43,24 @@ class PlayerNameTest extends TestCase
         );
     }
 
+    public function testUtf8()
+    {
+        option(['player_name_rule' => 'utf8']);
+        $rule = new PlayerName();
+
+        $this->assertTrue($rule->passes('', '_name_'));
+        $this->assertTrue($rule->passes('', 'NaN'));
+        $this->assertTrue($rule->passes('', '中文'));
+        $this->assertTrue($rule->passes('', '§Me'));
+        $this->assertTrue($rule->passes('', ';'));
+        $this->assertTrue($rule->passes('', '\\'));
+
+        $this->assertFalse($rule->passes('', 'a b'));
+        $this->assertFalse($rule->passes('', "a\n b"));
+        $this->assertFalse($rule->passes('', "a\tb"));
+        $this->assertFalse($rule->passes('', "a\fb"));
+    }
+
     public function testCustom()
     {
         option(['player_name_rule' => 'custom']);

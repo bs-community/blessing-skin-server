@@ -22,7 +22,7 @@ class PlayerName implements Rule
                 break;
 
             case 'utf8':
-                return mb_check_encoding($value, 'UTF-8');
+                return mb_check_encoding($value, 'UTF-8') && !preg_match('/\s/', $value);
 
             case 'custom':
                 $regexp = option('custom_player_name_regexp') ?: $regexp;
