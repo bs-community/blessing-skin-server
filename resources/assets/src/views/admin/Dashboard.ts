@@ -52,13 +52,13 @@ async function main() {
     {
       label: chartData.labels[0]!,
       xAxis: chartData.xAxis,
-      data: chartData.data[0]!.map(() => ~~(Math.random() * 300)),
+      data: chartData.data[0]!,
     },
   )
   createLineChart(elTexturesUpload, '#6f42c1', textColor, {
     label: chartData.labels[1]!,
     xAxis: chartData.xAxis,
-    data: chartData.data[1]!.map(() => ~~(Math.random() * 300)),
+    data: chartData.data[1]!,
   })
 }
 
