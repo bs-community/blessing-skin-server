@@ -1,22 +1,4 @@
-import { scrollHander, logout } from '@/scripts/homePage'
-
-test('logout', async () => {
-  const meta = document.createElement('meta')
-  meta.name = 'csrf-token'
-  meta.content = 'token'
-  document.head.appendChild(meta)
-
-  window.fetch = jest.fn()
-
-  await logout()
-  expect(window.fetch).toBeCalledWith('/auth/logout', {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: {
-      'X-CSRF-TOKEN': 'token',
-    },
-  })
-})
+import { scrollHander } from '@/scripts/homePage'
 
 describe('scroll handler', () => {
   beforeAll(() => {

@@ -1,4 +1,3 @@
-import './i18n'
 import { getExtraData } from './extra'
 
 export function scrollHander() {
@@ -15,19 +14,6 @@ export function scrollHander() {
   }
 }
 
-export async function logout() {
-  await fetch(`${blessing.base_url}/auth/logout`, {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: {
-      'X-CSRF-TOKEN': document.querySelector<HTMLMetaElement>(
-        'meta[name="csrf-token"]',
-      )!.content,
-    },
-  })
-  window.location.href = blessing.base_url
-}
-
 /* istanbul ignore next */
 if (process.env.NODE_ENV !== 'test') {
   const { transparent_navbar } = getExtraData() as {
@@ -37,7 +23,3 @@ if (process.env.NODE_ENV !== 'test') {
     window.addEventListener('load', scrollHander)
   }
 }
-/* istanbul ignore next */
-document
-  .querySelector<HTMLButtonElement>('#btn-logout')
-  ?.addEventListener('click', logout)
