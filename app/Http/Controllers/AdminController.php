@@ -47,7 +47,7 @@ class AdminController extends Controller
 
     public function chartData()
     {
-        $xAxis = Collection::times(31, fn ($i) => Carbon::today()->subDays(31 - $i)->format('m-d'));
+        $xAxis = Collection::times(31, fn ($i) => Carbon::today()->subDays(31 - $i)->isoFormat('l'));
 
         $oneMonthAgo = Carbon::today()->subMonth();
 
