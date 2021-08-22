@@ -61,7 +61,7 @@ export default function (env?: Env): webpack.Configuration[] {
           },
           {
             test: /\.(png|webp|svg|woff2?|eot|ttf)$/,
-            type: 'asset'
+            type: 'asset',
           },
         ],
       },
