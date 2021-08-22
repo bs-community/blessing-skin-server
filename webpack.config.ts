@@ -60,15 +60,8 @@ export default function (env?: Env): webpack.Configuration[] {
             ],
           },
           {
-            test: /\.(png|webp)$/,
-            loader: 'url-loader',
-            options: {
-              limit: 8192,
-            },
-          },
-          {
-            test: /\.(svg|woff2?|eot|ttf)$/,
-            loader: isDev ? 'url-loader' : 'file-loader',
+            test: /\.(png|webp|svg|woff2?|eot|ttf)$/,
+            type: 'asset'
           },
         ],
       },
