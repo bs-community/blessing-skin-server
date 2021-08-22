@@ -51,16 +51,18 @@ class AdminController extends Controller
 
         $oneMonthAgo = Carbon::today()->subMonth();
 
-        $grouping = fn ($field) => fn ($item) => substr($item->$field, 5, 5);
+        $grouping = fn ($field) => fn ($item) => Carbon::parse($item->$field)->isoFormat('l');
         $mapping = fn ($item) => count($item);
         $aligning = fn ($data) => fn ($day) => ($data->get($day) ?? 0);
 
+        /** @var Collection */
         $userRegistration = User::where('register_at', '>=', $oneMonthAgo)
             ->select('register_at')
             ->get()
             ->groupBy($grouping('register_at'))
             ->map($mapping);
 
+        /** @var Collection */
         $textureUploads = Texture::where('upload_at', '>=', $oneMonthAgo)
             ->select('upload_at')
             ->get()
