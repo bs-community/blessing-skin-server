@@ -154,6 +154,7 @@ export default function (env?: Env): webpack.Configuration[] {
         stats: 'errors-warnings',
       },
       stats: 'errors-warnings',
+      ignoreWarnings: [/size limit/i],
     },
     {
       name: 'meta',
