@@ -23,7 +23,7 @@
     "facade/ignition": "^2.0",
     "gregwar/captcha": "1.*",
     "guzzlehttp/guzzle": "^7.0",
-    "intervention/image": "^2.5",
+    "intervention/image": "^2.7",
     "laravel/framework": "^8.0",
     "laravel/passport": "^10.0",
     "lorisleiva/laravel-search-string": "^1.0",
