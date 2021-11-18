@@ -1,5 +1,11 @@
 tasks:
   - init: yarn install
-    command: yarn dev
+    command: yarn dev --config webpack.gitpod.config.ts
   - init: composer install
-    command: php artisan serve
+    command: |
+      cp .env.example .env
+      touch storage/database.db
+      sed 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' -i .env
+      sed 's/DB_DATABASE=blessingskin/DB_DATABASE=\/app\/storage\/database\.db/' .env
+      php artisan key:generate
+      php artisan serve --host=0.0.0.0
