@@ -9,3 +9,27 @@ tasks:
       sed 's/DB_DATABASE=blessingskin/DB_DATABASE=\/app\/storage\/database\.db/' .env
       php artisan key:generate
       php artisan serve --host=0.0.0.0
+  - command: gp await-port 8080 && gp preview $(gp url 8000)
+
+github:
+  prebuilds:
+    # enable for the master/default branch (defaults to true)
+    master: true
+    # enable for all branches in this repo (defaults to false)
+    branches: false
+    # enable for pull requests coming from this repo (defaults to true)
+    pullRequests: true
+    # add a check to pull requests (defaults to true)
+    addCheck: true
+    # add a "Review in Gitpod" button as a comment to pull requests (defaults to false)
+    addComment: false
+
+vscode:
+  extensions:
+    - "editorconfig.editorconfig"
+    - "eamodio.gitlens"
+    - "bmewburn.vscode-intelephense-client"
+    - "esbenp.prettier-vscode"
+    - "jpoissonnier.vscode-styled-components"
+    - "mblode.twig-language-2"
+    - "felixfbecker.php-debug"
