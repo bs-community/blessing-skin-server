@@ -6,7 +6,7 @@ tasks:
       cp .env.example .env
       touch storage/database.db
       sed 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' -i .env
-      sed 's/DB_DATABASE=blessingskin/DB_DATABASE=\/app\/storage\/database\.db/' .env
+      sed 's/DB_DATABASE=blessingskin/DB_DATABASE=\/workspace\/blessing-skin-server\/storage\/database\.db/' -i .env
       php artisan key:generate
       php artisan serve --host=0.0.0.0
   - command: gp await-port 8080 && gp preview $(gp url 8000)
@@ -33,3 +33,7 @@ vscode:
     - "jpoissonnier.vscode-styled-components"
     - "mblode.twig-language-2"
     - "felixfbecker.php-debug"
+
+ports:
+  - port: 8080
+    visibility: public
