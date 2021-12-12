@@ -119,7 +119,7 @@ class NotificationsControllerTest extends TestCase
         $this->postJson('/user/notifications/'.$notification->id)
             ->assertJson([
                 'title' => $notification->data['title'],
-                'content' => $converter->convertToHtml($notification->data['content']),
+                'content' => $converter->convertToHtml($notification->data['content'])->getContent(),
                 'time' => $notification->created_at->toDateTimeString(),
             ]);
         $notification->refresh();
