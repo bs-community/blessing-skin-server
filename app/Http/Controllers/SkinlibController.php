@@ -182,7 +182,7 @@ class SkinlibController extends Controller
                 'scorePrivate' => (int) option('private_score_per_storage'),
                 'closetItemCost' => (int) option('score_per_closet_item'),
                 'award' => (int) option('score_award_per_texture'),
-                'contentPolicy' => $converter->convertToHtml(option_localized('content_policy')),
+                'contentPolicy' => $converter->convertToHtml(option_localized('content_policy'))->getContent(),
             ]);
     }
 
