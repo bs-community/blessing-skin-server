@@ -1,7 +1,7 @@
 - [简体中文](./README-zh.md)
 - **English**
 
-<p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
+<p align="center"><img src="https://media.githubusercontent.com/media/bs-community/logo/main/logo.png"></p>
 
 <p align="center">
 <a href="https://github.com/bs-community/blessing-skin-server/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/bs-community/blessing-skin-server/CI?style=flat-square"></a>
