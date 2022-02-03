@@ -95,8 +95,7 @@ jobs:
       run: |
         yarn lint
         yarn fmt:check
-        yarn tsc -p . --noEmit
-        yarn tsc -p ./resources/assets/tests --noEmit
+        yarn type:check
   jest:
     name: Frontend Tests
     runs-on: ubuntu-latest

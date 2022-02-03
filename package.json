@@ -15,6 +15,7 @@
     "lint": "eslint --ext=ts -f=beauty .",
     "fmt": "prettier --write resources/assets tools webpack.config.ts",
     "fmt:check": "prettier --check resources/assets tools webpack.config.ts",
+    "type:check": "tsc -p . --noEmit && tsc -p ./resources/assets/tests --noEmit",
     "test": "jest",
     "build:urls": "ts-node tools/generateUrls.ts"
   },
