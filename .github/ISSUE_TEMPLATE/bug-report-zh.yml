@@ -3,6 +3,7 @@ description: 发起 bug 报告
 body:
   - type: markdown
     attributes:
+      labels: Verify
       value: |
         在报告问题之前，请确保您已经 **认真** 阅读：
         - [FAQ](https://blessing.netlify.app/en/faq.html)
