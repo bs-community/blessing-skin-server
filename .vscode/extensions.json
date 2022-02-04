@@ -1,11 +1,7 @@
 {
   "recommendations": [
     "editorconfig.editorconfig",
-    "eamodio.gitlens",
     "bmewburn.vscode-intelephense-client",
-    "esbenp.prettier-vscode",
-    "mblode.twig-language-2",
-    "firefox-devtools.vscode-firefox-debug",
-    "felixfbecker.php-debug"
+    "esbenp.prettier-vscode"
   ]
 }
