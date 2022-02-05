@@ -39,6 +39,8 @@ interface Props {
 
 const ImageBox: React.FC<Props> = (props) => {
   const { report } = props
+  const preview = `${blessing.base_url}/preview/${report.tid}?height=150`
+  const previewPNG = `${preview}&png`
 
   const handleImageClick = () => props.onClick(report.texture)
 
@@ -53,12 +55,15 @@ const ImageBox: React.FC<Props> = (props) => {
         (UID: {report.uploader})
       </div>
       <div className="card-body">
-        <img
-          src={`${blessing.base_url}/preview/${report.tid}?height=150`}
-          alt={report.tid.toString()}
-          className="card-img-top"
-          onClick={handleImageClick}
-        />
+        <picture>
+          <source srcSet={preview} type="image/webp" />
+          <img
+            src={previewPNG}
+            alt={report.tid.toString()}
+            className="card-img-top"
+            onClick={handleImageClick}
+          />
+        </picture>
       </div>
       <div className="card-footer">
         <div className="d-flex justify-content-between">

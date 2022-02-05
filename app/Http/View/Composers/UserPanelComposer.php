@@ -25,6 +25,12 @@ class UserPanelComposer
         $user = auth()->user();
         $avatarUrl = route('avatar.texture', ['tid' => $user->avatar, 'size' => 45], false);
         $avatar = $this->filter->apply('user_avatar', $avatarUrl, [$user]);
+        $avatarPNG = route(
+            'avatar.texture',
+            ['tid' => $user->avatar, 'size' => 45, 'png' => true],
+            false
+        );
+        $avatarPNG = $this->filter->apply('user_avatar', $avatarPNG, [$user]);
 
         $badges = [];
         if ($user->isAdmin()) {
@@ -33,6 +39,11 @@ class UserPanelComposer
         $this->dispatcher->dispatch(new \App\Events\RenderingBadges($badges));
         $badges = $this->filter->apply('user_badges', $badges, [$user]);
 
-        $view->with(compact('user', 'avatar', 'badges'));
+        $view->with([
+            'user' => $user,
+            'avatar' => $avatar,
+            'avatar_png' => $avatarPNG,
+            'badges' => $badges,
+        ]);
     }
 }

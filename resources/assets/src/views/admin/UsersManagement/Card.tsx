@@ -24,15 +24,17 @@ interface Props {
 const Card: React.FC<Props> = (props) => {
   const { user, currentUser } = props
 
+  const avatar = `${blessing.base_url}/avatar/user/${user.uid}`
+  const avatarPNG = `${avatar}?png`
   const canModify = canModifyUser(user, currentUser)
 
   return (
     <Box className="info-box">
       <Icon py>
-        <img
-          className="bs-avatar"
-          src={`${blessing.base_url}/avatar/user/${user.uid}`}
-        />
+        <picture>
+          <source srcSet={avatar} type="image/webp" />
+          <img className="bs-avatar" src={avatarPNG} />
+        </picture>
       </Icon>
       <div className="info-box-content">
         <div className="row">

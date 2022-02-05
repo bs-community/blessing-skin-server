@@ -23,8 +23,19 @@ class UserMenuComposer
         $user = auth()->user();
         $avatarUrl = route('avatar.texture', ['tid' => $user->avatar, 'size' => 36], false);
         $avatar = $this->filter->apply('user_avatar', $avatarUrl, [$user]);
+        $avatarPNG = route(
+            'avatar.texture',
+            ['tid' => $user->avatar, 'size' => 36, 'png' => true],
+            false
+        );
+        $avatarPNG = $this->filter->apply('user_avatar', $avatarPNG, [$user]);
         $cli = $this->request->is('admin', 'admin/*');
 
-        $view->with(compact('user', 'avatar', 'cli'));
+        $view->with([
+            'user' => $user,
+            'avatar' => $avatar,
+            'avatar_png' => $avatarPNG,
+            'cli' => $cli,
+        ]);
     }
 }

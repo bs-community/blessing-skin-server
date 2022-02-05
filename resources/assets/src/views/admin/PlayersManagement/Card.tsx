@@ -16,6 +16,11 @@ const Card: React.FC<Props> = (props) => {
   const { player } = props
 
   const handlePreviewTextures = () => {
+    const skinPreview = `${blessing.base_url}/preview/${player.tid_skin}`
+    const skinPreviewPNG = `${skinPreview}?png`
+    const capePreview = `${blessing.base_url}/preview/${player.tid_cape}`
+    const capePreviewPNG = `${capePreview}?png`
+
     showModal({
       mode: 'alert',
       title: t('general.player.previews'),
@@ -27,11 +32,14 @@ const Card: React.FC<Props> = (props) => {
                 href={`${blessing.base_url}/skinlib/show/${player.tid_skin}`}
                 target="_blank"
               >
-                <img
-                  src={`${blessing.base_url}/preview/${player.tid_skin}`}
-                  alt={`${player.name} - ${t('general.skin')}`}
-                  width="128"
-                />
+                <picture>
+                  <source srcSet={skinPreview} type="image/webp" />
+                  <img
+                    src={skinPreviewPNG}
+                    alt={`${player.name} - ${t('general.skin')}`}
+                    width="128"
+                  />
+                </picture>
               </a>
             )}
           </div>
@@ -41,11 +49,14 @@ const Card: React.FC<Props> = (props) => {
                 href={`${blessing.base_url}/skinlib/show/${player.tid_cape}`}
                 target="_blank"
               >
-                <img
-                  src={`${blessing.base_url}/preview/${player.tid_cape}`}
-                  alt={`${player.name} - ${t('general.cape')}`}
-                  width="128"
-                />
+                <picture>
+                  <source srcSet={capePreview} type="image/webp" />
+                  <img
+                    src={capePreviewPNG}
+                    alt={`${player.name} - ${t('general.cape')}`}
+                    width="128"
+                  />
+                </picture>
               </a>
             )}
           </div>
@@ -54,13 +65,16 @@ const Card: React.FC<Props> = (props) => {
     })
   }
 
+  const avatar = `${blessing.base_url}/avatar/player/${player.name}`
+  const avatarPNG = `${avatar}?png`
+
   return (
     <Box className="info-box">
       <div className="info-box-icon">
-        <img
-          className="bs-avatar"
-          src={`${blessing.base_url}/avatar/player/${player.name}`}
-        />
+        <picture>
+          <source srcSet={avatar} type="image/webp" />
+          <img className="bs-avatar" src={avatarPNG} />
+        </picture>
       </div>
       <div className="info-box-content">
         <div className="row">

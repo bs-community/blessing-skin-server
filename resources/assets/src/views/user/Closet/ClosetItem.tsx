@@ -14,6 +14,8 @@ interface Props {
 
 const ClosetItem: React.FC<Props> = (props) => {
   const { item } = props
+  const preview = `${blessing.base_url}/preview/${item.tid}?height=150`
+  const previewPNG = `${preview}&png`
 
   const handleItemClick = () => {
     props.onClick(item)
@@ -24,11 +26,14 @@ const ClosetItem: React.FC<Props> = (props) => {
   return (
     <Card className={`card mr-3 mb-3 ${props.selected ? 'shadow' : ''}`}>
       <div className="card-body" onClick={handleItemClick}>
-        <img
-          src={`${blessing.base_url}/preview/${item.tid}?height=150`}
-          alt={item.pivot.item_name}
-          className="card-img-top"
-        />
+        <picture>
+          <source srcSet={preview} type="image/webp" />
+          <img
+            src={previewPNG}
+            alt={item.pivot.item_name}
+            className="card-img-top"
+          />
+        </picture>
       </div>
       <div className="card-footer pb-2 pt-2 pl-1 pr-1">
         <div className="container d-flex justify-content-between">

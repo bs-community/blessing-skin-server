@@ -62,6 +62,7 @@ const Item: React.FC<Props> = (props) => {
 
   const link = `${blessing.base_url}/skinlib/show/${item.tid}`
   const preview = `${blessing.base_url}/preview/${item.tid}?height=150`
+  const previewPNG = `${preview}&png`
 
   const handleUploaderClick = (event: React.MouseEvent) => {
     event.preventDefault()
@@ -78,7 +79,10 @@ const Item: React.FC<Props> = (props) => {
       <Card className="card">
         <div className="card-body">
           <a href={link} target="_blank">
-            <img src={preview} alt={item.name} className="card-img-top" />
+            <picture>
+              <source srcSet={preview} type="image/webp" />
+              <img src={previewPNG} alt={item.name} className="card-img-top" />
+            </picture>
           </a>
         </div>
         <div className="card-footer">

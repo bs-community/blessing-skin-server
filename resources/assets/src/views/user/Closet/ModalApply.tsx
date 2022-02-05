@@ -89,12 +89,18 @@ const ModalApply: React.FC<Props> = (props) => {
                 title={player.name}
                 onClick={() => handleSelect(player)}
               >
-                <img
-                  src={`${baseUrl}/avatar/${player.tid_skin}?3d&size=45`}
-                  alt={player.name}
-                  width={45}
-                  height={45}
-                />
+                <picture>
+                  <source
+                    srcSet={`${baseUrl}/avatar/${player.tid_skin}?3d&size=45`}
+                    type="image/webp"
+                  />
+                  <img
+                    src={`${baseUrl}/avatar/${player.tid_skin}?3d&png&size=45`}
+                    alt={player.name}
+                    width={45}
+                    height={45}
+                  />
+                </picture>
                 <span className="ml-1">{player.name}</span>
               </button>
             ))}
