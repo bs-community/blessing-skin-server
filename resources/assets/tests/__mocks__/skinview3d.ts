@@ -38,25 +38,34 @@ export class RootAnimation {
 
 export function createOrbitControls() {
   return {
-    dispose() {}
+    dispose() {},
   }
 }
 
-export const WalkingAnimation = new Proxy({}, {
-  get() {
-    return jest.fn()
-  }
-})
-export const RunningAnimation = new Proxy({}, {
-  get() {
-    return jest.fn()
-  }
-})
-export const RotatingAnimation = new Proxy({}, {
-  get() {
-    return jest.fn()
-  }
-})
+export const WalkingAnimation = new Proxy(
+  {},
+  {
+    get() {
+      return jest.fn()
+    },
+  },
+)
+export const RunningAnimation = new Proxy(
+  {},
+  {
+    get() {
+      return jest.fn()
+    },
+  },
+)
+export const RotatingAnimation = new Proxy(
+  {},
+  {
+    get() {
+      return jest.fn()
+    },
+  },
+)
 
 export function isSlimSkin() {
   return false
