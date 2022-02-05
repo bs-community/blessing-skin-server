@@ -15,7 +15,7 @@ describe('indicator', () => {
   })
 
   it('nothing', () => {
-    const { queryByText } = render(<Viewer isAlex={false} showIndicator />)
+    const { queryByText } = render(<Viewer isAlex={true} showIndicator />)
     expect(queryByText(t('general.skin'))).not.toBeInTheDocument()
     expect(queryByText(t('general.cape'))).not.toBeInTheDocument()
   })
@@ -70,75 +70,51 @@ describe('actions', () => {
     const { getByTitle } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(t('general.reset')))
   })
+
+  it('reset when running', () => {
+    const { getByTitle } = render(<Viewer isAlex={false} />)
+    fireEvent.click(getByTitle(`${t('general.walk')} / ${t('general.run')}`))
+    fireEvent.click(getByTitle(t('general.reset')))
+  })
 })
 
 describe('background', () => {
   it('white', () => {
-    const { getByTitle, baseElement } = render(<Viewer isAlex={false} />)
+    const { getByTitle } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(t('colors.white')))
-    expect(
-      baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
-    ).toBe('rgb(255, 255, 255)')
   })
 
   it('black', () => {
-    const { getByTitle, baseElement } = render(<Viewer isAlex={false} />)
+    const { getByTitle } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(t('colors.black')))
-    expect(
-      baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
-    ).toBe('rgb(0, 0, 0)')
   })
 
   it('white', () => {
-    const { getByTitle, baseElement } = render(<Viewer isAlex={false} />)
+    const { getByTitle } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(t('colors.gray')))
-    expect(
-      baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
-    ).toBe('rgb(108, 117, 125)')
   })
 
   it('previous picture', () => {
-    const { getByTitle, baseElement } = render(<Viewer isAlex={false} />)
-
+    const { getByTitle } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(t('colors.prev')))
-    expect(
-      baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
-    ).toStartWith('url')
-
     fireEvent.click(getByTitle(t('colors.prev')))
-    expect(
-      baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
-    ).toStartWith('url')
   })
 
   it('next picture', () => {
-    const { getByTitle, baseElement } = render(<Viewer isAlex={false} />)
+    const { getByTitle } = render(<Viewer isAlex={false} />)
 
     fireEvent.click(getByTitle(t('colors.next')))
-    expect(
-      baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
-    ).toStartWith('url')
-
     fireEvent.click(getByTitle(t('colors.next')))
-    expect(
-      baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
-    ).toStartWith('url')
 
     Array.from({ length: PICTURES_COUNT - 1 }).forEach(() => {
       fireEvent.click(getByTitle(t('colors.next')))
     })
-    expect(
-      baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
-    ).toStartWith('url')
   })
 
   it('default for dark mode', () => {
     document.body.classList.add('dark-mode')
 
-    const { baseElement } = render(<Viewer isAlex={false} />)
-    expect(
-      baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
-    ).toBe('rgb(108, 117, 125)')
+    render(<Viewer isAlex={false} />)
 
     document.body.classList.remove('dark-mode')
   })

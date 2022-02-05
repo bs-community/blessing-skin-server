@@ -2,51 +2,61 @@
 /* eslint-disable max-classes-per-file */
 import type { PlayerObject, SkinObject, CapeObject } from 'skinview3d'
 
-export class SkinViewer {
-  disposed: boolean
-
-  skinUrl: string
-
-  capeUrl: string
-
-  animationPaused: boolean
-
-  camera: { position: { z: number } }
+export class FXAASkinViewer {
+  disposed = false
+  background = ''
+  animations = new RootAnimation()
+  animationPaused = false
 
   playerObject: PlayerObject
 
   constructor() {
-    this.skinUrl = ''
-    this.capeUrl = ''
-    this.disposed = false
     this.animationPaused = false
-    this.camera = {
-      position: {
-        z: 0,
-      },
-    }
     this.playerObject = {
       skin: {} as SkinObject,
       cape: {} as CapeObject,
     } as PlayerObject
   }
 
+  loadSkin() {}
+  loadCape() {}
+  resetCape() {}
+  loadBackground() {}
+
   dispose() {
     this.disposed = true
   }
 }
 
-export class CompositeAnimation {
-  add(animation: any) {
+export class RootAnimation {
+  paused = false
+
+  add(animation: unknown) {
     return animation
   }
 }
 
-export function createOrbitControls() {}
+export function createOrbitControls() {
+  return {
+    dispose() {}
+  }
+}
 
-export const WalkingAnimation = { paused: false }
-export const RunningAnimation = { paused: false }
-export const RotatingAnimation = { paused: false }
+export const WalkingAnimation = new Proxy({}, {
+  get() {
+    return jest.fn()
+  }
+})
+export const RunningAnimation = new Proxy({}, {
+  get() {
+    return jest.fn()
+  }
+})
+export const RotatingAnimation = new Proxy({}, {
+  get() {
+    return jest.fn()
+  }
+})
 
 export function isSlimSkin() {
   return false
