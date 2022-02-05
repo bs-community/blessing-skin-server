@@ -42,7 +42,7 @@
     "reaptcha": "^1.7.2",
     "rxjs": "^6.5.5",
     "skinview-utils": "^0.5.5",
-    "skinview3d": "^1.2.1",
+    "skinview3d": "^2.2.1",
     "spectre.css": "^0.5.8",
     "use-immer": "^0.4.2",
     "workbox-expiration": "^5.1.3",

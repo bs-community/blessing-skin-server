@@ -26,24 +26,16 @@ interface Props {
   initPositionZ?: number
 }
 
-type ViewerStuff = {
-  handles: {
-    walk: skinview3d.AnimationHandle
-    run: skinview3d.AnimationHandle
-    rotate: skinview3d.AnimationHandle
-  }
-  control: skinview3d.OrbitControls
-  firstRun: boolean
+type AnimationHandles = {
+  walk: skinview3d.SubAnimationHandle | null
+  run: skinview3d.SubAnimationHandle | null
+  rotate: skinview3d.SubAnimationHandle | null
 }
 
-const emptyStuff: ViewerStuff = {
-  handles: {
-    walk: {} as skinview3d.AnimationHandle,
-    run: {} as skinview3d.AnimationHandle,
-    rotate: {} as skinview3d.AnimationHandle,
-  },
-  control: {} as skinview3d.OrbitControls,
-  firstRun: true,
+const animationHandles: AnimationHandles = {
+  walk: null,
+  run: null,
+  rotate: null,
 }
 
 const ActionButton = styled.i`
@@ -55,15 +47,11 @@ const ActionButton = styled.i`
   }
 `
 
-const cssCardBody = css`
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-`
 const cssViewer = css`
   ${breakpoints.greaterThan(breakpoints.Breakpoint.lg)} {
     min-height: 500px;
   }
+  width: 100%;
 
   canvas {
     cursor: move;
@@ -74,15 +62,11 @@ const Viewer: React.FC<Props> = (props) => {
   const { initPositionZ = 70 } = props
 
   const viewRef: React.MutableRefObject<skinview3d.SkinViewer> = useRef(null!)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const stuffRef = useRef(emptyStuff)
+  const containerRef = useRef<HTMLCanvasElement>(null)
+  const animationHandlesRef = useRef(animationHandles)
 
   const [paused, setPaused] = useState(false)
   const [running, setRunning] = useState(false)
-  const [reset, setReset] = useState(0)
-  const [background, setBackground] = useState(() =>
-    document.body.classList.contains('dark-mode') ? '#6c757d' : '#fff',
-  )
   const [bgPicture, setBgPicture] = useState(-1)
 
   const indicator = (() => {
@@ -99,117 +83,123 @@ const Viewer: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const container = containerRef.current!
-    const viewer = new skinview3d.SkinViewer({
-      domElement: container,
+    const viewer = new skinview3d.FXAASkinViewer({
+      canvas: container,
       width: container.clientWidth,
       height: container.clientHeight,
-      skinUrl: props.skin || SkinSteve,
-      capeUrl: props.cape || '',
-      detectModel: false,
+      skin: props.skin || SkinSteve,
+      cape: props.cape || '',
+      model: props.isAlex ? 'slim' : 'default',
+      zoom: initPositionZ / 100,
     })
-    viewer.camera.position.z = initPositionZ
-    viewer.playerObject.skin.slim = props.isAlex
 
-    const animation = new skinview3d.CompositeAnimation()
-    stuffRef.current.handles = {
-      walk: animation.add(skinview3d.WalkingAnimation),
-      run: animation.add(skinview3d.RunningAnimation),
-      rotate: animation.add(skinview3d.RotatingAnimation),
+    if (document.body.classList.contains('dark-mode')) {
+      viewer.background = '#6c757d'
     }
-    stuffRef.current.handles.run.paused = true
-    // @ts-ignore
-    viewer.animation = animation as skinview3d.Animation
-    stuffRef.current.control = skinview3d.createOrbitControls(viewer)
 
-    if (!stuffRef.current.firstRun) {
-      const { handles } = stuffRef.current
-      handles.walk.paused = true
-      handles.run.paused = true
-      handles.rotate.paused = true
-      viewer.camera.position.z = 70
-    }
+    const rotate = viewer.animations.add(skinview3d.RotatingAnimation)
+    animationHandlesRef.current.rotate = rotate
+
+    const control = skinview3d.createOrbitControls(viewer)
 
     viewRef.current = viewer
 
     return () => {
+      control.dispose()
       viewer.dispose()
-      stuffRef.current.firstRun = false
-    }
-  }, [reset])
-
-  useEffect(() => {
-    return () => {
-      stuffRef.current.firstRun = true
     }
   }, [])
 
   useEffect(() => {
     const viewer = viewRef.current
-    viewer.skinUrl = props.skin || SkinSteve
-  }, [props.skin])
+    viewer.loadSkin(props.skin || SkinSteve, props.isAlex ? 'slim' : 'default')
+  }, [props.skin, props.isAlex])
 
   useEffect(() => {
     const viewer = viewRef.current
     if (props.cape) {
-      viewer.capeUrl = props.cape
+      viewer.loadCape(props.cape)
     } else {
-      viewer.playerObject.cape.visible = false
+      viewer.resetCape()
     }
   }, [props.cape])
 
   useEffect(() => {
-    const viewer = viewRef.current
-    viewer.playerObject.skin.slim = props.isAlex
-  }, [props.isAlex])
+    const handles = animationHandlesRef.current
+    if (running) {
+      handles.walk?.resetAndRemove()
+      handles.walk = null
+
+      const run = viewRef.current.animations.add(skinview3d.RunningAnimation)
+      run.speed = 0.6
+      handles.run = run
+    } else {
+      handles.run?.resetAndRemove()
+      handles.run = null
+
+      const walk = viewRef.current.animations.add(skinview3d.WalkingAnimation)
+      handles.walk = walk
+    }
+  }, [running])
+
+  useEffect(() => {
+    viewRef.current.animations.paused = paused
+  }, [paused])
+
+  useEffect(() => {
+    viewRef.current.loadBackground(backgrounds[bgPicture]!)
+  }, [bgPicture])
 
   const togglePause = () => {
     setPaused((paused) => !paused)
-    viewRef.current.animationPaused = !viewRef.current.animationPaused
   }
 
   const toggleRun = () => {
     setRunning((running) => !running)
-    const { handles } = stuffRef.current
-    handles.run.paused = !handles.run.paused
-    handles.walk.paused = false
   }
 
   const toggleRotate = () => {
-    const { handles } = stuffRef.current
-    handles.rotate.paused = !handles.rotate.paused
+    const handles = animationHandlesRef.current
+    if (handles.rotate) {
+      handles.rotate.paused = !handles.rotate.paused
+    }
   }
 
   const handleReset = () => {
-    setReset((c) => c + 1)
+    const handles = animationHandlesRef.current
+    handles.walk?.resetAndRemove()
+    handles.run?.resetAndRemove()
+    handles.rotate?.resetAndRemove()
+    viewRef.current.animations.paused = true
   }
 
-  const setWhite = () => setBackground('#fff')
-  const setGray = () => setBackground('#6c757d')
-  const setBlack = () => setBackground('#000')
+  const setWhite = () => {
+    viewRef.current.background = '#fff'
+  }
+  const setGray = () => {
+    viewRef.current.background = '#6c757d'
+  }
+  const setBlack = () => {
+    viewRef.current.background = '#000'
+  }
   const setPrevPicture = () => {
-    let index = bgPicture
-    if (bgPicture <= 0) {
-      index = PICTURES_COUNT - 1
-    } else {
-      index -= 1
-    }
-    setBgPicture(index)
-    setBackground(`url('${backgrounds[index]}')`)
+    setBgPicture((index) => {
+      if (bgPicture <= 0) {
+        return PICTURES_COUNT - 1
+      } else {
+        return index - 1
+      }
+    })
   }
   const setNextPicture = () => {
-    let index = bgPicture
-    if (bgPicture >= PICTURES_COUNT - 1) {
-      index = 0
-    } else {
-      index += 1
-    }
-    setBgPicture(index)
-    setBackground(`url('${backgrounds[index]}')`)
+    setBgPicture((index) => {
+      if (bgPicture >= PICTURES_COUNT - 1) {
+        return 0
+      } else {
+        return index + 1
+      }
+    })
   }
-
-  const backgroundStyle = background.startsWith('#')
-    ? { backgroundColor: background }
-    : { backgroundImage: background }
 
   return (
     <div className="card">
@@ -253,8 +243,8 @@ const Viewer: React.FC<Props> = (props) => {
           </div>
         </div>
       </div>
-      <div className="card-body" css={cssCardBody} style={backgroundStyle}>
-        <div ref={containerRef} css={cssViewer}></div>
+      <div className="card-body p-0">
+        <canvas ref={containerRef} css={cssViewer}></canvas>
       </div>
       <div className="card-footer">
         <div className="mt-2 mb-3 d-flex">
