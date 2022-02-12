@@ -115,11 +115,15 @@ const SkinLibrary: React.FC = () => {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setKeyword(name)
+    setPage(1)
   }
 
   const handleLikesSortClick = () => setSort('likes')
   const handleTimeSortClick = () => setSort('time')
-  const handleSelfUploadClick = () => setUploader(currentUid)
+  const handleSelfUploadClick = () => {
+    setUploader(currentUid)
+    setPage(1)
+  }
   const handleResetClick = () => {
     setFilter('skin')
     setName('')
@@ -129,7 +133,10 @@ const SkinLibrary: React.FC = () => {
     setPage(1)
   }
 
-  const handleUploaderClick = (uploader: number) => setUploader(uploader)
+  const handleUploaderClick = (uploader: number) => {
+    setUploader(uploader)
+    setPage(1)
+  }
 
   const handleAddToCloset = async (item: LibraryItem, index: number) => {
     if (!currentUid) {
