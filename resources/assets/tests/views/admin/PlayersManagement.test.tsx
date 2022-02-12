@@ -59,10 +59,16 @@ test('preview textures', async () => {
 
   expect(
     queryByAltText(`${fixture.name} - ${t('general.skin')}`),
-  ).toHaveAttribute('src', `${blessing.base_url}/preview/${fixture.tid_skin}?png`)
+  ).toHaveAttribute(
+    'src',
+    `${blessing.base_url}/preview/${fixture.tid_skin}?png`,
+  )
   expect(
     queryByAltText(`${fixture.name} - ${t('general.cape')}`),
-  ).toHaveAttribute('src', `${blessing.base_url}/preview/${fixture.tid_cape}?png`)
+  ).toHaveAttribute(
+    'src',
+    `${blessing.base_url}/preview/${fixture.tid_cape}?png`,
+  )
 
   fireEvent.click(getByText(t('general.confirm')))
 })
