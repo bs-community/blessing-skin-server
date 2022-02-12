@@ -176,7 +176,7 @@ test('library item', async () => {
   expect(queryByText(fixtureItem.name)).toBeInTheDocument()
   expect(queryByAltText(fixtureItem.name)).toHaveAttribute(
     'src',
-    `/preview/${fixtureItem.tid}?height=150`,
+    `/preview/${fixtureItem.tid}?height=150&png`,
   )
   expect(queryByText(fixtureItem.nickname)).toBeInTheDocument()
 
