@@ -106,7 +106,10 @@ const SkinLibrary: React.FC = () => {
     }
   }, [currentUid])
 
-  const handleFilterChange = (filter: Filter) => setFilter(filter)
+  const handleFilterChange = (filter: Filter) => {
+    setFilter(filter)
+    setPage(1)
+  }
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value)
