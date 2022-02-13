@@ -5,7 +5,7 @@ export default function useBlessingExtra<T>(key: string, defaultValue?: T): T {
 
   useEffect(() => {
     setValue(blessing.extra[key] as T)
-  }, [])
+  }, [key])
 
   return value
 }

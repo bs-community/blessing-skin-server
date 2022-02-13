@@ -14,7 +14,7 @@ export default function useMount(selector: string): HTMLElement | null {
       mount.removeChild(div)
       container.current = null
     }
-  }, [])
+  }, [selector])
 
   return container.current
 }
