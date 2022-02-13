@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Services;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,8 +36,8 @@ class AppServiceProvider extends ServiceProvider
 
             // Replace HTTP_HOST with site_url set in options,
             // to prevent CDN source problems.
-            if ($this->app['url']->isValidUrl($rootUrl)) {
-                $this->app['url']->forceRootUrl($rootUrl);
+            if (URL::isValidUrl($rootUrl)) {
+                URL::forceRootUrl($rootUrl);
             }
         }
 
@@ -52,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
             || $request->server('HTTP_X_FORWARDED_SSL') === 'on';
 
         if (option('force_ssl') || $isRequestSecure) {
-            $this->app['url']->forceScheme('https');
+            URL::forceScheme('https');
         }
     }
 }
