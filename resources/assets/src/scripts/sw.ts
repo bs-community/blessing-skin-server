@@ -50,22 +50,6 @@ registerRoute(
 
 //#endregion
 
-//#region jsDelivr
-registerRoute(
-  /.*cdn\.jsdelivr\.net/,
-  new CacheFirst({
-    cacheName: 'jsdelivr-v1',
-    fetchOptions: {
-      credentials: 'omit',
-      mode: 'cors',
-    },
-    plugins: [
-      new ExpirationPlugin({ maxAgeSeconds: oneWeek, purgeOnQuotaError: true }),
-    ],
-  }),
-)
-//#endregion
-
 //#region JavaScript files
 registerRoute(
   /.+\/app\/\w{2,3}\.\w{7}\.js$/,

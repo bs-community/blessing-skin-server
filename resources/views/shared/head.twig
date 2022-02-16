@@ -6,16 +6,13 @@
 <meta name="keywords" content="{{ seo.keywords }}">
 <meta name="description" content="{{ seo.description }}">
 {{ seo.extra|striptags('<meta>')|raw }}
-<link rel="preconnect" href="https://cdn.jsdelivr.net/" crossorigin>
+<link rel="preconnect" href="https://unpkg.com/" crossorigin>
 {% if custom_cdn_host %}
   <link rel="preconnect" href="{{ custom_cdn_host }}" id="cdn-host" crossorigin>
 {% endif %}
 <script id="blessing-globals" type="application/json">{{ blessing|json_encode|raw }}</script>
 <script src="{{ url('/meta.js') }}"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css" integrity="sha256-rhU0oslUDWrWDxTY4JxI2a2OdRtG7YSf3v5zcRbcySE=" crossorigin="anonymous">
-<link rel="preload" as="font" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/webfonts/fa-solid-900.woff2" crossorigin>
-<link rel="preload" as="font" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/webfonts/fa-regular-400.woff2" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin>
+<link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" crossorigin>
 {{ include('assets.style', ignore_missing = true) }}
 {% for link in links %}
   <link{% for attribute, value in link %} {{ attribute }}="{{ value|raw }}"{% endfor %}>

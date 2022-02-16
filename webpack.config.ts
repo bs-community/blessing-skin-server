@@ -20,7 +20,13 @@ export default function (env?: Env): webpack.Configuration[] {
       mode: isDev ? 'development' : 'production',
       entry: {
         app: ['react-hot-loader/patch', '@/index.tsx'],
-        style: ['@/styles/common.css'],
+        style: [
+          '@/styles/common.css',
+          'admin-lte/dist/css/alt/adminlte.components.min.css',
+          'admin-lte/dist/css/alt/adminlte.core.min.css',
+          'admin-lte/dist/css/alt/adminlte.pages.min.css',
+          'admin-lte/dist/css/alt/adminlte.light.min.css',
+        ],
         home: '@/scripts/homePage.ts',
         'home-css': '@/styles/home.css',
         spectre: [
@@ -71,11 +77,6 @@ export default function (env?: Env): webpack.Configuration[] {
           chunkFilename: isDev ? '[id].css' : '[id].[contenthash:7].css',
         }),
         new HtmlWebpackPlugin({
-          templateContent: isDev
-            ? ''
-            : `
-<script src="https://cdn.jsdelivr.net/npm/react@17.0.1/umd/react.production.min.js" integrity="sha256-Ag0WTc8xFszCJo1qbkTKp3wBMdjpjogsZDAhnSge744=" crossorigin></script>
-<script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.1/umd/react-dom.production.min.js" integrity="sha256-k8tzaSH8ucPwbsHEO4Wk5szE9zERNVz3XQynfyT66O0=" crossorigin></script>`,
           chunks: ['app'],
           scriptLoading: 'blocking',
           filename: 'app.twig',
@@ -127,15 +128,6 @@ export default function (env?: Env): webpack.Configuration[] {
           assert: false,
         },
       },
-      externals: Object.assign(
-        { jquery: 'jQuery', bootstrap: 'bootstrap', 'admin-lte': 'adminlte' },
-        isDev
-          ? {}
-          : {
-              react: 'React',
-              'react-dom': 'ReactDOM',
-            },
-      ) as Record<string, string>,
       optimization: {
         // @ts-ignore
         minimizer: [new CssMinimizerPlugin({}), '...'],
