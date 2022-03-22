@@ -59,7 +59,7 @@ oauth:
     permissions: Permissions
   scope:
     user:
-      read: Sign you in and read your profile
+      read: Connectez-vous et lisez votre profil
     notification:
       read: Autoriser l'application à accéder à vos notifications.
       readwrite: Autoriser l'application à envoyer des notifications.
@@ -74,9 +74,9 @@ oauth:
       readwrite: Autoriser l'application à créer, lire, mettre à jour et supprimer les utilisateurs du site.
     players-management:
       read: Autoriser l'application à lire vos joueurs.
-      readwrite: Allows the app to create, read, update and delete site's players.
+      readwrite: Permet à l'application de créer, lire, mettre à jour et supprimer des joueurs.
     closet-management:
-      read: Allows the app to read user's of your site closet items.
+      read: Autoriser l'application à lire les éléments de votre placard.
       readwrite: Autoriser l'application à créer, lire, mettre à jour et supprimer les éléments du placard de l'utilisateur.
     reports-management:
       read: Autoriser l'application à lire les rapports de l'utilisateur.
