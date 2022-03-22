@@ -4,25 +4,25 @@ announcement: Annonce
 no-unread: Aucune nouvelle notification.
 verification:
   disabled: La vérification de l'adresse e-mail n'est pas disponible.
-  frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
+  frequent-mail: Vous avez cliqué trop rapidement sur le bouton d'envoi. Patientez quelques minutes.
   verified: Votre compte est déjà vérifié.
-  success: Verification link was sent, please check your inbox.
-  failed: We failed to send you the verification link. Detailed message :msg
+  success: Le lien de vérification a été envoyé. Veuillez vérifier votre boîte de réception.
+  failed: 'Nous n''avons pas pu vous envoyer le lien de vérification. Info: :msg'
   mail:
     title: Vérifiez votre compte sur :sitename
-    message: You are receiving this email because someone registered an account with this email address on :sitename.
-    reset: 'Click here to verify your account: <a href=":url">:url</a>'
-    ignore: If you did not register an account, no further action is required.
+    message: Vous recevez cet e-mail parce que quelqu'un a créer un compte avec cette adresse e-mail sur :sitename.
+    reset: 'Cliquez ici pour vérifier votre compte : <a href=":url">:url</a>'
+    ignore: Si vous n'avez pas créé de compte, vous pouvez ignorer ce message.
 score-intro:
-  title: What is score?
+  title: Qu'est-ce que le score ?
   introduction: |
     We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
     Either adding players, uplaoding textures or adding a skinlib item to your closet will consume scores.
     :return-score
 
     New users will get :initial_score scores initially, and you can acquire :score-from ~ :score-to scores by daily signing in.
-  will-return-score: The score will be returned if you deleted players, uploaded textures or closet items.
-  no-return-score: The score will NOT be returned if you deleted players, uploaded textures or closet items.
+  will-return-score: Le score sera remboursée si vous avez supprimé des joueurs, des textures ou des éléments de placard.
+  no-return-score: Le score ne sera PAS remboursée si vous avez supprimé des joueurs, des textures ou des éléments de placard.
   rates:
     storage: ':score scores = 1 KB storage'
     player: ':score scores = 1 player'
