@@ -29,10 +29,10 @@ score-intro:
     closet: ':score socres = 1 closet item'
 closet:
   add:
-    success: Added :name to closet successfully.
+    success: ':name a été ajouté avec succès.'
     repeated: Vous avez déjà ajouté cette texture.
     not-found: Nous n'avons pas pu trouver cette texture.
-    lack-score: You don't have enough score to add it to closet.
+    lack-score: Vous n'avez pas assez de score pour l'ajouter dans votre placard.
   rename:
     success: L'élément a été renommé avec succès en :name
   remove:
