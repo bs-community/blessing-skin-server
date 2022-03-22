@@ -34,7 +34,7 @@ reset:
   button: Réinitialiser
   invalid: Lien invalide.
   expired: Le lien a expiré.
-  message: ':username, reset your password here.'
+  message: ':username, réinitialisez votre mot de passe ici.'
   success: Mot de passe réinitialisé avec succès.
 bind:
   title: Lier l'adresse e-mail
@@ -61,14 +61,14 @@ oauth:
     user:
       read: Sign you in and read your profile
     notification:
-      read: Allows the app to read your notifications.
-      readwrite: Allows the app to send notifications.
+      read: Autoriser l'application à accéder à vos notifications.
+      readwrite: Autoriser l'application à envoyer des notifications.
     player:
-      read: Allows the app to read your players.
-      readwrite: Allows the app to create, read, update and delete your players.
+      read: Autoriser l'application à lire vos joueurs.
+      readwrite: Permet à l'application de créer, lire, mettre à jour et supprimer des joueurs.
     closet:
-      read: Allows the app to read your closet items.
-      readwrite: Allows the app to create, read, update and delete your closet items.
+      read: Autoriser l'application à lire les éléments de votre placard.
+      readwrite: Permet à l'application de créer, lire, mettre à jour et supprimer les éléments de votre placard.
     users-management:
       read: Allows the app to read site's users.
       readwrite: Allows the app to create, read, update and delete site's users.
