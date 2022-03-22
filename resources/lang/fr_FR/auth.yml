@@ -68,18 +68,18 @@ oauth:
       readwrite: Permet à l'application de créer, lire, mettre à jour et supprimer des joueurs.
     closet:
       read: Autoriser l'application à lire les éléments de votre placard.
-      readwrite: Permet à l'application de créer, lire, mettre à jour et supprimer les éléments de votre placard.
+      readwrite: Autoriser l'application à créer, lire, mettre à jour et supprimer les éléments de votre placard.
     users-management:
-      read: Allows the app to read site's users.
-      readwrite: Allows the app to create, read, update and delete site's users.
+      read: Autoriser l'application à lire les rapports de l'utilisateur.
+      readwrite: Autoriser l'application à créer, lire, mettre à jour et supprimer les utilisateurs du site.
     players-management:
-      read: Allows the app to read site's players.
+      read: Autoriser l'application à lire vos joueurs.
       readwrite: Allows the app to create, read, update and delete site's players.
     closet-management:
       read: Allows the app to read user's of your site closet items.
-      readwrite: Allows the app to create, read, update and delete user's closet items.
+      readwrite: Autoriser l'application à créer, lire, mettre à jour et supprimer les éléments du placard de l'utilisateur.
     reports-management:
-      read: Allows the app to read user's reports.
+      read: Autoriser l'application à lire les rapports de l'utilisateur.
       readwrite: Autoriser l'application à lire et à examiner les rapports des utilisateurs.
 email: Adresse e-mail
 register-link: Créer un nouveau compte
