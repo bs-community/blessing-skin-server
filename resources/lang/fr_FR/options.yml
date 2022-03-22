@@ -20,7 +20,7 @@ homepage:
     label: Cette option permet de rendre l'arrière-plan fixe et de ne pas défiler avec la barre de défilement.
   copyright_prefer:
     title: Copyright du programme
-    description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."
+    description: "Vous pouvez spécifier un style différent de copyright pour chaque langue. Pour modifier le style de copyright correspondant à une langue donnée, veuillez basculer vers cette langue et envoyer votre modification. <br><b>Avertissement :</b> Toute modification malveillante appliquée sur le copyright du programme dans le pied de page (y compris la suppression, modifier l'auteur, changer la cible du lien) sans la permission est <b>INTERDIT</b>. L'auteur se réserve le droit de poursuivre les responsabilités."
   copyright_text:
     title: Texte de copyright personnalisé
     description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
@@ -34,7 +34,7 @@ customJsCss:
 rate:
   title: Scores
   score_per_storage:
-    title: Storage
+    title: Espace disque
     addon: scores = 1 KB
   private_score_per_storage:
     title: Private Storage
@@ -67,7 +67,7 @@ sign:
     title: Gap Time
     addon: heures
   sign_after_zero:
-    title: Time
+    title: Temps
     label: Users can sign in after 0 everyday.
     hint: The above option will be ignored if this is checked.
 sharing:
@@ -151,17 +151,17 @@ resources:
   hint: Veuillez vérifier ces options si vous avez activé le CDN pour votre site.
   force_ssl:
     title: Forcer SSL
-    label: Use HTTPS protocol to load all front-end assets.
+    label: Utiliser le protocole HTTPS pour charger tous les assets.
     hint: Please check if SSL really available before turning on.
   auto_detect_asset_url:
-    title: Assets URL
-    label: Determine assets url automatically.
+    title: URL des assets
+    label: Déterminer l'url des assets automatiquement.
     description: Please unable this if assets URLs are wrongly generated under a CDN. The site url will be used if this is not enabled.
   cache_expire_time:
-    title: Cache Exipre Time
-    hint: In seconds, 86400 = one day, 31536000 = one year.
+    title: Temps de validité du cache
+    hint: En secondes, 86400 = un jour, 31536000 = un an.
   cdn_address:
-    title: Front-end Assets CDN
+    title: CDN des assets
     hint: Les fichiers front-end ne seront pas chargés si l'URL n'est pas disponible.
     description: |
       L'URL du CDN que vous donnez doit se référer à un miroir du répertoire <code>/public</code> ,
