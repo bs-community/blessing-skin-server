@@ -161,12 +161,12 @@ admin:
   changeNickName: Modifier le pseudonyme
   newUserNickname: 'Veuillez entrer le nouveau pseudonyme :'
   changePassword: Modifier le mot de passe
-  newUserPassword: 'Please enter the new password:'
-  changeScore: Edit Score
-  newScore: 'Please enter the new score:'
+  newUserPassword: 'Veuillez entrer le nouveau mot de passe :'
+  changeScore: Modifier le score
+  newScore: 'Veuillez entrer le nouveau score:'
   changePermission: Modifier la permission
-  newPermission: 'Please select new permission:'
-  deleteUserNotice: Are you sure to delete this user? It' permanent.
+  newPermission: 'Veuillez sélectionner une nouvelle permission :'
+  deleteUserNotice: Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cela est définitif.
   banned: Banni
   normal: Normal
   admin: Administrateur
@@ -181,9 +181,9 @@ admin:
   textureType: Type de texture
   deletePlayer: Supprimer
   changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
-  deletePlayerNotice: Are you sure to delete this player? It' permanent.
-  changePlayerNameNotice: 'Please input new player name:'
-  emptyPlayerName: Player name cannot be empty.
+  deletePlayerNotice: Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cela est définitif.
+  changePlayerNameNotice: 'Veuillez entrer un nouveau nom de joueur:'
+  emptyPlayerName: Le nom du joueur ne peut pas être vide.
   configurePlugin: Configurer
   deletePlugin: Supprimer
   noDependencies: Aucune dépendance
@@ -197,14 +197,14 @@ admin:
   pluginInstalling: Installation...
   updatePlugin: Mettre à jour
   pluginUpdating: Mise à jour...
-  confirmUpdate: Are you sure to update ":plugin" from :old to :new?
+  confirmUpdate: Êtes-vous sûr de vouloir mettre à jour ":plugin" de :old à :new?
   enablePlugin: Activer
   disablePlugin: Désactiver
-  confirmDeletion: Are you sure to delete this plugin?
-  uploadArchive: Upload Archive
-  uploadArchiveNotice: Install a plugin by uploading a Zip archive.
-  downloadRemote: Download From Remote
-  downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
+  confirmDeletion: Êtes-vous sûr de vouloir supprimer ce plugin ?
+  uploadArchive: Mettre en ligne une archive
+  uploadArchiveNotice: Installez un plugin en envoyant une archive ZIP.
+  downloadRemote: Installez un plugin à partir d'une URL distante
+  downloadRemoteNotice: Installez un plugin en téléchargeant une archive ZIP à partir d'une URL distante.
   updateButton: Mettre à jour maintenant
   downloading: Téléchargement...
   i18n:
@@ -220,7 +220,7 @@ report:
   tid: ID de texture
   reporter: Auteur du signalement
   reason: Raison
-  status-title: Status
+  status-title: Statut
   status:
     - Suspendu
     - Résolu
