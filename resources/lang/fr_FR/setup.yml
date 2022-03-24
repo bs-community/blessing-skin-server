@@ -1,9 +1,9 @@
 ---
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
+  connection-error: "Impossible de se connecter à la base de données cible :type, veuillez vérifier votre configuration. Le serveur a répondu avec: :msg"
 locked:
   title: Déjà installé
-  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
+  text: Il semble que vous ayez déjà installé Blessing Skin Server. Pour le réinstaller, veuillez supprimer le fichier "install.lock" dans le répertoire "storage".
   button: Retour à la page d'accueil
 updates:
   success:
@@ -24,21 +24,21 @@ wizard:
     username: Nom d'utilisateur de la base de données
     password: Mot de passe de la base de données
     db: Nom de la base de données
-    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
-    prefix: Prefix of Database Table (Optional)
-    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
+    db-notice: Vous devez fournir le chemin d'accès au fichier SQLite et il n'est pas nécessaire de remplir les autres champs si vous utilisez SQLite.
+    prefix: Préfixe des tables dans la base de données (facultatif)
+    prefix-notice: Vous n'avez pas besoin d'utiliser cette option à moins que vous ne vouliez installer plusieurs Blessing Skin Server depuis une seule base de données.
   info:
     title: Information requise
     button: Lancer l'installation
-    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
+    text: Pour procéder à l'installation, veuillez remplir ce formulaire avec les détails du compte administrateur initial. Ne vous inquiétez pas, vous pourrez toujours modifier ces paramètres plus tard.
     admin-email: Adresse e-mail de l'administrateur
-    admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
+    admin-notice: Ceci est le compte super-administrateur UNIQUE qui peut donner ou ANNULER les privilèges d'administration des autres utilisateurs.
     nickname: Pseudonyme
     password: Mot de passe
-    pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
+    pwd-notice: 'Attention: Vous aurez besoin du mot de passe pour vous connecter.'
     confirm-pwd: Confirmer le mot de passe
     site-name: Nom du site
-    site-name-notice: This will be shown on every page.
+    site-name-notice: Ceci sera affiché sur chaque page.
   finish:
     title: Installation terminée
-    text: Blessing Skin Server has been installed. Thank you, and enjoy!
+    text: Blessing Skin Server a été installé. Merci, et profitez-en !

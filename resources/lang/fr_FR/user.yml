@@ -4,48 +4,48 @@ announcement: Annonce
 no-unread: Aucune nouvelle notification.
 verification:
   disabled: La vérification de l'adresse e-mail n'est pas disponible.
-  frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
+  frequent-mail: Vous avez cliqué trop rapidement sur le bouton d'envoi. Patientez quelques minutes.
   verified: Votre compte est déjà vérifié.
-  success: Verification link was sent, please check your inbox.
-  failed: We failed to send you the verification link. Detailed message :msg
+  success: Le lien de vérification a été envoyé. Veuillez vérifier votre boîte de réception.
+  failed: 'Nous n''avons pas pu vous envoyer le lien de vérification. Info: :msg'
   mail:
     title: Vérifiez votre compte sur :sitename
-    message: You are receiving this email because someone registered an account with this email address on :sitename.
-    reset: 'Click here to verify your account: <a href=":url">:url</a>'
-    ignore: If you did not register an account, no further action is required.
+    message: Vous recevez cet e-mail parce que quelqu'un a créer un compte avec cette adresse e-mail sur :sitename.
+    reset: 'Cliquez ici pour vérifier votre compte : <a href=":url">:url</a>'
+    ignore: Si vous n'avez pas créé de compte, vous pouvez ignorer ce message.
 score-intro:
-  title: What is score?
+  title: Qu'est-ce que le score ?
   introduction: |
     We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
     Either adding players, uplaoding textures or adding a skinlib item to your closet will consume scores.
     :return-score
 
     New users will get :initial_score scores initially, and you can acquire :score-from ~ :score-to scores by daily signing in.
-  will-return-score: The score will be returned if you deleted players, uploaded textures or closet items.
-  no-return-score: The score will NOT be returned if you deleted players, uploaded textures or closet items.
+  will-return-score: Le score sera remboursée si vous avez supprimé des joueurs, des textures ou des éléments de placard.
+  no-return-score: Le score ne sera PAS remboursée si vous avez supprimé des joueurs, des textures ou des éléments de placard.
   rates:
     storage: ':score scores = 1 KB storage'
     player: ':score scores = 1 player'
     closet: ':score socres = 1 closet item'
 closet:
   add:
-    success: Added :name to closet successfully.
+    success: ':name a été ajouté avec succès.'
     repeated: Vous avez déjà ajouté cette texture.
     not-found: Nous n'avons pas pu trouver cette texture.
-    lack-score: You don't have enough score to add it to closet.
+    lack-score: Vous n'avez pas assez de score pour l'ajouter dans votre placard.
   rename:
     success: L'élément a été renommé avec succès en :name
   remove:
-    success: The texture was removed from closet successfully.
-    non-existent: The texture does not exist in your closet.
+    success: La texture a été retirée de l'armoire avec succès.
+    non-existent: La texture n'existe pas dans votre placard.
 player:
-  login-notice: Now you can log in with player names you owned instead email address.
+  login-notice: Vous pouvez maintenant vous connecter avec les noms de joueurs que vous possédez à la place de votre adresse e-mail.
   player-name-rule:
-    official: Player name may only contains letters, numbers and underscores.
-    cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
-    utf8: Player name must be a UTF-8 string.
+    official: Le nom du joueur ne peut contenir que des lettres, des chiffres et des tirets bas.
+    cjk: Le nom du joueur peut contenir des lettres, des chiffres, des tirets bas et des idéographes unifiés CJK.
+    utf8: Le nom du joueur doit être une chaîne UTF-8.
     custom: Custom player name rules are applied on this site. Please contact admins for further information.
-  player-name-length: The player name should be at least :min characters and not greater than :max characters.
+  player-name-length: Le nom du joueur doit contenir au moins :min caractères et ne doit pas dépasser :max caractères.
   add:
     repeated: Ce nom d'utilisateur est déjà enregistré.
     lack-score: You don't have enough score to add a player.
@@ -53,12 +53,12 @@ player:
   delete:
     success: Le joueur :name a été supprimé avec succès.
   rename:
-    repeated: This player name is occupied. Please choose another one.
+    repeated: Ce pseudonyme est déjà utilisé. Veuillez en choisir un autre.
     success: Le joueur :old a été renommé en :new
   set:
-    success: The texture was applied to player :name successfully.
+    success: La texture a été appliquée au joueur :name avec succès.
   clear:
-    success: The textures of player :name was resetted successfully.
+    success: Les textures du joueur :name ont été réinitialisées avec succès.
 profile:
   avatar:
     title: Changer d'avatar ?
@@ -73,11 +73,11 @@ profile:
     confirm: Répétez le mot de passe
     button: Changer le mot de passe
     wrong-password: Mot de passe d'origine incorrect.
-    success: Password updated successfully, please log in again.
+    success: Mot de passe mis à jour avec succès, veuillez vous reconnecter.
   nickname:
     title: Changer le pseudonyme
-    empty: No nickname is set now.
-    success: Nickname is successfully updated to :nickname
+    empty: Aucun pseudo n'a été défini.
+    success: Pseudo mis à jour avec succès à :nickname
   email:
     title: Changer l'adresse e-mail
     new: Nouvelle adresse e-mail
@@ -85,7 +85,7 @@ profile:
     button: Changer l'adresse e-mail
     wrong-password: Mot de passe incorrect.
     existed: Cette adresse e-mail est déjà enregistrée.
-    success: Email address updated successfully, please log in again.
+    success: Adresse e-mail mise à jour avec succès, veuillez vous reconnecter.
   delete:
     title: Supprimer le compte
     notice: Voulez-vous vraiment supprimer votre compte sur :site ?
@@ -93,9 +93,9 @@ profile:
     button: Supprimer mon compte
     modal-title: Vous devez entrer votre mot de passe pour continuer
     modal-notice: |
-      You're about to delete your account.
-      This is permanent! No backups, no restores, no magic undo button.
-      We warned you, ok?
+      Vous êtes sur le point de supprimer votre compte.
+      Ceci est permanent ! Aucune restauration sera possible.
+      Vous êtes prévenu!
     password: Mot de passe actuel
     wrong-password: Mot de passe incorrect.
     success: Votre compte a été supprimé avec succès.

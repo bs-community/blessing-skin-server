@@ -15,7 +15,7 @@ between:
   string: 'Le texte :attribute doit contenir entre :min et :max caractères.'
   array: 'Le tableau :attribute doit contenir entre :min et :max éléments.'
 boolean: 'Le champ :attribute doit être vrai ou faux.'
-captcha: 'Incorrect captcha.'
+captcha: 'Captcha incorrect.'
 confirmed: 'Le champ de confirmation :attribute ne correspond pas.'
 date: 'Le champ :attribute n''est pas une date valide.'
 date_equals: 'Le champ :attribute doit être une date égale à :date.'
@@ -75,7 +75,7 @@ not_regex: 'Le format du champ :attribute n''est pas valide.'
 numeric: 'Le champ :attribute doit contenir un nombre.'
 password: Le mot de passe est incorrect
 present: 'Le champ :attribute doit être présent.'
-recaptcha: 'reCAPTCHA validation failed.'
+recaptcha: 'la verification reCAPTCHA a échoué.'
 regex: 'Le format du champ :attribute est invalide.'
 required: 'Le champ :attribute est obligatoire.'
 required_if: 'Le champ :attribute est obligatoire quand la valeur de :other est :value.'
@@ -114,8 +114,8 @@ uuid: 'Le champ :attribute doit être un UUID valide'
 #of "email". This simply helps us make messages a little cleaner.
 attributes:
   name: nom
-  player_name: player name
-  identification: email or player name
+  player_name: nom d'utilisateur
+  identification: adresse e-mail ou nom d'utilisateur
   email: adresse email
   password: mot de passe
   password_confirmation: 'confirmation du mot de passe'

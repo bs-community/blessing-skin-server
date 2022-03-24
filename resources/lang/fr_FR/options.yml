@@ -16,25 +16,25 @@ homepage:
     title: Masquer l'introduction en bas
     label: La barre de défilement sera désactivée si cette option est activée, comme la version 2.x.
   fixed_bg:
-    title: Fixed Background
-    label: This option will make background fixed, not scrolled with scroll bar.
+    title: Arrière-plan fixe
+    label: Cette option permet de rendre l'arrière-plan fixe et de ne pas défiler avec la barre de défilement.
   copyright_prefer:
     title: Copyright du programme
-    description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."
+    description: "Vous pouvez spécifier un style différent de copyright pour chaque langue. Pour modifier le style de copyright correspondant à une langue donnée, veuillez basculer vers cette langue et envoyer votre modification. <br><b>Avertissement :</b> Toute modification malveillante appliquée sur le copyright du programme dans le pied de page (y compris la suppression, modifier l'auteur, changer la cible du lien) sans la permission est <b>INTERDIT</b>. L'auteur se réserve le droit de poursuivre les responsabilités."
   copyright_text:
-    title: Custom Copyright Text
+    title: Texte de copyright personnalisé
     description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
 customJsCss:
-  title: Custom CSS/JavaScript
+  title: CSS/JavaScript personnalisés
   message: |
-    The contents will be attached to &lt;style&gt; and &lt;script&gt; tags.<br>
-    - Here are some useful examples: <a href="https://blessing.netlify.com/css-js.html">Examples of Custom CSS & JavaScript</a>
+    Le contenu sera attaché aux balises &lt;style&gt; et &lt;script&gt; .<br>
+    - Voici quelques exemples utiles : <a href="https://blessing.netlify.com/css-js.html">Exemples de CSS et JavaScript personnalisés</a>
   custom_css: CSS
   custom_js: JavaScript
 rate:
   title: Scores
   score_per_storage:
-    title: Storage
+    title: Espace disque
     addon: scores = 1 KB
   private_score_per_storage:
     title: Private Storage
@@ -67,7 +67,7 @@ sign:
     title: Gap Time
     addon: heures
   sign_after_zero:
-    title: Time
+    title: Temps
     label: Users can sign in after 0 everyday.
     hint: The above option will be ignored if this is checked.
 sharing:
@@ -78,36 +78,36 @@ sharing:
     title: Return scores
     label: Return scores if uploader setting private or deleting texture.
   score_award_per_like:
-    title: Each time the texture is collected, uploader will be rewarded with
+    title: Chaque fois que la texture est envoyée, l'uploader sera récompensé avec
 general:
   title: Options générales
   site_name: Nom du site
   site_description:
     title: Description du site
-    description: You can also specify a different site name and description for each language. To edit a specific language's corresponding site name or description text, please switch to that language and submit your edit.
+    description: Vous pouvez également spécifier un nom de site et une description différents pour chaque langue. Pour modifier le nom du site ou le texte de description correspondant à une langue spécifique, veuillez basculer vers cette langue et appliquer votre modification.
   site_url:
     title: URL du site
-    hint: Begin with http(s)://, nerver ends with slash.
+    hint: Commencer par http(s)://, et ne se termine jamais avec un slash.
   register_with_player_name:
     title: S'inscrire avec le nom du joueur
     label: Require Minecraft's player name when user register
   require_verification:
     title: Vérification du compte
-    label: Users must verify their email address first.
-  regs_per_ip: Max accounts of one IP
+    label: Les utilisateurs doivent d'abord vérifier leur adresse e-mail.
+  regs_per_ip: Comptes maximum par IP
   max_upload_file_size:
-    title: Max Upload Size
-    hint: "Limit specified in php.ini: :size"
+    title: Taille maximale d'envoie
+    hint: "Limite spécifiée dans php.ini : :size"
   player_name_rule:
     title: Player Name Rule
     official: Letters, numbers and underscores (Mojang's official rule)
-    cjk: Allow CJK Unified Ideographs
+    cjk: Autoriser les idéographes unifiés CJK
     utf8: Allow all valid UTF-8 characters (excluding whitespaces)
     custom: Use custom rules (regular expression)
   custom_player_name_regexp:
     title: Custom Player Name Rules
-    hint: Only takes effect when the above option is set to 'custom'. Leave empty to allow any character.
-    placeholder: Regular Expressions
+    hint: Ne prend effet que lorsque l'option ci-dessus est définie sur "personnalisé". Laisser vide pour autoriser n'importe quel caractère.
+    placeholder: Expressions regulières
   player_name_length:
     title: Longueur du nom du joueur
     suffix: caractères
@@ -151,22 +151,22 @@ resources:
   hint: Veuillez vérifier ces options si vous avez activé le CDN pour votre site.
   force_ssl:
     title: Forcer SSL
-    label: Use HTTPS protocol to load all front-end assets.
+    label: Utiliser le protocole HTTPS pour charger tous les assets.
     hint: Please check if SSL really available before turning on.
   auto_detect_asset_url:
-    title: Assets URL
-    label: Determine assets url automatically.
+    title: URL des assets
+    label: Déterminer l'url des assets automatiquement.
     description: Please unable this if assets URLs are wrongly generated under a CDN. The site url will be used if this is not enabled.
   cache_expire_time:
-    title: Cache Exipre Time
-    hint: In seconds, 86400 = one day, 31536000 = one year.
+    title: Temps de validité du cache
+    hint: En secondes, 86400 = un jour, 31536000 = un an.
   cdn_address:
-    title: Front-end Assets CDN
-    hint: Front-end files won't be loaded if URL is unavailable.
+    title: CDN des assets
+    hint: Les fichiers front-end ne seront pas chargés si l'URL n'est pas disponible.
     description: |
-      The CDN URL you give must refer to a mirror of <code>/public</code> directory,
-      all the files of that directory will be loaded as CDN.<br>
-      <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/manifest.json</code> can be accessed.
+      L'URL du CDN que vous donnez doit se référer à un miroir du répertoire <code>/public</code> ,
+      tous les fichiers de ce répertoire seront chargés en tant que CDN.<br>
+      <b>Comment vérifier ?</b> Vérifiez si <code>{CDN URL}/app/manifest.json</code> peut être accédé.
 cache:
   title: Configuration du cache
   clear: Vider le cache
@@ -177,4 +177,4 @@ cache:
     label: Enable caching avatar
   enable_preview_cache:
     title: Aperçu de la texture
-    label: Enable caching texture preivew
+    label: Activer le cache des texture de prévisualisation

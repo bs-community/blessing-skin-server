@@ -8,23 +8,23 @@ show:
 upload:
   title: Ajouter la texture
   name-rule: Moins de 32 caractères et ne doit pas contenir de caractères spéciaux.
-  name-rule-regexp: Custom name rules are applied as :regexp
+  name-rule-regexp: Les règles de noms personnalisés sont appliquées en tant que :regexp
   private-score-notice: It will spend you more scores for setting it as private. You will be charged :score scores for per KB storage.
-  invalid-size: Invalid :type file (width :width, height :height)
-  invalid-hd-skin: Invalid HD skin (width and height should be divisible by 32)
+  invalid-size: Fichier :type invalide (largeur :width, hauteur :height)
+  invalid-hd-skin: Skin HD invalide (la largeur et la hauteur doivent être divisibles par 32)
   lack-score: You don't have enough score to upload this texture.
-  repeated: The texture is already uploaded by someone else. You can add it to your closet directly.
-  success: Texture :name was uploaded successfully.
+  repeated: La texture est déjà mis en ligne par quelqu'un d'autre. Vous pouvez l'ajouter directement à votre placard.
+  success: La texture :name a été ajouté avec succès.
 delete:
-  success: The texture was deleted successfully.
+  success: La texture a été supprimée avec succès.
 privacy:
-  success: The texture was set to :privacy successfully.
+  success: La texture a été définie sur :privacy avec succès.
 rename:
-  success: The texture was renamed to :name successfully.
+  success: La texture a été renommée en :name avec succès.
 model:
   success: The texture's model was changed to :model successfully.
-no-permission: You have no permission to moderate this texture.
+no-permission: Vous n'avez pas la permission de modérer cette texture.
 non-existent: Cette texture n'existe pas.
 report:
-  duplicate: You have already reported this texture. The administrators will review it as soon as possible. You can also track the status of your report at User Center.
-  success: Thanks for reporting! The administrators will review it as soon as possible.
+  duplicate: Vous avez déjà signalé cette texture. Les administrateurs la vérifieront dès que possible. Vous pouvez également suivre l'état de votre signalement au Centre d'utilisateurs.
+  success: Merci pour votre signalement ! Les administrateurs vont le vérifier dès que possible.

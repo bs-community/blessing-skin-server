@@ -105,29 +105,29 @@ user:
   removeFromClosetNotice: Êtes-vous sûr de vouloir retirer cette texture de votre garde-robe ?
   emptySelectedTexture: Aucune texture n'est sélectionnée.
   renameClosetItem: 'Set a new name for this item:'
-  changePlayerName: 'Please enter the player name:'
+  changePlayerName: 'Veuillez entrer le nom du joueur:'
   emptyPlayerName: Nom du joueur vide.
-  deletePlayer: Sure to delete this player?
-  deletePlayerNotice: It's permanent. No backups.
-  chooseClearTexture: Choose texture types you want to clear
+  deletePlayer: Êtes-vous sûr de vouloir supprimer ce joueur?
+  deletePlayerNotice: C'est permanent. Aucune restauration possible.
+  chooseClearTexture: Choisissez les types de texture que vous voulez effacer
   noClearChoice: You haven't choose any types
-  setAvatar: Sure to set this as your avatar?
-  setAvatarNotice: The head segment of skin will bu used.
-  resetAvatarConfirm: Are you sure to reset your avatar?
+  setAvatar: Êtes-vous sûr de vouloir définir ceci comme votre avatar ?
+  setAvatarNotice: Le segment de tête de votre skin sera utilisé.
+  resetAvatarConfirm: Êtes-vous sûr de vouloir réinitialiser votre avatar ?
   typeToSearch: Tapez pour rechercher
   useAs: Appliquer...
   resetSelected: Effacer la sélection
   closet:
     upload: Upload Texture
     use-as:
-      title: Which player should be applied to?
-      empty: It seems that you own no player...
+      title: À quel joueur faut-il appliquer ?
+      empty: Il semble que vous ne possédiez aucun joueur...
   used:
     title: Ressources utilisées
     players: Joueurs inscrits
     storage: Espace utilisé
-  cur-score: Current Score
-  score-notice: Click the score to show introduction.
+  cur-score: Score actuel
+  score-notice: Cliquez sur le score pour afficher l'introduction.
   sign: Sign
   player:
     operation: Actions
@@ -138,35 +138,35 @@ user:
     texture-empty: Rien
   verification:
     title: Vérifiez votre compte
-    message: You must verify your email address before using the skin hosting service. Haven't received the email?
+    message: Vous devez vérifier votre adresse e-mail avant d'utiliser le service d'hébergement de skin. Vous n'avez pas reçu l'e-mail ?
     resend: Cliquez ici pour renvoyer.
     sending: Envoi...
   oauth:
     id: Client ID
     name: Nom de l'application
     secret: Client Secret
-    redirect: Callback URL
+    redirect: URL de callback
     modifyName: Modifier le nom de l'application.
-    modifyUrl: Modify callback URL.
+    modifyUrl: Modifier l'URL de callback.
     create: Créer une nouvelle appli
-    confirmRemove: Are you sure to delete this app? You won't be able to undo this.
+    confirmRemove: Êtes-vous sûr de vouloir supprimer cette application ? Vous ne pourrez pas annuler cette action.
 admin:
   operationsTitle: Actions
   permission: Permission
   deleteUser: Supprimer
   changeEmail: Modifier l'adresse e-mail
-  newUserEmail: 'Please enter the new email:'
+  newUserEmail: 'Veuillez entrer le nouvel e-mail :'
   verification: Vérification de l'adresse e-mail
-  toggleVerification: Toggle Verification Status
+  toggleVerification: Activer/désactiver le statut de vérification
   changeNickName: Modifier le pseudonyme
-  newUserNickname: 'Please enter the new nickname:'
+  newUserNickname: 'Veuillez entrer le nouveau pseudonyme :'
   changePassword: Modifier le mot de passe
-  newUserPassword: 'Please enter the new password:'
-  changeScore: Edit Score
-  newScore: 'Please enter the new score:'
+  newUserPassword: 'Veuillez entrer le nouveau mot de passe :'
+  changeScore: Modifier le score
+  newScore: 'Veuillez entrer le nouveau score:'
   changePermission: Modifier la permission
-  newPermission: 'Please select new permission:'
-  deleteUserNotice: Are you sure to delete this user? It' permanent.
+  newPermission: 'Veuillez sélectionner une nouvelle permission :'
+  deleteUserNotice: Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cela est définitif.
   banned: Banni
   normal: Normal
   admin: Administrateur
@@ -181,9 +181,9 @@ admin:
   textureType: Type de texture
   deletePlayer: Supprimer
   changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
-  deletePlayerNotice: Are you sure to delete this player? It' permanent.
-  changePlayerNameNotice: 'Please input new player name:'
-  emptyPlayerName: Player name cannot be empty.
+  deletePlayerNotice: Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cela est définitif.
+  changePlayerNameNotice: 'Veuillez entrer un nouveau nom de joueur:'
+  emptyPlayerName: Le nom du joueur ne peut pas être vide.
   configurePlugin: Configurer
   deletePlugin: Supprimer
   noDependencies: Aucune dépendance
@@ -197,14 +197,14 @@ admin:
   pluginInstalling: Installation...
   updatePlugin: Mettre à jour
   pluginUpdating: Mise à jour...
-  confirmUpdate: Are you sure to update ":plugin" from :old to :new?
+  confirmUpdate: Êtes-vous sûr de vouloir mettre à jour ":plugin" de :old à :new?
   enablePlugin: Activer
   disablePlugin: Désactiver
-  confirmDeletion: Are you sure to delete this plugin?
-  uploadArchive: Upload Archive
-  uploadArchiveNotice: Install a plugin by uploading a Zip archive.
-  downloadRemote: Download From Remote
-  downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
+  confirmDeletion: Êtes-vous sûr de vouloir supprimer ce plugin ?
+  uploadArchive: Mettre en ligne une archive
+  uploadArchiveNotice: Installez un plugin en envoyant une archive ZIP.
+  downloadRemote: Installez un plugin à partir d'une URL distante
+  downloadRemoteNotice: Installez un plugin en téléchargeant une archive ZIP à partir d'une URL distante.
   updateButton: Mettre à jour maintenant
   downloading: Téléchargement...
   i18n:
@@ -220,7 +220,7 @@ report:
   tid: ID de texture
   reporter: Auteur du signalement
   reason: Raison
-  status-title: Status
+  status-title: Statut
   status:
     - Suspendu
     - Résolu
