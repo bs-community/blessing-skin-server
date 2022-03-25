@@ -77,6 +77,7 @@ export default function (env?: Env): webpack.Configuration[] {
           chunkFilename: isDev ? '[id].css' : '[id].[contenthash:7].css',
         }),
         new HtmlWebpackPlugin({
+          templateContent: '',
           chunks: ['app'],
           scriptLoading: 'blocking',
           filename: 'app.twig',
