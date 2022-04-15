@@ -1,38 +1,38 @@
 ---
 auth:
-  login: Log In
-  loggingIn: Logging In
+  login: ログイン
+  loggingIn: ログイン中
   tooManyFails:
-    captcha: You fails too many times! Please enter the CAPTCHA.
-    recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
-  emptyEmail: Empty email address.
-  invalidConfirmPwd: Confirming password is not equal with password.
-  emptyNickname: Empty nickname.
-  register: Register
-  registering: Registering
-  send: Send
-  sending: Sending
-  reset: Reset
-  resetting: Resetting
-  nickname: Nickname
-  player-name: Minecraft player name
-  email: Email
-  identification: Email or player name
-  password: Password
+    captcha: 失敗回数が多すぎます！CAPTCHAを入力してください。
+    recaptcha: 失敗回数が多すぎます！reCAPTCHAチャレンジに合格してください。
+  emptyEmail: メールアドレスが空です。
+  invalidConfirmPwd: パスワード確認とパスワードが一致していません
+  emptyNickname: 空っぽのニックネーム。
+  register: 新規登録
+  registering: 登録中
+  send: 送信
+  sending: 送信中
+  reset: 再設定
+  resetting: リセット中
+  nickname: ニックネーム
+  player-name: Minecraft プレイヤー名
+  email: メール
+  identification: 電子メールまたはプレイヤー名
+  password: パスワード
   captcha: CAPTCHA
-  change-captcha: Click to change CAPTCHA image.
-  login-link: Already registered? Log in here.
-  forgot-link: Forgot password?
-  keep: Remember me
-  repeat-pwd: Repeat your password
-  nickname-intro: Whatever you like expect special characters
-  player-name-intro: Player name in Minecraft, can be changed later
+  change-captcha: CAPTCHA画像を変更するにはクリックしてください。
+  login-link: すでに登録している方はこちらからログイン
+  forgot-link: パスワードを忘れましたか？
+  keep: パスワードを記録する
+  repeat-pwd: パスワードを再度入力
+  nickname-intro: 特殊文字を除く
+  player-name-intro: Minecraftでのプレイヤー名、後で変更可能
   forgot:
-    login-link: I do remember it
+    login-link: それを覚えています
 skinlib:
-  private: Private
-  anonymous: Please login first.
-  reset: Reset Filter
+  private: 非公開
+  anonymous: まずはログインしてください
+  reset: リセット
   addToCloset: Add to closet
   removeFromCloset: Remove from closet
   setItemName: Set a name for this texture
