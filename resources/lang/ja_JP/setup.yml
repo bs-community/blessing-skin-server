@@ -1,44 +1,44 @@
 ---
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
+  connection-error: "ターゲット :type データベースに接続できません。設定を確認してください。サーバーが以下の返信を受けました: :msg"
 locked:
-  title: Already installed
-  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
-  button: Back to homepage
+  title: すでにインストールされています
+  text: Blessing Skin Serverがインストールされているようです。再インストールするには、"storage"ディレクトリの下にある"install.lock"ファイルを削除してください。
+  button: ホームページに戻る
 updates:
   success:
-    title: Update complete
+    title: 更新完了
 wizard:
   master:
-    title: Install Wizard - Blessing Skin Server
+    title: インストールウィザード - Blessing Skin Server
   welcome:
-    title: Welcome
-    button: Next
-    text: Welcome to Blessing Skin Server v:version!
+    title: ようこそ
+    button: 次へ
+    text: Blessing Skin Server v:version へようこそ!
   database:
-    title: Database
-    text: The database is used for storing data of Blessing Skin.
-    type: Database Type
-    host: Database Host
-    port: Database Port
-    username: Database Username
-    password: Database Password
-    db: Database Name
-    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
-    prefix: Prefix of Database Table (Optional)
-    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
+    title: データベース
+    text: Blessing Skinのデータを格納するためのデータベースです。
+    type: データベース種別
+    host: データベースホスト
+    port: データベースポート
+    username: データベース名
+    password: データベースパスワード
+    db: データベース名
+    db-notice: SQLiteファイルのパスを指定し、SQLiteを使用する場合はその他の空白を埋める必要はありません。
+    prefix: データベーステーブルのプレフィックス(オプション)
+    prefix-notice: 複数のBlessing Skin Serverを1つのデータベースにインストールする場合を除き、このオプションを使用する必要はありません。
   info:
-    title: Information needed
-    button: Run install
-    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
-    admin-email: Admin Email
-    admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
-    nickname: Nickname
-    password: Password
-    pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
-    confirm-pwd: Confirm password
-    site-name: Site name
-    site-name-notice: This will be shown on every page.
+    title: 必要な情報
+    button: インストールを実行
+    text: インストールを続行するには、このフォームに初期管理者アカウントの詳細を記入してください。 心配しないで、これらの設定は後でいつでも変更できます。
+    admin-email: 管理者メールアドレス
+    admin-notice: このアカウントは、他のユーザーの管理者権限を与えたり、取り消したりすることができる、ユニークなスーパー管理者アカウントです。
+    nickname: ニックネーム
+    password: パスワード
+    pwd-notice: '注意: ログインするにはパスワードが必要です。安全な場所に保管してください。'
+    confirm-pwd: パスワードの確認
+    site-name: サイト名
+    site-name-notice: これはすべてのページに表示されます。
   finish:
-    title: Installation complete
+    title: インストール完了
     text: Blessing Skin Server has been installed. Thank you, and enjoy!
