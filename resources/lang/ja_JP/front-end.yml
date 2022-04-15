@@ -33,28 +33,28 @@ skinlib:
   private: 非公開
   anonymous: まずはログインしてください
   reset: リセット
-  addToCloset: Add to closet
-  removeFromCloset: Remove from closet
-  setItemName: Set a name for this texture
-  applyNotice: You can apply it to player at your closet
-  emptyItemName: Empty texture name.
-  setNewTextureName: 'Please enter the new texture name:'
-  emptyNewTextureName: Empty new texture name.
-  seeMyUpload: My Uploads
-  apply: Apply
+  addToCloset: クローゼットに追加
+  removeFromCloset: クローゼットから削除
+  setItemName: このテクスチャの名前を設定
+  applyNotice: クローゼットでプレイヤーに適用することができます
+  emptyItemName: テクスチャ名が空です。
+  setNewTextureName: '新しいテクスチャ名を入力してください。'
+  emptyNewTextureName: 新しいテクスチャ名を空にします。
+  seeMyUpload: 自分の投稿
+  apply: 適用
   filter:
-    skin: (Any Model)
-    steve: (Steve)
-    alex: (Alex)
-    cape: (Cape)
-    uploader: 'User (UID = :uid) Uploaded'
-    allUsers: All Users
+    skin: (任意のモデル)
+    steve: (スティーブ)
+    alex: (アレックス)
+    cape: (ケープ)
+    uploader: 'ユーザー (UID = :uid) がアップロードされました'
+    allUsers: 全てのユーザ
   sort:
-    title: Sort
-    time: Latest
-    likes: Most Likes
-  emptyTextureName: Empty texture name.
-  emptyUploadFile: You have not uploaded any file.
+    title: 並び替え
+    time: 最新
+    likes: 最もいいねが多い
+  emptyTextureName: テクスチャ名が空です。
+  emptyUploadFile: ファイルがアップロードされていません。
   fileExtError: 'Error: Textures should be PNG files.'
   uploading: Uploading
   setAsPrivate: Set as Private
@@ -110,25 +110,25 @@ user:
   deletePlayer: Sure to delete this player?
   deletePlayerNotice: It's permanent. No backups.
   chooseClearTexture: Choose texture types you want to clear
-  noClearChoice: You haven't choose any types
-  setAvatar: Sure to set this as your avatar?
-  setAvatarNotice: The head segment of skin will bu used.
-  resetAvatarConfirm: Are you sure to reset your avatar?
-  typeToSearch: Type to search
-  useAs: Apply...
-  resetSelected: Clear selected
+  noClearChoice: タイプが選択されていません
+  setAvatar: 本当にあなたのアバターに設定しますか？
+  setAvatarNotice: 皮の頭部部分は、使用されます。
+  resetAvatarConfirm: アバターをリセットしてもよろしいですか？
+  typeToSearch: 入力して検索
+  useAs: 適用...
+  resetSelected: クリアを選択
   closet:
-    upload: Upload Texture
+    upload: 登録したスキン数
     use-as:
-      title: Which player should be applied to?
-      empty: It seems that you own no player...
+      title: どのプレーヤーに適用する必要がありますか？
+      empty: あなたはプレイヤーを所有していないようです。
   used:
-    title: Resources Used
-    players: Registered players
-    storage: Storage used
-  cur-score: Current Score
-  score-notice: Click the score to show introduction.
-  sign: Sign
+    title: 使用済みリソース
+    players: 登録済みプレイヤー
+    storage: 使用している容量
+  cur-score: 現在の得点
+  score-notice: 導入を表示するスコアをクリックします。
+  sign: 署名
   player:
     operation: Operations
     edit-pname: Edit Name
