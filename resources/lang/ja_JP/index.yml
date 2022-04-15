@@ -13,5 +13,5 @@ features:
     icon: fa-cloud
     name: 無料！
     desc: それは永久に無料です。広告なし、サブスクリプション料金はありません。
-introduction: ':sitename provides the service of uploading and hosting Minecraft skins. By coordinating with skin mods (e.g. CustomSkinLoader), you can choose skin and cape for your game character, and make it visible to other players in Minecraft.'
-start: Join Us
+introduction: ':sitename はマインクラフトスキンのアップロードとホスティングサービスを提供します。スキンの Mod などと連携しています。 (e.g. CustomSkinLoader)、ゲームキャラクターのスキンとマントを選択し、Minecraft で他のプレイヤーに表示させることができます。'
+start: 参加する
