@@ -1,60 +1,60 @@
 ---
 auth:
-  login: Log In
-  loggingIn: Logging In
+  login: ログイン
+  loggingIn: ログイン中
   tooManyFails:
-    captcha: You fails too many times! Please enter the CAPTCHA.
-    recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
-  emptyEmail: Empty email address.
-  invalidConfirmPwd: Confirming password is not equal with password.
-  emptyNickname: Empty nickname.
-  register: Register
-  registering: Registering
-  send: Send
-  sending: Sending
-  reset: Reset
-  resetting: Resetting
-  nickname: Nickname
-  player-name: Minecraft player name
-  email: Email
-  identification: Email or player name
-  password: Password
+    captcha: 失敗回数が多すぎます！CAPTCHAを入力してください。
+    recaptcha: 失敗回数が多すぎます！reCAPTCHAチャレンジに合格してください。
+  emptyEmail: メールアドレスが空です。
+  invalidConfirmPwd: パスワード確認とパスワードが一致していません
+  emptyNickname: 空っぽのニックネーム。
+  register: 新規登録
+  registering: 登録中
+  send: 送信
+  sending: 送信中
+  reset: 再設定
+  resetting: リセット中
+  nickname: ニックネーム
+  player-name: Minecraft プレイヤー名
+  email: メール
+  identification: 電子メールまたはプレイヤー名
+  password: パスワード
   captcha: CAPTCHA
-  change-captcha: Click to change CAPTCHA image.
-  login-link: Already registered? Log in here.
-  forgot-link: Forgot password?
-  keep: Remember me
-  repeat-pwd: Repeat your password
-  nickname-intro: Whatever you like expect special characters
-  player-name-intro: Player name in Minecraft, can be changed later
+  change-captcha: CAPTCHA画像を変更するにはクリックしてください。
+  login-link: すでに登録している方はこちらからログイン
+  forgot-link: パスワードを忘れましたか？
+  keep: パスワードを記録する
+  repeat-pwd: パスワードを再度入力
+  nickname-intro: 特殊文字を除く
+  player-name-intro: Minecraftでのプレイヤー名、後で変更可能
   forgot:
-    login-link: I do remember it
+    login-link: それを覚えています
 skinlib:
-  private: Private
-  anonymous: Please login first.
-  reset: Reset Filter
-  addToCloset: Add to closet
-  removeFromCloset: Remove from closet
-  setItemName: Set a name for this texture
-  applyNotice: You can apply it to player at your closet
-  emptyItemName: Empty texture name.
-  setNewTextureName: 'Please enter the new texture name:'
-  emptyNewTextureName: Empty new texture name.
-  seeMyUpload: My Uploads
-  apply: Apply
+  private: 非公開
+  anonymous: まずはログインしてください
+  reset: リセット
+  addToCloset: クローゼットに追加
+  removeFromCloset: クローゼットから削除
+  setItemName: このテクスチャの名前を設定
+  applyNotice: クローゼットでプレイヤーに適用することができます
+  emptyItemName: テクスチャ名が空です。
+  setNewTextureName: '新しいテクスチャ名を入力してください。'
+  emptyNewTextureName: 新しいテクスチャ名を空にします。
+  seeMyUpload: 自分の投稿
+  apply: 適用
   filter:
-    skin: (Any Model)
-    steve: (Steve)
-    alex: (Alex)
-    cape: (Cape)
-    uploader: 'User (UID = :uid) Uploaded'
-    allUsers: All Users
+    skin: (任意のモデル)
+    steve: (スティーブ)
+    alex: (アレックス)
+    cape: (ケープ)
+    uploader: 'ユーザー (UID = :uid) がアップロードされました'
+    allUsers: 全てのユーザ
   sort:
-    title: Sort
-    time: Latest
-    likes: Most Likes
-  emptyTextureName: Empty texture name.
-  emptyUploadFile: You have not uploaded any file.
+    title: 並び替え
+    time: 最新
+    likes: 最もいいねが多い
+  emptyTextureName: テクスチャ名が空です。
+  emptyUploadFile: ファイルがアップロードされていません。
   fileExtError: 'Error: Textures should be PNG files.'
   uploading: Uploading
   setAsPrivate: Set as Private
@@ -110,25 +110,25 @@ user:
   deletePlayer: Sure to delete this player?
   deletePlayerNotice: It's permanent. No backups.
   chooseClearTexture: Choose texture types you want to clear
-  noClearChoice: You haven't choose any types
-  setAvatar: Sure to set this as your avatar?
-  setAvatarNotice: The head segment of skin will bu used.
-  resetAvatarConfirm: Are you sure to reset your avatar?
-  typeToSearch: Type to search
-  useAs: Apply...
-  resetSelected: Clear selected
+  noClearChoice: タイプが選択されていません
+  setAvatar: 本当にあなたのアバターに設定しますか？
+  setAvatarNotice: 皮の頭部部分は、使用されます。
+  resetAvatarConfirm: アバターをリセットしてもよろしいですか？
+  typeToSearch: 入力して検索
+  useAs: 適用...
+  resetSelected: クリアを選択
   closet:
-    upload: Upload Texture
+    upload: 登録したスキン数
     use-as:
-      title: Which player should be applied to?
-      empty: It seems that you own no player...
+      title: どのプレーヤーに適用する必要がありますか？
+      empty: あなたはプレイヤーを所有していないようです。
   used:
-    title: Resources Used
-    players: Registered players
-    storage: Storage used
-  cur-score: Current Score
-  score-notice: Click the score to show introduction.
-  sign: Sign
+    title: 使用済みリソース
+    players: 登録済みプレイヤー
+    storage: 使用している容量
+  cur-score: 現在の得点
+  score-notice: 導入を表示するスコアをクリックします。
+  sign: 署名
   player:
     operation: Operations
     edit-pname: Edit Name
