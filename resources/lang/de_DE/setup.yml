@@ -1,44 +1,44 @@
 ---
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
+  connection-error: "Es kann keine Verbindung zur target:type Datenbank hergestellt werden, überprüfen Sie bitte Ihre Konfiguration. Der Server antwortete mit::msg"
 locked:
-  title: Already installed
-  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
-  button: Back to homepage
+  title: Bereits installiert
+  text: Es scheint, dass Sie Blessing Skin Server bereits installiert haben. Zur Neuinstallation löschen Sie bitte die Datei "install.lock" unter dem Verzeichnis "storage".
+  button: Zurück zur Homepage
 updates:
   success:
-    title: Update complete
+    title: Update abgeschlossen
 wizard:
   master:
-    title: Install Wizard - Blessing Skin Server
+    title: Installationsassistent - Blessing Skin Server
   welcome:
-    title: Welcome
-    button: Next
-    text: Welcome to Blessing Skin Server v:version!
+    title: Willkommen
+    button: Nächster
+    text: Willkommen bei Blessing Skin Server v:version!
   database:
-    title: Database
-    text: The database is used for storing data of Blessing Skin.
-    type: Database Type
-    host: Database Host
-    port: Database Port
-    username: Database Username
-    password: Database Password
-    db: Database Name
-    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
-    prefix: Prefix of Database Table (Optional)
-    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
+    title: Datenbank
+    text: Die Datenbank dient zur Speicherung der Daten von Blessing Skin.
+    type: Datenbanktyp
+    host: Datenbank Host
+    port: Datenbank Port
+    username: Datenbank Benutzername
+    password: Datenbankkennwort
+    db: Datenbankname
+    db-notice: Sie sollten den Pfad zur SQLite-Datei angeben und es besteht keine Notwendigkeit, andere Leerstellen zu füllen, wenn Sie SQLite verwenden.
+    prefix: Präfix der Datenbanktabelle (optional)
+    prefix-notice: Sie müssen diese Option nicht verwenden, es sei denn, Sie möchten mehrere Blessing Skin Server in einer Datenbank installieren.
   info:
-    title: Information needed
-    button: Run install
-    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
+    title: Erforderliche Informationen
+    button: Installation ausführen
+    text: Um mit der Installation fortzufahren, füllen Sie bitte dieses Formular mit den Details des ursprünglichen Administratorkontos aus. Keine Sorge, Sie können diese Einstellungen jederzeit später ändern.
     admin-email: Admin Email
-    admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
-    nickname: Nickname
-    password: Password
-    pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
-    confirm-pwd: Confirm password
-    site-name: Site name
-    site-name-notice: This will be shown on every page.
+    admin-notice: Dies ist das UNIQUE Super Admin-Konto, das die Admin-Rechte anderer Benutzer GIVE oder CANCEL kann.
+    nickname: Spitzname
+    password: Passwort
+    pwd-notice: 'Achtung: Sie benötigen das Passwort, um sich anzumelden. Bitte bewahren Sie es an einem sicheren Ort auf.'
+    confirm-pwd: Passwort bestätigen
+    site-name: Name der Website
+    site-name-notice: Dies wird auf jeder Seite angezeigt.
   finish:
-    title: Installation complete
-    text: Blessing Skin Server has been installed. Thank you, and enjoy!
+    title: Installation abgeschlossen
+    text: Blessing Skin Server wurde installiert. Danke und viel Spaß!
