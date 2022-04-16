@@ -19,26 +19,26 @@ jobs:
     name: PHP Linting
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 8.0
-        coverage: none
-        extensions: mbstring, dom, fileinfo, gd
-    - name: Install dependencies
-      run: |
-        composer install --prefer-dist --no-progress
-    - name: Prepare
-      run: |
-        cp .env.example .env
-        php artisan key:generate
-        mkdir -p resources/views/overrides
-    - name: Validate Twig templates
-      run: php artisan twig:lint -v
-    - name: Check coding style
-      run: ./vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --diff --format=txt
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          coverage: none
+          extensions: mbstring, dom, fileinfo, gd
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-progress
+      - name: Prepare
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          mkdir -p resources/views/overrides
+      - name: Validate Twig templates
+        run: php artisan twig:lint -v
+      - name: Check coding style
+        run: ./vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --diff --format=txt
   php:
     name: PHP ${{ matrix.php }} Tests
     runs-on: ubuntu-latest
@@ -47,67 +47,102 @@ jobs:
       matrix:
         php: ['8.0', '8.1']
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Setup PHP only
-      uses: shivammathur/setup-php@v2
-      if: matrix.php != '8.0'
-      with:
-        php-version: ${{ matrix.php }}
-        coverage: none
-        extensions: mbstring, dom, fileinfo, sqlite, gd, zip
-    - name: Setup PHP with Xdebug
-      uses: shivammathur/setup-php@v2
-      if: matrix.php == '8.0'
-      with:
-        php-version: ${{ matrix.php }}
-        coverage: xdebug
-        extensions: mbstring, dom, fileinfo, sqlite, gd, zip
-    - name: Cache Composer dependencies
-      uses: actions/cache@v1
-      with:
-        path: vendor
-        key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
-    - name: Install Composer dependencies
-      run: composer install --no-progress --prefer-dist --optimize-autoloader
-    - name: Run tests only
-      if: matrix.php != '8.0'
-      run: ./vendor/bin/phpunit
-    - name: Run tests with coverage report
-      if: matrix.php == '8.0'
-      run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
-    - name: Upload coverage report
-      uses: codecov/codecov-action@v1
-      if: matrix.php == '8.0' && success()
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        name: github-actions
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup PHP only
+        uses: shivammathur/setup-php@v2
+        if: matrix.php != '8.0'
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          extensions: mbstring, dom, fileinfo, sqlite, gd, zip
+      - name: Setup PHP with Xdebug
+        uses: shivammathur/setup-php@v2
+        if: matrix.php == '8.0'
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+          extensions: mbstring, dom, fileinfo, sqlite, gd, zip
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Run tests only
+        if: matrix.php != '8.0'
+        run: ./vendor/bin/phpunit
+      - name: Run tests with coverage report
+        if: matrix.php == '8.0'
+        run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1
+        if: matrix.php == '8.0' && success()
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          name: github-actions
   lint:
     name: Frontend Linting
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Install dependencies
-      run: yarn
-    - name: Run checks
-      run: |
-        yarn lint
-        yarn fmt:check
-        yarn type:check
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn
+      - name: Run checks
+        run: |
+          yarn lint
+          yarn fmt:check
+          yarn type:check
   jest:
     name: Frontend Tests
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Install dependencies
-      run: yarn
-    - name: Run tests
-      run: yarn test --coverage
-    - name: Upload coverage report
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        name: github-actions
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn
+      - name: Run tests
+        run: yarn test --coverage
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          name: github-actions
+  build:
+    name: Snapshot Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Cache Node dependencies
+        uses: actions/cache@v3
+        with:
+          path: yarn.lock
+          key: ${{ runner.os }}-yarn-lock-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-lock-
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-progress --no-dev --no-suggest --no-progress --no-autoloader --no-scripts --no-interaction --ignore-platform-reqs
+          yarn install --frozen-lockfile
+      - name: Build frontend
+        run: |
+          yarn build
+          cp resources/assets/src/images/bg.webp public/app/
+          cp resources/assets/src/images/favicon.ico public/app/
+      - uses: benjlevesque/short-sha@v1.2
+        id: short-sha
+      - name: Archive release
+        run: zip -9 -r blessing-skin-server-${{ steps.short-sha.outputs.sha }}.zip app bootstrap config database plugins public resources/lang resources/views resources/misc/textures routes storage vendor .env.example artisan LICENSE README.md README-zh.md index.html
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: blessing-skin-server-${{ steps.short-sha.outputs.sha }}.zip
