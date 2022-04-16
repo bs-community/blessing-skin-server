@@ -17,7 +17,7 @@
     "resources/assets/webpack.d.ts",
     "tools",
     "webpack.config.ts",
-    "webpack.meta.config.ts"
+    "webpack.gitpod.config.ts"
   ],
   "ts-node": {
     "compilerOptions": {
