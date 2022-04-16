@@ -3,15 +3,19 @@
 <!-- YOU CAN NOT MODIFIY THE COPYRIGHT TEXT W/O PERMISSION -->
 <div id="copyright-text" class="float-right d-none d-sm-inline">
   {% if copyright == 0 %}
-    Powered with ❤ by <a href="{{ repo }}">Blessing Skin Server</a>.
+    Powered with ❤ by <a href="{{ repo }}" target="_blank">Blessing Skin Server</a>.
   {% elseif copyright == 1 %}
-    Powered by <a href="{{ repo }}">Blessing Skin Server</a>.
+    Powered by <a href="{{ repo }}" target="_blank">Blessing Skin Server</a>.
   {% elseif copyright == 2 %}
-    Proudly powered by <a href="{{ repo }}">Blessing Skin Server</a>.
+    Proudly powered by <a href="{{ repo }}" target="_blank">Blessing Skin Server</a>.
   {% elseif copyright == 3 %}
-    由 <a href="{{ repo }}">Blessing Skin Server</a> 强力驱动。
+    由 <a href="{{ repo }}" target="_blank">Blessing Skin Server</a> 强力驱动。
+  {% elseif copyright == 4 %}
+    采用 <a href="{{ repo }}" target="_blank">Blessing Skin Server</a> 搭建。
+  {% elseif copyright == 5 %}
+    使用 <a href="{{ repo }}" target="_blank">Blessing Skin Server</a> 稳定运行。
   {% else %}
-    自豪地采用 <a href="{{ repo }}">Blessing Skin Server</a>。
+    自豪地采用 <a href="{{ repo }}" target="_blank">Blessing Skin Server</a>。
   {% endif %}
 </div>
 

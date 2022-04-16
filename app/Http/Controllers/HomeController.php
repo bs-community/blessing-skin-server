@@ -25,6 +25,8 @@ class HomeController extends Controller
                 'Powered by Blessing Skin Server.',
                 'Proudly powered by Blessing Skin Server.',
                 '由 Blessing Skin Server 强力驱动。',
+                '采用 Blessing Skin Server 搭建。',
+                '使用 Blessing Skin Server 稳定运行。',
                 '自豪地采用 Blessing Skin Server。',
             ],
             option_localized('copyright_prefer', 0)
