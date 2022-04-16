@@ -14,23 +14,24 @@ on:
       - 'routes/**'
       - '*.lock'
       - 'webpack.*'
+  workflow_dispatch:
 
 jobs:
   notification:
     name: Send Message
     runs-on: ubuntu-latest
     steps:
-    - name: Download bot
-      run: |
-        $headers = @{ Authorization = 'Bearer ${{ secrets.GITHUB_TOKEN }}' }
-        $botRelease = (Invoke-WebRequest -Headers $headers 'https://api.github.com/repos/bs-community/telegram-bot/releases/latest').Content | ConvertFrom-Json
-        $botBinUrl = ((Invoke-WebRequest -Headers $headers $botRelease.assets_url).Content | ConvertFrom-Json).browser_download_url
-        bash -c "curl --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' -fSL $botBinUrl -o bot"
-        chmod +x ./bot
-      shell: pwsh
-    - name: Run bot
-      run: ./bot diff
-      shell: pwsh
-      env:
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Download bot
+        run: |
+          $headers = @{ Authorization = 'Bearer ${{ secrets.GITHUB_TOKEN }}' }
+          $botRelease = (Invoke-WebRequest -Headers $headers 'https://api.github.com/repos/bs-community/telegram-bot/releases/latest').Content | ConvertFrom-Json
+          $botBinUrl = ((Invoke-WebRequest -Headers $headers $botRelease.assets_url).Content | ConvertFrom-Json).browser_download_url
+          bash -c "curl --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' -fSL $botBinUrl -o bot"
+          chmod +x ./bot
+        shell: pwsh
+      - name: Run bot
+        run: ./bot diff
+        shell: pwsh
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
