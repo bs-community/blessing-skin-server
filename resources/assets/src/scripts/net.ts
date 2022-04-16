@@ -81,7 +81,7 @@ export async function walkFetch(request: Request): Promise<any> {
     }
 
     throw new HTTPError(message || body, cloned)
-  } catch (error) {
+  } catch (error: any) {
     emit('fetchError', error)
     await showModal({
       mode: 'alert',
