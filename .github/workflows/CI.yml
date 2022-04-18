@@ -131,7 +131,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Install dependencies
         run: |
-          composer install --prefer-dist --no-progress --no-dev --no-suggest --no-progress --no-autoloader --no-scripts --no-interaction --ignore-platform-reqs
+          composer install --prefer-dist --no-progress --no-dev
           yarn install --frozen-lockfile
       - name: Build frontend
         run: |
