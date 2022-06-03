@@ -60,6 +60,7 @@ class ClosetController extends Controller
                 $request->input('q'),
                 fn (Builder $query, $search) => $query->like('item_name', $search)
             )
+            ->orderBy('texture_tid', 'DESC')
             ->paginate((int) $request->input('perPage', 6));
     }
 
