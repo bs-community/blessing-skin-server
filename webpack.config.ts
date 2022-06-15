@@ -129,6 +129,15 @@ export default function (env?: Env): webpack.Configuration[] {
           assert: false,
         },
       },
+      externals: Object.assign(
+        { jquery: 'jQuery', bootstrap: 'bootstrap', 'admin-lte': 'adminlte' },
+        isDev
+          ? {}
+          : {
+              react: 'React',
+              'react-dom': 'ReactDOM',
+            },
+      ) as Record<string, string>,
       optimization: {
         // @ts-ignore
         minimizer: [new CssMinimizerPlugin({}), '...'],
