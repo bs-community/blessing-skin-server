@@ -8,7 +8,6 @@ import routes from './scripts/route'
 
 window.React = React
 window.ReactDOM = ReactDOM
-window.$ = $
 
 if (blessing.route.startsWith('admin')) {
   const entry = document.querySelector<HTMLAnchorElement>('#launch-cli')
