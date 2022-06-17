@@ -1,12 +1,14 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import $ from 'jquery'
+import 'admin-lte'
+
 import './scripts/app'
 import routes from './scripts/route'
 
-if (process.env.NODE_ENV === 'development') {
-  window.React = React
-  window.ReactDOM = ReactDOM
-}
+window.React = React
+window.ReactDOM = ReactDOM
+window.$ = $
 
 if (blessing.route.startsWith('admin')) {
   const entry = document.querySelector<HTMLAnchorElement>('#launch-cli')
