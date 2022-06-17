@@ -1,5 +1,6 @@
 import * as path from 'path'
 import * as webpack from 'webpack'
+import { execSync } from 'child_process'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
@@ -12,7 +13,12 @@ interface Env {
 
 export default function (env?: Env): webpack.Configuration[] {
   const isDev = !env?.production
-  const htmlPublicPath = isDev ? '//localhost:8080/app/' : '{{ cdn_base }}/app/'
+  const isGitpod = 'GITPOD_REPO_ROOT' in process.env
+  const htmlPublicPath = isDev
+    ? isGitpod
+      ? `${execSync('gp url 8080')}/app/`
+      : '//localhost:8080/app/'
+    : '{{ cdn_base }}/app/'
 
   return [
     {
@@ -145,6 +151,7 @@ export default function (env?: Env): webpack.Configuration[] {
         hot: true,
         hotOnly: true,
         stats: 'errors-warnings',
+        allowedHosts: isGitpod ? ['localhost', '.gitpod.io'] : undefined,
       },
       stats: 'errors-warnings',
       ignoreWarnings: [/size limit/i],

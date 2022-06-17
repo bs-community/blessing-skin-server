@@ -1,6 +1,6 @@
 tasks:
   - init: yarn install
-    command: yarn dev --config webpack.gitpod.config.ts
+    command: yarn dev
   - init: composer install
     command: |
       cp .env.example .env
@@ -26,13 +26,13 @@ github:
 
 vscode:
   extensions:
-    - "editorconfig.editorconfig"
-    - "eamodio.gitlens"
-    - "bmewburn.vscode-intelephense-client"
-    - "esbenp.prettier-vscode"
-    - "jpoissonnier.vscode-styled-components"
-    - "mblode.twig-language-2"
-    - "felixfbecker.php-debug"
+    - 'editorconfig.editorconfig'
+    - 'eamodio.gitlens'
+    - 'bmewburn.vscode-intelephense-client'
+    - 'esbenp.prettier-vscode'
+    - 'jpoissonnier.vscode-styled-components'
+    - 'mblode.twig-language-2'
+    - 'felixfbecker.php-debug'
 
 ports:
   - port: 8080
