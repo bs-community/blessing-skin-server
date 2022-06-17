@@ -9,7 +9,7 @@ tasks:
       sed 's/DB_DATABASE=blessingskin/DB_DATABASE=\/workspace\/blessing-skin-server\/storage\/database\.db/' -i .env
       php artisan key:generate
       php artisan serve --host=0.0.0.0
-  - command: gp await-port 8080 && gp preview $(gp url 8000)
+  - command: gp ports await 8080 && gp preview $(gp url 8000)
 
 github:
   prebuilds:
