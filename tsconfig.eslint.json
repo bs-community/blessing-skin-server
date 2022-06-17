@@ -1,9 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "include": [
-    "resources/assets",
-    "tools",
-    "webpack.config.ts",
-    "webpack.gitpod.config.ts"
-  ]
+  "include": ["resources/assets", "tools", "webpack.config.ts"]
 }
