@@ -1,8 +1,5 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import $ from 'jquery'
-import 'admin-lte'
-
 import './scripts/app'
 import routes from './scripts/route'
 

@@ -1,4 +1,6 @@
 import './init' // must be first
+import $ from 'jquery'
+import 'admin-lte'
 import './extra'
 import './i18n'
 import './net'
