@@ -4,6 +4,8 @@ tasks:
   - init: composer install
     command: |
       cp .env.example .env
+      mkdir public/app/
+      cp resources/assets/src/images/bg.webp resources/assets/src/images/favicon.ico public/app
       touch storage/database.db
       sed 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' -i .env
       sed 's/DB_DATABASE=blessingskin/DB_DATABASE=\/workspace\/blessing-skin-server\/storage\/database\.db/' -i .env

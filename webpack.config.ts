@@ -123,6 +123,7 @@ export default function (env?: Env): webpack.Configuration[] {
             version: {},
           },
           'process.platform': '"browser"',
+          __blessing_public_path__: JSON.stringify(htmlPublicPath),
         }),
       ].concat(isDev ? [new webpack.HotModuleReplacementPlugin()] : []),
       resolve: {
@@ -151,7 +152,9 @@ export default function (env?: Env): webpack.Configuration[] {
         hot: true,
         hotOnly: true,
         stats: 'errors-warnings',
-        allowedHosts: isGitpod ? ['localhost', '.gitpod.io'] : undefined,
+        allowedHosts: ['localhost'].concat(
+          isDev && isGitpod ? ['.gitpod.io'] : [],
+        ),
       },
       stats: 'errors-warnings',
       ignoreWarnings: [/size limit/i],
