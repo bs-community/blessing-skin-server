@@ -1,10 +1,10 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import $ from 'jquery'
 import './scripts/app'
 import routes from './scripts/route'
 
-window.React = React
-window.ReactDOM = ReactDOM
+Object.assign(window, { React, ReactDOM, $ })
 
 if (blessing.route.startsWith('admin')) {
   const entry = document.querySelector<HTMLAnchorElement>('#launch-cli')
