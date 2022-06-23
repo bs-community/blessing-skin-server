@@ -33,7 +33,7 @@ return [
     */
     'registry' => env(
         'PLUGINS_REGISTRY',
-        'https://gplane.coding.net/p/blessing-skin-plugins-dist/d/blessing-skin-plugins-dist/git/raw/master/registry_{lang}.json'
+        'https://git.qvq.network/bs-community/plugins-dist/-/raw/master/registry_{lang}.json'
     ),
 
     /*
