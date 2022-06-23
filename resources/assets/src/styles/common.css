@@ -24,3 +24,8 @@ a {
 aside [data-mark='nickname'] {
   margin-left: 1px;
 }
+
+.fas {
+  text-align: center;
+  width: 1.25em;
+}
