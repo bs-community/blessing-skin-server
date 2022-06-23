@@ -90,7 +90,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
       - name: Run checks
         run: |
           yarn lint
