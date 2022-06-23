@@ -152,7 +152,7 @@
       "/node_modules/",
       "<rootDir>/resources/assets/tests/(views|components)/.*\\.ts$"
     ],
-    "maxWorkers": "50%",
+    "maxWorkers": 1,
     "globals": {
       "ts-jest": {
         "tsconfig": "<rootDir>/resources/assets/tests/tsconfig.json",
