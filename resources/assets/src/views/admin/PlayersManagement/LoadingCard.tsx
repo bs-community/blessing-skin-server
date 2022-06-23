@@ -2,13 +2,16 @@ import React from 'react'
 import styled from '@emotion/styled'
 import Skeleton from 'react-loading-skeleton'
 import { Box } from './styles'
+import clsx from 'clsx'
+
+const isDarkMode = document.body.classList.contains('dark-mode')
 
 const ShrinkedSkeleton = styled(Skeleton)<{ width?: string }>`
   width: ${(props) => props.width};
 `
 
 const LoadingCard: React.FC = () => (
-  <Box className="info-box">
+  <Box className={clsx('info-box', { 'bg-gray-dark': isDarkMode })}>
     <div className="info-box-icon">
       <Skeleton circle height={50} width={50} />
     </div>

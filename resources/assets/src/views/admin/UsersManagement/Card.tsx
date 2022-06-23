@@ -8,6 +8,7 @@ import {
   canModifyUser,
   canModifyPermission,
 } from './utils'
+import clsx from 'clsx'
 
 interface Props {
   user: User
@@ -24,12 +25,14 @@ interface Props {
 const Card: React.FC<Props> = (props) => {
   const { user, currentUser } = props
 
+  const isDarkMode = document.body.classList.contains('dark-mode')
+
   const avatar = `${blessing.base_url}/avatar/user/${user.uid}`
   const avatarPNG = `${avatar}?png`
   const canModify = canModifyUser(user, currentUser)
 
   return (
-    <Box className="info-box">
+    <Box className={clsx('info-box', { 'bg-gray-dark': isDarkMode })}>
       <Icon py>
         <picture>
           <source srcSet={avatar} type="image/webp" />

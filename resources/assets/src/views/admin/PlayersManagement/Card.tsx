@@ -3,6 +3,7 @@ import { t } from '@/scripts/i18n'
 import { showModal } from '@/scripts/notify'
 import type { Player } from '@/scripts/types'
 import { Box } from './styles'
+import clsx from 'clsx'
 
 interface Props {
   player: Player
@@ -65,11 +66,13 @@ const Card: React.FC<Props> = (props) => {
     })
   }
 
+  const isDarkMode = document.body.classList.contains('dark-mode')
+
   const avatar = `${blessing.base_url}/avatar/player/${player.name}`
   const avatarPNG = `${avatar}?png`
 
   return (
-    <Box className="info-box">
+    <Box className={clsx('info-box', { 'bg-gray-dark': isDarkMode })}>
       <div className="info-box-icon">
         <picture>
           <source srcSet={avatar} type="image/webp" />
