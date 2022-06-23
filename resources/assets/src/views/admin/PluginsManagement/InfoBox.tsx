@@ -33,6 +33,7 @@ const ActionButton = styled.a`
 const Header = styled.div`
   max-width: calc(100% - 40px);
   display: flex;
+  align-items: center;
 `
 const Description = styled.div`
   font-size: 14px;
