@@ -42,7 +42,7 @@ Blessing Skin has only a few system requirements. In most cases, these PHP exten
 - Web server with URL rewriting enabled (Nginx or Apache)
 - PHP >= 8.0.2
 - PHP Extensions
-  - OpenSSL
+  - OpenSSL >= 1.1.1 (TLS 1.3)
   - PDO
   - Mbstring
   - Tokenizer
