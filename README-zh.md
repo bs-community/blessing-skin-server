@@ -42,7 +42,7 @@ Blessing Skin 对您的服务器有一定的要求。在大多数情况下，下
 - 一台支持 URL 重写的主机，Nginx 或 Apache
 - PHP >= 8.0.2
 - 安装并启用如下 PHP 扩展：
-  - OpenSSL
+  - OpenSSL >= 1.1.1 (TLS 1.3)
   - PDO
   - Mbstring
   - Tokenizer
