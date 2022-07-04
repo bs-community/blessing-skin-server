@@ -134,7 +134,7 @@ class SkinlibController extends Controller
             ->with('texture', $texture)
             ->with('grid', $grid)
             ->with('extra', [
-                'download' => option('allow_downloading_texture'),
+                'download' => (bool) option('allow_downloading_texture'),
                 'currentUid' => $user ? $user->uid : 0,
                 'admin' => $user && $user->isAdmin(),
                 'inCloset' => $user && $user->closet()->where('tid', $texture->tid)->count() > 0,
