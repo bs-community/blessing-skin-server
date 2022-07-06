@@ -26,7 +26,7 @@ score-intro:
   rates:
     storage: ':scores = 1 KB хранилище'
     player: ':scores = 1 игрок'
-    closet: ':score = 1 предмет в шкафу'
+    closet: ':score scores = 1 closet item'
 closet:
   add:
     success: ':name успешно добавлен в гардероб.'
