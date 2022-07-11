@@ -72,6 +72,9 @@ function createLineChart(
   chart.setOption({
     title: {
       text: data.label,
+      textStyle: {
+        color: textColor,
+      },
     },
     textStyle: {
       color: textColor,
