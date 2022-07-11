@@ -7,10 +7,10 @@ check:
   anonymous: Acceso ilegal. Favor iniciarse primero.
   verified: Debes verificar su correo electrónico para accesar esta página.
   admin: Sólo administradores están permitidos accesar esta página.
-  banned: Estás baneado. Favor contactar el administrador.
+  banned: Estás baneado de este sitio web. Porfavor, contacta con el administrador.
 register:
   title: Crear cuenta
-  message: '¡Bienvenidos a :sitename!'
+  message: '¡Bienvenido a :sitename!'
   success: Su cuenta fue creada. Redirigiendo...
   max: No puede registrar más de :regs cuentas.
 forgot:
@@ -34,7 +34,7 @@ reset:
   button: Restablecer
   invalid: Enlace inválido.
   expired: Este enlace ha caducado.
-  message: ':username, reset your password here.'
+  message: ':username, restablezca su contraseña aquí.'
   success: Contraseña restablecida con éxito.
 bind:
   title: Enlazar email
@@ -56,16 +56,16 @@ oauth:
     title: Autorización
     introduction: Una aplicación de terceros ":name" está solicitando permiso para acceder a su cuenta.
     button: Autorizar
-    permissions: Permissions
+    permissions: Permisos
   scope:
     user:
       read: Sign you in and read your profile
     notification:
-      read: Allows the app to read your notifications.
-      readwrite: Allows the app to send notifications.
+      read: Permite a la aplicación leer tus notificaciones.
+      readwrite: Permite que la aplicación envíe notificaciones.
     player:
-      read: Allows the app to read your players.
-      readwrite: Allows the app to create, read, update and delete your players.
+      read: Permite que la aplicación lea sus jugadores.
+      readwrite: Permite a la aplicación crear, leer, actualizar y eliminar a sus jugadores.
     closet:
       read: Allows the app to read your closet items.
       readwrite: Allows the app to create, read, update and delete your closet items.
