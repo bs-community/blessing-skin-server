@@ -35,3 +35,7 @@ vscode:
     - 'jpoissonnier.vscode-styled-components'
     - 'mblode.twig-language-2'
     - 'felixfbecker.php-debug'
+
+ports:
+  - port: 8080
+    visibility: public
