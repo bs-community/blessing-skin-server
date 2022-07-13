@@ -29,26 +29,6 @@ ini_set('display_errors', true);
         file_put_contents($envPath, preg_replace('/APP_KEY\s*=\s*/', 'APP_KEY='.$key."\n\n", $envFile));
     }
 
-    $requiredFunctions = ['symlink', 'readlink', 'putenv', 'realpath'];
-    $disabledFunctions = preg_split('/,\s*/', ini_get('disable_functions'));
-    foreach ($requiredFunctions as $fn) {
-        if (in_array($fn, $disabledFunctions)) {
-            die_with_utf8_encoding(
-                '[Error] Please don\'t disable built-in function "'.$fn.'", which is specified in "php.ini" file.<br>'.
-                "[错误] 请不要在 php.ini 中禁用 $fn 函数。".
-                '<strong>我们不建议使用您使用宝塔等面板软件，因为容易引起兼容性问题。</strong>'
-            );
-        }
-    }
-
-    if (!empty(ini_get('open_basedir'))) {
-        die_with_utf8_encoding(
-            '[Error] Please disable "open_basedir" option by editing "php.ini" file.<br>'.
-            '[错误] 请修改 php.ini 以关闭 "open_basedir" 选项。'.
-            '<strong>我们不建议使用您使用宝塔等面板软件，因为容易引起兼容性问题。</strong>'
-        );
-    }
-
     $requiredVersion = '8.0.2';
     preg_match('/(\d+\.\d+\.\d+)/', PHP_VERSION, $matches);
     $version = $matches[1];
