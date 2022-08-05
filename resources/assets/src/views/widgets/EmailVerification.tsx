@@ -32,7 +32,7 @@ const EmailVerification: React.FC = () => {
             {t('user.verification.sending')}
           </>
         ) : (
-          <a href="#" onClick={send}>
+          <a className="link-info" href="#" onClick={send}>
             {t('user.verification.resend')}
           </a>
         )}
