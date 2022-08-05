@@ -59,7 +59,7 @@ oauth:
     permissions: Permisos
   scope:
     user:
-      read: Sign you in and read your profile
+      read: Inicia sesión y lee tu perfil
     notification:
       read: Permite a la aplicación leer tus notificaciones.
       readwrite: Permite que la aplicación envíe notificaciones.
@@ -67,19 +67,19 @@ oauth:
       read: Permite que la aplicación lea sus jugadores.
       readwrite: Permite a la aplicación crear, leer, actualizar y eliminar a sus jugadores.
     closet:
-      read: Allows the app to read your closet items.
-      readwrite: Allows the app to create, read, update and delete your closet items.
+      read: Permite que la aplicación lea los objetos de tu armario.
+      readwrite: Permite que la aplicación cree, lea, actualice y elimine los objetos del armario.
     users-management:
-      read: Allows the app to read site's users.
-      readwrite: Allows the app to create, read, update and delete site's users.
+      read: Permite que la aplicación lea los usuarios del sitio.
+      readwrite: Permite a la aplicación crear, leer, actualizar y eliminar usuarios del sitio.
     players-management:
-      read: Allows the app to read site's players.
-      readwrite: Allows the app to create, read, update and delete site's players.
+      read: Permite que la aplicación lea los jugadores del sitio.
+      readwrite: Permite a la aplicación crear, leer, actualizar y eliminar los jugadores del sitio.
     closet-management:
-      read: Allows the app to read user's of your site closet items.
-      readwrite: Allows the app to create, read, update and delete user's closet items.
+      read: Permite que la aplicación lea los objetos del armario de tu sitio.
+      readwrite: Permite a la aplicación crear, leer, actualizar y eliminar los objetos del armario del usuario.
     reports-management:
-      read: Allows the app to read user's reports.
-      readwrite: Allows the app to read and review user's reports.
+      read: Permite a la aplicación leer los informes del usuario.
+      readwrite: Permite a la aplicación leer y revisar los informes de los usuarios.
 email: Email
 register-link: Registrar una nueva cuenta
