@@ -26,7 +26,7 @@ score-intro:
   rates:
     storage: ':score 积分 = 1 KB 存储空间'
     player: ':score 积分 = 1 个角色'
-    closet: ':score scores = 1 closet item'
+    closet: ':score 积分 = 1 个衣柜收藏'
 closet:
   add:
     success: 材质 :name 收藏成功
