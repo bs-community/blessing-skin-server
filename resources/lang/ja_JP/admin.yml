@@ -35,21 +35,21 @@ users:
       success: スコアの変更が済みました。
     permission: アクセス許可が更新されました。
     delete:
-      success: The account has been deleted successfully.
+      success: アカウントは正常に削除されました
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: あなたはこのプレーヤーを操作する許可を持っていません。
   textures:
-    non-existent: No such texture tid.:tid
-    success: The textures of :player has been updated.
+    non-existent: そのようなテクスチャ tid.:tid はありません。
+    success: そのようなテクスチャ tid.:tid はありません。
   name:
-    success: Player name has been updated to :player
+    success: プレーヤー名が :p レイヤーに更新されました
   owner:
-    success: The player :player was transferred to user :user.
+    success: プレイヤー :play はユーザー :userに転送されました。
   delete:
-    success: The player has been deleted successfully.
+    success: プレーヤーは正常に削除されました。
 customize:
   change-color:
-    title: Change Theme Color
+    title: テーマの色を変更する
   colors:
     navbar: Top Navigation Bar
     sidebar:
