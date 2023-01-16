@@ -34,7 +34,7 @@
     "symfony/process": "^5.0",
     "symfony/yaml": "^5.0",
     "twig/twig": "^2.11",
-    "vectorface/whip": "^0.3.2"
+    "vectorface/whip": "^0.4.0"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.5",
