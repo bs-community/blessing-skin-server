@@ -142,9 +142,9 @@ class AuthControllerTest extends TestCase
         // Should check captcha if there are too many fails
         Cache::put($loginFailsCacheKey, 4);
         $this->postJson(
-                '/auth/login', [
-                'identification' => $user->email,
-                'password' => '12345678',
+            '/auth/login', [
+            'identification' => $user->email,
+            'password' => '12345678',
             ])->assertJsonValidationErrors('captcha');
 
         Cache::flush();

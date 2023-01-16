@@ -249,23 +249,23 @@ class PlayerControllerTest extends TestCase
         // Only A-Za-z0-9_ are allowed
         option(['player_name_rule' => 'official']);
         $this->putJson(
-                route('user.player.rename', ['player' => $player]),
-                ['name' => '角色名']
-            )->assertJsonValidationErrors('name');
+            route('user.player.rename', ['player' => $player]),
+            ['name' => '角色名']
+        )->assertJsonValidationErrors('name');
 
         // Other invalid characters
         option(['player_name_rule' => 'cjk']);
         $this->putJson(
-                route('user.player.rename', ['player' => $player]),
-                ['name' => '\\']
-            )->assertJsonValidationErrors('name');
+            route('user.player.rename', ['player' => $player]),
+            ['name' => '\\']
+        )->assertJsonValidationErrors('name');
 
         // with an existed player name
         $existed = Player::factory()->create();
         $this->putJson(
-                route('user.player.rename', ['player' => $player]),
-                ['name' => $existed->name]
-            )->assertJsonValidationErrors('name');
+            route('user.player.rename', ['player' => $player]),
+            ['name' => $existed->name]
+        )->assertJsonValidationErrors('name');
 
         // Rejected by filter
         $filter = Fakes\Filter::fake();
@@ -350,12 +350,12 @@ class PlayerControllerTest extends TestCase
         // set a private texture
         $private = Texture::factory()->private()->create();
         $this->putJson(
-                route('user.player.set', ['player' => $player]),
-                ['skin' => $private->tid]
-            )->assertJson([
-                'code' => 1,
-                'message' => trans('user.closet.remove.non-existent'),
-            ]);
+            route('user.player.set', ['player' => $player]),
+            ['skin' => $private->tid]
+        )->assertJson([
+            'code' => 1,
+            'message' => trans('user.closet.remove.non-existent'),
+        ]);
 
         // set for "skin" type
         Event::fake();
