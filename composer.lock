@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9590ad1048bdd5151d4b38c03302af4d",
+    "content-hash": "28b3237c2488b036b777708190a1ab4d",
     "packages": [
         {
             "name": "blessing/filter",
