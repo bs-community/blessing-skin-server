@@ -3,12 +3,13 @@
 namespace App\Http\Middleware;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class RejectBannedUser
 {
-    public function handle($request, \Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
-        if ($request->is('auth/logout')) {
+        if ($request->route()->getName() === 'auth.logout') {
             return $next($request);
         }
 
