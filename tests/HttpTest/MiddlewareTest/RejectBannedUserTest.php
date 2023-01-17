@@ -19,7 +19,7 @@ class RejectBannedUserTest extends TestCase
     {
         $user = User::factory()->banned()->create();
         $this->actingAs($user)
-            ->post(route('auth.logout'), ['accept' => 'application/json'])
+            ->postJson(route('auth.logout'), ['accept' => 'application/json'])
             ->assertSuccessful();
     }
 }
