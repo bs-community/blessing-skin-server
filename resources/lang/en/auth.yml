@@ -43,7 +43,7 @@ reset:
 bind:
   title: Bind Email
   button: Bind
-  message: You need to provide your email adderss to continue.
+  message: You need to provide your email address to continue.
   introduction: We won't send you any spam.
   registered: The email address was already taken.
 
