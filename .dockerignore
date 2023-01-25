@@ -7,7 +7,6 @@
 coverage/
 node_modules/
 plugins/**
-public/sw.js
 public/meta.js
 public/app/*
 public/lang/*
