@@ -9,8 +9,7 @@
 {% if custom_cdn_host %}
   <link rel="preconnect" href="{{ custom_cdn_host }}" id="cdn-host" crossorigin>
 {% endif %}
-<script id="blessing-globals" type="application/json">{{ blessing|json_encode|raw }}</script>
-<script src="{{ url('/meta.js') }}"></script>
+<script>window.blessing = {{ blessing|json_encode|raw }}</script>
 {{ include('assets.style', ignore_missing = true) }}
 {% for link in links %}
   <link{% for attribute, value in link %} {{ attribute }}="{{ value|raw }}"{% endfor %}>

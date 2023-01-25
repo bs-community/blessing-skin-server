@@ -25,4 +25,3 @@ storage/options.php
 .phpunit.result.cache
 .php-cs-fixer.cache
 resources/views/overrides
-public/meta.js
