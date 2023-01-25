@@ -14,7 +14,6 @@ class OptionTest extends TestCase
         $options = resolve(Option::class);
         $options->set('k1', '(null)');
         $this->assertNull($options->get('k1'));
-        $this->assertNull(option()->get('k1'));
     }
 
     public function testSet()

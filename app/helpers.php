@@ -52,20 +52,10 @@ if (!function_exists('option')) {
      * Get / set the specified option value.
      *
      * If an array is passed as the key, we will assume you want to set an array of values.
-     *
-     * @param array|string $key
-     * @param mixed        $default
-     * @param bool         $raw     return raw value without convertion
-     *
-     * @return mixed
      */
-    function option($key = null, $default = null, $raw = false)
+    function option(string|array $key, mixed $default = null, bool $raw = false)
     {
         $options = app('options');
-
-        if (is_null($key)) {
-            return $options;
-        }
 
         if (is_array($key)) {
             $options->set($key);
