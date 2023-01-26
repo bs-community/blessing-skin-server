@@ -10,30 +10,14 @@
   </a>
 
   <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-    <a class="dropdown-item" href="{{ url('user') }}">
-      {{ trans('general.user-center') }}
-    </a>
-    <a class="dropdown-item" href="{{ url('user/profile') }}">
-      {{ trans('general.profile') }}
-    </a>
-    <div class="dropdown-divider"></div>
-    {% if user.admin %}
-      <a class="dropdown-item" href="{{ url('admin') }}">
-        {{ trans('general.admin-panel') }}
-      </a>
-      <a class="dropdown-item" href="{{ url('admin/users') }}">
-        {{ trans('general.user-manage') }}
-      </a>
-      <a class="dropdown-item" href="{{ url('admin/reports') }}">
-        {{ trans('general.report-manage') }}
-      </a>
-      {% if cli %}
-        <a class="dropdown-item" href="#" id="launch-cli">
-          Web CLI
-        </a>
+    {% for item in menu %}
+      {% if item.link == '#divider' %}
+        <div class="dropdown-divider"></div>
+      {% else %}
+        <a class="dropdown-item" href="{{ item.link }}">{{ item.label }}</a>
       {% endif %}
-      <div class="dropdown-divider"></div>
-    {% endif %}
+    {% endfor %}
+    <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="#" id="logout-button">
       {{ trans('general.logout') }}
     </a>

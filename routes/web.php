@@ -160,7 +160,7 @@ Route::prefix('admin')
             Route::delete('{user}', 'ClosetManagementController@remove');
         });
 
-        Route::prefix('reports')->group(function () {
+        Route::prefix('reports')->name('reports.')->group(function () {
             Route::view('', 'admin.reports');
             Route::put('{report}', 'ReportController@review');
             Route::get('list', 'ReportController@manage');

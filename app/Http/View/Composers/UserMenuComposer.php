@@ -29,13 +29,28 @@ class UserMenuComposer
             false
         );
         $avatarPNG = $this->filter->apply('user_avatar', $avatarPNG, [$user]);
-        $cli = $this->request->is('admin', 'admin/*');
+
+        $menuItems = [
+            ['label' => trans('general.user-center'), 'link' => route('user.home')],
+            ['label' => trans('general.profile'), 'link' => route('user.profile.')],
+        ];
+        if ($user->isAdmin()) {
+            array_push(
+                $menuItems,
+                ['label' => '', 'link' => '#divider'],
+                ['label' => trans('general.admin-panel'), 'link' => route('admin.')],
+                ['label' => trans('general.user-manage'), 'link' => route('admin.users.')],
+                ['label' => trans('general.report-manage'), 'link' => route('admin.reports.')],
+                ['label' => 'Web CLI', 'link' => '#launch-cli'],
+            );
+        }
+        $menuItems = $this->filter->apply('user_menu', $menuItems, [$user]);
 
         $view->with([
             'user' => $user,
             'avatar' => $avatar,
             'avatar_png' => $avatarPNG,
-            'cli' => $cli,
+            'menu' => $menuItems,
         ]);
     }
 }
