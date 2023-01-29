@@ -14,7 +14,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
         \App\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\DetectLanguagePrefer::class,
@@ -34,11 +35,11 @@ class Kernel extends HttpKernel
             \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
             \App\Http\Middleware\EnforceEverGreen::class,
             \App\Http\Middleware\RedirectToSetup::class,
-            'bindings',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
-            'bindings',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'authorize' => [
@@ -58,7 +59,6 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
-        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'role' => \App\Http\Middleware\CheckRole::class,
