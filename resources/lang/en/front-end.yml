@@ -62,7 +62,7 @@ skinlib:
   setPublicNotice: Sure to set this as public texture?
   setPrivateNotice: Sure to set this as private texture?
   deleteNotice: Are you sure to delete this texture?
-  setNewTextureModel: "Please select a new texture model:"
+  setNewTextureModel: 'Please select a new texture model:'
   upload:
     texture-name: Texture Name
     texture-type: Texture Type
@@ -248,11 +248,11 @@ general:
   tip: Tip
   noResult: No result.
   texturePreview: Texture Preview
-  walk: Walk
-  run: Run
-  rotation: Rotation
-  pause: Pause
-  reset: Reset
+  rotation: Toggle rotation
+  playAnimation: Play animation
+  pauseAnimation: Pause animation
+  switchAnimation: Switch animation
+  switchCapeElytra: Switch Cape / Elytra
   skinlib: Skin Library
   wait: Please wait...
   csrf: This page is out-dated. Please refresh it.

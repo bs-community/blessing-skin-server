@@ -62,7 +62,7 @@ skinlib:
   setPublicNotice: 要将此材质设置为公开吗？
   setPrivateNotice: 要将此材质设置为私有吗？
   deleteNotice: 真的要删除此材质吗？
-  setNewTextureModel: "请选择新的材质适用模型："
+  setNewTextureModel: '请选择新的材质适用模型：'
   upload:
     texture-name: 材质名称
     texture-type: 材质类型
@@ -242,11 +242,11 @@ general:
   tip: 提示
   noResult: 无结果
   texturePreview: 材质预览
-  walk: 行走
-  run: 奔跑
   rotation: 旋转
-  pause: 暂停
-  reset: 重置
+  playAnimation: 播放动画
+  pauseAnimation: 暂停动画
+  switchAnimation: 切换动画
+  switchCapeElytra: 切换披风 / 鞘翅
   skinlib: 皮肤库
   wait: 请稍等...
   csrf: 页面已过期，请刷新页面。

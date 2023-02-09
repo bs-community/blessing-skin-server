@@ -26,17 +26,12 @@ interface Props {
   initPositionZ?: number
 }
 
-type AnimationHandles = {
-  walk: skinview3d.SubAnimationHandle | null
-  run: skinview3d.SubAnimationHandle | null
-  rotate: skinview3d.SubAnimationHandle | null
-}
-
-const animationHandles: AnimationHandles = {
-  walk: null,
-  run: null,
-  rotate: null,
-}
+const animationFactories = [
+  () => new skinview3d.WalkingAnimation(),
+  () => new skinview3d.RunningAnimation(),
+  () => new skinview3d.FlyingAnimation(),
+  () => new skinview3d.IdleAnimation(),
+]
 
 const ActionButton = styled.i`
   display: inline;
@@ -63,10 +58,9 @@ const Viewer: React.FC<Props> = (props) => {
 
   const viewRef: React.MutableRefObject<skinview3d.SkinViewer> = useRef(null!)
   const containerRef = useRef<HTMLCanvasElement>(null)
-  const animationHandlesRef = useRef(animationHandles)
 
   const [paused, setPaused] = useState(false)
-  const [running, setRunning] = useState(false)
+  const [animation, setAnimation] = useState(0)
   const [bgPicture, setBgPicture] = useState(-1)
 
   const indicator = (() => {
@@ -83,36 +77,34 @@ const Viewer: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const container = containerRef.current!
-    const viewer = new skinview3d.FXAASkinViewer({
+    const viewer = new skinview3d.SkinViewer({
       canvas: container,
       width: container.clientWidth,
       height: container.clientHeight,
       skin: props.skin || SkinSteve,
-      cape: props.cape || '',
+      cape: props.cape || undefined,
       model: props.isAlex ? 'slim' : 'default',
       zoom: initPositionZ / 100,
     })
+    viewer.autoRotate = true
 
     if (document.body.classList.contains('dark-mode')) {
       viewer.background = '#6c757d'
     }
 
-    const rotate = viewer.animations.add(skinview3d.RotatingAnimation)
-    animationHandlesRef.current.rotate = rotate
-
-    const control = skinview3d.createOrbitControls(viewer)
-
     viewRef.current = viewer
 
     return () => {
-      control.dispose()
       viewer.dispose()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     const viewer = viewRef.current
-    viewer.loadSkin(props.skin || SkinSteve, props.isAlex ? 'slim' : 'default')
+    viewer.loadSkin(props.skin || SkinSteve, {
+      model: props.isAlex ? 'slim' : 'default',
+    })
   }, [props.skin, props.isAlex])
 
   useEffect(() => {
@@ -125,52 +117,63 @@ const Viewer: React.FC<Props> = (props) => {
   }, [props.cape])
 
   useEffect(() => {
-    const handles = animationHandlesRef.current
-    if (running) {
-      handles.walk?.resetAndRemove()
-      handles.walk = null
-
-      const run = viewRef.current.animations.add(skinview3d.RunningAnimation)
-      run.speed = 0.6
-      handles.run = run
+    const viewer = viewRef.current
+    const factory = animationFactories[animation]
+    if (factory === undefined) {
+      viewer.animation = null
     } else {
-      handles.run?.resetAndRemove()
-      handles.run = null
-
-      const walk = viewRef.current.animations.add(skinview3d.WalkingAnimation)
-      handles.walk = walk
+      const newAnimation = factory()
+      newAnimation.paused = paused // Perseve `paused` state
+      viewer.animation = newAnimation
     }
-  }, [running])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [animation])
 
   useEffect(() => {
-    viewRef.current.animations.paused = paused
+    const currentAnimation = viewRef.current.animation
+    if (currentAnimation !== null) {
+      currentAnimation.paused = paused
+    }
   }, [paused])
 
   useEffect(() => {
-    viewRef.current.loadBackground(backgrounds[bgPicture]!)
+    const viewer = viewRef.current
+    const backgroundUrl = backgrounds[bgPicture]
+    if (backgroundUrl === undefined) {
+      viewer.background = null
+    } else {
+      viewer.loadBackground(backgroundUrl)
+    }
   }, [bgPicture])
 
   const togglePause = () => {
-    setPaused((paused) => !paused)
+    setPaused((paused) => {
+      if (paused) {
+        return false
+      } else {
+        viewRef.current.autoRotate = false
+        return true
+      }
+    })
   }
 
-  const toggleRun = () => {
-    setRunning((running) => !running)
+  const toggleAnimation = () => {
+    setAnimation((index) => (index + 1) % animationFactories.length)
+    setPaused(false)
   }
 
   const toggleRotate = () => {
-    const handles = animationHandlesRef.current
-    if (handles.rotate) {
-      handles.rotate.paused = !handles.rotate.paused
-    }
+    const viewer = viewRef.current
+    viewer.autoRotate = !viewer.autoRotate
   }
 
-  const handleReset = () => {
-    const handles = animationHandlesRef.current
-    handles.walk?.resetAndRemove()
-    handles.run?.resetAndRemove()
-    handles.rotate?.resetAndRemove()
-    viewRef.current.animations.paused = true
+  const toggleBackEquippment = () => {
+    const player = viewRef.current.playerObject
+    if (player.backEquipment === 'cape') {
+      player.backEquipment = 'elytra'
+    } else {
+      player.backEquipment = 'cape'
+    }
   }
 
   const setWhite = () => {
@@ -213,32 +216,36 @@ const Viewer: React.FC<Props> = (props) => {
           </h3>
           <div>
             <ActionButton
-              className={`fas fa-${running ? 'walking' : 'running'}`}
+              className={`fas fa-tablet ${props.cape ? '' : 'd-none'}`}
               data-toggle="tooltip"
               data-placement="bottom"
-              title={`${t('general.walk')} / ${t('general.run')}`}
-              onClick={toggleRun}
+              title={t('general.switchCapeElytra')}
+              onClick={toggleBackEquippment}
             ></ActionButton>
             <ActionButton
-              className="fas fa-redo-alt"
+              className={`fas fa-person-running`}
               data-toggle="tooltip"
               data-placement="bottom"
-              title={t('general.rotation')}
-              onClick={toggleRotate}
+              title={t('general.switchAnimation')}
+              onClick={toggleAnimation}
             ></ActionButton>
             <ActionButton
               className={`fas fa-${paused ? 'play' : 'pause'}`}
               data-toggle="tooltip"
               data-placement="bottom"
-              title={t('general.pause')}
+              title={
+                paused
+                  ? t('general.playAnimation')
+                  : t('general.pauseAnimation')
+              }
               onClick={togglePause}
             ></ActionButton>
             <ActionButton
-              className="fas fa-stop"
+              className="fas fa-rotate-right"
               data-toggle="tooltip"
               data-placement="bottom"
-              title={t('general.reset')}
-              onClick={handleReset}
+              title={t('general.rotation')}
+              onClick={toggleRotate}
             ></ActionButton>
           </div>
         </div>

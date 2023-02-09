@@ -49,32 +49,26 @@ describe('indicator', () => {
 })
 
 describe('actions', () => {
-  it('toggle run', () => {
-    const { getByTitle } = render(<Viewer isAlex={false} />)
-    fireEvent.click(getByTitle(`${t('general.walk')} / ${t('general.run')}`))
+  it('toggle animation', () => {
+    const component = <Viewer isAlex={false} />
+    const { getByTitle } = render(component)
+    fireEvent.click(getByTitle(`${t('general.switchAnimation')}`)) // should start running
+    fireEvent.click(getByTitle(`${t('general.switchAnimation')}`)) // should start flying
+    fireEvent.click(getByTitle(`${t('general.switchAnimation')}`)) // should be idle
+    fireEvent.click(getByTitle(`${t('general.switchAnimation')}`)) // should start walking
   })
 
   it('toggle rotation', () => {
     const { getByTitle } = render(<Viewer isAlex={false} />)
-    fireEvent.click(getByTitle(t('general.rotation')))
+    fireEvent.click(getByTitle(t('general.rotation'))) // should stop rotation
+    fireEvent.click(getByTitle(t('general.rotation'))) // should start rotation
   })
 
   it('toggle pause', () => {
     const { getByTitle } = render(<Viewer isAlex={false} />)
-    const icon = getByTitle(t('general.pause'))
+    const icon = getByTitle(t('general.pauseAnimation'))
     fireEvent.click(icon)
     expect(icon).toHaveClass('fa-play')
-  })
-
-  it('reset', () => {
-    const { getByTitle } = render(<Viewer isAlex={false} />)
-    fireEvent.click(getByTitle(t('general.reset')))
-  })
-
-  it('reset when running', () => {
-    const { getByTitle } = render(<Viewer isAlex={false} />)
-    fireEvent.click(getByTitle(`${t('general.walk')} / ${t('general.run')}`))
-    fireEvent.click(getByTitle(t('general.reset')))
   })
 })
 

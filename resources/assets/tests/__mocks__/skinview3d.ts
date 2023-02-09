@@ -1,24 +1,32 @@
 /* eslint-disable max-params */
 /* eslint-disable max-classes-per-file */
-import type { PlayerObject, SkinObject, CapeObject } from 'skinview3d'
+import type {
+  PlayerObject,
+  SkinObject,
+  CapeObject,
+  EarsObject,
+} from 'skinview3d'
 
-export class FXAASkinViewer {
+export class SkinViewer {
   disposed = false
-  background = ''
-  animations = new RootAnimation()
-  animationPaused = false
+  background = null
+  animation = null
+  autoRotate = false
+  autoRotateSpeed = 1.0
 
   playerObject: PlayerObject
 
   constructor() {
-    this.animationPaused = false
     this.playerObject = {
       skin: {} as SkinObject,
       cape: {} as CapeObject,
+      ears: {} as EarsObject,
+      backEquipment: 'cape',
     } as PlayerObject
   }
 
   loadSkin() {}
+  resetSkin() {}
   loadCape() {}
   resetCape() {}
   loadBackground() {}
@@ -28,44 +36,19 @@ export class FXAASkinViewer {
   }
 }
 
-export class RootAnimation {
+export class PlayerAnimation {
+  speed = 1.0
   paused = false
-
-  add(animation: unknown) {
-    return animation
-  }
+  progress = 0
 }
 
-export function createOrbitControls() {
-  return {
-    dispose() {},
-  }
-}
+export class IdleAnimation extends PlayerAnimation {}
 
-export const WalkingAnimation = new Proxy(
-  {},
-  {
-    get() {
-      return jest.fn()
-    },
-  },
-)
-export const RunningAnimation = new Proxy(
-  {},
-  {
-    get() {
-      return jest.fn()
-    },
-  },
-)
-export const RotatingAnimation = new Proxy(
-  {},
-  {
-    get() {
-      return jest.fn()
-    },
-  },
-)
+export class WalkingAnimation extends PlayerAnimation {}
+
+export class RunningAnimation extends PlayerAnimation {}
+
+export class FlyingAnimation extends PlayerAnimation {}
 
 export function isSlimSkin() {
   return false

@@ -1744,10 +1744,12 @@
   dependencies:
     "@types/jest" "*"
 
-"@types/three@^0.136.1":
-  version "0.136.1"
-  resolved "https://registry.npmjs.org/@types/three/-/three-0.136.1.tgz#030fc01cdc5ce82cad93db17b94a24515cb4b50e"
-  integrity sha512-gzTw6RR4dU8sGf+RpLBWWKHRVIJ4gwKVQPk+IFCgha04Efg/itXYUalX6iBcYeSmaDu0qE5M7uTq0XLQpU4FAg==
+"@types/three@^0.142.0":
+  version "0.142.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.142.0.tgz#32ca897afc925057174a398416777fcb141666d6"
+  integrity sha512-YNVnlqthfgqsxKuSNbT/G2r+ha/6x+aJm7kvjT+sxa4jUROw/KOPm5xzGj33sk1+Librg6NwH/wJ6LCDX33UZg==
+  dependencies:
+    "@types/webxr" "*"
 
 "@types/tween.js@^18.5.0":
   version "18.5.0"
@@ -1792,6 +1794,11 @@
     "@types/uglify-js" "*"
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
+
+"@types/webxr@*":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@types/webxr/-/webxr-0.5.1.tgz#4908349419104bd476a4252d04e4c3abb496748d"
+  integrity sha512-xlFXPfgJR5vIuDefhaHuUM9uUgvPaXB6GKdXy2gdEh8gBWQZ2ul24AJz3foUd8NNKlSTQuWYJpCb1/pL81m1KQ==
 
 "@types/yargs-parser@*":
   version "13.1.0"
@@ -8815,21 +8822,21 @@ skinview-utils@^0.5.5:
   resolved "https://registry.npmjs.org/skinview-utils/-/skinview-utils-0.5.5.tgz#55671db8db97f82df0f87e1c8ec95bd58e861bc8"
   integrity sha512-lApkcJuGQhK9j4oGeaPTjAx/WiRMduunho7RUoBbP+ceOCbncHogQNkfwbil7pjgvyy8S82pBdfzOQggjbZMdg==
 
-skinview-utils@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.npmjs.org/skinview-utils/-/skinview-utils-0.6.2.tgz#1247aef71c472e963fd3f0db3494f18d63e31e51"
-  integrity sha512-UdjWwXCVZobtG+dc7ilvMRbtXYSqPJtWKPFdgWc44Gs4aoOmZML2lErr77h7uussXo9zrcR+fPizGshGpdETvQ==
+skinview-utils@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/skinview-utils/-/skinview-utils-0.7.0.tgz#84164d06ff4666c731288ebb7783b7be964bda0c"
+  integrity sha512-ecbbUp0AuvZX5fCIOOwbNPxr/JIbrAGhCcdLcww0Ov9PbvAbeYjNDSIu1ebCJBe4CWc6ZYYn8MFNp68DDta0iQ==
   dependencies:
     "@types/offscreencanvas" "^2019.6.4"
 
-skinview3d@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.npmjs.org/skinview3d/-/skinview3d-2.2.1.tgz#f66f29a35055d378a5949c72512e2c6eddaad02a"
-  integrity sha512-VOzB2jcsXWTmyEqE6nIXhECg1+29ZcZjP0tw9mFIGN9Y4P/hDlAt2ev7NT7J0Sqgei5UJenkorW24VDZHCepKw==
+skinview3d@^3.0.0-alpha.1:
+  version "3.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/skinview3d/-/skinview3d-3.0.0-alpha.1.tgz#48f43243a96ddebba9b3657e1ebcc5bd45e20638"
+  integrity sha512-Y5v5yxQIVZZwpQlnRHeVZ9pgDOETLkPrkeMcwJN92OFAYQ0+WTHy6WlZOu0M1DRys+h8iyBdxRb/9976ftt72Q==
   dependencies:
-    "@types/three" "^0.136.1"
-    skinview-utils "^0.6.2"
-    three "^0.136.0"
+    "@types/three" "^0.142.0"
+    skinview-utils "^0.7.0"
+    three "^0.142.0"
 
 slash@^2.0.0:
   version "2.0.0"
@@ -9404,10 +9411,10 @@ text-table@^0.2.0:
   resolved "https://registry.npmjs.org/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three@^0.136.0:
-  version "0.136.0"
-  resolved "https://registry.npmjs.org/three/-/three-0.136.0.tgz#b1504db021b46398ef468aa7849f3dcabb814f50"
-  integrity sha512-+fEMX7nYLz2ZesVP/dyifli5Jf8gR3XPAnFJveQ80aMhibFduzrADnjMbARXh8+W9qLK7rshJCjAIL/6cDxC+A==
+three@^0.142.0:
+  version "0.142.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.142.0.tgz#89e226a16221f212eb1d40f0786604b711f28aed"
+  integrity sha512-ESjPO+3geFr+ZUfVMpMnF/eVU2uJPOh0e2ZpMFqjNca1wApS9lJb7E4MjwGIczgt9iuKd8PEm6Pfgp2bJ92Xtg==
 
 throat@^6.0.1:
   version "6.0.1"
