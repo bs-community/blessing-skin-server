@@ -107,9 +107,6 @@ const Viewer: React.FC<Props> = (props) => {
 
   const [containerWrapperRef, containerMeasure] = useMeasure<HTMLDivElement>()
   useEffect(() => {
-    console.log(
-      `${viewRef.current.width}x${viewRef.current.height} ${containerMeasure.width}x${containerMeasure.height}`,
-    )
     viewRef.current.setSize(containerMeasure.width, containerMeasure.height)
   })
 

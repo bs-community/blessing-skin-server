@@ -30,6 +30,7 @@ export class SkinViewer {
   loadCape() {}
   resetCape() {}
   loadBackground() {}
+  setSize() {}
 
   dispose() {
     this.disposed = true
