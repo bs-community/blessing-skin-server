@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect, useRef } from 'react'
+import { useMeasure } from 'react-use'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import * as skinview3d from 'skinview3d'
@@ -43,13 +44,17 @@ const ActionButton = styled.i`
 `
 
 const cssViewer = css`
+  flex: 1 1 auto;
   ${breakpoints.greaterThan(breakpoints.Breakpoint.lg)} {
     min-height: 500px;
   }
+  min-height: 300px;
   width: 100%;
+  height: 100%;
 
   canvas {
-    cursor: move;
+    display: flex;
+    justify-content: center;
   }
 `
 
@@ -99,6 +104,14 @@ const Viewer: React.FC<Props> = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const [containerWrapperRef, containerMeasure] = useMeasure<HTMLDivElement>()
+  useEffect(() => {
+    console.log(
+      `${viewRef.current.width}x${viewRef.current.height} ${containerMeasure.width}x${containerMeasure.height}`,
+    )
+    viewRef.current.setSize(containerMeasure.width, containerMeasure.height)
+  })
 
   useEffect(() => {
     const viewer = viewRef.current
@@ -250,8 +263,8 @@ const Viewer: React.FC<Props> = (props) => {
           </div>
         </div>
       </div>
-      <div className="card-body p-0">
-        <canvas ref={containerRef} css={cssViewer}></canvas>
+      <div ref={containerWrapperRef} css={cssViewer} className="p-0">
+        <canvas ref={containerRef}></canvas>
       </div>
       <div className="card-footer">
         <div className="mt-2 mb-3 d-flex">
