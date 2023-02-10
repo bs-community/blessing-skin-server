@@ -257,7 +257,9 @@ const Show: React.FC = () => {
   })()
 
   const canEdit = currentUid === texture.uploader || isAdmin
-  const textureUrl = `${blessing.base_url}/textures/${texture.hash}`
+  const textureUrl = texture.hash
+    ? `${blessing.base_url}/textures/${texture.hash}`
+    : ''
 
   return (
     <>
