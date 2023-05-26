@@ -142,7 +142,7 @@ export default function (env?: Env): webpack.Configuration {
     experiments: {
       syncWebAssembly: true,
     },
-    devtool: isDev ? 'eval-source-map' : false,
+    devtool: isDev ? 'eval-source-map' : 'source-map',
     devServer: {
       headers: {
         'Access-Control-Allow-Origin': '*',
