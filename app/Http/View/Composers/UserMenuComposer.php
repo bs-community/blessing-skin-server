@@ -32,15 +32,15 @@ class UserMenuComposer
 
         $menuItems = [
             ['label' => trans('general.user-center'), 'link' => route('user.home')],
-            ['label' => trans('general.profile'), 'link' => route('user.profile.')],
+            ['label' => trans('general.profile'), 'link' => route('user.profile.view')],
         ];
         if ($user->isAdmin()) {
             array_push(
                 $menuItems,
                 ['label' => '', 'link' => '#divider'],
-                ['label' => trans('general.admin-panel'), 'link' => route('admin.')],
-                ['label' => trans('general.user-manage'), 'link' => route('admin.users.')],
-                ['label' => trans('general.report-manage'), 'link' => route('admin.reports.')],
+                ['label' => trans('general.admin-panel'), 'link' => route('admin.view')],
+                ['label' => trans('general.user-manage'), 'link' => route('admin.users.view')],
+                ['label' => trans('general.report-manage'), 'link' => route('admin.reports.view')],
                 ['label' => 'Web CLI', 'link' => '#launch-cli'],
             );
         }
