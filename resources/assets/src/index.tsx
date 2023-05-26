@@ -6,13 +6,11 @@ import routes from './scripts/route'
 
 Object.assign(window, { React, ReactDOM, $ })
 
-if (blessing.route.startsWith('admin')) {
-  const entry = document.querySelector('[href="#launch-cli"]')
-  entry?.addEventListener('click', async () => {
-    const { launch } = await import('./scripts/cli')
-    launch()
-  })
-}
+const entry = document.querySelector('[href="#launch-cli"]')
+entry?.addEventListener('click', async () => {
+  const { launch } = await import('./scripts/cli')
+  launch()
+})
 
 const route = routes.find((route) =>
   new RegExp(`^${route.path}$`, 'i').test(blessing.route),
