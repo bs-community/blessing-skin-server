@@ -176,8 +176,8 @@ class AuthController extends Controller
         $dispatcher->dispatch('auth.registration.attempt', [$data]);
 
         if (
-            option('register_with_player_name') &&
-            Player::where('name', $playerName)->count() > 0
+            option('register_with_player_name')
+            && Player::where('name', $playerName)->count() > 0
         ) {
             return json(trans('user.player.add.repeated'), 1);
         }

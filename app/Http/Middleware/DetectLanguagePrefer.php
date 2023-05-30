@@ -14,8 +14,8 @@ class DetectLanguagePrefer
             ?? $request->cookie('locale')
             ?? $request->getPreferredLanguage();
         if (
-            ($info = Arr::get(config('locales'), $locale)) &&
-            ($alias = Arr::get($info, 'alias'))
+            ($info = Arr::get(config('locales'), $locale))
+            && ($alias = Arr::get($info, 'alias'))
         ) {
             $locale = $alias;
         }

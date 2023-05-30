@@ -6,14 +6,15 @@ use Spatie\TranslationLoader\TranslationLoaderManager;
 
 class Loader extends TranslationLoaderManager
 {
-    protected function loadPath($path, $locale, $group)
+    protected function loadPaths(array $paths, $locale, $group)
     {
-        $translations = parent::loadPath($path, $locale, $group);
+        return collect($paths)
+            ->reduce(function ($output, $path) use ($locale, $group) {
+                if ($this->files->exists($full = "{$path}/{$locale}/{$group}.yml")) {
+                    $output = resolve(Yaml::class)->parse($full);
+                }
 
-        $full = "{$path}/{$locale}/{$group}.yml";
-
-        return count($translations) === 0 && $this->files->exists($full)
-            ? resolve(Yaml::class)->parse($full)
-            : [];
+                return $output;
+            }, []);
     }
 }

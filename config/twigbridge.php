@@ -9,11 +9,10 @@
  * file that was distributed with this source code.
  */
 
-/**
+/*
  * Configuration options for Twig.
  */
 return [
-
     'twig' => [
         /*
         |--------------------------------------------------------------------------
@@ -34,7 +33,6 @@ return [
         |
         */
         'environment' => [
-
             // When set to true, the generated templates have a __toString() method
             // that you can use to display the generated nodes.
             // default: false
@@ -95,7 +93,6 @@ return [
     ],
 
     'extensions' => [
-
         /*
         |--------------------------------------------------------------------------
         | Extensions

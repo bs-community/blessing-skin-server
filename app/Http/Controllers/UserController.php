@@ -330,9 +330,9 @@ class UserController extends Controller
             }
 
             if (
-                !$texture->public &&
-                $user->uid !== $texture->uploader &&
-                !$user->isAdmin()
+                !$texture->public
+                && $user->uid !== $texture->uploader
+                && !$user->isAdmin()
             ) {
                 return json(trans('skinlib.show.private'), 1);
             }

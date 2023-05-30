@@ -10,5 +10,5 @@ return [
     |
     */
     'cipher' => env('PWD_METHOD', 'BCRYPT'),
-    'salt'   => env('SALT', ''),
+    'salt' => env('SALT', ''),
 ];

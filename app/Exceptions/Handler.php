@@ -53,8 +53,8 @@ class Handler extends ExceptionHandler
                 })
                 ->filter(function ($trace) {
                     // @codeCoverageIgnoreStart
-                    $isFromPlugins = !app()->runningUnitTests() &&
-                        Str::contains($trace['file'], resolve('plugins')->getPluginsDirs()->all());
+                    $isFromPlugins = !app()->runningUnitTests()
+                        && Str::contains($trace['file'], resolve('plugins')->getPluginsDirs()->all());
                     // @codeCoverageIgnoreEnd
                     return Str::startsWith($trace['file'], 'app') || $isFromPlugins;
                 })

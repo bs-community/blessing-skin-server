@@ -23,8 +23,8 @@ class PlayersManagementController extends Controller
             $currentUser = $request->user();
 
             if (
-                $owner->uid !== $currentUser->uid &&
-                $owner->permission >= $currentUser->permission
+                $owner->uid !== $currentUser->uid
+                && $owner->permission >= $currentUser->permission
             ) {
                 return json(trans('admin.players.no-permission'), 1)
                     ->setStatusCode(403);

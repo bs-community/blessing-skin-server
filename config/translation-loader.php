@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
      * Language lines will be fetched by these loaders. You can put any class here that implements
      * the Spatie\TranslationLoader\TranslationLoaders\TranslationLoader-interface.
@@ -20,5 +19,4 @@ return [
      * This is the translation manager which overrides the default Laravel `translation.loader`
      */
     'translation_manager' => App\Services\Translations\Loader::class,
-
 ];

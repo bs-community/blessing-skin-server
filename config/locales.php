@@ -29,7 +29,7 @@ return [
     ],
     'es_ES' => [
         'name' => 'Español',
-        'short_name' => 'es'
+        'short_name' => 'es',
     ],
     'ru' => [
         'alias' => 'ru_RU',

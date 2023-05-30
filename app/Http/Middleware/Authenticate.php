@@ -14,7 +14,7 @@ class Authenticate extends Middleware
                 'msg' => trans('auth.check.anonymous'),
             ]);
 
-            return '/auth/login';
+            return route('auth.login');
         }
     }
 }

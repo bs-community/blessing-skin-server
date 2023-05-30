@@ -18,8 +18,8 @@ class UsersManagementController extends Controller
             $authUser = $request->user();
 
             if (
-                $targetUser->isNot($authUser) &&
-                $targetUser->permission >= $authUser->permission
+                $targetUser->isNot($authUser)
+                && $targetUser->permission >= $authUser->permission
             ) {
                 return json(trans('admin.users.operations.no-permission'), 1)
                     ->setStatusCode(403);
@@ -134,8 +134,8 @@ class UsersManagementController extends Controller
         $permission = (int) $data['permission'];
 
         if (
-            $permission === User::ADMIN &&
-            $request->user()->permission < User::SUPER_ADMIN
+            $permission === User::ADMIN
+            && $request->user()->permission < User::SUPER_ADMIN
         ) {
             return json(trans('admin.users.operations.no-permission'), 1)
                 ->setStatusCode(403);

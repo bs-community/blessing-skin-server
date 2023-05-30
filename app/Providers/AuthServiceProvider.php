@@ -23,10 +23,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-
-        Passport::routes();
-
         $defaultScopes = [
             'User.Read' => 'auth.oauth.scope.user.read',
             'Notification.Read' => 'auth.oauth.scope.notification.read',

@@ -38,7 +38,7 @@ class OptionForm
 
     protected $hookBefore;
     protected $hookAfter;
-    protected $alwaysCallback = null;
+    protected $alwaysCallback;
 
     protected $renderWithoutTable = false;
     protected $renderInputTagsOnly = false;
@@ -105,7 +105,6 @@ class OptionForm
      * Add a piece of data to the option form.
      *
      * @param string|array $key
-     * @param mixed        $value
      */
     public function with($key, $value = null): self
     {
@@ -352,7 +351,7 @@ class OptionFormItem
 
     public $format;
 
-    public $value = null;
+    public $value;
 
     public $disabled;
 

@@ -36,7 +36,7 @@ $menu['admin'] = [
     ['title' => 'general.status',         'link' => 'admin/status',         'icon' => 'fa-battery-three-quarters'],
     ['title' => 'general.plugin-manage',  'link' => 'admin/plugins/manage', 'icon' => 'fa-plug'],
     ['title' => 'general.plugin-market',  'link' => 'admin/plugins/market', 'icon' => 'fa-shopping-bag'],
-    ['title' => 'general.plugin-configs', 'id'   => 'plugin-configs',       'icon' => 'fa-cogs', 'children' => []],
+    ['title' => 'general.plugin-configs', 'id' => 'plugin-configs',       'icon' => 'fa-cogs', 'children' => []],
     ['title' => 'general.check-update',   'link' => 'admin/update',         'icon' => 'fa-arrow-up'],
 ];
 
