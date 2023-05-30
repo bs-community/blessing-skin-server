@@ -3,7 +3,7 @@
   "description": "A web application brings your custom skins back in offline Minecraft servers.",
   "license": "MIT",
   "require": {
-    "php": ">=8.0.2",
+    "php": ">=8.1.0",
     "ext-ctype": "*",
     "ext-gd": "*",
     "ext-json": "*",
@@ -29,11 +29,11 @@
     "lorisleiva/laravel-search-string": "^1.0",
     "nesbot/carbon": "^2.0",
     "nunomaduro/collision": "^5.0",
-    "rcrowe/twigbridge": "^0.12",
+    "rcrowe/twigbridge": "^0.14",
     "spatie/laravel-translation-loader": "^2.6",
     "symfony/process": "^5.0",
     "symfony/yaml": "^5.0",
-    "twig/twig": "^2.11",
+    "twig/twig": "^3.0",
     "vectorface/whip": "^0.4.0"
   },
   "require-dev": {
