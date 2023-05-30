@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" backupStaticAttributes="false" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" bootstrap="vendor/autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage processUncoveredFiles="true">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+  bootstrap="vendor/autoload.php"
+  colors="true"
+>
+  <testsuites>
+    <testsuite name="Application Test Suite">
+      <directory suffix="Test.php">./tests</directory>
+    </testsuite>
+  </testsuites>
+  <source>
     <include>
       <directory suffix=".php">./app</directory>
     </include>
     <exclude>
       <directory suffix=".php">./app/Services/Cipher</directory>
     </exclude>
-  </coverage>
-  <testsuites>
-    <testsuite name="Application Test Suite">
-      <directory suffix="Test.php">./tests</directory>
-    </testsuite>
-  </testsuites>
+  </source>
   <php>
-    <env name="APP_ENV" value="testing"/>
+    <env name="APP_ENV" value="testing" />
   </php>
-  <listeners>
-    <listener class="NunoMaduro\Collision\Adapters\Phpunit\Printer"/>
-  </listeners>
 </phpunit>
