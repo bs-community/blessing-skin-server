@@ -3,7 +3,7 @@
   "description": "A web application brings your custom skins back in offline Minecraft servers.",
   "license": "MIT",
   "require": {
-    "php": ">=8.0.2",
+    "php": "^8.1",
     "ext-ctype": "*",
     "ext-gd": "*",
     "ext-json": "*",
@@ -28,7 +28,7 @@
     "laravel/passport": "^11.0",
     "lorisleiva/laravel-search-string": "^1.0",
     "nesbot/carbon": "^2.0",
-    "nunomaduro/collision": "^6.1",
+    "nunomaduro/collision": "^7.0",
     "rcrowe/twigbridge": "^0.14",
     "spatie/laravel-translation-loader": "^2.7",
     "symfony/process": "^6.0",
@@ -41,12 +41,12 @@
     "barryvdh/laravel-ide-helper": "^2.10",
     "fakerphp/faker": "^1.13",
     "friendsofphp/php-cs-fixer": "^3.13",
-    "laravel/browser-kit-testing": "^6.1",
+    "laravel/browser-kit-testing": "^7.0",
     "laravel/tinker": "^2.4",
     "mockery/mockery": "^1.4",
-    "phpunit/phpunit": "^9.4",
-    "symfony/css-selector": "^5.0",
-    "symfony/dom-crawler": "^5.0"
+    "phpunit/phpunit": "^10.0",
+    "symfony/css-selector": "^6.2",
+    "symfony/dom-crawler": "^6.2"
   },
   "autoload": {
     "psr-4": {
@@ -70,6 +70,7 @@
     ]
   },
   "config": {
+    "optimize-autoloader": true,
     "preferred-install": "dist",
     "sort-packages": true
   },

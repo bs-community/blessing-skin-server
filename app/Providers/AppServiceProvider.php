@@ -10,14 +10,14 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
         $this->app->singleton(Services\Option::class);
         $this->app->alias(Services\Option::class, 'options');
     }
 
-    public function boot(Request $request)
+    public function boot(Request $request): void
     {
         Paginator::useBootstrap();
 

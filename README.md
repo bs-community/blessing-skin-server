@@ -40,7 +40,7 @@ Blessing Skin is an open-source project written in PHP, which means you can depl
 Blessing Skin has only a few system requirements. In most cases, these PHP extensions are already enabled.
 
 - Web server with URL rewriting enabled (Nginx or Apache)
-- PHP >= 8.0.2
+- PHP >= 8.1.0
 - PHP Extensions
   - OpenSSL >= 1.1.1 (TLS 1.3)
   - PDO

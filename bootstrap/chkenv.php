@@ -29,7 +29,7 @@ ini_set('display_errors', true);
         file_put_contents($envPath, preg_replace('/APP_KEY\s*=\s*/', 'APP_KEY='.$key."\n\n", $envFile));
     }
 
-    $requiredVersion = '8.0.2';
+    $requiredVersion = '8.1.0';
     preg_match('/(\d+\.\d+\.\d+)/', PHP_VERSION, $matches);
     $version = $matches[1];
     if (version_compare($version, $requiredVersion, '<')) {

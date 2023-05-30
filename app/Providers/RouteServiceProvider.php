@@ -19,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Define the routes for the application.
      */
-    public function map(Router $router)
+    public function map(Router $router): void
     {
         $this->mapStaticRoutes($router);
 
@@ -40,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "web" routes for the application.
      * These routes all receive session state, CSRF protection, etc.
      */
-    protected function mapWebRoutes(Router $router)
+    protected function mapWebRoutes(Router $router): void
     {
         Route::middleware(['web'])
             ->namespace($this->namespace)
@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "static" routes for the application.
      * These routes will not load session, etc.
      */
-    protected function mapStaticRoutes(Router $router)
+    protected function mapStaticRoutes(Router $router): void
     {
         Route::namespace($this->namespace)
             ->group(base_path('routes/static.php'));
@@ -61,7 +61,7 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "api" routes for the application.
      * These routes are typically stateless.
      */
-    protected function mapApiRoutes()
+    protected function mapApiRoutes(): void
     {
         Route::prefix('api')
             ->middleware(

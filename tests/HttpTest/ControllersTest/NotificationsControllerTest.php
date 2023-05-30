@@ -108,6 +108,7 @@ class NotificationsControllerTest extends TestCase
 
     public function testRead()
     {
+        /** @var User */
         $user = User::factory()->create();
         $user->notify(new Notifications\SiteMessage('Hyouka', 'Kotenbu?'));
         $user->refresh();
@@ -119,7 +120,7 @@ class NotificationsControllerTest extends TestCase
         $this->postJson('/user/notifications/'.$notification->id)
             ->assertJson([
                 'title' => $notification->data['title'],
-                'content' => $converter->convertToHtml($notification->data['content'])->getContent(),
+                'content' => $converter->convert($notification->data['content'])->getContent(),
                 'time' => $notification->created_at->toDateTimeString(),
             ]);
         $notification->refresh();

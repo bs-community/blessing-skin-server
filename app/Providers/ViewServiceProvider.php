@@ -3,12 +3,12 @@
 namespace App\Providers;
 
 use App\Http\View\Composers;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use View;
 
 class ViewServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         View::composer([
             'home',

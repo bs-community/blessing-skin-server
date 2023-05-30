@@ -9,25 +9,21 @@ class ScopeObserver
 {
     /**
      * Handle the Scope "saved" event.
-     *
-     * @return void
      */
-    public function saved()
+    public function saved(): void
     {
         $this->refreshCachedScopes();
     }
 
     /**
      * Handle the Scope "deleted" event.
-     *
-     * @return void
      */
-    public function deleted()
+    public function deleted(): void
     {
         $this->refreshCachedScopes();
     }
 
-    protected function refreshCachedScopes()
+    protected function refreshCachedScopes(): void
     {
         Cache::forget('scopes');
         Cache::rememberForever('scopes', function () {
