@@ -2,7 +2,9 @@
 
 namespace Tests;
 
-use Artisan;
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Artisan;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
@@ -11,11 +13,11 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     protected $baseUrl = 'http://localhost';
 
-    public function createApplication()
+    public function createApplication(): Application
     {
         $app = require __DIR__.'/../bootstrap/app.php';
 
-        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(Kernel::class)->bootstrap();
 
         Artisan::call('migrate:refresh');
 

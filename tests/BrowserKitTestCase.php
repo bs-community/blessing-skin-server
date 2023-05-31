@@ -2,7 +2,8 @@
 
 namespace Tests;
 
-use Artisan;
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\Artisan;
 use Laravel\BrowserKitTesting\TestCase;
 
 class BrowserKitTestCase extends TestCase
@@ -16,7 +17,7 @@ class BrowserKitTestCase extends TestCase
     {
         $app = require __DIR__.'/../bootstrap/app.php';
 
-        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(Kernel::class)->bootstrap();
 
         Artisan::call('migrate:refresh');
 

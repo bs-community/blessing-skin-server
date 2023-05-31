@@ -29,7 +29,7 @@
     "admin-lte": "^3.2.0",
     "blessing-skin-shell": "^0.3.4",
     "bootstrap": "^4.6.1",
-    "cac": "^6.6.1",
+    "cac": "6.6.1",
     "cli-spinners": "^2.5.0",
     "clsx": "^1.1.1",
     "echarts": "^5.1.2",
