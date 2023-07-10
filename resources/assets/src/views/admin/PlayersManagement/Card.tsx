@@ -1,4 +1,3 @@
-import React from 'react'
 import { t } from '@/scripts/i18n'
 import { showModal } from '@/scripts/notify'
 import type { Player } from '@/scripts/types'

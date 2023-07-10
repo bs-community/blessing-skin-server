@@ -1,4 +1,3 @@
-import React from 'react'
 import ModalContent from './ModalContent'
 import ModalInput from './ModalInput'
 import type { Props as ContentProps } from './ModalContent'

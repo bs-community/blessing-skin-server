@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
 import { useImmer } from 'use-immer'
 import useIsLargeScreen from '@/scripts/hooks/useIsLargeScreen'
@@ -47,6 +47,7 @@ const PlayersManagement: React.FC = () => {
 
   useEffect(() => {
     getPlayers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
   const handleModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {

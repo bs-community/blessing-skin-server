@@ -1,6 +1,6 @@
 import { spawnSync } from 'child_process'
 import * as fs from 'fs'
-import ts from 'typescript'
+import ts, { factory } from 'typescript'
 import prettier from 'prettier'
 
 type Route = { uri: string; name: string | null }
@@ -20,34 +20,33 @@ function parseURI(uri: string): ts.ArrowFunction {
       param === 'user' ||
       param === 'player' ||
       param === 'report'
-        ? ts.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword)
-        : ts.createKeywordTypeNode(ts.SyntaxKind.StringKeyword)
+        ? factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword)
+        : factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword)
 
-    return ts.createArrowFunction(
+    return factory.createArrowFunction(
       undefined,
       undefined,
       [
-        ts.createParameter(
+        factory.createParameterDeclaration(
           undefined,
           undefined,
-          undefined,
-          ts.createIdentifier(param),
+          factory.createIdentifier(param),
           undefined,
           type,
           undefined,
         ),
       ],
       undefined,
-      ts.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
-      ts.createTemplateExpression(
-        ts.createTemplateHead(
+      factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+      factory.createTemplateExpression(
+        factory.createTemplateHead(
           '/' + uri.slice(0, matches.index),
           '/' + uri.slice(0, matches.index),
         ),
         [
-          ts.createTemplateSpan(
-            ts.createIdentifier(param),
-            ts.createTemplateTail(
+          factory.createTemplateSpan(
+            factory.createIdentifier(param),
+            factory.createTemplateTail(
               uri.slice(matches.index + matches[0].length),
               uri.slice(matches.index + matches[0].length),
             ),
@@ -57,15 +56,18 @@ function parseURI(uri: string): ts.ArrowFunction {
     )
   }
 
-  return ts.createArrowFunction(
+  return factory.createArrowFunction(
     undefined,
     undefined,
     [],
     undefined,
-    ts.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
-    ts.createAsExpression(
-      ts.createStringLiteral(`/${uri}`),
-      ts.createTypeReferenceNode(ts.createIdentifier('const'), undefined),
+    factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+    factory.createAsExpression(
+      factory.createStringLiteral(`/${uri}`),
+      factory.createTypeReferenceNode(
+        factory.createIdentifier('const'),
+        undefined,
+      ),
     ),
   )
 }
@@ -75,19 +77,19 @@ function parseTree(tree: Tree): ts.ObjectLiteralExpression {
     .sort(([a], [b]) => (a > b ? 1 : -1))
     .map(([key, value]) => {
       if (typeof value === 'string') {
-        return ts.createPropertyAssignment(
-          ts.createIdentifier(key),
+        return factory.createPropertyAssignment(
+          factory.createIdentifier(key),
           parseURI(value),
         )
       } else {
-        return ts.createPropertyAssignment(
-          ts.createIdentifier(key),
+        return factory.createPropertyAssignment(
+          factory.createIdentifier(key),
           parseTree(value),
         )
       }
     })
 
-  return ts.createObjectLiteral(properties)
+  return factory.createObjectLiteralExpression(properties)
 }
 
 const { stdout } = spawnSync(
@@ -126,8 +128,7 @@ routes
     }, tree)
   })
 
-const ast = ts.createExportAssignment(
-  undefined,
+const ast = factory.createExportAssignment(
   undefined,
   undefined,
   parseTree(tree),
@@ -135,14 +136,14 @@ const ast = ts.createExportAssignment(
 const sourceFile = ts.createSourceFile(
   'urls.ts',
   '',
-  ts.ScriptTarget.ES2017,
+  ts.ScriptTarget.ES2021,
   false,
   ts.ScriptKind.TS,
 )
 const printer = ts.createPrinter({
   newLine: ts.NewLineKind.LineFeed,
 })
-const code = prettier.format(
+const code = await prettier.format(
   printer.printNode(ts.EmitHint.Unspecified, ast, sourceFile),
   {
     parser: 'typescript',

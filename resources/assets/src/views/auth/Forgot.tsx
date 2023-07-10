@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { hot } from 'react-hot-loader/root'
 import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import { t } from '@/scripts/i18n'

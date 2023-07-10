@@ -3,7 +3,7 @@ import { hot } from 'react-hot-loader/root'
 import { useImmer } from 'use-immer'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { Paginator, Texture, TextureType } from '@/scripts/types'
+import { type Paginator, type Texture, TextureType } from '@/scripts/types'
 import { toast, showModal } from '@/scripts/notify'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
@@ -37,6 +37,7 @@ const ReportsManagement: React.FC = () => {
 
   useEffect(() => {
     getReports()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {

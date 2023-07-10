@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Autosuggest from 'react-autosuggest'
 import { css } from '@emotion/react'
 import { emit } from '@/scripts/event'

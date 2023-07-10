@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import styled from '@emotion/styled'
 import { hot } from 'react-hot-loader/root'
 import useEmitMounted from '@/scripts/hooks/useEmitMounted'

@@ -80,7 +80,7 @@ export async function walkFetch(request: Request): Promise<any> {
       message = `${message}<br><details>${trace}</details>`
     }
 
-    throw new HTTPError(message || body, cloned)
+    throw new HTTPError(message || (body as string), cloned)
   } catch (error: any) {
     emit('fetchError', error)
     await showModal({
@@ -95,7 +95,10 @@ export async function walkFetch(request: Request): Promise<any> {
   }
 }
 
-export function get<T = any>(url: string, params = empty): Promise<T> {
+export function get<T = any>(
+  url: string,
+  params: Record<string, any> = empty,
+): Promise<T> {
   emit('beforeFetch', {
     method: 'GET',
     url,

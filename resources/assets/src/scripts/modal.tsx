@@ -1,6 +1,5 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
-import Modal, { ModalOptions, ModalResult } from '../components/Modal'
+import Modal, { type ModalOptions, type ModalResult } from '../components/Modal'
 
 export function showModal(options: ModalOptions = {}): Promise<ModalResult> {
   return new Promise((resolve, reject) => {

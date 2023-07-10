@@ -22,7 +22,7 @@ export default async function pacman(stdio: Stdio, args: string[]) {
   const { options } = program.parse(['', ''].concat(args), { run: false })
 
   const opts: Options = options
-  /* istanbul ignore else */
+
   if (opts.sync) {
     await install(opts.sync, stdio)
   } else if (opts.remove) {

@@ -1,4 +1,3 @@
-import React from 'react'
 import { t } from '@/scripts/i18n'
 import type { User } from '@/scripts/types'
 import { Box, Icon, InfoTable } from './styles'

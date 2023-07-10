@@ -8,7 +8,6 @@ export function t(key: string, parameters = Object.create(null)): string {
   let result = ''
 
   for (const segment of segments) {
-    /* istanbul ignore next */
     const middle = temp?.[segment]
     if (!middle) {
       return key
@@ -20,9 +19,11 @@ export function t(key: string, parameters = Object.create(null)): string {
     }
   }
 
+  /* eslint-disable @typescript-eslint/no-unsafe-argument */
   Object.keys(parameters).forEach(
     (slot) => (result = result.replace(`:${slot}`, parameters[slot])),
   )
+  /* eslint-enable @typescript-eslint/no-unsafe-argument */
 
   return result
 }

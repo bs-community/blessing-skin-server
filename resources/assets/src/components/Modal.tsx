@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import $ from 'jquery'
 import 'bootstrap'
 import { t } from '../scripts/i18n'
@@ -66,9 +66,14 @@ const Modal: React.FC<ModalOptions & Props> = (props) => {
       return
     }
 
-    const onHidden = () => props.onClose?.()
+    const onClose =
+      props.onClose ||
+      (() => {
+        /* noop */
+      })
+    const onHidden = () => onClose()
 
-    const el = $(ref.current!)
+    const el = $(ref.current as HTMLElement)
     el.on('hidden.bs.modal', onHidden)
 
     return () => {
@@ -92,28 +97,27 @@ const Modal: React.FC<ModalOptions & Props> = (props) => {
     }
 
     props.onConfirm?.({ value })
-    $(ref.current!).modal('hide')
+    $(ref.current as HTMLElement).modal('hide')
 
     // The "hidden.bs.modal" event can't be trigged automatically when testing.
-    /* istanbul ignore next */
+
     if (process.env.NODE_ENV === 'test') {
-      $(ref.current!).trigger('hidden.bs.modal')
+      $(ref.current as HTMLElement).trigger('hidden.bs.modal')
     }
   }
 
   const dismiss = () => {
     props.onDismiss?.()
-    $(ref.current!).modal('hide')
+    $(ref.current as HTMLElement).modal('hide')
 
-    /* istanbul ignore next */
     if (process.env.NODE_ENV === 'test') {
-      $(ref.current!).trigger('hidden.bs.modal')
+      $(ref.current as HTMLElement).trigger('hidden.bs.modal')
     }
   }
 
   useEffect(() => {
     if (show) {
-      setTimeout(() => $(ref.current!).modal('show'), 50)
+      setTimeout(() => $(ref.current as HTMLElement).modal('show'), 50)
     }
   }, [show])
 

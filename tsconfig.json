@@ -1,8 +1,6 @@
 {
   "extends": "@gplane/tsconfig",
   "compilerOptions": {
-    "target": "es2017",
-    "module": "esnext",
     "moduleResolution": "node",
     "declaration": false,
     "declarationMap": false,
@@ -16,13 +14,7 @@
     "resources/assets/src",
     "resources/assets/webpack.d.ts",
     "tools",
-    "webpack.config.ts"
-  ],
-  "ts-node": {
-    "compilerOptions": {
-      "noUnusedLocals": false,
-      "noUnusedParameters": false,
-      "module": "commonjs"
-    }
-  }
+    "webpack.config.ts",
+    "postcss.config.ts"
+  ]
 }

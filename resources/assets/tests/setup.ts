@@ -1,8 +1,9 @@
-/* eslint-disable max-classes-per-file */
 import * as fs from 'fs'
-import 'jest-extended'
+import * as matchers from 'jest-extended'
 import '@testing-library/jest-dom'
 import yaml from 'js-yaml'
+
+expect.extend(matchers)
 
 window.blessing = {
   base_url: '',
@@ -10,7 +11,9 @@ window.blessing = {
   site_name: 'Blessing Skin',
   version: '4.0.0',
   extra: {},
-  i18n: yaml.load(fs.readFileSync('resources/lang/en/front-end.yml', 'utf8')),
+  i18n: yaml.load(
+    fs.readFileSync('resources/lang/en/front-end.yml', 'utf8'),
+  ) as object,
 }
 
 class Headers extends Map {

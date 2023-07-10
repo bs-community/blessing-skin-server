@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
 import { t } from '@/scripts/i18n'

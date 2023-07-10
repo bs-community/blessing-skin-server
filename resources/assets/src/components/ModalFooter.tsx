@@ -1,5 +1,3 @@
-import React from 'react'
-
 export interface Props {
   flexFooter?: boolean
   okButtonText?: string

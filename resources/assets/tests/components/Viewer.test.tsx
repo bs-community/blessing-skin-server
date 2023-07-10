@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import Viewer, { PICTURES_COUNT } from '@/components/Viewer'

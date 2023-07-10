@@ -1,5 +1,6 @@
-import * as path from 'path'
-import * as webpack from 'webpack'
+import path from 'path'
+import webpack from 'webpack'
+import 'webpack-dev-server'
 import { execSync } from 'child_process'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
@@ -148,9 +149,7 @@ export default function (env?: Env): webpack.Configuration {
         'Access-Control-Allow-Origin': '*',
       },
       host: '0.0.0.0',
-      hot: true,
-      hotOnly: true,
-      stats: 'errors-warnings',
+      hot: 'only',
       allowedHosts: ['localhost'].concat(
         isDev && isGitpod ? ['.gitpod.io'] : [],
       ),

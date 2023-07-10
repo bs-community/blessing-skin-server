@@ -1,4 +1,4 @@
-import { post, ResponseBody } from '../../scripts/net'
+import { post, type ResponseBody } from '../../scripts/net'
 import { showModal } from '../../scripts/notify'
 import { t } from '../../scripts/i18n'
 

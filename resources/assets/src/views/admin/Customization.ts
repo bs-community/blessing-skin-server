@@ -38,9 +38,13 @@ export function registerNavbarPicker(
 
 const navbar = document.querySelector<HTMLElement>('.wrapper > nav')
 const picker = document.querySelector<HTMLDivElement>('#navbar-color-picker')
-/* istanbul ignore next */
+
 if (navbar && picker) {
-  registerNavbarPicker(navbar, picker, blessing.extra.navbar || 'white')
+  registerNavbarPicker(
+    navbar,
+    picker,
+    (blessing.extra.navbar as string) || 'white',
+  )
 }
 
 export function registerSidebarPicker(
@@ -73,11 +77,10 @@ const darkPicker = document.querySelector<HTMLDivElement>(
 const lightPicker = document.querySelector<HTMLDivElement>(
   '#sidebar-light-picker',
 )
-/* istanbul ignore next */
 if (sidebar && darkPicker && lightPicker) {
   registerSidebarPicker(
     sidebar,
     { dark: darkPicker, light: lightPicker },
-    blessing.extra.sidebar || 'dark-primary',
+    (blessing.extra.sidebar as string) || 'dark-primary',
   )
 }

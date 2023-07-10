@@ -1,6 +1,5 @@
 import { loadSkinToCanvas } from 'skinview-utils'
 
-/* istanbul ignore next */
 function checkPixel(
   context: CanvasRenderingContext2D,
   x: number,
@@ -15,7 +14,6 @@ function checkPixel(
   )
 }
 
-/* istanbul ignore next */
 export function isAlex(texture: string): Promise<boolean> {
   return new Promise((resolve) => {
     const image = new Image()

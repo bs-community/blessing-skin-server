@@ -15,7 +15,7 @@ describe('picture captcha', () => {
     expect(await ref.current?.execute()).toBe('abc')
   })
 
-  it('refresh on click', async () => {
+  it('refresh on click', () => {
     const spy = jest.spyOn(Date, 'now')
 
     const ref = React.createRef<Captcha>()
@@ -25,7 +25,7 @@ describe('picture captcha', () => {
     expect(spy).toBeCalled()
   })
 
-  it('refresh programatically', async () => {
+  it('refresh programatically', () => {
     const spy = jest.spyOn(Date, 'now')
 
     const ref = React.createRef<Captcha>()
@@ -53,7 +53,7 @@ describe('recaptcha', () => {
     expect(value).toBe('token')
   })
 
-  it('refresh programatically', async () => {
+  it('refresh programatically', () => {
     const spy = jest.spyOn(Reaptcha.prototype, 'reset')
 
     const ref = React.createRef<Captcha>()

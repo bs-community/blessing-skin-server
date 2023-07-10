@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useMeasure } from 'react-use'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'

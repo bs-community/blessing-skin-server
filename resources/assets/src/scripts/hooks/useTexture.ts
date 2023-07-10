@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import * as fetch from '../net'
-import { Texture, TextureType } from '../types'
+import { type Texture, TextureType } from '../types'
 
 export default function useTexture() {
   const [tid, setTid] = useState(0)

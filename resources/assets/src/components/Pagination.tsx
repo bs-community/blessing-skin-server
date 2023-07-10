@@ -1,4 +1,3 @@
-import React from 'react'
 import { t } from '@/scripts/i18n'
 import PaginationItem from './PaginationItem'
 

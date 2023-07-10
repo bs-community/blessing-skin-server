@@ -1,5 +1,5 @@
 import { t } from '@/scripts/i18n'
-import { User, UserPermission } from '@/scripts/types'
+import { type User, UserPermission } from '@/scripts/types'
 
 export function humanizePermission(permission: UserPermission): string {
   switch (permission) {

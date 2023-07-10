@@ -1,5 +1,5 @@
 import React from 'react'
-import type { ReaptchaProps } from 'reaptcha'
+import type ReaptchaProps from 'reaptcha'
 
 class Reaptcha extends React.Component<ReaptchaProps, {}> {
   execute() {

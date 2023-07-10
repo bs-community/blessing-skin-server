@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
 import type * as net from '../../src/scripts/net'
 
 export type { ResponseBody } from '../../src/scripts/net'

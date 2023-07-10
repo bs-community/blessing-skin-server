@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import * as fetch from '@/scripts/net'
 import { showModal } from '@/scripts/notify'
 

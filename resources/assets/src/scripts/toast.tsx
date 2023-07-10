@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { nanoid } from 'nanoid'
 import * as emitter from './event'
-import ToastBox, { ToastType } from '../components/Toast'
+import ToastBox from '../components/Toast'
+import type { ToastType } from '../components/Toast'
 
 type QueueElement = { id: string; type: ToastType; message: string }
 type ToastQueue = QueueElement[]

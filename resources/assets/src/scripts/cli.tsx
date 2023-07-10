@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
 import { Terminal } from 'xterm'
@@ -57,10 +57,8 @@ const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
     const terminal = new Terminal()
     const fitAddon = new FitAddon()
     terminal.loadAddon(fitAddon)
-    terminal.setOption(
-      'fontFamily',
-      'Monaco, Consolas, "Roboto Mono", "Noto Sans", "Droid Sans Mono"',
-    )
+    terminal.options.fontFamily =
+      'Monaco, Consolas, "Roboto Mono", "Noto Sans", "Droid Sans Mono"'
     terminal.open(el)
     fitAddon.fit()
 
@@ -83,6 +81,7 @@ const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
       if (stack?.includes('outputHelp')) {
         terminal.writeln(data.replace(/\n/g, '\r\n'))
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         originalLogger(data, ...args)
       }
     }

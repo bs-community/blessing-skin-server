@@ -1,4 +1,9 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["resources/assets", "tools", "webpack.config.ts"]
+  "include": [
+    "resources/assets",
+    "tools",
+    "webpack.config.ts",
+    "postcss.config.ts"
+  ]
 }

@@ -21,7 +21,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-COPY postcss.config.js tsconfig.build.json tsconfig.json webpack.config.ts ./
+COPY tsconfig.build.json tsconfig.json webpack.config.ts ./
 COPY tools/*Plugin.ts ./tools/
 
 COPY resources ./resources

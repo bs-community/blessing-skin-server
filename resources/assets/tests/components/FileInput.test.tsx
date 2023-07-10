@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import FileInput from '@/components/FileInput'

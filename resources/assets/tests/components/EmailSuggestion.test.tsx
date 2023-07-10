@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { on } from '@/scripts/event'
 import EmailSuggestion from '@/components/EmailSuggestion'

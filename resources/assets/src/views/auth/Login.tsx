@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
 import useEmitMounted from '@/scripts/hooks/useEmitMounted'

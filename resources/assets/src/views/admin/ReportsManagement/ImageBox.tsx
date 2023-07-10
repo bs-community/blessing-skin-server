@@ -1,8 +1,7 @@
-import React from 'react'
 import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
 import type { Texture } from '@/scripts/types'
-import { Report, Status } from './types'
+import { type Report, Status } from './types'
 
 const Card = styled.div`
   width: 240px;

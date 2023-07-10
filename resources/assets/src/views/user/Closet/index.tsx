@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { hot } from 'react-hot-loader/root'
 import debounce from 'lodash.debounce'
 import useEmitMounted from '@/scripts/hooks/useEmitMounted'
@@ -6,9 +6,9 @@ import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
 import {
-  ClosetItem as Item,
-  Texture,
-  Paginator,
+  type ClosetItem as Item,
+  type Texture,
+  type Paginator,
   TextureType,
 } from '@/scripts/types'
 import urls from '@/scripts/urls'
@@ -22,10 +22,8 @@ import removeClosetItem from './removeClosetItem'
 type Category = 'skin' | 'cape'
 
 const updater = debounce(
-  <T extends unknown>(
-    value: React.SetStateAction<T>,
-    setter: React.Dispatch<React.SetStateAction<T>>,
-  ) => setter(value),
+  (value: React.SetStateAction<any>, setter: React.Dispatch<typeof value>) =>
+    setter(value),
   350,
 )
 
@@ -47,7 +45,7 @@ const Closet: React.FC = () => {
 
   useEffect(() => {
     const element = containerRef.current
-    /* istanbul ignore next */
+
     if (element) {
       const { width } = element.getBoundingClientRect()
       if (width >= 500) {

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import React from 'react'
+
 import { t } from '@/scripts/i18n'
 import type { Line } from './types'
 

@@ -1,5 +1,3 @@
-import React from 'react'
-
 type AlertType = 'success' | 'info' | 'warning' | 'danger'
 
 const icons = new Map<AlertType, string>([

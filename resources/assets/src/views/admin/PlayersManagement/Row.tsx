@@ -1,4 +1,3 @@
-import React from 'react'
 import { t } from '@/scripts/i18n'
 import type { Player } from '@/scripts/types'
 import ButtonEdit from '@/components/ButtonEdit'

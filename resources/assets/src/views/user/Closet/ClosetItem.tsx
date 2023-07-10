@@ -1,4 +1,3 @@
-import React from 'react'
 import { t } from '@/scripts/i18n'
 import type { ClosetItem as ClosetItemType } from '@/scripts/types'
 import setAsAvatar from './setAsAvatar'
