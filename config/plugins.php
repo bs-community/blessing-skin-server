@@ -33,7 +33,7 @@ return [
     */
     'registry' => env(
         'PLUGINS_REGISTRY',
-        'https://git.qvq.network/bs-community/plugins-dist/-/raw/master/registry_{lang}.json'
+        'https://d2jw1l0ullrzt6.cloudfront.net/registry_{lang}.json'
     ),
 
     /*
