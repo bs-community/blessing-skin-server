@@ -59,7 +59,7 @@ class OptionForm
     }
 
     /**
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      */
     public function __call(string $method, array $params): OptionFormItem
     {

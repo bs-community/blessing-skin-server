@@ -598,7 +598,7 @@ class PluginManagerTest extends TestCase
         $this->assertTrue($manager->getEnabledPlugins()->has('fake'));
         $this->assertEquals(
             'fake',
-            json_decode(resolve(\App\Services\Option::class)->get('plugins_enabled'), true)[0]['name']
+            json_decode(resolve(Option::class)->get('plugins_enabled'), true)[0]['name']
         );
 
         $this->assertTrue($manager->enable('dep')['unsatisfied']->isNotEmpty());
@@ -624,7 +624,7 @@ class PluginManagerTest extends TestCase
             return true;
         });
         $this->assertFalse($manager->getEnabledPlugins()->has('fake'));
-        $this->assertCount(0, json_decode(resolve(\App\Services\Option::class)->get('plugins_enabled'), true));
+        $this->assertCount(0, json_decode(resolve(Option::class)->get('plugins_enabled'), true));
     }
 
     public function testDelete()

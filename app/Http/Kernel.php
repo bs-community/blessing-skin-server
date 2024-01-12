@@ -17,8 +17,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
-        \App\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\DetectLanguagePrefer::class,
+        Middleware\ConvertEmptyStringsToNull::class,
+        Middleware\DetectLanguagePrefer::class,
     ];
 
     /**
@@ -33,8 +33,8 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
-            \App\Http\Middleware\EnforceEverGreen::class,
-            \App\Http\Middleware\RedirectToSetup::class,
+            Middleware\EnforceEverGreen::class,
+            Middleware\RedirectToSetup::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -44,9 +44,9 @@ class Kernel extends HttpKernel
 
         'authorize' => [
             'auth:web',
-            \App\Http\Middleware\RejectBannedUser::class,
-            \App\Http\Middleware\EnsureEmailFilled::class,
-            \App\Http\Middleware\FireUserAuthenticated::class,
+            Middleware\RejectBannedUser::class,
+            Middleware\EnsureEmailFilled::class,
+            Middleware\FireUserAuthenticated::class,
         ],
     ];
 
@@ -58,13 +58,13 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth' => Middleware\Authenticate::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'role' => \App\Http\Middleware\CheckRole::class,
-        'setup' => \App\Http\Middleware\CheckInstallation::class,
+        'guest' => Middleware\RedirectIfAuthenticated::class,
+        'role' => Middleware\CheckRole::class,
+        'setup' => Middleware\CheckInstallation::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'verified' => \App\Http\Middleware\CheckUserVerified::class,
+        'verified' => Middleware\CheckUserVerified::class,
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
     ];

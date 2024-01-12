@@ -55,6 +55,7 @@ class Handler extends ExceptionHandler
                     // @codeCoverageIgnoreStart
                     $isFromPlugins = !app()->runningUnitTests()
                         && Str::contains($trace['file'], resolve('plugins')->getPluginsDirs()->all());
+
                     // @codeCoverageIgnoreEnd
                     return Str::startsWith($trace['file'], 'app') || $isFromPlugins;
                 })
