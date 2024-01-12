@@ -4,7 +4,7 @@ namespace Tests;
 
 use App\Models\User;
 
-class CheckRole extends TestCase
+class CheckRoleTest extends TestCase
 {
     public function testHandle()
     {
