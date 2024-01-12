@@ -115,6 +115,12 @@ jobs:
     name: Snapshot Build
     runs-on: ubuntu-latest
     steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          coverage: none
+          extensions: mbstring, dom, fileinfo, sqlite, gd, zip
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Cache Node dependencies
