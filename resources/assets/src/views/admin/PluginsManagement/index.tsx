@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {hot} from 'react-hot-loader/root';
+;
 import {useImmer} from 'use-immer';
 import InfoBox from './InfoBox';
 import type {Plugin} from './types';
@@ -9,7 +9,7 @@ import {toast, showModal} from '@/scripts/notify';
 import FileInput from '@/components/FileInput';
 import Loading from '@/components/Loading';
 
-const PluginsManagement: React.FC = () => {
+function PluginsManagement() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [plugins, setPlugins] = useImmer<Plugin[]>([]);
 	const [file, setFile] = useState<File | undefined>(null);
@@ -245,4 +245,4 @@ const PluginsManagement: React.FC = () => {
 	);
 };
 
-export default hot(PluginsManagement);
+export default PluginsManagement;

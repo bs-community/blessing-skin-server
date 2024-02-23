@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {hot} from 'react-hot-loader/root';
+;
 import Row from './Row';
 import LoadingRow from './LoadingRow';
 import Previewer from './Previewer';
@@ -14,7 +14,7 @@ import {showModal, toast} from '@/scripts/notify';
 import {type Player, TextureType} from '@/scripts/types';
 import urls from '@/scripts/urls';
 
-const Players: React.FC = () => {
+function Players() {
 	const [players, setPlayers] = useState<Player[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [selected, setSelected] = useState(0);
@@ -253,4 +253,4 @@ const Players: React.FC = () => {
 	);
 };
 
-export default hot(Players);
+export default Players;

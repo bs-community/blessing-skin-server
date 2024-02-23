@@ -1,5 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
-import {hot} from 'react-hot-loader/root';
+import {useState, useEffect, useMemo} from 'react';
 import {enableMapSet} from 'immer';
 import {useImmer} from 'use-immer';
 import type {Plugin} from './types';
@@ -12,7 +11,7 @@ import Pagination from '@/components/Pagination';
 
 enableMapSet();
 
-const PluginsMarket: React.FC = () => {
+export default function PluginsMarket() {
 	const [plugins, setPlugins] = useImmer<Plugin[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [search, setSearch] = useState('');
@@ -38,7 +37,7 @@ const PluginsMarket: React.FC = () => {
 			setIsLoading(false);
 		};
 
-		getPlugins();
+		void getPlugins();
 	}, []);
 
 	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +73,7 @@ const PluginsMarket: React.FC = () => {
 				plugins[index].installed = plugins[index].version;
 			});
 		} else {
-			showModal({
+			void showModal({
 				mode: 'alert',
 				children: (
 					<div>
@@ -107,7 +106,7 @@ const PluginsMarket: React.FC = () => {
 			return;
 		}
 
-		handleInstall(plugin, index);
+		void handleInstall(plugin, index);
 	};
 
 	const pagedPlugins = searchedPlugins.slice((page - 1) * 10, page * 10);
@@ -148,8 +147,8 @@ const PluginsMarket: React.FC = () => {
 									key={plugin.name}
 									plugin={plugin}
 									isInstalling={installings.has(plugin.name)}
-									onInstall={async () => handleInstall(plugin, (page - 1) * 10 + i)}
-									onUpdate={async () => handleUpdate(plugin, (page - 1) * 10 + i)}
+									onInstall={async () => handleInstall(plugin, ((page - 1) * 10) + i)}
+									onUpdate={async () => handleUpdate(plugin, ((page - 1) * 10) + i)}
 								/>
 							))}
 						</tbody>
@@ -163,6 +162,5 @@ const PluginsMarket: React.FC = () => {
 			</div>
 		</div>
 	);
-};
+}
 
-export default hot(PluginsMarket);

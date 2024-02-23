@@ -7,7 +7,7 @@ export type Notification = {
 	title: string;
 };
 
-const NotificationsList: React.FC = () => {
+function NotificationsList() {
 	const [notifications, setNotifications] = useState<Notification[]>([]);
 	const [noUnreadText, setNoUnreadText] = useState('');
 

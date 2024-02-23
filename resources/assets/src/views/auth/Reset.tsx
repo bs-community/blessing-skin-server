@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import {hot} from 'react-hot-loader/root';
+import {useState} from 'react';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
@@ -7,7 +6,7 @@ import {toast} from '@/scripts/notify';
 import urls from '@/scripts/urls';
 import Alert from '@/components/Alert';
 
-const Reset: React.FC = () => {
+export default function Reset() {
 	const [password, setPassword] = useState('');
 	const [confirmation, setConfirmation] = useState('');
 	const [warningMessage, setWarningMessage] = useState('');
@@ -106,6 +105,5 @@ const Reset: React.FC = () => {
 			</button>
 		</form>
 	);
-};
+}
 
-export default hot(Reset);

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import Skeleton from 'react-loading-skeleton';
 import clsx from 'clsx';
@@ -10,28 +9,28 @@ const ShrinkedSkeleton = styled(Skeleton)<{width?: string}>`
   width: ${properties => properties.width};
 `;
 
-const LoadingCard: React.FC = () => (
-	<Box className={clsx('info-box', {'bg-gray-dark': isDarkMode})}>
-		<div className='info-box-icon'>
-			<Skeleton circle height={50} width={50}/>
-		</div>
-		<div className='info-box-content'>
-			<div className='row'>
-				<div className='col-10'>
-					<ShrinkedSkeleton width='120px'/>
-				</div>
-				<div className='col-2'/>
+export default function LoadingCard() {
+	return (
+		<Box className={clsx('info-box', {'bg-gray-dark': isDarkMode})}>
+			<div className='info-box-icon'>
+				<Skeleton circle height={50} width={50}/>
 			</div>
-			<div>
-				<div>
-					<ShrinkedSkeleton width='150px'/>
+			<div className='info-box-content'>
+				<div className='row'>
+					<div className='col-10'>
+						<ShrinkedSkeleton width='120px'/>
+					</div>
+					<div className='col-2'/>
 				</div>
 				<div>
-					<ShrinkedSkeleton width='180px'/>
+					<div>
+						<ShrinkedSkeleton width='150px'/>
+					</div>
+					<div>
+						<ShrinkedSkeleton width='180px'/>
+					</div>
 				</div>
 			</div>
-		</div>
-	</Box>
-);
-
-export default LoadingCard;
+		</Box>
+	);
+}

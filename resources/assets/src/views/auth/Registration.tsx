@@ -1,5 +1,4 @@
-import React, {useState, useRef} from 'react';
-import {hot} from 'react-hot-loader/root';
+import {useState, useRef} from 'react';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import {t} from '@/scripts/i18n';
@@ -10,7 +9,7 @@ import Alert from '@/components/Alert';
 import Captcha from '@/components/Captcha';
 import EmailSuggestion from '@/components/EmailSuggestion';
 
-const Registration: React.FC = () => {
+export default function Registration() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmation, setConfirmation] = useState('');
@@ -174,6 +173,4 @@ const Registration: React.FC = () => {
 			</div>
 		</form>
 	);
-};
-
-export default hot(Registration);
+}

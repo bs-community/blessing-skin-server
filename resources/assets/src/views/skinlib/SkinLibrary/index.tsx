@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {hot} from 'react-hot-loader/root';
+;
 import addClosetItem from '../Show/addClosetItem';
 import FilterSelector from './FilterSelector';
 import Button from './Button';
@@ -16,7 +16,7 @@ import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
 import removeClosetItem from '@/views/user/Closet/removeClosetItem';
 
-const SkinLibrary: React.FC = () => {
+function SkinLibrary() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [items, setItems] = useState<LibraryItem[]>([]);
 	const [closet, setCloset] = useState<number[]>([]);
@@ -301,4 +301,4 @@ const SkinLibrary: React.FC = () => {
 	);
 };
 
-export default hot(SkinLibrary);
+export default SkinLibrary;

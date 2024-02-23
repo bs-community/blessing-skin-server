@@ -295,4 +295,4 @@ function Closet() {
 	);
 }
 
-export default hot(Closet);
+export default Closet;

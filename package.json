@@ -79,6 +79,7 @@
     "postcss": "^8.4.35",
     "typescript": "^5.3.3",
     "vite": "^5.1.4",
+    "vite-plugin-top-level-await": "^1.4.1",
     "vite-plugin-wasm": "^3.3.0",
     "vitest": "^1.3.1",
     "xo": "^0.57.0"
@@ -109,6 +110,7 @@
     "extends": [
       "xo",
       "xo-react",
+      "plugin:react/jsx-runtime",
       "./node_modules/xo/config/plugins.cjs"
     ],
     "rules": {

@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {hot} from 'react-hot-loader/root';
+;
 import {useImmer} from 'use-immer';
 import Header from './Header';
 import Card from './Card';
@@ -16,7 +16,7 @@ import urls from '@/scripts/urls';
 import type {Props as ModalInputProperties} from '@/components/ModalInput';
 import Pagination from '@/components/Pagination';
 
-const UsersManagement: React.FC = () => {
+function UsersManagement() {
 	const [users, setUsers] = useImmer<User[]>([]);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
@@ -366,4 +366,4 @@ const UsersManagement: React.FC = () => {
 	);
 };
 
-export default hot(UsersManagement);
+export default UsersManagement;

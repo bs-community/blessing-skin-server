@@ -1,5 +1,4 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {hot} from 'react-hot-loader/root';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import {t} from '@/scripts/i18n';
@@ -28,14 +27,14 @@ function isSuccessfulResponse(
 	return response.code === 0;
 }
 
-const Login: React.FC = () => {
+export default function Login() {
 	const [identification, setIdentification] = useState('');
 	const [password, setPassword] = useState('');
 	const [remember, setRemember] = useState(false);
 	const [hasTooManyFails, setHasTooManyFails] = useState(false);
 	const [isPending, setIsPending] = useState(false);
 	const [warningMessage, setWarningMessage] = useState('');
-	const reference = useRef<Captcha | undefined>(null);
+	const reference = useRef<Captcha | null>(null);
 	const recaptcha = useBlessingExtra<string>('recaptcha');
 	const invisibleRecaptcha = useBlessingExtra<boolean>('invisible');
 
@@ -77,13 +76,13 @@ const Login: React.FC = () => {
 				if (recaptcha) {
 					// No need to notify if using invisible recaptcha
 					if (!invisibleRecaptcha) {
-						showModal({
+						void showModal({
 							mode: 'alert',
 							text: t('auth.tooManyFails.recaptcha'),
 						});
 					}
 				} else {
-					showModal({
+					void showModal({
 						mode: 'alert',
 						text: t('auth.tooManyFails.captcha'),
 					});
@@ -152,6 +151,4 @@ const Login: React.FC = () => {
 			</button>
 		</form>
 	);
-};
-
-export default hot(Login);
+}

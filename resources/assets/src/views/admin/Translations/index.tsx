@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {hot} from 'react-hot-loader/root';
+;
 import {useImmer} from 'use-immer';
 import type {Line} from './types';
 import Row from './Row';
@@ -10,7 +10,7 @@ import type {Paginator} from '@/scripts/types';
 import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
 
-const Translations: React.FC = () => {
+function Translations() {
 	const [lines, setLines] = useImmer<Line[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [page, setPage] = useState(1);
@@ -118,4 +118,4 @@ const Translations: React.FC = () => {
 	);
 };
 
-export default hot(Translations);
+export default Translations;

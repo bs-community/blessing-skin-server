@@ -1,6 +1,5 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import styled from '@emotion/styled';
-import {hot} from 'react-hot-loader/root';
 import InfoBox from './InfoBox';
 import SignButton from './SignButton';
 import * as scoreUtils from './scoreUtils';
@@ -42,7 +41,7 @@ const ScoreNotice = styled.p`
   margin-top: 20px;
 `;
 
-const Dashboard: React.FC = () => {
+export default function Dashboard() {
 	const [loading, setLoading] = useState(false);
 	const [players, setPlayers] = useState(0);
 	const [storage, setStorage] = useState(0);
@@ -72,7 +71,7 @@ const Dashboard: React.FC = () => {
 			setLoading(false);
 		};
 
-		fetchInfo();
+		void fetchInfo();
 	}, []);
 
 	const handleSign = useCallback(async () => {
@@ -157,6 +156,5 @@ const Dashboard: React.FC = () => {
 			</div>
 		</div>
 	);
-};
+}
 
-export default hot(Dashboard);

@@ -1,5 +1,4 @@
-import React, {useState, useRef} from 'react';
-import {hot} from 'react-hot-loader/root';
+import {useState, useRef} from 'react';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
@@ -8,12 +7,12 @@ import Alert from '@/components/Alert';
 import Captcha from '@/components/Captcha';
 import EmailSuggestion from '@/components/EmailSuggestion';
 
-const Forgot: React.FC = () => {
+export default function Forgot() {
 	const [email, setEmail] = useState('');
 	const [isSending, setIsSending] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [warningMessage, setWarningMessage] = useState('');
-	const reference = useRef<Captcha | undefined>(null);
+	const reference = useRef<Captcha | null>(null);
 
 	useEmitMounted();
 
@@ -70,6 +69,4 @@ const Forgot: React.FC = () => {
 			</div>
 		</form>
 	);
-};
-
-export default hot(Forgot);
+}

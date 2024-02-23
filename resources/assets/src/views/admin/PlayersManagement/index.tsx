@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {hot} from 'react-hot-loader/root';
+;
 import {useImmer} from 'use-immer';
 import Header from '../UsersManagement/Header';
 import Card from './Card';
@@ -15,7 +15,7 @@ import {toast, showModal} from '@/scripts/notify';
 import urls from '@/scripts/urls';
 import Pagination from '@/components/Pagination';
 
-const PlayersManagement: React.FC = () => {
+function PlayersManagement() {
 	const [players, setPlayers] = useImmer<Player[]>([]);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
@@ -274,4 +274,4 @@ const PlayersManagement: React.FC = () => {
 	);
 };
 
-export default hot(PlayersManagement);
+export default PlayersManagement;

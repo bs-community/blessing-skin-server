@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import * as React from 'react';
+import React from 'react';
 import Reaptcha from 'reaptcha';
 import {emit, on} from '@/scripts/event';
 import {t} from '@/scripts/i18n';

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {hot} from 'react-hot-loader/root';
+;
 import {useImmer} from 'use-immer';
 import type {Report, Status} from './types';
 import ImageBox from './ImageBox';
@@ -13,7 +13,7 @@ import ViewerSkeleton from '@/components/ViewerSkeleton';
 
 const Previewer = React.lazy(async () => import('@/components/Viewer'));
 
-const ReportsManagement: React.FC = () => {
+function ReportsManagement() {
 	const [reports, setReports] = useImmer<Report[]>([]);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
@@ -152,4 +152,4 @@ const ReportsManagement: React.FC = () => {
 	);
 };
 
-export default hot(ReportsManagement);
+export default ReportsManagement;

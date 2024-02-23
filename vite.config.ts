@@ -1,18 +1,22 @@
 import {defineConfig, splitVendorChunkPlugin} from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import wasm from 'vite-plugin-wasm';
+import topLevelAwait from 'vite-plugin-top-level-await';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
+
+const root = new URL('resources/assets/src/', import.meta.url);
 
 export default defineConfig({
 	plugins: [
 		react(),
 		wasm(),
+		topLevelAwait(),
 		splitVendorChunkPlugin(),
 	],
 	resolve: {
 		alias: {
-			'@/': new URL('resources/assets/src/', import.meta.url).pathname,
-			readline: '@/scripts/cli/readline.ts',
+			'@/': root.pathname,
+			readline: new URL('scripts/cli/readline.ts', root).pathname,
 			prompts: 'prompts/lib/index.js',
 		},
 	},

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {hot} from 'react-hot-loader/root';
+;
 import Row from './Row';
 import ModalCreate from './ModalCreate';
 import type {App} from './types';
@@ -12,7 +12,7 @@ type Exception = {
 	message: string;
 };
 
-const OAuth: React.FC = () => {
+function OAuth() {
 	const [apps, setApps] = useState<App[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [showModalCreate, setShowModalCreate] = useState(false);
@@ -164,4 +164,4 @@ const OAuth: React.FC = () => {
 	);
 };
 
-export default hot(OAuth);
+export default OAuth;

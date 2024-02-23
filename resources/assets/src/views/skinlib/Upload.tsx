@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-import {hot} from 'react-hot-loader/root';
+;
 import {t} from '@/scripts/i18n';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
@@ -15,7 +15,7 @@ import ViewerSkeleton from '@/components/ViewerSkeleton';
 
 const Previewer = React.lazy(async () => import('@/components/Viewer'));
 
-const Upload: React.FC = () => {
+function Upload() {
 	const [name, setName] = useState('');
 	const [type, setType] = useState(TextureType.Steve);
 	const [isPrivate, setIsPrivate] = useState(false);
@@ -257,4 +257,4 @@ const Upload: React.FC = () => {
 	);
 };
 
-export default hot(Upload);
+export default Upload;

@@ -3,7 +3,7 @@ import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {toast} from '@/scripts/notify';
 
-const EmailVerification: React.FC = () => {
+function EmailVerification() {
 	const [isSending, setIsSending] = useState(false);
 
 	const send = async () => {

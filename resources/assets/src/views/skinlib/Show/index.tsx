@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {createPortal} from 'react-dom';
-import {hot} from 'react-hot-loader/root';
+;
 import Skeleton from 'react-loading-skeleton';
 import addClosetItem from './addClosetItem';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
@@ -24,7 +24,7 @@ export type Badge = {
 
 const Previewer = React.lazy(async () => import('@/components/Viewer'));
 
-const Show: React.FC = () => {
+function Show() {
 	const [texture, setTexture] = useState<Texture>({} as Texture);
 	const [isLoading, setIsLoading] = useState(true);
 	const [showModalApply, setShowModalApply] = useState(false);
@@ -495,4 +495,4 @@ const Show: React.FC = () => {
 	);
 };
 
-export default hot(Show);
+export default Show;

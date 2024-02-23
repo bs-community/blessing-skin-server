@@ -10,7 +10,7 @@ type ToastQueue = QueueElement[];
 const TOAST_EVENT = Symbol('toast');
 const CLEAR_EVENT = Symbol('clear');
 
-export const ToastContainer: React.FC = () => {
+export function ToastContainer() {
 	const [queue, setQueue] = useState<ToastQueue>([]);
 
 	const handleClose = (id: string) => {
