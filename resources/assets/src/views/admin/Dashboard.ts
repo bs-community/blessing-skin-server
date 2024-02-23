@@ -117,4 +117,4 @@ function createLineChart(
 	});
 }
 
-main();
+void main();

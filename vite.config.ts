@@ -1,4 +1,5 @@
 import {defineConfig, splitVendorChunkPlugin} from 'vite';
+import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react-swc';
 import wasm from 'vite-plugin-wasm';
 import topLevelAwait from 'vite-plugin-top-level-await';
@@ -8,6 +9,13 @@ const root = new URL('resources/assets/src/', import.meta.url);
 
 export default defineConfig({
 	plugins: [
+		laravel([
+			new URL('index.tsx', root).pathname,
+			new URL('scripts/homePage.ts', root).pathname,
+			new URL('app.css', root).pathname,
+			new URL('spectre.css', root).pathname,
+			new URL('home.css', root).pathname,
+		]),
 		react(),
 		wasm(),
 		topLevelAwait(),
@@ -21,21 +29,14 @@ export default defineConfig({
 		},
 	},
 	publicDir: false,
-	root: '',
 	build: {
 		target: browserslistToEsbuild(),
 		sourcemap: true,
 		copyPublicDir: false,
-		outDir: new URL('public/app', import.meta.url).pathname,
 		rollupOptions: {
-			input: {
-				app: '@/index.tsx',
-				style: '@/styles/common.css',
-			},
 			treeshake: {
 				preset: 'recommended',
 			},
 		},
 	},
-	base: '/app/',
 });

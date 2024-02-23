@@ -1,5 +1,5 @@
-@import '../fonts/minecraft.css';
-@import './avatar.css';
+@import '@/fonts/minecraft.css';
+@import '@/styles/avatar.css';
 
 body {
   font-size: 16px;

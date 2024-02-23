@@ -1,3 +1,6 @@
+@import 'spectre.css/dist/spectre.css';
+@import '@/fonts/minecraft.css';
+
 body {
   height: 97vh;
 }

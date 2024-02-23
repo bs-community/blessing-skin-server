@@ -1,0 +1,6 @@
+@import '@/styles/common.css';
+@import 'admin-lte/dist/css/alt/adminlte.components.css';
+@import 'admin-lte/dist/css/alt/adminlte.core.css';
+@import 'admin-lte/dist/css/alt/adminlte.pages.css';
+@import 'admin-lte/dist/css/alt/adminlte.light.css';
+@import '@fortawesome/fontawesome-free/css/all.css';

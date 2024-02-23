@@ -11,15 +11,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "webpack serve",
-    "build": "webpack --env production --progress",
+    "dev": "vite",
+    "build": "vite build",
     "lint": "eslint .",
-    "fmt": "prettier --write resources/assets tools webpack.config.ts",
-    "fmt:check": "prettier --check resources/assets tools webpack.config.ts",
-    "type:check": "tsc -p . --noEmit && tsc -p ./resources/assets/tests --noEmit",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
-    "build:urls": "ts-node tools/generateUrls.ts",
-    "prepare": "husky install"
+    "test": "vitest",
+    "build:urls": "ts-node tools/generateUrls.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.0.0",
@@ -74,8 +70,8 @@
     "eslint-config-xo-react": "^0.27.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^9.0.11",
     "js-yaml": "^4.1.0",
+    "laravel-vite-plugin": "^1.0.1",
     "postcss": "^8.4.35",
     "typescript": "^5.3.3",
     "vite": "^5.1.4",
@@ -92,13 +88,6 @@
     "iOS >= 12.5",
     "Chrome >= 87"
   ],
-  "prettier": {
-    "printWidth": 80,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "tabWidth": 2
-  },
   "eslintConfig": {
     "env": {
       "es2024": true
