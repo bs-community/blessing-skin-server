@@ -1,11 +1,12 @@
+import { expect, vi, test } from 'vitest'
 import { flushPromises } from '../../../utils'
 import { t } from '@/scripts/i18n'
 import { showModal, toast } from '@/scripts/notify'
 import { post } from '@/scripts/net'
 import handler from '@/views/user/profile/password'
 
-jest.mock('@/scripts/notify')
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/notify')
+vi.mock('@/scripts/net')
 
 test('change password', async () => {
   post

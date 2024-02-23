@@ -2,7 +2,7 @@ import * as fetch from '@/scripts/net'
 import runCommand from '@/scripts/cli/ClosetCommand'
 import { Stdio } from './stdio'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 describe('add texture', () => {
   it('succeeded', async () => {

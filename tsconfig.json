@@ -1,28 +1,17 @@
 {
-  "extends": "@gplane/tsconfig",
+  "extends": "@tsconfig/vite-react",
   "compilerOptions": {
-    "target": "es2017",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "declaration": false,
-    "declarationMap": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./resources/assets/src/*"]
-    },
-    "resolveJsonModule": true
+      "@/*": [
+        "./resources/assets/src/*"
+      ]
+    }
   },
   "include": [
     "resources/assets/src",
-    "resources/assets/webpack.d.ts",
     "tools",
-    "webpack.config.ts"
-  ],
-  "ts-node": {
-    "compilerOptions": {
-      "noUnusedLocals": false,
-      "noUnusedParameters": false,
-      "module": "commonjs"
-    }
-  }
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
 }

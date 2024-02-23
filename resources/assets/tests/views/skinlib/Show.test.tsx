@@ -1,12 +1,12 @@
-import React from 'react'
+import { expect, test, vi, it } from 'vitest'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { Texture, TextureType } from '@/scripts/types'
+import { type Texture, TextureType } from '@/scripts/types'
 import urls from '@/scripts/urls'
-import Show, { Badge } from '@/views/skinlib/Show'
+import Show, { type Badge } from '@/views/skinlib/Show'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 const fixtureSkin: Readonly<Texture> = Object.freeze<Texture>({
   tid: 1,
@@ -63,7 +63,7 @@ test('without authenticated', async () => {
   expect(queryByText('steve')).toBeInTheDocument()
   expect(queryByText(`${fixtureSkin.size} KB`)).toBeInTheDocument()
   expect(queryByText(fixtureSkin.hash)).toBeInTheDocument()
-  expect(queryByText(window.blessing.extra.nickname)).toHaveAttribute(
+  expect(queryByText(window.blessing.extra.nickname as string)).toHaveAttribute(
     'href',
     `/skinlib?filter=skin&uploader=${fixtureSkin.uploader}`,
   )
@@ -81,7 +81,7 @@ test('authenticated but not uploader', async () => {
   expect(queryByText(t('general.cape'))).toBeInTheDocument()
   expect(queryByText(`${fixtureCape.size} KB`)).toBeInTheDocument()
   expect(queryByText(fixtureCape.hash)).toBeInTheDocument()
-  expect(queryByText(window.blessing.extra.nickname)).toHaveAttribute(
+  expect(queryByText(window.blessing.extra.nickname as string)).toHaveAttribute(
     'href',
     `/skinlib?filter=cape&uploader=${fixtureCape.uploader}`,
   )
@@ -639,7 +639,7 @@ describe('delete texture', () => {
     expect(queryByText('ok')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
 
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
 
   it('failed', async () => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import { expect, test, vi, it } from 'vitest'
 import { render, fireEvent, act } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import $ from 'jquery'
@@ -27,13 +27,13 @@ test('background color', () => {
 test('jQuery events', () => {
   const { getByText } = render(<Modal mode="confirm" show />)
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
     $('.modal').trigger('hidden.bs.modal')
   })
 
   fireEvent.click(getByText(t('general.cancel')))
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
     $('.modal').trigger('hidden.bs.modal')
   })
 })
@@ -132,7 +132,7 @@ describe('modal footer', () => {
 
 describe('"alert" mode', () => {
   it('buttons', () => {
-    const resolve = jest.fn()
+    const resolve = vi.fn()
     const { getByText, queryByText } = render(
       <Modal mode="alert" onConfirm={resolve} show />,
     )
@@ -155,8 +155,8 @@ describe('"confirm" mode', () => {
   })
 
   it('"confirm" button', () => {
-    const resolve = jest.fn()
-    const reject = jest.fn()
+    const resolve = vi.fn()
+    const reject = vi.fn()
     const { getByText } = render(
       <Modal mode="prompt" onConfirm={resolve} onDismiss={reject} show />,
     )
@@ -166,8 +166,8 @@ describe('"confirm" mode', () => {
   })
 
   it('"cancel" button', () => {
-    const resolve = jest.fn()
-    const reject = jest.fn()
+    const resolve = vi.fn()
+    const reject = vi.fn()
     const { getByText } = render(
       <Modal mode="prompt" onConfirm={resolve} onDismiss={reject} show />,
     )
@@ -179,8 +179,8 @@ describe('"confirm" mode', () => {
 
 describe('"prompt" mode', () => {
   it('retrieve input value', () => {
-    const resolve = jest.fn()
-    const reject = jest.fn()
+    const resolve = vi.fn()
+    const reject = vi.fn()
     const { getByPlaceholderText, getByText } = render(
       <Modal
         mode="prompt"
@@ -199,8 +199,8 @@ describe('"prompt" mode', () => {
   })
 
   it('cancel dialog', () => {
-    const resolve = jest.fn()
-    const reject = jest.fn()
+    const resolve = vi.fn()
+    const reject = vi.fn()
     const { getByText } = render(
       <Modal mode="prompt" onConfirm={resolve} onDismiss={reject} show />,
     )
@@ -214,7 +214,7 @@ describe('"prompt" mode', () => {
       { text: 'A', value: 'a' },
       { text: 'B', value: 'b' },
     ]
-    const resolve = jest.fn()
+    const resolve = vi.fn()
     const { getByText, getByLabelText } = render(
       <Modal
         mode="prompt"
@@ -230,9 +230,9 @@ describe('"prompt" mode', () => {
   })
 
   it('validate input', () => {
-    const resolve = jest.fn()
-    const reject = jest.fn()
-    const validator = jest.fn().mockReturnValue(true)
+    const resolve = vi.fn()
+    const reject = vi.fn()
+    const validator = vi.fn().mockReturnValue(true)
     const { getByText } = render(
       <Modal
         mode="prompt"
@@ -250,9 +250,9 @@ describe('"prompt" mode', () => {
 
   it('report validator message', () => {
     const message = 'Invalid input.'
-    const resolve = jest.fn()
-    const reject = jest.fn()
-    const validator = jest.fn().mockReturnValue(message)
+    const resolve = vi.fn()
+    const reject = vi.fn()
+    const validator = vi.fn().mockReturnValue(message)
     const { getByText, queryByText } = render(
       <Modal
         mode="prompt"
@@ -274,14 +274,14 @@ describe('"prompt" mode', () => {
 
 describe('"onClose" event', () => {
   it('button confirm', () => {
-    const mock = jest.fn()
+    const mock = vi.fn()
     const { getByText } = render(<Modal show mode="confirm" onClose={mock} />)
     fireEvent.click(getByText(t('general.confirm')))
     expect(mock).toBeCalled()
   })
 
   it('button cancel', () => {
-    const mock = jest.fn()
+    const mock = vi.fn()
     const { getByText } = render(<Modal show mode="confirm" onClose={mock} />)
     fireEvent.click(getByText(t('general.cancel')))
     expect(mock).toBeCalled()

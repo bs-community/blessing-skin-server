@@ -1,4 +1,4 @@
-import React from 'react'
+import { expect, test, vi, it } from 'vitest'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
@@ -6,7 +6,7 @@ import * as fetch from '@/scripts/net'
 import Translations from '@/views/admin/Translations'
 import type { Line } from '@/views/admin/Translations/types'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 const fixtureLine: Readonly<Line> = Object.freeze<Line>({
   id: 1,

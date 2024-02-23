@@ -1,11 +1,11 @@
-import React from 'react'
+import { expect, test, vi, it } from 'vitest'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import urls from '@/scripts/urls'
 import Login from '@/views/auth/Login'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 beforeEach(() => {
   window.blessing.extra = { tooManyFails: false }

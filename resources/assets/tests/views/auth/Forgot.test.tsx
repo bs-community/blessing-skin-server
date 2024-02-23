@@ -1,11 +1,11 @@
-import React from 'react'
+import { expect, vi, it } from 'vitest'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import urls from '@/scripts/urls'
 import Forgot from '@/views/auth/Forgot'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 describe('submit', () => {
   it('succeeded', async () => {

@@ -1,13 +1,13 @@
-import React from 'react'
+import { expect, test, vi, it } from 'vitest'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { User, UserPermission } from '@/scripts/types'
+import { type User, UserPermission } from '@/scripts/types'
 import urls from '@/scripts/urls'
 import UsersManagement from '@/views/admin/UsersManagement'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 const fixture: Readonly<User> = Object.freeze<User>({
   uid: 1,

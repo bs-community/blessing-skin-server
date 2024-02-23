@@ -1,14 +1,14 @@
-import React from 'react'
+import { expect, vi, it, test } from 'vitest'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { createPaginator } from '../../utils'
 import $ from 'jquery'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { ClosetItem, Player, TextureType } from '@/scripts/types'
+import { type ClosetItem, type Player, TextureType } from '@/scripts/types'
 import urls from '@/scripts/urls'
 import Closet from '@/views/user/Closet'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 const fixtureSkin: Readonly<ClosetItem> = Object.freeze<ClosetItem>({
   tid: 1,

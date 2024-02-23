@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import * as breakpoints from '@/styles/breakpoints'
+import styled from '@emotion/styled';
+import * as breakpoints from '@/styles/breakpoints';
 
 export const Box = styled.div`
   width: 48%;
@@ -8,14 +8,14 @@ export const Box = styled.div`
   ${breakpoints.lessThan(breakpoints.Breakpoint.lg)} {
     width: 98%;
   }
-`
+`;
 
-export const Icon = styled.div<{ py?: boolean }>`
+export const Icon = styled.div<{py?: boolean}>`
   width: 70px;
   display: flex;
   justify-content: center;
-  padding-top: ${(props) => (props.py ? '22px' : '0')};
-`
+  padding-top: ${properties => (properties.py ? '22px' : '0')};
+`;
 
 export const InfoTable = styled.div`
   > div:not(:last-child) {
@@ -26,4 +26,4 @@ export const InfoTable = styled.div`
       border-right: 1px solid rgba(0, 0, 0, 0.125);
     }
   }
-`
+`;

@@ -1,12 +1,12 @@
-import React from 'react'
+import { expect, vi, it, test, beforeEach, afterEach, describe } from 'vitest'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { Player, TextureType } from '@/scripts/types'
+import { type Player, TextureType } from '@/scripts/types'
 import urls from '@/scripts/urls'
 import Players from '@/views/user/Players'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 const fixture: Readonly<Player> = Object.freeze<Player>({
   pid: 1,

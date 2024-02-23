@@ -1,49 +1,51 @@
-import React from 'react'
+import React from 'react';
 
-export interface Props {
-  flexFooter?: boolean
-  okButtonText?: string
-  okButtonType?: string
-  cancelButtonText?: string
-  cancelButtonType?: string
-}
+export type Props = {
+	readonly flexFooter?: boolean;
+	readonly okButtonText?: string;
+	readonly okButtonType?: string;
+	readonly cancelButtonText?: string;
+	readonly cancelButtonType?: string;
+	readonly children?: React.ReactNode;
+};
 
-interface InternalProps {
-  showCancelButton: boolean
-  onConfirm?(): void
-  onDismiss?(): void
-}
+type InternalProperties = {
+	readonly showCancelButton: boolean;
+	onConfirm?(): void;
+	onDismiss?(): void;
+};
 
-const ModalFooter: React.FC<InternalProps & Props> = (props) => {
-  const classes = ['modal-footer']
-  if (props.flexFooter) {
-    classes.push('d-flex', 'justify-content-between')
-  }
-  const footerClass = classes.join(' ')
+const ModalFooter: React.FC<InternalProperties & Props> = properties => {
+	const classes = ['modal-footer'];
+	if (properties.flexFooter) {
+		classes.push('d-flex', 'justify-content-between');
+	}
 
-  return props.children ? (
-    <div className={footerClass}>{props.children}</div>
-  ) : (
-    <div className={footerClass}>
-      {props.showCancelButton && (
-        <button
-          type="button"
-          className={`btn btn-${props.cancelButtonType}`}
-          data-dismiss="modal"
-          onClick={props.onDismiss}
-        >
-          {props.cancelButtonText}
-        </button>
-      )}
-      <button
-        type="button"
-        className={`btn btn-${props.okButtonType}`}
-        onClick={props.onConfirm}
-      >
-        {props.okButtonText}
-      </button>
-    </div>
-  )
-}
+	const footerClass = classes.join(' ');
 
-export default ModalFooter
+	return properties.children ? (
+		<div className={footerClass}>{properties.children}</div>
+	) : (
+		<div className={footerClass}>
+			{properties.showCancelButton && (
+				<button
+					type='button'
+					className={`btn btn-${properties.cancelButtonType}`}
+					data-dismiss='modal'
+					onClick={properties.onDismiss}
+				>
+					{properties.cancelButtonText}
+				</button>
+			)}
+			<button
+				type='button'
+				className={`btn btn-${properties.okButtonType}`}
+				onClick={properties.onConfirm}
+			>
+				{properties.okButtonText}
+			</button>
+		</div>
+	);
+};
+
+export default ModalFooter;

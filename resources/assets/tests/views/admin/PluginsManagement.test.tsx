@@ -1,10 +1,10 @@
-import React from 'react'
+import { expect, test, vi, it } from 'vitest'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import PluginsManagement from '@/views/admin/PluginsManagement'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 test('show loading indicator', () => {
   fetch.get.mockResolvedValue([])

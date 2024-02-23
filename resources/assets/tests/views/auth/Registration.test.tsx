@@ -1,11 +1,11 @@
-import React from 'react'
+import { expect, test, jest } from 'vitest'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import urls from '@/scripts/urls'
 import Registration from '@/views/auth/Registration'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 beforeEach(() => {
   window.blessing.extra = { player: false }
@@ -69,7 +69,7 @@ test('succeeded', async () => {
   )
   expect(queryByText('ok')).toBeInTheDocument()
   expect(getByRole('status')).toHaveClass('alert-success')
-  jest.runAllTimers()
+  vi.runAllTimers()
 })
 
 test('failed', async () => {

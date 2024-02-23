@@ -1,4 +1,4 @@
-import React from 'react'
+import { expect, test } from 'vitest'
 import { render, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import FileInput from '@/components/FileInput'
@@ -30,7 +30,7 @@ test('display file name', () => {
 })
 
 test('input file', () => {
-  const mock = jest.fn()
+  const mock = vi.fn()
 
   const { getByLabelText } = render(<FileInput file={null} onChange={mock} />)
   fireEvent.change(getByLabelText(t('skinlib.upload.select-file')))

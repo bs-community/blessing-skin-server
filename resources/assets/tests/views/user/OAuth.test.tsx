@@ -1,11 +1,11 @@
-import React from 'react'
+import { expect, vi, it, test, describe, beforeEach } from 'vitest'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
 import { t } from '@/scripts/i18n'
 import OAuth from '@/views/user/OAuth'
 import type { App } from '@/views/user/OAuth/types'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 const fixture: Readonly<App> = Object.freeze({
   id: 1,

@@ -1,9 +1,9 @@
-import React from 'react'
+import { expect, vi, test } from 'vitest';
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
 import DarkModeButton from '@/components/DarkModeButton'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 test('click to toggle', async () => {
   const { getByRole } = render(<DarkModeButton initMode={false} />)

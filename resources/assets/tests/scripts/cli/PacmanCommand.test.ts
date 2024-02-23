@@ -2,7 +2,7 @@ import * as fetch from '@/scripts/net'
 import pacman from '@/scripts/cli/PacmanCommand'
 import { Stdio } from './stdio'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 test('no arguments', async () => {
   const stdio = new Stdio()
@@ -41,7 +41,7 @@ describe('install plugin', () => {
 })
 
 describe('remove plugin', () => {
-  beforeAll(() => jest.useRealTimers())
+  beforeAll(() => vi.useRealTimers())
 
   it('cancelled', async () => {
     const stdio = new Stdio()

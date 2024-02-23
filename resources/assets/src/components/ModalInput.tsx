@@ -1,58 +1,58 @@
-import React, { HTMLAttributes } from 'react'
+import React, {type HTMLAttributes} from 'react';
 
-export interface Props {
-  inputType?: string
-  inputMode?: HTMLAttributes<HTMLInputElement>['inputMode']
-  choices?: { text: string; value: string }[]
-  placeholder?: string
-}
+export type Props = {
+	readonly inputType?: string;
+	readonly inputMode?: HTMLAttributes<HTMLInputElement>['inputMode'];
+	readonly choices?: Array<{text: string; value: string}>;
+	readonly placeholder?: string;
+};
 
-export interface InternalProps {
-  value?: string
-  invalid?: boolean
-  validatorMessage?: string
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
-}
+export type InternalProps = {
+	readonly value?: string;
+	readonly invalid?: boolean;
+	readonly validatorMessage?: string;
+	readonly onChange?: React.ChangeEventHandler<HTMLInputElement>;
+};
 
-const ModalInput: React.FC<InternalProps & Props> = (props) => (
-  <>
-    {props.inputType === 'radios' && props.choices ? (
-      <>
-        {props.choices.map((choice) => (
-          <div key={choice.value}>
-            <input
-              type="radio"
-              name="modal-radios"
-              id={`modal-radio-${choice.value}`}
-              value={choice.value}
-              checked={choice.value === props.value}
-              onChange={props.onChange}
-            />
-            <label htmlFor={`modal-radio-${choice.value}`} className="ml-1">
-              {choice.text}
-            </label>
-          </div>
-        ))}
-      </>
-    ) : (
-      <div className="form-group">
-        <input
-          value={props.value}
-          onChange={props.onChange}
-          type={props.inputType}
-          inputMode={props.inputMode}
-          className="form-control"
-          placeholder={props.placeholder}
-        ></input>
-      </div>
-    )}
-    {props.invalid && (
-      <div className="alert alert-danger">
-        <i className="icon far fa-times-circle"></i>
-        <span className="ml-1">{props.validatorMessage}</span>
-      </div>
-    )}
-  </>
-)
+const ModalInput: React.FC<InternalProps & Props> = properties => (
+	<>
+		{properties.inputType === 'radios' && properties.choices ? (
+			<>
+				{properties.choices.map(choice => (
+					<div key={choice.value}>
+						<input
+							type='radio'
+							name='modal-radios'
+							id={`modal-radio-${choice.value}`}
+							value={choice.value}
+							checked={choice.value === properties.value}
+							onChange={properties.onChange}
+						/>
+						<label htmlFor={`modal-radio-${choice.value}`} className='ml-1'>
+							{choice.text}
+						</label>
+					</div>
+				))}
+			</>
+		) : (
+			<div className='form-group'>
+				<input
+					value={properties.value}
+					type={properties.inputType}
+					inputMode={properties.inputMode}
+					className='form-control'
+					placeholder={properties.placeholder}
+					onChange={properties.onChange}
+				 />
+			</div>
+		)}
+		{properties.invalid && (
+			<div className='alert alert-danger'>
+				<i className='icon far fa-times-circle'/>
+				<span className='ml-1'>{properties.validatorMessage}</span>
+			</div>
+		)}
+	</>
+);
 
-export default ModalInput
+export default ModalInput;

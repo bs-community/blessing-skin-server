@@ -1,10 +1,11 @@
+import { expect, vi, test } from 'vitest'
 import { flushPromises } from '../../../utils'
 import { showModal } from '@/scripts/notify'
 import { post } from '@/scripts/net'
 import handler from '@/views/user/profile/nickname'
 
-jest.mock('@/scripts/notify')
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/notify')
+vi.mock('@/scripts/net')
 
 test('change nickname', async () => {
   document.body.innerHTML = '<span data-mark="nickname"></span>'

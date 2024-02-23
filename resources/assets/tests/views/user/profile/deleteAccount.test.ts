@@ -1,10 +1,11 @@
+import { expect, vi, test } from 'vitest'
 import { flushPromises } from '../../../utils'
 import { showModal } from '@/scripts/notify'
 import { post } from '@/scripts/net'
 import handler from '@/views/user/profile/deleteAccount'
 
-jest.mock('@/scripts/notify')
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/notify')
+vi.mock('@/scripts/net')
 
 test('delete account', async () => {
   post

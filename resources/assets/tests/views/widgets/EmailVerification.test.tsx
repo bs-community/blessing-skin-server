@@ -1,10 +1,10 @@
-import React from 'react'
+import { expect, vi, it, describe } from 'vitest'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import EmailVerification from '@/views/widgets/EmailVerification'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 describe('send email', () => {
   it('succeeded', async () => {

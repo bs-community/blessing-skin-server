@@ -12,7 +12,7 @@ declare global {
     site_name: string
     version: string
     route: string
-    extra: any
+    extra: Record<string, any>
     i18n: object
 
     fetch: {

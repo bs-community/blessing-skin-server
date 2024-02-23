@@ -1,10 +1,10 @@
-import React from 'react'
+import { expect, test, jest } from 'vitest'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import Reset from '@/views/auth/Reset'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 test('confirmation is not matched', () => {
   const { getByText, getByPlaceholderText, queryByText } = render(<Reset />)
@@ -42,7 +42,7 @@ test('succeeded', async () => {
   )
   expect(queryByText('ok')).toBeInTheDocument()
   expect(getByRole('status')).toHaveClass('alert-success')
-  jest.runAllTimers()
+  vi.runAllTimers()
 })
 
 test('failed', async () => {

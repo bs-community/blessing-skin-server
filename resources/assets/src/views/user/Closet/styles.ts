@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 export const Card = styled.div`
   width: 235px;
@@ -12,11 +12,11 @@ export const Card = styled.div`
   .card-body {
     background-color: #eff1f0;
   }
-`
+`;
 
 export const DropdownButton = styled.span`
   color: var(--gray);
   :hover {
     color: #000;
   }
-`
+`;

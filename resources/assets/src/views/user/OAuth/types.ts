@@ -1,6 +1,6 @@
 export type App = {
-  id: number
-  name: string
-  secret: string
-  redirect: string
-}
+	id: number;
+	name: string;
+	secret: string;
+	redirect: string;
+};

@@ -1,4 +1,4 @@
-import React from 'react'
+import { expect, test, vi, it, beforeEach, afterEach, describe } from 'vitest'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
@@ -6,8 +6,8 @@ import { isAlex } from '@/scripts/textureUtils'
 import urls from '@/scripts/urls'
 import Upload from '@/views/skinlib/Upload'
 
-jest.mock('@/scripts/net')
-jest.mock('@/scripts/textureUtils')
+vi.mock('@/scripts/net')
+vi.mock('@/scripts/textureUtils')
 
 beforeEach(() => {
   const container = document.createElement('div')
@@ -25,7 +25,7 @@ beforeEach(() => {
     contentPolicy: 'the policy',
   }
 
-  URL.createObjectURL = jest.fn().mockReturnValue('')
+  URL.createObjectURL = vi.fn().mockReturnValue('')
 })
 
 afterEach(() => {

@@ -1,9 +1,10 @@
+import { expect, vi, test } from 'vitest'
 import { showModal, toast } from '@/scripts/notify'
 import { post } from '@/scripts/net'
 import resetAvatar from '@/views/user/profile/resetAvatar'
 
-jest.mock('@/scripts/notify')
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/notify')
+vi.mock('@/scripts/net')
 
 test('reset avatar', async () => {
   showModal.mockRejectedValueOnce(null).mockResolvedValue({ value: '' })

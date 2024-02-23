@@ -2,7 +2,7 @@ import * as fetch from '@/scripts/net'
 import runCommand from '@/scripts/cli/RmCommand'
 import { Stdio } from './stdio'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 test('missing operand', async () => {
   const stdio = new Stdio()

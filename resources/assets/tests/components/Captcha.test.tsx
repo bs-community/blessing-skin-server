@@ -1,3 +1,4 @@
+import { expect, vi, it } from 'vitest';
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import Reaptcha from 'reaptcha'
@@ -15,24 +16,24 @@ describe('picture captcha', () => {
     expect(await ref.current?.execute()).toBe('abc')
   })
 
-  it('refresh on click', async () => {
-    const spy = jest.spyOn(Date, 'now')
+  it('refresh on click', () => {
+    const spy = vi.spyOn(Date, 'now')
 
     const ref = React.createRef<Captcha>()
     const { getByAltText } = render(<Captcha ref={ref} />)
 
     fireEvent.click(getByAltText(t('auth.captcha')))
-    expect(spy).toBeCalled()
+    expect(spy).toHaveBeenCalled()
   })
 
-  it('refresh programatically', async () => {
-    const spy = jest.spyOn(Date, 'now')
+  it('refresh programatically', () => {
+    const spy = vi.spyOn(Date, 'now')
 
     const ref = React.createRef<Captcha>()
     render(<Captcha ref={ref} />)
 
     ref.current?.reset()
-    expect(spy).toBeCalled()
+    expect(spy).toHaveBeenCalled()
   })
 })
 
@@ -43,23 +44,23 @@ describe('recaptcha', () => {
 
   it('retrieve value', async () => {
     window.blessing.extra.invisible = true
-    const spy = jest.spyOn(Reaptcha.prototype, 'execute')
+    const spy = vi.spyOn(Reaptcha.prototype, 'execute')
 
     const ref = React.createRef<Captcha>()
     render(<Captcha ref={ref} />)
 
     const value = await ref.current?.execute()
-    expect(spy).toBeCalled()
+    expect(spy).toHaveBeenCalled()
     expect(value).toBe('token')
   })
 
-  it('refresh programatically', async () => {
-    const spy = jest.spyOn(Reaptcha.prototype, 'reset')
+  it('refresh programatically', () => {
+    const spy = vi.spyOn(Reaptcha.prototype, 'reset')
 
     const ref = React.createRef<Captcha>()
     render(<Captcha ref={ref} />)
 
     ref.current?.reset()
-    expect(spy).toBeCalled()
+    expect(spy).toHaveBeenCalled()
   })
 })

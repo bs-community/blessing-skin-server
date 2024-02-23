@@ -2,7 +2,7 @@ import * as fetch from '@/scripts/net'
 import dnf from '@/scripts/cli/DnfCommand'
 import { Stdio } from './stdio'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 describe('install plugin', () => {
   it('succeeded', async () => {
@@ -45,7 +45,7 @@ describe('install plugin', () => {
 })
 
 describe('remove plugin', () => {
-  beforeAll(() => jest.useRealTimers())
+  beforeAll(() => vi.useRealTimers())
 
   it('cancelled', async () => {
     const stdio = new Stdio()

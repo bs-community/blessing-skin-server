@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
-import { emit } from '../event'
+import {useEffect} from 'react';
+import {emit} from '../event';
 
 export default function useEmitMounted() {
-  useEffect(() => {
-    emit('mounted')
-  }, [])
+	useEffect(() => {
+		emit('mounted');
+	}, []);
 }

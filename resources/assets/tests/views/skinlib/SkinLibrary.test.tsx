@@ -1,4 +1,4 @@
-import React from 'react'
+import { expect, test, vi, it, beforeEach } from 'vitest'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
@@ -8,7 +8,7 @@ import urls from '@/scripts/urls'
 import SkinLibrary from '@/views/skinlib/SkinLibrary'
 import type { LibraryItem } from '@/views/skinlib/SkinLibrary/types'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 const fixtureItem: Readonly<LibraryItem> = Object.freeze<LibraryItem>({
   tid: 1,

@@ -2,7 +2,7 @@ import { Spinner } from '@/scripts/cli/Spinner'
 import { Stdio } from './stdio'
 
 test('run', async () => {
-  jest.useRealTimers()
+  vi.useRealTimers()
 
   const stdio = new Stdio()
   const spinner = new Spinner(stdio)

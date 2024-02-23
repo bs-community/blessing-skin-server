@@ -1,11 +1,11 @@
-import React from 'react'
+import { expect, vi, it, describe, beforeEach } from 'vitest'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
 import { t } from '@/scripts/i18n'
 import urls from '@/scripts/urls'
 import Dashboard from '@/views/user/Dashboard'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 function scoreInfo(data = {}, user = {}, usage = {}) {
   return {
@@ -147,7 +147,7 @@ describe('sign button', () => {
   })
 
   it('remain in hours', async () => {
-    jest.useRealTimers()
+    vi.useRealTimers()
     fetch.get.mockResolvedValue(scoreInfo({}, { lastSignAt: Date.now() }))
 
     const { getByRole } = render(<Dashboard />)

@@ -1,31 +1,32 @@
-import React from 'react'
+import React from 'react';
 
-interface Props {
-  active?: boolean
-  bg?: string
-}
+type Properties = {
+	readonly active?: boolean;
+	readonly bg?: string;
+};
 
 type Attributes = React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
->
+React.ButtonHTMLAttributes<HTMLButtonElement>,
+HTMLButtonElement
+>;
 
-const Button: React.FC<Props & Attributes> = (props) => {
-  const classes = [props.className ?? '']
-  if (props.bg) {
-    classes.push('btn', `bg-${props.bg}`)
-  }
-  if (props.active) {
-    classes.push('active')
-  }
+const Button: React.FC<Properties & Attributes> = properties => {
+	const classes = [properties.className ?? ''];
+	if (properties.bg) {
+		classes.push('btn', `bg-${properties.bg}`);
+	}
 
-  const rest = { ...props, active: undefined, bg: undefined }
+	if (properties.active) {
+		classes.push('active');
+	}
 
-  return (
-    <button {...rest} className={classes.join(' ')}>
-      {props.children}
-    </button>
-  )
-}
+	const rest = {...properties, active: undefined, bg: undefined};
 
-export default Button
+	return (
+		<button {...rest} className={classes.join(' ')}>
+			{properties.children}
+		</button>
+	);
+};
+
+export default Button;

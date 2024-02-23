@@ -1,13 +1,13 @@
-import React from 'react'
+import { expect, test, vi, it } from 'vitest'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { Texture, TextureType, User, UserPermission } from '@/scripts/types'
+import { type Texture, TextureType, type User, UserPermission } from '@/scripts/types'
 import ReportsManagement from '@/views/admin/ReportsManagement'
-import { Report, Status } from '@/views/admin/ReportsManagement/types'
+import { type Report, Status } from '@/views/admin/ReportsManagement/types'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 const fixture: Readonly<Report> = Object.freeze<Report>({
   id: 1,

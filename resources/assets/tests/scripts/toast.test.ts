@@ -22,7 +22,7 @@ test('"Toast" class', () => {
     'error',
   )
 
-  jest.runAllTimers()
+  vi.runAllTimers()
   toast.dispose()
 })
 

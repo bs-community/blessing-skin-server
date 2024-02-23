@@ -1,12 +1,12 @@
-import React from 'react'
+import { expect, vi, test } from 'vitest'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import NotificationsList, {
-  Notification,
+  type Notification,
 } from '@/views/widgets/NotificationsList'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 beforeEach(() => {
   document.body.innerHTML = ''

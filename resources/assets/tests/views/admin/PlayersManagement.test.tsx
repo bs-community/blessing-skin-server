@@ -1,4 +1,4 @@
-import React from 'react'
+import { expect, test, vi, it } from 'vitest'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
@@ -7,7 +7,7 @@ import type { Player } from '@/scripts/types'
 import urls from '@/scripts/urls'
 import PlayersManagement from '@/views/admin/PlayersManagement'
 
-jest.mock('@/scripts/net')
+vi.mock('@/scripts/net')
 
 const fixture: Readonly<Player> = Object.freeze<Player>({
   pid: 1,

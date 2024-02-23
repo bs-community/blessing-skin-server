@@ -1,4 +1,4 @@
-import React from 'react'
+import { expect, test, it, jest } from 'vitest'
 import { render, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import Pagination from '@/components/Pagination'
@@ -13,7 +13,7 @@ test('hide when total pages is invalid', () => {
 
 describe('previous page', () => {
   it('enabled', () => {
-    const mock = jest.fn()
+    const mock = vi.fn(() => {})
     const { getByText } = render(
       <Pagination page={3} totalPages={5} onChange={mock} />,
     )
@@ -22,7 +22,7 @@ describe('previous page', () => {
   })
 
   it('disabled', () => {
-    const mock = jest.fn()
+    const mock = vi.fn(() => {})
     const { getByText } = render(
       <Pagination page={1} totalPages={5} onChange={mock} />,
     )
@@ -33,7 +33,7 @@ describe('previous page', () => {
 
 describe('next page', () => {
   it('enabled', () => {
-    const mock = jest.fn()
+    const mock = vi.fn(() => {})
     const { getByText } = render(
       <Pagination page={3} totalPages={5} onChange={mock} />,
     )
@@ -42,7 +42,7 @@ describe('next page', () => {
   })
 
   it('disabled', () => {
-    const mock = jest.fn()
+    const mock = vi.fn(() => {})
     const { getByText } = render(
       <Pagination page={5} totalPages={5} onChange={mock} />,
     )
@@ -53,7 +53,7 @@ describe('next page', () => {
 
 describe('middle pages', () => {
   it('pages count less than 8', () => {
-    const mock = jest.fn()
+    const mock = vi.fn(() => {})
     const { getByText } = render(
       <Pagination page={1} totalPages={7} onChange={mock} />,
     )
@@ -82,7 +82,7 @@ describe('middle pages', () => {
 
   describe('pages count greater than or equals to 8', () => {
     it('left edge', () => {
-      const mock = jest.fn()
+    const mock = vi.fn(() => {})
       const { getByText, queryByText } = render(
         <Pagination page={2} totalPages={10} onChange={mock} />,
       )
@@ -105,7 +105,7 @@ describe('middle pages', () => {
     })
 
     it('right edge', () => {
-      const mock = jest.fn()
+      const mock = vi.fn(() => {})
       const { getByText, queryByText } = render(
         <Pagination page={9} totalPages={10} onChange={mock} />,
       )
@@ -128,7 +128,7 @@ describe('middle pages', () => {
     })
 
     it('middle', () => {
-      const mock = jest.fn()
+      const mock = vi.fn(() => {})
       const { getByText, queryByText, queryAllByText } = render(
         <Pagination page={4} totalPages={10} onChange={mock} />,
       )

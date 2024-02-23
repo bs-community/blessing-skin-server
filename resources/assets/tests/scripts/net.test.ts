@@ -3,18 +3,18 @@ import { on } from '@/scripts/event'
 import { t } from '@/scripts/i18n'
 import { showModal } from '@/scripts/notify'
 
-jest.mock('@/scripts/notify')
+vi.mock('@/scripts/notify')
 
 test('the GET method', async () => {
-  const json = jest.fn().mockResolvedValue({})
-  window.fetch = jest.fn().mockResolvedValue({
+  const json = vi.fn().mockResolvedValue({})
+  window.fetch = vi.fn().mockResolvedValue({
     ok: true,
     json,
     headers: new Map([['Content-Type', 'application/json']]),
     clone: () => ({}),
   })
 
-  const stub = jest.fn()
+  const stub = vi.fn()
   on('beforeFetch', stub)
 
   await net.get('/abc', { a: 'b' })
@@ -31,7 +31,7 @@ test('the GET method', async () => {
 })
 
 test('the POST method', async () => {
-  window.fetch = jest.fn().mockResolvedValue({
+  window.fetch = vi.fn().mockResolvedValue({
     ok: true,
     json: () => Promise.resolve({}),
     headers: new Map([['Content-Type', 'application/json']]),
@@ -43,7 +43,7 @@ test('the POST method', async () => {
   meta.content = 'token'
   document.head.appendChild(meta)
 
-  const stub = jest.fn()
+  const stub = vi.fn()
   on('beforeFetch', stub)
 
   const formData = new FormData()
@@ -73,10 +73,10 @@ test('the POST method', async () => {
 })
 
 test('the PUT method', () => {
-  const fetch = jest.fn()
+  const fetch = vi.fn()
   window.fetch = fetch
 
-  const stub = jest.fn()
+  const stub = vi.fn()
   on('beforeFetch', stub)
 
   net.put('/abc')
@@ -93,10 +93,10 @@ test('the PUT method', () => {
 })
 
 test('the DELETE method', () => {
-  const fetch = jest.fn()
+  const fetch = vi.fn()
   window.fetch = fetch
 
-  const stub = jest.fn()
+  const stub = vi.fn()
   on('beforeFetch', stub)
 
   net.del('/abc')
@@ -113,9 +113,8 @@ test('the DELETE method', () => {
 })
 
 test('low level fetch', async () => {
-  const json = jest.fn().mockResolvedValue({})
-  window.fetch = jest
-    .fn()
+  const json = vi.fn().mockResolvedValue({})
+  window.fetch = vi.fn()
     .mockRejectedValueOnce(new Error('network'))
     .mockResolvedValueOnce({
       ok: false,
@@ -144,7 +143,7 @@ test('low level fetch', async () => {
 
   const request: RequestInit = { headers: new Headers() }
 
-  const stub = jest.fn()
+  const stub = vi.fn()
   on('fetchError', stub)
 
   await net.walkFetch(request as Request)
@@ -186,8 +185,7 @@ test('low level fetch', async () => {
 })
 
 test('process backend errors', async () => {
-  window.fetch = jest
-    .fn()
+  window.fetch = vi.fn()
     .mockResolvedValueOnce({
       status: 422,
       headers: new Map([['Content-Type', 'application/json']]),
