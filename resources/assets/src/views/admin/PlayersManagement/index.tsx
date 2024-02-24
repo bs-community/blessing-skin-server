@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-;
 import {useImmer} from 'use-immer';
 import Header from '../UsersManagement/Header';
 import Card from './Card';
@@ -272,6 +271,6 @@ function PlayersManagement() {
 			/>
 		</div>
 	);
-};
+}
 
 export default PlayersManagement;

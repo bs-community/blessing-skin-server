@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-;
 import addClosetItem from '../Show/addClosetItem';
 import FilterSelector from './FilterSelector';
 import Button from './Button';
@@ -299,6 +298,6 @@ function SkinLibrary() {
 			</section>
 		</div>
 	);
-};
+}
 
 export default SkinLibrary;

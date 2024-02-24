@@ -18,5 +18,5 @@ export async function logout() {
 }
 
 const button = document.querySelector('#logout-button');
-/* istanbul ignore next */
+
 button?.addEventListener('click', logout);

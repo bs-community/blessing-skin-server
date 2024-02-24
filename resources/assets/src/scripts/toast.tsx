@@ -54,7 +54,7 @@ export function ToastContainer() {
 			))}
 		</>
 	);
-};
+}
 
 export class Toast {
 	private readonly container: HTMLDivElement;

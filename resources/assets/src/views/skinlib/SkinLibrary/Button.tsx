@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 type Properties = {
 	readonly active?: boolean;

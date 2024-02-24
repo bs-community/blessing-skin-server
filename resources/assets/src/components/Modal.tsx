@@ -94,7 +94,7 @@ const Modal: React.FC<ModalOptions & Properties> = properties => {
 		$(reference.current!).modal('hide');
 
 		// The "hidden.bs.modal" event can't be trigged automatically when testing.
-		/* istanbul ignore next */
+
 		if (process.env.NODE_ENV === 'test') {
 			$(reference.current!).trigger('hidden.bs.modal');
 		}
@@ -104,7 +104,6 @@ const Modal: React.FC<ModalOptions & Properties> = properties => {
 		properties.onDismiss?.();
 		$(reference.current!).modal('hide');
 
-		/* istanbul ignore next */
 		if (process.env.NODE_ENV === 'test') {
 			$(reference.current!).trigger('hidden.bs.modal');
 		}

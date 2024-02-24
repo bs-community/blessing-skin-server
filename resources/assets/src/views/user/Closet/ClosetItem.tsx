@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import setAsAvatar from './setAsAvatar';
 import {Card, DropdownButton} from './styles';
 import {t} from '@/scripts/i18n';

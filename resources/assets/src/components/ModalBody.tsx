@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import ModalContent, {type Props as ContentProperties} from './ModalContent';
 import ModalInput, {
 	type

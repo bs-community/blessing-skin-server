@@ -1,7 +1,6 @@
 import {spawnSync} from 'node:child_process';
-import * as fs from 'node:fs';
+import fs from 'node:fs';
 import ts from 'typescript';
-import prettier from 'prettier';
 
 type Route = {uri: string; name: string | undefined};
 const supportedPrefixes = ['auth.', 'user.', 'skinlib.', 'texture.', 'admin.'];
@@ -14,14 +13,13 @@ function parseURI(uri: string): ts.ArrowFunction {
 	const matches = /{([a-z]+)}/.exec(uri);
 	if (matches?.[0] && matches?.[1]) {
 		const parameter = matches[1];
-		const type
-      = parameter.endsWith('id')
-      || parameter === 'texture'
-      || parameter === 'user'
-      || parameter === 'player'
-      || parameter === 'report'
-      	? ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword)
-      	: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
+		const type = parameter.endsWith('id')
+		|| parameter === 'texture'
+		|| parameter === 'user'
+		|| parameter === 'player'
+		|| parameter === 'report'
+			? ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword)
+			: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
 
 		return ts.factory.createArrowFunction(
 			undefined,
@@ -91,11 +89,11 @@ function parseTree(tree: Tree): ts.ObjectLiteralExpression {
 const {stdout} = spawnSync(
 	'php',
 	['artisan', 'route:list', '--json', '--columns=uri,name'],
-	{encoding: 'utf-8'},
+	{encoding: 'utf8'},
 );
 let routes: Route[] = [];
 try {
-	routes = JSON.parse(stdout);
+	routes = JSON.parse(stdout) as Route[];
 } catch (error) {
 	console.error(stdout);
 	throw error;
@@ -111,6 +109,7 @@ for (const route of routes
 	const path = route.name!.split('.');
 	const {length} = path;
 
+	// eslint-disable-next-line unicorn/no-array-reduce
 	path.reduce((object: TreeObject, p, index) => {
 		if (index === length - 1) {
 			object[p] = route.uri;
@@ -138,14 +137,7 @@ const sourceFile = ts.createSourceFile(
 const printer = ts.createPrinter({
 	newLine: ts.NewLineKind.LineFeed,
 });
-const code = await prettier.format(
-	printer.printNode(ts.EmitHint.Unspecified, ast, sourceFile),
-	{
-		parser: 'typescript',
-		semi: false,
-		singleQuote: true,
-	},
-);
+const code = printer.printNode(ts.EmitHint.Unspecified, ast, sourceFile);
 fs.writeFileSync('./resources/assets/src/scripts/urls.ts', code, {
-	encoding: 'utf-8',
+	encoding: 'utf8',
 });

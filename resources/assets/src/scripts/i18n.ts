@@ -8,7 +8,6 @@ export function t(key: string, parameters: Record<string, string> = Object.creat
 	let result = '';
 
 	for (const segment of segments) {
-		/* istanbul ignore next */
 		const middle = temporary?.[segment];
 		if (!middle) {
 			return key;

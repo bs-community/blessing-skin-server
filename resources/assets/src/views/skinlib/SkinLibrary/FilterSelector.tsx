@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import Button from './Button';
 import type {Filter} from './types';
 import {humanizeType} from './utils';

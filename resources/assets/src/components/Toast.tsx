@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, {useState, useEffect} from 'react';
+import type React from 'react';
+import {useState, useEffect} from 'react';
 import {css} from '@emotion/react';
 
 export type ToastType = 'success' | 'info' | 'warning' | 'error';

@@ -1,24 +1,24 @@
 export class Stdio {
-  private stdout = ''
+	private stdout = '';
 
-  public print(data: string) {
-    this.stdout += data
-  }
+	public print(data: string) {
+		this.stdout += data;
+	}
 
-  public println(data: string) {
-    this.stdout += data
-    this.stdout += '\r\n'
-  }
+	public println(data: string) {
+		this.stdout += data;
+		this.stdout += '\r\n';
+	}
 
-  public reset() {
-    //
-  }
+	public reset() {
+		//
+	}
 
-  public free() {
-    //
-  }
+	public free() {
+		//
+	}
 
-  public getStdout() {
-    return this.stdout
-  }
+	public getStdout() {
+		return this.stdout;
+	}
 }

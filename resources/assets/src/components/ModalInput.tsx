@@ -1,4 +1,4 @@
-import React, {type HTMLAttributes} from 'react';
+import type React, {type HTMLAttributes} from 'react';
 
 export type Props = {
 	readonly inputType?: string;

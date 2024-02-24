@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-;
 import {useImmer} from 'use-immer';
 import type {Report, Status} from './types';
 import ImageBox from './ImageBox';
@@ -150,6 +149,6 @@ function ReportsManagement() {
 			</div>
 		</div>
 	);
-};
+}
 
 export default ReportsManagement;

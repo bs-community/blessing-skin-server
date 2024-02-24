@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-;
 import {useImmer} from 'use-immer';
 import Header from './Header';
 import Card from './Card';
@@ -364,6 +363,6 @@ function UsersManagement() {
 			</div>
 		</div>
 	);
-};
+}
 
 export default UsersManagement;

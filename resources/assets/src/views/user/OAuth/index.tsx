@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-;
 import Row from './Row';
 import ModalCreate from './ModalCreate';
 import type {App} from './types';
@@ -162,6 +161,6 @@ function OAuth() {
 			/>
 		</>
 	);
-};
+}
 
 export default OAuth;

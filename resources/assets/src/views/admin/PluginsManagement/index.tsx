@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-;
 import {useImmer} from 'use-immer';
 import InfoBox from './InfoBox';
 import type {Plugin} from './types';
@@ -243,6 +242,6 @@ function PluginsManagement() {
 			</div>
 		</div>
 	);
-};
+}
 
 export default PluginsManagement;

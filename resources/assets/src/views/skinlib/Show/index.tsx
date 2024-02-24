@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {createPortal} from 'react-dom';
-;
 import Skeleton from 'react-loading-skeleton';
 import addClosetItem from './addClosetItem';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
@@ -493,6 +492,6 @@ function Show() {
 			/>
 		</>
 	);
-};
+}
 
 export default Show;

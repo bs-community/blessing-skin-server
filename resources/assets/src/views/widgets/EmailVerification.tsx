@@ -40,6 +40,6 @@ function EmailVerification() {
 			</p>
 		</div>
 	);
-};
+}
 
 export default EmailVerification;

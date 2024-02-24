@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-;
 import Row from './Row';
 import LoadingRow from './LoadingRow';
 import Previewer from './Previewer';
@@ -251,6 +250,6 @@ function Players() {
 			/>
 		</>
 	);
-};
+}
 
 export default Players;

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import type {App} from './types';
 import {t} from '@/scripts/i18n';
 import ButtonEdit from '@/components/ButtonEdit';

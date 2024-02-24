@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-;
 import {useImmer} from 'use-immer';
 import type {Line} from './types';
 import Row from './Row';
@@ -116,6 +115,6 @@ function Translations() {
 			</div>
 		</>
 	);
-};
+}
 
 export default Translations;

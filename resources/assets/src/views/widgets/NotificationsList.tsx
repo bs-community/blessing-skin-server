@@ -79,6 +79,6 @@ function NotificationsList() {
 			</div>
 		</>
 	);
-};
+}
 
 export default NotificationsList;

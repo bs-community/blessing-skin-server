@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-;
 import {t} from '@/scripts/i18n';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
@@ -255,6 +254,6 @@ function Upload() {
         )}
 		</>
 	);
-};
+}
 
 export default Upload;

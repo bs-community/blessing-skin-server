@@ -49,7 +49,7 @@ function Closet() {
 
 	useEffect(() => {
 		const element = containerReference.current;
-		/* istanbul ignore next */
+
 		if (element) {
 			const {width} = element.getBoundingClientRect();
 			if (width >= 500) {
