@@ -1,8 +1,8 @@
-import type React, {type HTMLAttributes} from 'react';
+import type React from 'react';
 
 export type Props = {
 	readonly inputType?: string;
-	readonly inputMode?: HTMLAttributes<HTMLInputElement>['inputMode'];
+	readonly inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 	readonly choices?: Array<{text: string; value: string}>;
 	readonly placeholder?: string;
 };
