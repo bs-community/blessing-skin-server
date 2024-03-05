@@ -1,43 +1,43 @@
-import React from 'react'
-import { t } from '@/scripts/i18n'
-import ButtonEdit from '@/components/ButtonEdit'
-import type { App } from './types'
 
-interface Props {
-  app: App
-  onEditName: React.MouseEventHandler<HTMLAnchorElement>
-  onEditRedirect: React.MouseEventHandler<HTMLAnchorElement>
-  onDelete: React.MouseEventHandler<HTMLButtonElement>
-}
+import type {App} from './types';
+import {t} from '@/scripts/i18n';
+import ButtonEdit from '@/components/ButtonEdit';
 
-const Row: React.FC<Props> = (props) => {
-  const { app } = props
+type Properties = {
+	readonly app: App;
+	readonly onEditName: React.MouseEventHandler<HTMLAnchorElement>;
+	readonly onEditRedirect: React.MouseEventHandler<HTMLAnchorElement>;
+	readonly onDelete: React.MouseEventHandler<HTMLButtonElement>;
+};
 
-  return (
-    <tr>
-      <td>{app.id}</td>
-      <td>
-        <span>{app.name}</span>
-        <ButtonEdit
-          title={t('user.oauth.modifyName')}
-          onClick={props.onEditName}
-        />
-      </td>
-      <td>{app.secret}</td>
-      <td>
-        <span>{app.redirect}</span>
-        <ButtonEdit
-          title={t('user.oauth.modifyUrl')}
-          onClick={props.onEditRedirect}
-        />
-      </td>
-      <td>
-        <button className="btn btn-danger" onClick={props.onDelete}>
-          {t('report.delete')}
-        </button>
-      </td>
-    </tr>
-  )
-}
+const Row: React.FC<Properties> = properties => {
+	const {app} = properties;
 
-export default Row
+	return (
+		<tr>
+			<td>{app.id}</td>
+			<td>
+				<span>{app.name}</span>
+				<ButtonEdit
+					title={t('user.oauth.modifyName')}
+					onClick={properties.onEditName}
+				/>
+			</td>
+			<td>{app.secret}</td>
+			<td>
+				<span>{app.redirect}</span>
+				<ButtonEdit
+					title={t('user.oauth.modifyUrl')}
+					onClick={properties.onEditRedirect}
+				/>
+			</td>
+			<td>
+				<button className='btn btn-danger' onClick={properties.onDelete}>
+					{t('report.delete')}
+				</button>
+			</td>
+		</tr>
+	);
+};
+
+export default Row;

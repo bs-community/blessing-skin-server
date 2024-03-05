@@ -123,6 +123,7 @@ return [
 
             // 'TwigBridge\Extension\Laravel\Form',
             // 'TwigBridge\Extension\Laravel\Html',
+            'TwigBridge\Extension\Laravel\Vite',
             // 'TwigBridge\Extension\Laravel\Legacy\Facades',
         ],
 
@@ -153,7 +154,8 @@ return [
         | in order to be marked as safe.
         |
         */
-        'facades' => [],
+        'facades' => [
+        ],
 
         /*
         |--------------------------------------------------------------------------

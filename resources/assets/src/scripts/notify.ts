@@ -1,15 +1,14 @@
-import { showModal } from './modal'
-import { Toast } from './toast'
+import {showModal} from './modal';
+import {Toast} from './toast';
 
-export const toast = new Toast()
+export const toast = new Toast();
 
-/* istanbul ignore next */
 if (process.env.NODE_ENV === 'test') {
-  afterEach(() => {
-    toast.clear()
-  })
+	afterEach(() => {
+		toast.clear();
+	});
 }
 
-Object.assign(blessing, { notify: { showModal, toast } })
+Object.assign(blessing, {notify: {showModal, toast}});
 
-export { showModal } from './modal'
+export {showModal} from './modal';
