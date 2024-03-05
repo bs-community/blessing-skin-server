@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import $ from 'jquery';
 import 'bootstrap';
 import {t} from '../scripts/i18n';

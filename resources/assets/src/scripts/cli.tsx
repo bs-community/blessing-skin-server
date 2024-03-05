@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import ReactDOM from 'react-dom';
 import styled from '@emotion/styled';
 import {Terminal} from 'xterm';

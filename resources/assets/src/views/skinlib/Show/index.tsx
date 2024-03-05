@@ -23,7 +23,7 @@ export type Badge = {
 
 const Previewer = React.lazy(async () => import('@/components/Viewer'));
 
-function Show() {
+export default function Show() {
 	const [texture, setTexture] = useState<Texture>({} as Texture);
 	const [isLoading, setIsLoading] = useState(true);
 	const [showModalApply, setShowModalApply] = useState(false);
@@ -50,14 +50,14 @@ function Show() {
 			setIsLoading(false);
 		};
 
-		fetchInfo();
+		void fetchInfo();
 	}, []);
 
 	useEffect(() => {
 		setLiked(blessing.extra.inCloset as boolean);
 	}, []);
 
-	const handleEditName = async () => {
+	async function handleEditName() {
 		let name: string;
 		try {
 			const {value} = await showModal({
@@ -85,9 +85,9 @@ function Show() {
 		} else {
 			toast.error(message);
 		}
-	};
+	}
 
-	const handleSwitchType = async () => {
+	async function handleSwitchType() {
 		let type: TextureType;
 		try {
 			const {value} = await showModal({
@@ -116,34 +116,27 @@ function Show() {
 		} else {
 			toast.error(message);
 		}
-	};
+	}
 
-	const handleAddItemClick = async () => {
+	async function handleAddItemClick() {
 		const ok = await addClosetItem(texture);
 		if (ok) {
 			setTexture(texture => ({...texture, likes: texture.likes + 1}));
 			setLiked(true);
 		}
-	};
+	}
 
-	const handleRemoveItemClick = async () => {
+	async function handleRemoveItemClick() {
 		const ok = await removeClosetItem(texture.tid);
 		if (ok) {
 			setTexture(texture => ({...texture, likes: texture.likes - 1}));
 			setLiked(false);
 		}
-	};
+	}
 
 	const handleSetAsAvatar = async () => setAsAvatar(texture.tid);
 
-	const handleDownloadClick = () => {
-		const a = document.createElement('a');
-		a.href = `${blessing.base_url}/raw/${texture.tid}`;
-		a.download = `${texture.name}.png`;
-		a.click();
-	};
-
-	const handleReport = async () => {
+	async function handleReport() {
 		const prompt = (() => {
 			if (reportScore > 0) {
 				return t('skinlib.report.positive', {score: reportScore.toString()});
@@ -181,9 +174,9 @@ function Show() {
 		} else {
 			toast.error(message);
 		}
-	};
+	}
 
-	const handlePrivacyClick = async () => {
+	async function handlePrivacyClick() {
 		try {
 			await showModal({
 				text: texture.public
@@ -194,35 +187,34 @@ function Show() {
 			return;
 		}
 
-    type Ok = {code: 0; message: string};
-    type Error_ = {code: 1; message: string};
-    type Duplicated = {code: 2; message: string; data: {tid: number}};
+		type OkResp = {code: 0; message: string};
+		type ErrorResp = {code: 1; message: string};
+		type DuplicatedResp = {code: 2; message: string; data: {tid: number}};
 
-    const resp = await fetch.put<Ok | Error_ | Duplicated>(
-    	urls.texture.privacy(texture.tid),
-    );
-    const {code, message} = resp;
-    if (code === 0) {
-    	toast.success(message);
-    	setTexture(texture => ({...texture, public: !texture.public}));
-    } else if (resp.code === 2) {
-    	try {
-    		await showModal({
-    			mode: 'confirm',
-    			text: message,
-    			okButtonText: t('user.viewInSkinlib'),
-    		});
-    		window.location.href
-          = blessing.base_url + urls.skinlib.show(resp.data.tid);
-    	} catch {
-    		//
-    	}
-    } else {
-    	toast.error(message);
-    }
-	};
+		const resp = await fetch.put<OkResp | ErrorResp | DuplicatedResp>(
+			urls.texture.privacy(texture.tid),
+		);
+		const {code, message} = resp;
+		if (code === 0) {
+			toast.success(message);
+			setTexture(texture => ({...texture, public: !texture.public}));
+		} else if (resp.code === 2) {
+			try {
+				await showModal({
+					mode: 'confirm',
+					text: message,
+					okButtonText: t('user.viewInSkinlib'),
+				});
+				window.location.href = blessing.base_url + urls.skinlib.show(resp.data.tid);
+			} catch {
+				void 0;
+			}
+		} else {
+			toast.error(message);
+		}
+	}
 
-	const handleDeleteTextureClick = async () => {
+	async function handleDeleteTextureClick() {
 		try {
 			await showModal({
 				text: t('skinlib.deleteNotice'),
@@ -243,7 +235,7 @@ function Show() {
 		} else {
 			toast.error(message);
 		}
-	};
+	}
 
 	const handleOpenModalApply = () => {
 		setShowModalApply(true);
@@ -272,86 +264,94 @@ function Show() {
 	return (
 		<>
 			{container
-        && createPortal(
-	<React.Suspense fallback={<ViewerSkeleton/>}>
-	<Previewer
-	{...{
-        				[texture.type === TextureType.Cape ? TextureType.Cape : 'skin']:
-                  textureUrl,
-        			}}
-	isAlex={texture.type === TextureType.Alex}
-	initPositionZ={60}
-        		>
-	{currentUid === 0 ? (
-	<button
-	className='btn btn-outline-secondary'
-	title={t('skinlib.show.anonymous')}
-	disabled
-        				>
-	{t('skinlib.addToCloset')}
-        				</button>
-        			) : (
-	<div className='d-flex justify-content-between align-items-center'>
-	<div>
-	{liked && (
-	<button
-	className='btn btn-outline-success mr-2'
-	onClick={handleOpenModalApply}
-        							>
-	{t('skinlib.apply')}
-        							</button>
-        						)}
-	{liked ? (
-	<button
-	className='btn btn-outline-primary mr-2'
-	onClick={handleRemoveItemClick}
-        							>
-	{t('skinlib.removeFromCloset')}
-        							</button>
-        						) : (
-	<button
-	className='btn btn-outline-primary mr-2'
-	onClick={handleAddItemClick}
-        							>
-	{t('skinlib.addToCloset')}
-        							</button>
-        						)}
-	{texture.type !== TextureType.Cape && (
-	<button
-	className='btn btn-outline-info mr-2'
-	onClick={handleSetAsAvatar}
-        							>
-	{t('user.setAsAvatar')}
-        							</button>
-        						)}
-	{canBeDownloaded && (
-	<button
-	className='btn btn-outline-info mr-2'
-	onClick={handleDownloadClick}
-        							>
-	{t('skinlib.show.download')}
-        							</button>
-        						)}
-	<button
-	className='btn btn-outline-info mr-2'
-	onClick={handleReport}
-        						>
-	{t('skinlib.report.title')}
-        						</button>
-        					</div>
-	<div
-	className={liked ? 'text-red' : 'text-gray'}
-	title={t('skinlib.show.likes')}
-        					>
-	<i className='fas fa-heart mr-1'/>
-	<span>{texture.likes}</span>
-        					</div>
-        				</div>
-        			)}
-        		</Previewer>
-        	</React.Suspense>,
-        	container,
-        )}
+			&& createPortal(
+				<React.Suspense fallback={<ViewerSkeleton/>}>
+					<Previewer
+						{...{
+							[texture.type === TextureType.Cape ? TextureType.Cape : 'skin']:
+					textureUrl,
+						}}
+						isAlex={texture.type === TextureType.Alex}
+						initPositionZ={60}
+					>
+						{currentUid === 0 ? (
+							<button
+								disabled
+								type='button'
+								className='btn btn-outline-secondary'
+								title={t('skinlib.show.anonymous')}
+							>
+								{t('skinlib.addToCloset')}
+							</button>
+						) : (
+							<div className='d-flex justify-content-between align-items-center'>
+								<div>
+									{liked && (
+										<button
+											type='button'
+											className='btn btn-outline-success mr-2'
+											onClick={handleOpenModalApply}
+										>
+											{t('skinlib.apply')}
+										</button>
+									)}
+									{liked ? (
+										<button
+											type='button'
+											className='btn btn-outline-primary mr-2'
+											onClick={handleRemoveItemClick}
+										>
+											{t('skinlib.removeFromCloset')}
+										</button>
+									) : (
+										<button
+											type='button'
+											className='btn btn-outline-primary mr-2'
+											onClick={handleAddItemClick}
+										>
+											{t('skinlib.addToCloset')}
+										</button>
+									)}
+									{texture.type !== TextureType.Cape && (
+										<button
+											type='button'
+											className='btn btn-outline-info mr-2'
+											onClick={handleSetAsAvatar}
+										>
+											{t('user.setAsAvatar')}
+										</button>
+									)}
+									{canBeDownloaded && (
+										<a
+											role='button'
+											className='btn btn-outline-info mr-2'
+											href={`${blessing.base_url}/raw/${texture.tid}`}
+											download={`${texture.name}.png`}
+										>
+											{t('skinlib.show.download')}
+										</a>
+									)}
+									<button
+										type='button'
+										className='btn btn-outline-info mr-2'
+										onClick={handleReport}
+									>
+										{t('skinlib.report.title')}
+									</button>
+								</div>
+								<div
+									className={liked ? 'text-red' : 'text-gray'}
+									title={t('skinlib.show.likes')}
+								>
+									<i className='fas fa-heart mr-1'/>
+									<span>{texture.likes}</span>
+								</div>
+							</div>
+						)}
+					</Previewer>
+				</React.Suspense>,
+				container,
+			)}
 			<div className='card card-primary'>
 				<div className='card-header'>
 					<h3 className='card-title'>{t('skinlib.show.detail')}</h3>
@@ -466,12 +466,13 @@ function Show() {
 					</div>
 					<div className='card-footer'>
 						<div className='container d-flex justify-content-between'>
-							<button className='btn btn-warning' onClick={handlePrivacyClick}>
+							<button type='button' className='btn btn-warning' onClick={handlePrivacyClick}>
 								{texture.public
 									? t('skinlib.setAsPrivate')
 									: t('skinlib.setAsPublic')}
 							</button>
 							<button
+								type='button'
 								className='btn btn-danger'
 								onClick={handleDeleteTextureClick}
 							>
@@ -486,12 +487,10 @@ function Show() {
 				canAdd={false}
 				{...{
 					[texture.type === TextureType.Cape ? TextureType.Cape : 'skin']:
-            texture.tid,
+							texture.tid,
 				}}
 				onClose={handleCloseModalApply}
 			/>
 		</>
 	);
 }
-
-export default Show;

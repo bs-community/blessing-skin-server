@@ -1,4 +1,4 @@
-import type React from 'react';
+
 import styled from '@emotion/styled';
 import type {LibraryItem} from './types';
 import {humanizeType} from './utils';

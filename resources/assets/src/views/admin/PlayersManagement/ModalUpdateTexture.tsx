@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {t} from '@/scripts/i18n';
 import {TextureType} from '@/scripts/types';
 import Modal from '@/components/Modal';

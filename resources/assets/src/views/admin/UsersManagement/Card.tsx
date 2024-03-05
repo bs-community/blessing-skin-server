@@ -1,4 +1,4 @@
-import type React from 'react';
+
 import clsx from 'clsx';
 import {Box, Icon, InfoTable} from './styles';
 import {

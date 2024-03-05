@@ -1,4 +1,3 @@
-import type React from 'react';
 
 type AlertType = 'success' | 'info' | 'warning' | 'danger';
 

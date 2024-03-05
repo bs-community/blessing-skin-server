@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import debounce from 'lodash-es/debounce';
 import ClosetItem from './ClosetItem';
 import LoadingClosetItem from './LoadingClosetItem';

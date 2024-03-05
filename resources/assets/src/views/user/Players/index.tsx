@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import Row from './Row';
 import LoadingRow from './LoadingRow';
 import Previewer from './Previewer';

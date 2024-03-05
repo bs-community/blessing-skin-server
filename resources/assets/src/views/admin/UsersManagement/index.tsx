@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import {useState, useEffect, useLayoutEffect} from 'react';
 import {useImmer} from 'use-immer';
 import Header from './Header';
 import Card from './Card';

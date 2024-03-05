@@ -1,4 +1,4 @@
-import type React from 'react';
+
 import PaginationItem from './PaginationItem';
 import {t} from '@/scripts/i18n';
 
