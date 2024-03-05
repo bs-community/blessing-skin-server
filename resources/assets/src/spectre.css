@@ -1,4 +1,4 @@
-@import 'spectre.css/dist/spectre.css';
+@import 'spectre.css/src/spectre.scss';
 @import '@/fonts/minecraft.css';
 
 body {

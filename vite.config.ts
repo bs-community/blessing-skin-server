@@ -25,6 +25,8 @@ export default defineConfig({
 		alias: {
 			'@/': root.pathname,
 			readline: new URL('scripts/cli/readline.ts', root).pathname,
+			'~bootstrap': new URL('node_modules/admin-lte/node_modules/bootstrap', import.meta.url).pathname,
+			'spectre.css': new URL('node_modules/spectre.css', import.meta.url).pathname,
 		},
 	},
 	publicDir: false,

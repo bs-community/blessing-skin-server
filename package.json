@@ -73,7 +73,7 @@
     "@emotion/styled": "^11.0.0",
     "@fortawesome/fontawesome-free": "^6.3.0",
     "@tweenjs/tween.js": "^23.1.1",
-    "admin-lte": "^3.2.0",
+    "admin-lte": "next",
     "bootstrap": "^5.3.3",
     "clsx": "^2.1.0",
     "echarts": "^5.5.0",
@@ -92,7 +92,7 @@
     "rxjs": "^7.8.1",
     "skinview-utils": "^0.7.1",
     "skinview3d": "^3.0.0-alpha.1",
-    "spectre.css": "^0.5.8",
+    "spectre.css": "npm:@angular-package/spectre.css",
     "use-immer": "^0.9.0"
   },
   "devDependencies": {
@@ -118,6 +118,7 @@
     "js-yaml": "^4.1.0",
     "laravel-vite-plugin": "^1.0.2",
     "postcss": "^8.4.35",
+    "sass": "^1.71.1",
     "typescript": "^5.3.3",
     "vite": "^5.1.5",
     "vite-plugin-top-level-await": "^1.4.1",
