@@ -9,12 +9,6 @@ import routes from './scripts/route';
 // eslint-disable-next-line @typescript-eslint/naming-convention
 Object.assign(window, {React, ReactDOM, $});
 
-const entry = document.querySelector('[href="#launch-cli"]');
-entry?.addEventListener('click', async () => {
-	const {launch} = await import('./scripts/cli');
-	launch();
-});
-
 const route = routes.find(route =>
 	new RegExp(`^${route.path}$`, 'i').test(blessing.route),
 );

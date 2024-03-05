@@ -25,7 +25,6 @@ export default defineConfig({
 		alias: {
 			'@/': root.pathname,
 			readline: new URL('scripts/cli/readline.ts', root).pathname,
-			prompts: 'prompts/lib/index.js',
 		},
 	},
 	publicDir: false,
