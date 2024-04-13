@@ -1,29 +1,24 @@
-import React from 'react'
-import ModalContent from './ModalContent'
-import ModalInput from './ModalInput'
-import type { Props as ContentProps } from './ModalContent'
-import type {
-  Props as InputProps,
-  InternalProps as InputInteralProps,
-} from './ModalInput'
 
-interface InternalProps {
-  showInput: boolean
-}
+import ModalContent, {type Props as ContentProperties} from './ModalContent';
+import ModalInput, {
+	type
+	Props as InputProperties, type
+	InternalProps as InputInteralProperties,
+} from './ModalInput';
 
-export type Props = ContentProps & InputProps
+type InternalProperties = {
+	readonly showInput: boolean;
+};
 
-const ModalBody: React.FC<InternalProps & InputInteralProps & Props> = (
-  props,
-) => {
-  return (
-    <div className="modal-body">
-      <ModalContent text={props.text} dangerousHTML={props.dangerousHTML}>
-        {props.children}
-      </ModalContent>
-      {props.showInput && <ModalInput {...props} />}
-    </div>
-  )
-}
+export type Props = ContentProperties & InputProperties;
 
-export default ModalBody
+const ModalBody: React.FC<InternalProperties & InputInteralProperties & Props> = properties => (
+	<div className='modal-body'>
+		<ModalContent text={properties.text} dangerousHTML={properties.dangerousHTML}>
+			{properties.children}
+		</ModalContent>
+		{properties.showInput && <ModalInput {...properties}/>}
+	</div>
+);
+
+export default ModalBody;

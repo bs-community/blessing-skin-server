@@ -1,5 +1,5 @@
 <script src="{{ i18n }}" crossorigin="anonymous"></script>
-{{ include('assets.app', ignore_missing = true) }}
+  {{ vite('resources/index.tsx')|raw }}
 {% for script in scripts %}
   <script{% for attribute, value in script %} {{ attribute }}="{{ value }}"{% endfor %}></script>
 {% endfor %}

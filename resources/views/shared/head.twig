@@ -10,7 +10,7 @@
   <link rel="preconnect" href="{{ custom_cdn_host }}" id="cdn-host" crossorigin>
 {% endif %}
 <script>window.blessing = {{ blessing|json_encode|raw }}</script>
-{{ include('assets.style', ignore_missing = true) }}
+{{ vite('resources/assets/src/app.css')|raw }}
 {% for link in links %}
   <link{% for attribute, value in link %} {{ attribute }}="{{ value|raw }}"{% endfor %}>
 {% endfor %}

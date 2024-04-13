@@ -1,39 +1,41 @@
-import React from 'react'
 
-interface Props {
-  disabled?: boolean
-  active?: boolean
-  title?: string
-  className?: string
-  onClick?(): void
-}
+type Properties = {
+	readonly disabled?: boolean;
+	readonly active?: boolean;
+	readonly title?: string;
+	readonly className?: string;
+	onClick?(): void;
+	readonly children?: React.ReactNode;
+};
 
-const PaginationItem: React.FC<Props> = (props) => {
-  const classes = ['page-item']
-  if (props.active) {
-    classes.push('active')
-  }
-  if (props.disabled) {
-    classes.push('disabled')
-  }
-  if (props.className) {
-    classes.push(props.className)
-  }
+const PaginationItem: React.FC<Properties> = properties => {
+	const classes = ['page-item'];
+	if (properties.active) {
+		classes.push('active');
+	}
 
-  const handleClick = (event: React.MouseEvent) => {
-    event.preventDefault()
-    if (!props.disabled && props.onClick) {
-      props.onClick()
-    }
-  }
+	if (properties.disabled) {
+		classes.push('disabled');
+	}
 
-  return (
-    <li className={classes.join(' ')} title={props.title} onClick={handleClick}>
-      <a href="#" className="page-link" aria-disabled={props.disabled}>
-        {props.children}
-      </a>
-    </li>
-  )
-}
+	if (properties.className) {
+		classes.push(properties.className);
+	}
 
-export default PaginationItem
+	const handleClick = (event: React.MouseEvent) => {
+		event.preventDefault();
+		if (!properties.disabled && properties.onClick) {
+			properties.onClick();
+		}
+	};
+
+	return (
+		<li className={classes.join(' ')} title={properties.title} onClick={handleClick}>
+			<a href='#' className='page-link' aria-disabled={properties.disabled}>
+				{properties.children}
+			</a>
+		</li>
+	);
+};
+
+export default PaginationItem;

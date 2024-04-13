@@ -13,7 +13,7 @@
         {% endif %}
       }
     </style>
-    {{ include('assets.home-css', ignore_missing = true) }}
+    {{ vite('resources/assets/home.css')|raw }}
   </head>
 
   <body class="hold-transition layout-top-nav">
@@ -129,7 +129,7 @@
     <script type="application/json" id="blessing-extra">
       {{ {transparent_navbar: transparent_navbar}|json_encode|raw }}
     </script>
-    {{ include('assets.home', ignore_missing = true) }}
+    {{ vite('resources/assets/src/scripts/homePage.ts')|raw }}
     {{ include('shared.foot') }}
   </body>
 </html>

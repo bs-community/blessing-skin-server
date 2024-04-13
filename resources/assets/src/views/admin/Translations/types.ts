@@ -1,6 +1,6 @@
 export type Line = {
-  id: number
-  group: string
-  key: string
-  text: Record<string, string>
-}
+	id: number;
+	group: string;
+	key: string;
+	text: Record<string, string>;
+};

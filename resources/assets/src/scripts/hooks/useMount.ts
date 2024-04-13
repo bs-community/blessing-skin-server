@@ -1,20 +1,20 @@
-import { useEffect, useRef } from 'react'
+import {useEffect, useRef} from 'react';
 
-export default function useMount(selector: string): HTMLElement | null {
-  const container = useRef<HTMLDivElement | null>(null)
+export default function useMount(selector: string): HTMLElement | undefined {
+	const container = useRef<HTMLDivElement | undefined>(null);
 
-  useEffect(() => {
-    const mount = document.querySelector(selector)!
-    const div = document.createElement('div')
-    container.current = div
+	useEffect(() => {
+		const mount = document.querySelector(selector)!;
+		const div = document.createElement('div');
+		container.current = div;
 
-    mount.appendChild(div)
+		mount.append(div);
 
-    return () => {
-      mount.removeChild(div)
-      container.current = null
-    }
-  }, [selector])
+		return () => {
+			div.remove();
+			container.current = null;
+		};
+	}, [selector]);
 
-  return container.current
+	return container.current;
 }

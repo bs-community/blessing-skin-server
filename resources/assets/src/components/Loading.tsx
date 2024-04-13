@@ -1,9 +1,9 @@
-import React from 'react'
+function Loading() {
+	return (
+		<div className='container text-center' title='Loading...'>
+			<i className='fas fa-sync fa-spin'/>
+		</div>
+	);
+}
 
-const Loading = () => (
-  <div className="container text-center" title="Loading...">
-    <i className="fas fa-sync fa-spin"></i>
-  </div>
-)
-
-export default Loading
+export default Loading;

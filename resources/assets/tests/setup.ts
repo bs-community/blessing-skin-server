@@ -1,8 +1,7 @@
-/* eslint-disable max-classes-per-file */
-import * as fs from 'fs'
-import 'jest-extended'
-import '@testing-library/jest-dom'
+import fs from 'fs'
+import '@testing-library/jest-dom/vitest'
 import yaml from 'js-yaml'
+
 
 window.blessing = {
   base_url: '',
@@ -10,7 +9,7 @@ window.blessing = {
   site_name: 'Blessing Skin',
   version: '4.0.0',
   extra: {},
-  i18n: yaml.load(fs.readFileSync('resources/lang/en/front-end.yml', 'utf8')),
+  i18n: yaml.load(fs.readFileSync('resources/lang/en/front-end.yml', 'utf8')) as object,
 }
 
 class Headers extends Map {
@@ -31,7 +30,7 @@ class Request {
     this.headers = new Headers(Object.entries(init.headers || {}))
   }
 }
-Object.assign(window, { Headers, Request })
+Object.assign(window, {Headers, Request})
 
 const noop = () => undefined
 Object.assign(console, {

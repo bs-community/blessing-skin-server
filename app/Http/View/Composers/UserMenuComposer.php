@@ -41,7 +41,6 @@ class UserMenuComposer
                 ['label' => trans('general.admin-panel'), 'link' => route('admin.view')],
                 ['label' => trans('general.user-manage'), 'link' => route('admin.users.view')],
                 ['label' => trans('general.report-manage'), 'link' => route('admin.reports.view')],
-                ['label' => 'Web CLI', 'link' => '#launch-cli'],
             );
         }
         $menuItems = $this->filter->apply('user_menu', $menuItems, [$user]);

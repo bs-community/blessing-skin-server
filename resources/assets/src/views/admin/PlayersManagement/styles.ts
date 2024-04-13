@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import * as breakpoints from '@/styles/breakpoints'
+import styled from '@emotion/styled';
+import * as breakpoints from '@/styles/breakpoints';
 
 export const Box = styled.div`
   width: 48%;
@@ -8,4 +8,4 @@ export const Box = styled.div`
   ${breakpoints.lessThan(breakpoints.Breakpoint.lg)} {
     width: 98%;
   }
-`
+`;
