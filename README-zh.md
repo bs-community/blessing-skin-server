@@ -11,7 +11,7 @@
 <a href="https://discord.com/invite/QAsyEyt"><img alt="Discord" src="https://discord.com/api/guilds/761226550921658380/widget.png"></a>
 </p>
 
-优雅的开源 Minecraft 皮肤站，现在，回应您的等待。
+优雅的开源 Minecraft 皮肤站。
 
 Blessing Skin 是一款能让您上传、管理和分享您的 Minecraft 皮肤和披风的 Web 应用程序。与修改游戏材质包不同的是，所有人都能在游戏中看到各自的皮肤和披风（当然，前提是玩家们要使用同一个皮肤站）。
 
@@ -39,7 +39,7 @@ Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在�
 
 Blessing Skin 对您的服务器有一定的要求。在大多数情况下，下列所需的 PHP 扩展已经开启。
 
-- 一个支持 URL 重写的主机（服务器软件），Nginx 或 Apache
+- 一个支持 URL 重写的主机（网页服务器），Nginx 或 Apache
 - PHP >= 8.1.0
 - 安装并启用如下 PHP 扩展：
   - OpenSSL >= 1.1.1 (TLS 1.3)
