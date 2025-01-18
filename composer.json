@@ -29,7 +29,7 @@
     "lorisleiva/laravel-search-string": "^1.0",
     "nesbot/carbon": "^2.0",
     "nunomaduro/collision": "^7.0",
-    "rcrowe/twigbridge": "^0.14",
+    "rcrowe/twigbridge": "dev-blessing",
     "spatie/laravel-translation-loader": "^2.7",
     "symfony/process": "^6.0",
     "symfony/yaml": "^5.0",
@@ -81,10 +81,14 @@
       ]
     }
   },
-  "repositories": {
-    "packagist": {
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/bs-community/TwigBridge"
+    },
+    {
       "type": "composer",
       "url": "https://packagist.org/"
     }
-  }
+  ]
 }
