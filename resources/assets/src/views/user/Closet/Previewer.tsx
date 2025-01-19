@@ -1,31 +1,35 @@
+import type {FC, ReactNode} from 'react';
 import ViewerSkeleton from '@/components/ViewerSkeleton';
 import useMount from '@/scripts/hooks/useMount';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import {
+	lazy,
+	Suspense,
+} from 'react';
+import {createPortal} from 'react-dom';
 
-const Viewer = React.lazy(async () => import('@/components/Viewer'));
+const Viewer = lazy(async () => import('@/components/Viewer'));
 
 type Props = {
 	skin?: string;
 	cape?: string;
-	children: React.ReactNode;
+	children: ReactNode;
 	isAlex: boolean;
 };
 
-const Previewer: React.FC<Props> = props => {
+const Previewer: FC<Props> = props => {
 	const container = useMount('#previewer');
 
-	const skin = props.skin ? `${blessing.base_url}/textures/${props.skin}` : '';
-	const cape = props.cape ? `${blessing.base_url}/textures/${props.cape}` : '';
+	const skin = props.skin === undefined ? '' : `${blessing.base_url}/textures/${props.skin}`;
+	const cape = props.cape === undefined ? '' : `${blessing.base_url}/textures/${props.cape}`;
 
 	return (
 		container
-		&& ReactDOM.createPortal(
-			<React.Suspense fallback={<ViewerSkeleton/>}>
+		&& createPortal(
+			<Suspense fallback={<ViewerSkeleton/>}>
 				<Viewer showIndicator skin={skin} cape={cape} isAlex={props.isAlex}>
 					{props.children}
 				</Viewer>
-			</React.Suspense>,
+			</Suspense>,
 			container,
 		)
 	);

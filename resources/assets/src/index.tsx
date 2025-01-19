@@ -6,7 +6,7 @@ import routes from './scripts/route';
 
 import './scripts/app';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
+// eslint-disable-next-line ts/naming-convention
 Object.assign(window, {React, ReactDOM, $});
 
 const route = routes.find(route =>
@@ -24,11 +24,12 @@ if (route) {
 			: null;
 
 		const root = createRoot(container!);
-		root.render(
-<React.StrictMode>
+		root.render((
+			<React.StrictMode>
 				<React.Suspense fallback={route.frame?.() ?? ''}>
-		<Component/>
- </React.Suspense>
-			</React.StrictMode>,);
+					<Component/>
+				</React.Suspense>
+			</React.StrictMode>
+		));
 	}
 }

@@ -9,8 +9,8 @@ import {showModal, toast} from '@/scripts/notify';
 import {isAlex} from '@/scripts/textureUtils';
 import {TextureType} from '@/scripts/types';
 import urls from '@/scripts/urls';
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
+import {Suspense, useState} from 'react';
+import {createPortal} from 'react-dom';
 
 const Previewer = React.lazy(async () => import('@/components/Viewer'));
 
@@ -19,7 +19,7 @@ function Upload() {
 	const [type, setType] = useState(TextureType.Steve);
 	const [isPrivate, setIsPrivate] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
-	const [file, setFile] = useState<File | undefined>(null);
+	const [file, setFile] = useState<File>();
 	const [texture, setTexture] = useState('');
 	const nameRule = useBlessingExtra<string>('rule');
 	const contentPolicy = useBlessingExtra<string>('contentPolicy');
@@ -47,9 +47,13 @@ function Upload() {
 	};
 
 	const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		const files = event.target.files!;
+		const {files} = event.target;
+		if (!files) {
+			return;
+		}
+
 		const [file] = files;
-		if (file) {
+		if (file !== undefined) {
 			setFile(file);
 			if (!name && file.name.endsWith('.png')) {
 				setName(file.name.slice(0, -4));
@@ -239,14 +243,14 @@ function Upload() {
 				</div>
 			</div>
 			{container
-			&& ReactDOM.createPortal(
-				<React.Suspense fallback={<ViewerSkeleton/>}>
+			&& createPortal(
+				<Suspense fallback={<ViewerSkeleton/>}>
 					<Previewer
 						skin={type === TextureType.Cape ? undefined : texture}
 						cape={type === TextureType.Cape ? texture : undefined}
 						isAlex={type === TextureType.Alex}
 					/>
-				</React.Suspense>,
+				</Suspense>,
 				container,
 			)}
 		</>

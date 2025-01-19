@@ -2,7 +2,7 @@ import ViewerSkeleton from '@/components/ViewerSkeleton';
 import useMount from '@/scripts/hooks/useMount';
 import {t} from '@/scripts/i18n';
 import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
+import {createPortal} from 'react-dom';
 import Viewer2d from './Viewer2d';
 
 const Viewer3d = React.lazy(async () => import('@/components/Viewer'));
@@ -23,7 +23,7 @@ const Previewer: React.FC<Props> = props => {
 	};
 
 	const switcher = (
-		<button className='btn btn-default' onClick={switchMode}>
+		<button type='button' className='btn btn-default' onClick={switchMode}>
 			{is3d ? t('user.switch2dPreview') : t('user.switch3dPreview')}
 		</button>
 	);
@@ -32,7 +32,7 @@ const Previewer: React.FC<Props> = props => {
 
 	return (
 		container
-		&& ReactDOM.createPortal(
+		&& createPortal(
 			is3d
 				? (
 					<React.Suspense fallback={<ViewerSkeleton/>}>
