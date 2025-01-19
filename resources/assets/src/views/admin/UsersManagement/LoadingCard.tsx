@@ -5,7 +5,7 @@ import Skeleton from 'react-loading-skeleton';
 import {Box, Icon, InfoTable} from './styles';
 
 const ShrinkedSkeleton = styled(Skeleton)<{width?: string}>`
-  width: ${properties => properties.width};
+  width: ${props => props.width};
 `;
 
 const isDarkMode = document.body.classList.contains('dark-mode');

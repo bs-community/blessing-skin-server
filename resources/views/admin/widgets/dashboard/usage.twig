@@ -1,27 +1,27 @@
 <div class="row">
   <div class="col-md-6">
-    <div class="small-box bg-info">
+    <div class="small-box text-bg-info">
       <div class="inner">
         <h3 class="stats">{{ sum.users }}</h3>
         <p>{{ trans('admin.index.total-users') }}</p>
       </div>
-      <div class="icon"><i class="fas fa-users"></i></div>
-      <a href="{{ url('admin/users') }}" class="small-box-footer">
-        {{ trans('general.user-manage') }}&nbsp;
+      <div class="small-box-icon"><i class="fas fa-users"></i></div>
+      <a href="{{ url('admin/users') }}" class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+        {{ trans('general.user-manage') }}
         <i class="fa fa-arrow-circle-right"></i>
       </a>
     </div>
   </div>
 
   <div class="col-md-6">
-    <div class="small-box bg-green">
+    <div class="small-box text-bg-success">
       <div class="inner">
         <h3 class="stats">{{ sum.players }}</h3>
         <p>{{ trans('admin.index.total-players') }}</p>
       </div>
-      <div class="icon"><i class="fas fa-gamepad"></i></div>
-      <a href="{{ url('admin/players') }}" class="small-box-footer">
-        {{ trans('general.player-manage') }}&nbsp;
+      <div class="small-box-icon"><i class="fas fa-gamepad"></i></div>
+      <a href="{{ url('admin/players') }}" class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+        {{ trans('general.player-manage') }}
         <i class="fa fa-arrow-circle-right"></i>
       </a>
     </div>
@@ -30,17 +30,17 @@
 
 <div class="row">
   <div class="col-md-6">
-    <div class="small-box bg-purple">
+    <div class="small-box text-bg-warning">
       <div class="inner">
         <h3 class="stats">{{ sum.textures }}</h3>
         <p>{{ trans('admin.index.total-textures') }}</p>
       </div>
-      <div class="icon"><i class="fas fa-file"></i></div>
+      <div class="small-box-icon"><i class="fas fa-file"></i></div>
     </div>
   </div>
 
   <div class="col-md-6">
-    <div class="small-box bg-yellow">
+    <div class="small-box text-bg-danger">
       <div class="inner">
         {% if sum.storage > 1024 %}
           <h3 class="stats">{{ (sum.storage / 1024)|round(1) }}MB</h3>
@@ -49,7 +49,7 @@
         {% endif %}
         <p>{{ trans('admin.index.disk-usage') }}</p>
       </div>
-      <div class="icon"><i class="fas fa-hdd"></i></div>
+      <div class="small-box-icon"><i class="fas fa-hdd"></i></div>
     </div>
   </div>
 </div>

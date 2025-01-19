@@ -8,13 +8,13 @@ const hideRawBrowseButton = css`
   }
 `;
 
-type Properties = {
+type Props = {
 	file: File | undefined;
 	accept?: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const FileInput: React.FC<Properties> = properties => {
+const FileInput: React.FC<Props> = props => {
 	const reference = useRef<HTMLInputElement>(null);
 
 	const handleClick = () => {
@@ -31,12 +31,12 @@ const FileInput: React.FC<Properties> = properties => {
 						type='file'
 						className='custom-file-input'
 						id='select-file'
-						accept={properties.accept}
+						accept={props.accept}
 						title={t('skinlib.upload.select-file')}
-						onChange={properties.onChange}
+						onChange={props.onChange}
 					/>
 					<label className='custom-file-label' css={hideRawBrowseButton}>
-						{properties.file?.name}
+						{props.file?.name}
 					</label>
 				</div>
 				<div className='input-group-append'>

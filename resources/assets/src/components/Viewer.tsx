@@ -18,7 +18,7 @@ import SkinSteve from '../../../misc/textures/steve.png';
 const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6, bg7];
 export const PICTURES_COUNT = backgrounds.length;
 
-type Properties = {
+type Props = {
 	readonly skin?: string;
 	readonly cape?: string;
 	readonly children?: React.ReactNode;
@@ -58,8 +58,8 @@ const cssViewer = css`
   }
 `;
 
-const Viewer: React.FC<Properties> = properties => {
-	const {initPositionZ = 70} = properties;
+const Viewer: React.FC<Props> = props => {
+	const {initPositionZ = 70} = props;
 
 	const viewReference: React.MutableRefObject<skinview3d.SkinViewer> = useRef(null!);
 	const containerReference = useRef<HTMLCanvasElement>(null);
@@ -69,7 +69,7 @@ const Viewer: React.FC<Properties> = properties => {
 	const [bgPicture, setBgPicture] = useState(-1);
 
 	const indicator = (() => {
-		const {skin, cape} = properties;
+		const {skin, cape} = props;
 		if (skin && cape) {
 			return `${t('general.skin')} & ${t('general.cape')}`;
 		}
@@ -91,9 +91,9 @@ const Viewer: React.FC<Properties> = properties => {
 			canvas: container,
 			width: container.clientWidth,
 			height: container.clientHeight,
-			skin: properties.skin || SkinSteve,
-			cape: properties.cape || undefined,
-			model: properties.isAlex ? 'slim' : 'default',
+			skin: props.skin || SkinSteve,
+			cape: props.cape || undefined,
+			model: props.isAlex ? 'slim' : 'default',
 			zoom: initPositionZ / 100,
 		});
 		viewer.autoRotate = true;
@@ -117,19 +117,19 @@ const Viewer: React.FC<Properties> = properties => {
 
 	useEffect(() => {
 		const viewer = viewReference.current;
-		viewer.loadSkin(properties.skin || SkinSteve, {
-			model: properties.isAlex ? 'slim' : 'default',
+		viewer.loadSkin(props.skin || SkinSteve, {
+			model: props.isAlex ? 'slim' : 'default',
 		});
-	}, [properties.skin, properties.isAlex]);
+	}, [props.skin, props.isAlex]);
 
 	useEffect(() => {
 		const viewer = viewReference.current;
-		if (properties.cape) {
-			viewer.loadCape(properties.cape);
+		if (props.cape) {
+			viewer.loadCape(props.cape);
 		} else {
 			viewer.resetCape();
 		}
-	}, [properties.cape]);
+	}, [props.cape]);
 
 	useEffect(() => {
 		const viewer = viewReference.current;
@@ -225,12 +225,12 @@ const Viewer: React.FC<Properties> = properties => {
 				<div className='d-flex justify-content-between'>
 					<h3 className='card-title'>
 						<span>{t('general.texturePreview')}</span>
-						{properties.showIndicator
+						{props.showIndicator
 						&& <span className='badge bg-olive ml-1'>{indicator}</span>}
 					</h3>
 					<div>
 						<ActionButton
-							className={`fas fa-tablet ${properties.cape ? '' : 'd-none'}`}
+							className={`fas fa-tablet ${props.cape ? '' : 'd-none'}`}
 							data-toggle='tooltip'
 							data-placement='bottom'
 							title={t('general.switchCapeElytra')}
@@ -301,7 +301,7 @@ const Viewer: React.FC<Properties> = properties => {
 						<i className='fas fa-arrow-right'/>
 					</div>
 				</div>
-				{properties.children}
+				{props.children}
 			</div>
 		</div>
 	);

@@ -1,11 +1,11 @@
 import * as fetch from '@/scripts/net';
 import {useState} from 'react';
 
-type Properties = {
+type Props = {
 	readonly initMode: boolean;
 };
 
-const DarkModeButton: React.FC<Properties> = ({initMode}) => {
+const DarkModeButton: React.FC<Props> = ({initMode}) => {
 	const [darkMode, setDarkMode] = useState(initMode);
 
 	const icon = darkMode ? 'moon' : 'sun';

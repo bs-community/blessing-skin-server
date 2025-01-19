@@ -1,6 +1,4 @@
 import type {GetModuleInfo} from 'rollup';
-import {execSync} from 'node:child_process';
-import {env} from 'node:process';
 import react from '@vitejs/plugin-react-swc';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 import laravel from 'laravel-vite-plugin';

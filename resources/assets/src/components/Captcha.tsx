@@ -18,8 +18,8 @@ class Captcha extends React.Component<Record<string, unknown>, State> {
 	// eslint-disable-next-line ts/no-restricted-types
 	ref: React.RefObject<Reaptcha | null>;
 
-	constructor(properties: Record<string, unknown>) {
-		super(properties);
+	constructor(props: Record<string, unknown>) {
+		super(props);
 		this.state = {
 			value: '',
 			time: Date.now(),

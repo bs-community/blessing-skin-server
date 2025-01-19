@@ -6,7 +6,7 @@ import {Box} from './styles';
 const isDarkMode = document.body.classList.contains('dark-mode');
 
 const ShrinkedSkeleton = styled(Skeleton)<{width?: string}>`
-  width: ${properties => properties.width};
+  width: ${props => props.width};
 `;
 
 export default function LoadingCard() {

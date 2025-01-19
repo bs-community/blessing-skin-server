@@ -6,12 +6,11 @@ import {expect} from 'vitest';
 it('click to select file', () => {
 	const {getAllByText} = render(
 <FileInput
-	file={null}
-	onChange={() => {
+			file={null}
+			onChange={() => {
 				/* */
-			}}
-		/>
-);
+	}}
+		/>,);
 
 	fireEvent.click(getAllByText(t('skinlib.upload.select-file'))[1]);
 });
@@ -20,12 +19,11 @@ it('display file name', () => {
 	const file = new File([], 'f.txt');
 	const {queryByText} = render(
 <FileInput
-	file={file}
-	onChange={() => {
+			file={file}
+			onChange={() => {
 				/* */
-			}}
-		/>
-);
+	}}
+		/>,);
 	expect(queryByText('f.txt')).toBeInTheDocument();
 });
 

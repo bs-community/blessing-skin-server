@@ -5,7 +5,7 @@ import {showModal} from '@/scripts/notify';
 import clsx from 'clsx';
 import {Box} from './styles';
 
-type Properties = {
+type Props = {
 	readonly player: Player;
 	onUpdateName: () => void;
 	onUpdateOwner: () => void;
@@ -13,8 +13,8 @@ type Properties = {
 	onDelete: () => void;
 };
 
-const Card: React.FC<Properties> = properties => {
-	const {player} = properties;
+const Card: React.FC<Props> = props => {
+	const {player} = props;
 
 	const handlePreviewTextures = () => {
 		const skinPreview = `${blessing.base_url}/preview/${player.tid_skin}`;
@@ -109,7 +109,7 @@ const Card: React.FC<Properties> = properties => {
 								<a
 									href='#'
 									className='dropdown-item'
-									onClick={properties.onUpdateName}
+									onClick={props.onUpdateName}
 								>
 									<i className='fas fa-signature mr-2'/>
 									{t('admin.changePlayerName')}
@@ -117,7 +117,7 @@ const Card: React.FC<Properties> = properties => {
 								<a
 									href='#'
 									className='dropdown-item'
-									onClick={properties.onUpdateOwner}
+									onClick={props.onUpdateOwner}
 								>
 									<i className='fas fa-user-edit mr-2'/>
 									{t('admin.changeOwner')}
@@ -125,7 +125,7 @@ const Card: React.FC<Properties> = properties => {
 								<a
 									href='#'
 									className='dropdown-item'
-									onClick={properties.onUpdateTexture}
+									onClick={props.onUpdateTexture}
 								>
 									<i className='fas fa-tshirt mr-2'/>
 									{t('admin.changeTexture')}
@@ -134,7 +134,7 @@ const Card: React.FC<Properties> = properties => {
 								<a
 									href='#'
 									className='dropdown-item dropdown-item-danger'
-									onClick={properties.onDelete}
+									onClick={props.onDelete}
 								>
 									<i className='fas fa-trash mr-2'/>
 									{t('admin.deletePlayer')}

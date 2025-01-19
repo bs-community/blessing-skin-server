@@ -5,12 +5,12 @@
     <title>{% block title %}{% endblock %} - {{ site_name }}</title>
   </head>
 
-  <body class="{{ dark_mode ? 'dark-mode' : '' }} hold-transition">
+  <body class="{{ dark_mode ? 'dark-mode' : '' }} hold-transition layout-fixed">
     <div class="app-wrapper">
       {{ include('shared.header') }}
       {{ include('shared.sidebar', {scope: 'user'}) }}
-      <div class="content-wrapper">
-        <div class="content-header">
+      <main class="app-main">
+        <div class="app-content-header">
           <div class="container-fluid">
             <div class="d-flex justify-content-between flex-wrap">
               <div>
@@ -27,7 +27,7 @@
             {% block content %}{% endblock %}
           </div>
         </section>
-      </div>
+      </main>
       <footer class="app-footer">
         {{ include('shared.copyright') }}
       </footer>

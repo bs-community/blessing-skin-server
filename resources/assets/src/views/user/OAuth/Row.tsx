@@ -3,15 +3,15 @@ import type {App} from './types';
 import ButtonEdit from '@/components/ButtonEdit';
 import {t} from '@/scripts/i18n';
 
-type Properties = {
+type Props = {
 	readonly app: App;
 	readonly onEditName: React.MouseEventHandler<HTMLAnchorElement>;
 	readonly onEditRedirect: React.MouseEventHandler<HTMLAnchorElement>;
 	readonly onDelete: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const Row: React.FC<Properties> = properties => {
-	const {app} = properties;
+const Row: React.FC<Props> = props => {
+	const {app} = props;
 
 	return (
 		<tr>
@@ -20,7 +20,7 @@ const Row: React.FC<Properties> = properties => {
 				<span>{app.name}</span>
 				<ButtonEdit
 					title={t('user.oauth.modifyName')}
-					onClick={properties.onEditName}
+					onClick={props.onEditName}
 				/>
 			</td>
 			<td>{app.secret}</td>
@@ -28,11 +28,11 @@ const Row: React.FC<Properties> = properties => {
 				<span>{app.redirect}</span>
 				<ButtonEdit
 					title={t('user.oauth.modifyUrl')}
-					onClick={properties.onEditRedirect}
+					onClick={props.onEditRedirect}
 				/>
 			</td>
 			<td>
-				<button className='btn btn-danger' onClick={properties.onDelete}>
+				<button className='btn btn-danger' onClick={props.onDelete}>
 					{t('report.delete')}
 				</button>
 			</td>

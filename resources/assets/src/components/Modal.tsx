@@ -2,9 +2,9 @@ import {Modal as BootstrapModal} from 'bootstrap';
 import clsx from 'clsx';
 import {useEffect, useRef, useState} from 'react';
 import {t} from '../scripts/i18n';
-import ModalBody, {type Props as BodyProperties} from './ModalBody';
-import ModalFooter, {type Props as FooterProperties} from './ModalFooter';
-import ModalHeader, {type Props as HeaderProperties} from './ModalHeader';
+import ModalBody, {type Props as BodyProps} from './ModalBody';
+import ModalFooter, {type Props as FooterProps} from './ModalFooter';
+import ModalHeader, {type Props as HeaderProps} from './ModalHeader';
 
 type BasicOptions = {
 	readonly mode?: 'alert' | 'confirm' | 'prompt';
@@ -17,9 +17,9 @@ type BasicOptions = {
 	children?: React.ReactNode;
 };
 
-export type ModalOptions = BasicOptions & HeaderProperties & BodyProperties & FooterProperties;
+export type ModalOptions = BasicOptions & HeaderProps & BodyProps & FooterProps;
 
-type Properties = {
+type Props = {
 	readonly id?: string;
 	readonly children?: React.ReactNode;
 	readonly footer?: React.ReactNode;
@@ -32,7 +32,7 @@ export type ModalResult = {
 	value: string;
 };
 
-const Modal: React.FC<ModalOptions & Properties> = properties => {
+const Modal: React.FC<ModalOptions & Props> = props => {
 	const {
 		mode = 'confirm',
 		title = t('general.tip'),
@@ -59,7 +59,7 @@ const Modal: React.FC<ModalOptions & Properties> = properties => {
 		children,
 		choices,
 		dangerousHTML: html,
-	} = properties;
+	} = props;
 
 	const [value, setValue] = useState(input);
 	const [valid, setValid] = useState(true);

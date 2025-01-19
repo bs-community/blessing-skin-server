@@ -13,11 +13,11 @@ const styles = css`
 
 const domainNames = new Set(['qq.com', '163.com', 'gmail.com', 'hotmail.com']);
 
-type Properties = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
+type Props = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
 	onChange: (value: string) => void;
 };
 
-const EmailSuggestion: React.FC<Properties> = props => {
+const EmailSuggestion: React.FC<Props> = props => {
 	useEffect(() => {
 		emit('emailDomainsSuggestion', domainNames);
 	}, []);

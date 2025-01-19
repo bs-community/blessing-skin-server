@@ -7,12 +7,12 @@ const icons = new Map<AlertType, string>([
 	['danger', 'times-circle'],
 ]);
 
-type Properties = {
+type Props = {
 	readonly type: AlertType;
 	readonly children?: React.ReactNode;
 };
 
-const Alert: React.FC<Properties> = ({type, children}) => {
+const Alert: React.FC<Props> = ({type, children}) => {
 	const icon = icons.get(type);
 
 	return children === ''

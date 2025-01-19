@@ -1,4 +1,4 @@
-import type {Props as ModalInputProperties} from '@/components/ModalInput';
+import type {Props as ModalInputProps} from '@/components/ModalInput';
 import Pagination from '@/components/Pagination';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useIsLargeScreen from '@/scripts/hooks/useIsLargeScreen';
@@ -159,7 +159,7 @@ function UsersManagement() {
 	};
 
 	const handlePermissionChange = async (user: User, index: number) => {
-		const permissions: ModalInputProperties['choices'] = [
+		const permissions: ModalInputProps['choices'] = [
 			{text: t('admin.banned'), value: '-1'},
 			{text: t('admin.normal'), value: '0'},
 		];

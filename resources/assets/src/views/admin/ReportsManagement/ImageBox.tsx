@@ -29,7 +29,7 @@ const Card = styled.div`
   }
 `;
 
-type Properties = {
+type Props = {
 	readonly report: Report;
 	onClick: (texture: Texture | undefined) => void;
 	onBan: () => void;
@@ -37,13 +37,13 @@ type Properties = {
 	onReject: () => void;
 };
 
-const ImageBox: React.FC<Properties> = properties => {
-	const {report} = properties;
+const ImageBox: React.FC<Props> = props => {
+	const {report} = props;
 	const preview = `${blessing.base_url}/preview/${report.tid}?height=150`;
 	const previewPNG = `${preview}&png`;
 
 	const handleImageClick = () => {
-		properties.onClick(report.texture);
+		props.onClick(report.texture);
 	};
 
 	return (
@@ -102,19 +102,19 @@ const ImageBox: React.FC<Properties> = properties => {
 								<i className='fas fa-share-square mr-2'/>
 								{t('user.viewInSkinlib')}
 							</a>
-							<a href='#' className='dropdown-item' onClick={properties.onBan}>
+							<a href='#' className='dropdown-item' onClick={props.onBan}>
 								<i className='fas fa-user-slash mr-2'/>
 								{t('report.ban')}
 							</a>
 							<a
 								href='#'
 								className='dropdown-item dropdown-item-danger'
-								onClick={properties.onDelete}
+								onClick={props.onDelete}
 							>
 								<i className='fas fa-trash mr-2'/>
 								{t('skinlib.show.delete-texture')}
 							</a>
-							<a href='#' className='dropdown-item' onClick={properties.onReject}>
+							<a href='#' className='dropdown-item' onClick={props.onReject}>
 								<i className='fas fa-thumbs-down mr-2'/>
 								{t('report.reject')}
 							</a>

@@ -35,21 +35,21 @@ const NickNameBadge = styled(Badge)`
   max-width: 100px;
 `;
 
-type ButtonLikeProperties = {
+type ButtonLikeProps = {
 	liked: boolean;
 };
-const ButtonLike = styled.a<ButtonLikeProperties>`
+const ButtonLike = styled.a<ButtonLikeProps>`
   ${cssUtils.pointerCursor}
 
   i, span {
-    color: ${properties => properties.liked ? '#dc3545' : '#6c757d'};
+    color: ${props => props.liked ? '#dc3545' : '#6c757d'};
     &:hover {
-      color: ${properties => properties.liked ? '#dc3545' : '#343a40'};
+      color: ${props => props.liked ? '#dc3545' : '#343a40'};
     }
   }
 `;
 
-type Properties = {
+type Props = {
 	readonly item: LibraryItem;
 	readonly liked: boolean;
 	onAdd: (texture: LibraryItem) => Promise<void>;
@@ -57,8 +57,8 @@ type Properties = {
 	onUploaderClick: (uploader: number) => void;
 };
 
-const Item: React.FC<Properties> = properties => {
-	const {item} = properties;
+const Item: React.FC<Props> = props => {
+	const {item} = props;
 
 	const link = `${blessing.base_url}/skinlib/show/${item.tid}`;
 	const preview = `${blessing.base_url}/preview/${item.tid}?height=150`;
@@ -66,12 +66,12 @@ const Item: React.FC<Properties> = properties => {
 
 	const handleUploaderClick = (event: React.MouseEvent) => {
 		event.preventDefault();
-		properties.onUploaderClick(item.uploader);
+		props.onUploaderClick(item.uploader);
 	};
 
 	const handleHeartClick = (event: React.MouseEvent) => {
 		event.preventDefault();
-		properties.liked ? properties.onRemove(item) : properties.onAdd(item);
+		props.liked ? props.onRemove(item) : props.onAdd(item);
 	};
 
 	return (
@@ -111,7 +111,7 @@ const Item: React.FC<Properties> = properties => {
 							</NickNameBadge>
 						</div>
 						<ButtonLike
-							liked={properties.liked}
+							liked={props.liked}
 							tabIndex={-1}
 							onClick={handleHeartClick}
 						>

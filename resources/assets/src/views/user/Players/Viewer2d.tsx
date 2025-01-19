@@ -13,13 +13,13 @@ const TexturePreview = styled.div`
   }
 `;
 
-type Properties = {
+type Props = {
 	readonly skin: string;
 	readonly cape: string;
 	readonly children: React.ReactNode;
 };
 
-const Viewer2d: React.FC<Properties> = properties => (
+const Viewer2d: React.FC<Props> = props => (
 	<div className='card'>
 		<div className='card-header'>
 			<h3 className='card-title'>{t('general.texturePreview')}</h3>
@@ -27,18 +27,18 @@ const Viewer2d: React.FC<Properties> = properties => (
 		<div className='card-body'>
 			<TexturePreview className='mb-5'>
 				<span>{t('general.skin')}</span>
-				{properties.skin
-					? <img src={properties.skin} alt={t('general.skin')}/>
+				{props.skin
+					? <img src={props.skin} alt={t('general.skin')}/>
 					: <span>{t('user.player.texture-empty')}</span>}
 			</TexturePreview>
 			<TexturePreview className='mt-5'>
 				<span>{t('general.cape')}</span>
-				{properties.cape
-					? <img src={properties.cape} alt={t('general.cape')}/>
+				{props.cape
+					? <img src={props.cape} alt={t('general.cape')}/>
 					: <span>{t('user.player.texture-empty')}</span>}
 			</TexturePreview>
 		</div>
-		<div className='card-footer'>{properties.children}</div>
+		<div className='card-footer'>{props.children}</div>
 	</div>
 );
 

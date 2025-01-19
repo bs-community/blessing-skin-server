@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 
 export type ToastType = 'success' | 'info' | 'warning' | 'error';
 
-type Properties = {
+type Props = {
 	readonly type: ToastType;
 	readonly distance: number;
 	onClose: () => void | Promise<void>;
@@ -29,7 +29,7 @@ const shadow = css`
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
 `;
 
-const Toast: React.FC<Properties> = properties => {
+const Toast: React.FC<Props> = props => {
 	const [show, setShow] = useState(false);
 
 	useEffect(() => {
@@ -40,9 +40,9 @@ const Toast: React.FC<Properties> = properties => {
 		return () => {
 			clearTimeout(timer);
 		};
-	}, [properties.onClose]);
+	}, [props.onClose]);
 
-	const type = properties.type === 'error' ? 'danger' : properties.type;
+	const type = props.type === 'error' ? 'danger' : props.type;
 
 	const classes = [
 		`alert alert-${type}`,
@@ -56,16 +56,16 @@ const Toast: React.FC<Properties> = properties => {
 	const role = type === 'success' || type === 'info' ? 'status' : 'alert';
 
 	return (
-		<div css={wrapper} style={{top: `${properties.distance}px`}}>
+		<div css={wrapper} style={{top: `${props.distance}px`}}>
 			<div className={classes.join(' ')} css={shadow} role={role}>
 				<span className='mr-1 d-flex align-items-center'>
-					<i className={`icon fas fa-${icons.get(properties.type)}`}/>
+					<i className={`icon fas fa-${icons.get(props.type)}`}/>
 				</span>
-				<span>{properties.children}</span>
+				<span>{props.children}</span>
 				<button
 					type='button'
 					className='mr-2 ml-1 close'
-					onClick={properties.onClose}
+					onClick={props.onClose}
 				>
 					&times;
 				</button>

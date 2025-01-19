@@ -2,7 +2,7 @@ import {t} from '@/scripts/i18n';
 import React from 'react';
 import * as scoreUtils from './scoreUtils';
 
-type Properties = {
+type Props = {
 	readonly isLoading: boolean;
 	readonly lastSign: Date;
 	readonly canSignAfterZero: boolean;
@@ -10,8 +10,8 @@ type Properties = {
 	readonly onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const SignButton: React.FC<Properties> = properties => {
-	const {lastSign, signGap, canSignAfterZero} = properties;
+const SignButton: React.FC<Props> = props => {
+	const {lastSign, signGap, canSignAfterZero} = props;
 	const remainingTime = scoreUtils.remainingTime(
 		lastSign,
 		signGap,
@@ -24,8 +24,8 @@ const SignButton: React.FC<Properties> = properties => {
 		<button
 			className='btn bg-gradient-primary pl-4 pr-4'
 			role='button'
-			disabled={!canSign || properties.isLoading}
-			onClick={properties.onClick}
+			disabled={!canSign || props.isLoading}
+			onClick={props.onClick}
 		>
 			<i className='far fa-calendar-check' aria-hidden='true'/>
 			{' '}

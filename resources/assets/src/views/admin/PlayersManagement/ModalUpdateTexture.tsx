@@ -3,13 +3,13 @@ import {t} from '@/scripts/i18n';
 import {TextureType} from '@/scripts/types';
 import {useState} from 'react';
 
-type Properties = {
+type Props = {
 	readonly open: boolean;
 	onSubmit: (type: 'skin' | 'cape', tid: number) => void;
 	onClose: () => void;
 };
 
-const ModalUpdateTexture: React.FC<Properties> = properties => {
+const ModalUpdateTexture: React.FC<Props> = props => {
 	const [type, setType] = useState<'skin' | 'cape'>('skin');
 	const [tid, setTid] = useState('');
 
@@ -22,7 +22,7 @@ const ModalUpdateTexture: React.FC<Properties> = properties => {
 	};
 
 	const handleConfirm = () => {
-		properties.onSubmit(type, Number.parseInt(tid));
+		props.onSubmit(type, Number.parseInt(tid));
 		setType('skin');
 		setTid('');
 	};
@@ -30,13 +30,13 @@ const ModalUpdateTexture: React.FC<Properties> = properties => {
 	const handleClose = () => {
 		setType('skin');
 		setTid('');
-		properties.onClose();
+		props.onClose();
 	};
 
 	return (
 		<Modal
 			center
-			show={properties.open}
+			show={props.open}
 			title={t('admin.changeTexture')}
 			onConfirm={handleConfirm}
 			onClose={handleClose}

@@ -1,6 +1,7 @@
 {
   "extends": "@tsconfig/vite-react",
   "compilerOptions": {
+    "jsxImportSource": "@emotion/react",
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -9,8 +10,7 @@
     },
     "allowJs": true,
     "checkJs": true,
-    "skipLibCheck": false,
-    "jsxImportSource": "@emotion/react"
+    "skipLibCheck": false
   },
   "include": [
     "resources/assets/src",

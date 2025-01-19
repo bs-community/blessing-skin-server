@@ -2,7 +2,7 @@
 import {t} from '@/scripts/i18n';
 import PaginationItem from './PaginationItem';
 
-type Properties = {
+type Props = {
 	readonly page: number;
 	readonly totalPages: number;
 	onChange: (page: number) => void | Promise<void>;
@@ -13,8 +13,8 @@ const labels = {
 	next: '›',
 };
 
-const Pagination: React.FC<Properties> = properties => {
-	const {page, totalPages, onChange} = properties;
+const Pagination: React.FC<Props> = props => {
+	const {page, totalPages, onChange} = props;
 
 	if (totalPages < 1) {
 		return null;

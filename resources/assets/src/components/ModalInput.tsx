@@ -13,20 +13,20 @@ export type InternalProps = {
 	readonly onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
-const ModalInput: React.FC<InternalProps & Props> = properties => (
+const ModalInput: React.FC<InternalProps & Props> = props => (
 	<>
-		{properties.inputType === 'radios' && properties.choices
+		{props.inputType === 'radios' && props.choices
 			? (
 				<>
-					{properties.choices.map(choice => (
+					{props.choices.map(choice => (
 						<div key={choice.value}>
 							<input
 								type='radio'
 								name='modal-radios'
 								id={`modal-radio-${choice.value}`}
 								value={choice.value}
-								checked={choice.value === properties.value}
-								onChange={properties.onChange}
+								checked={choice.value === props.value}
+								onChange={props.onChange}
 							/>
 							<label htmlFor={`modal-radio-${choice.value}`} className='ml-1'>
 								{choice.text}
@@ -38,19 +38,19 @@ const ModalInput: React.FC<InternalProps & Props> = properties => (
 			: (
 				<div className='form-group'>
 					<input
-						value={properties.value}
-						type={properties.inputType}
-						inputMode={properties.inputMode}
+						value={props.value}
+						type={props.inputType}
+						inputMode={props.inputMode}
 						className='form-control'
-						placeholder={properties.placeholder}
-						onChange={properties.onChange}
+						placeholder={props.placeholder}
+						onChange={props.onChange}
 					/>
 				</div>
 			)}
-		{properties.invalid && (
+		{props.invalid && (
 			<div className='alert alert-danger'>
 				<i className='icon far fa-times-circle'/>
-				<span className='ml-1'>{properties.validatorMessage}</span>
+				<span className='ml-1'>{props.validatorMessage}</span>
 			</div>
 		)}
 	</>

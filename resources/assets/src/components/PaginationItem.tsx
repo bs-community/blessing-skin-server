@@ -1,5 +1,5 @@
 
-type Properties = {
+type Props = {
 	readonly disabled?: boolean;
 	readonly active?: boolean;
 	readonly title?: string;
@@ -8,31 +8,31 @@ type Properties = {
 	readonly children?: React.ReactNode;
 };
 
-const PaginationItem: React.FC<Properties> = properties => {
+const PaginationItem: React.FC<Props> = props => {
 	const classes = ['page-item'];
-	if (properties.active) {
+	if (props.active) {
 		classes.push('active');
 	}
 
-	if (properties.disabled) {
+	if (props.disabled) {
 		classes.push('disabled');
 	}
 
-	if (properties.className) {
-		classes.push(properties.className);
+	if (props.className) {
+		classes.push(props.className);
 	}
 
 	const handleClick = (event: React.MouseEvent) => {
 		event.preventDefault();
-		if (!properties.disabled && properties.onClick) {
-			properties.onClick();
+		if (!props.disabled && props.onClick) {
+			props.onClick();
 		}
 	};
 
 	return (
-		<li className={classes.join(' ')} title={properties.title} onClick={handleClick}>
-			<a href='#' className='page-link' aria-disabled={properties.disabled}>
-				{properties.children}
+		<li className={classes.join(' ')} title={props.title} onClick={handleClick}>
+			<a href='#' className='page-link' aria-disabled={props.disabled}>
+				{props.children}
 			</a>
 		</li>
 	);

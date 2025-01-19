@@ -2,13 +2,13 @@ import Modal from '@/components/Modal';
 import {t} from '@/scripts/i18n';
 import {useState} from 'react';
 
-type Properties = {
+type Props = {
 	readonly show: boolean;
 	onCreate: (name: string, redirect: string) => Promise<void>;
 	onClose: () => void;
 };
 
-const ModalCreate: React.FC<Properties> = properties => {
+const ModalCreate: React.FC<Props> = props => {
 	const [name, setName] = useState('');
 	const [url, setUrl] = useState('');
 
@@ -21,7 +21,7 @@ const ModalCreate: React.FC<Properties> = properties => {
 	};
 
 	const handleComplete = () => {
-		properties.onCreate(name, url);
+		props.onCreate(name, url);
 	};
 
 	const handleDismiss = () => {
@@ -31,10 +31,10 @@ const ModalCreate: React.FC<Properties> = properties => {
 
 	return (
 		<Modal
-			show={properties.show}
+			show={props.show}
 			onConfirm={handleComplete}
 			onDismiss={handleDismiss}
-			onClose={properties.onClose}
+			onClose={props.onClose}
 		>
 			<div className='form-group'>
 				<label htmlFor='new-app-name'>{t('user.oauth.name')}</label>

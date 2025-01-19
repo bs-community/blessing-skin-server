@@ -5,22 +5,22 @@ export type Props = {
 	readonly children?: React.ReactNode;
 };
 
-const ModalContent: React.FC<Props> = properties => {
-	if (properties.children) {
-		return <>{properties.children}</>;
+const ModalContent: React.FC<Props> = props => {
+	if (props.children) {
+		return <>{props.children}</>;
 	}
 
-	if (properties.text) {
+	if (props.text) {
 		return (
 			<>
-				{properties.text.split(/\r?\n/).map((line, i) =>
+				{props.text.split(/\r?\n/).map((line, i) =>
 					<p key={i}>{line}</p>)}
 			</>
 		);
 	}
 
-	if (properties.dangerousHTML) {
-		return <div dangerouslySetInnerHTML={{__html: properties.dangerousHTML}}/>;
+	if (props.dangerousHTML) {
+		return <div dangerouslySetInnerHTML={{__html: props.dangerousHTML}}/>;
 	}
 
 	return <></>;

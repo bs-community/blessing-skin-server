@@ -39,7 +39,7 @@ const Description = styled.div`
   font-size: 14px;
 `;
 
-type Properties = {
+type Props = {
 	readonly plugin: Plugin;
 	onEnable: (plugin: Plugin) => void;
 	onDisable: (plugin: Plugin) => void;
@@ -47,21 +47,21 @@ type Properties = {
 	readonly baseUrl: string;
 };
 
-const InfoBox: React.FC<Properties> = properties => {
-	const {plugin} = properties;
+const InfoBox: React.FC<Props> = props => {
+	const {plugin} = props;
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		event.preventDefault();
 
 		if (event.target.checked) {
-			properties.onEnable(plugin);
+			props.onEnable(plugin);
 		} else {
-			properties.onDisable(plugin);
+			props.onDisable(plugin);
 		}
 	};
 
 	const handleDelete = () => {
-		properties.onDelete(plugin);
+		props.onDelete(plugin);
 	};
 
 	const isDarkMode = document.body.classList.contains('dark-mode');
@@ -96,7 +96,7 @@ const InfoBox: React.FC<Properties> = properties => {
 					<div>
 						{plugin.readme && (
 							<ActionButton
-								href={`${properties.baseUrl}/admin/plugins/readme/${plugin.name}`}
+								href={`${props.baseUrl}/admin/plugins/readme/${plugin.name}`}
 								title={t('admin.pluginReadme')}
 							>
 								<i className='fas fa-question'/>
@@ -104,7 +104,7 @@ const InfoBox: React.FC<Properties> = properties => {
 						)}
 						{plugin.enabled && plugin.config && (
 							<ActionButton
-								href={`${properties.baseUrl}/admin/plugins/config/${plugin.name}`}
+								href={`${props.baseUrl}/admin/plugins/config/${plugin.name}`}
 								title={t('admin.configurePlugin')}
 							>
 								<i className='fas fa-cog'/>

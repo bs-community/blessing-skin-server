@@ -2,15 +2,15 @@
 import type {Plugin} from './types';
 import {t} from '@/scripts/i18n';
 
-type Properties = {
+type Props = {
 	readonly plugin: Plugin;
 	readonly isInstalling: boolean;
 	onInstall: () => void;
 	onUpdate: () => void;
 };
 
-const Row: React.FC<Properties> = properties => {
-	const {plugin, isInstalling} = properties;
+const Row: React.FC<Props> = props => {
+	const {plugin, isInstalling} = props;
 
 	const allDeps = Object.entries(plugin.dependencies.all);
 	const unsatisfied = Object.keys(plugin.dependencies.unsatisfied);
@@ -54,7 +54,7 @@ const Row: React.FC<Properties> = properties => {
 						<button
 							className='btn btn-success'
 							disabled={isInstalling}
-							onClick={properties.onUpdate}
+							onClick={props.onUpdate}
 						>
 							{isInstalling
 								? (
@@ -74,8 +74,8 @@ const Row: React.FC<Properties> = properties => {
 					: (
 						<button
 							className='btn btn-default'
-							disabled={properties.isInstalling || Boolean(plugin.installed)}
-							onClick={properties.onInstall}
+							disabled={props.isInstalling || Boolean(plugin.installed)}
+							onClick={props.onInstall}
 						>
 							{isInstalling
 								? (

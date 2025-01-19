@@ -4,7 +4,7 @@ import {t} from '@/scripts/i18n';
 import * as cssUtils from '@/styles/utils';
 import {css} from '@emotion/react';
 
-type Properties = {
+type Props = {
 	player: Player;
 	selected: boolean;
 	onClick: React.MouseEventHandler;
@@ -13,19 +13,19 @@ type Properties = {
 	onDelete: (player: Player) => Promise<void>;
 };
 
-const Row: React.FC<Properties> = properties => {
-	const {player} = properties;
+const Row: React.FC<Props> = props => {
+	const {player} = props;
 
 	const handleEdit = () => {
-		properties.onEditName(player);
+		props.onEditName(player);
 	};
 
 	const handleDelete = () => {
-		properties.onDelete(player);
+		props.onDelete(player);
 	};
 
 	const selected
-    = properties.selected
+    = props.selected
     	&& css`
       background: #efefef;
       .dark-mode & {
@@ -34,14 +34,14 @@ const Row: React.FC<Properties> = properties => {
     `;
 
 	return (
-		<tr css={[cssUtils.pointerCursor, selected]} onClick={properties.onClick}>
+		<tr css={[cssUtils.pointerCursor, selected]} onClick={props.onClick}>
 			<td>{player.pid}</td>
 			<td>
 				<span>{player.name}</span>
 				<ButtonEdit title={t('user.player.edit-pname')} onClick={handleEdit}/>
 			</td>
 			<td className='d-flex'>
-				<button className='btn btn-warning' onClick={properties.onReset}>
+				<button className='btn btn-warning' onClick={props.onReset}>
 					{t('user.player.delete-texture')}
 				</button>
 				<button className='btn btn-danger ml-2' onClick={handleDelete}>

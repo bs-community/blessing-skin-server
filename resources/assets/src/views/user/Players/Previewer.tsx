@@ -7,13 +7,13 @@ import Viewer2d from './Viewer2d';
 
 const Viewer3d = React.lazy(async () => import('@/components/Viewer'));
 
-type Properties = {
+type Props = {
 	skin: string;
 	cape: string;
 	isAlex: boolean;
 };
 
-const Previewer: React.FC<Properties> = properties => {
+const Previewer: React.FC<Props> = props => {
 	const [is3d, setIs3d] = useState(true);
 
 	const container = useMount('#previewer');
@@ -28,7 +28,7 @@ const Previewer: React.FC<Properties> = properties => {
 		</button>
 	);
 
-	const {skin, cape, isAlex} = properties;
+	const {skin, cape, isAlex} = props;
 
 	return (
 		container

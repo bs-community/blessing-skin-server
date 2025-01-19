@@ -12,14 +12,14 @@ const Operations = styled.td`
   width: 25%;
 `;
 
-type Properties = {
+type Props = {
 	readonly line: Line;
 	onEdit: (line: Line) => void;
 	onRemove: (line: Line) => void;
 };
 
-const Row: React.FC<Properties> = properties => {
-	const {line, onEdit, onRemove} = properties;
+const Row: React.FC<Props> = props => {
+	const {line, onEdit, onRemove} = props;
 	const text = line.text[blessing.locale];
 
 	const handleEditClick = () => {

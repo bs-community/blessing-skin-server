@@ -5767,12 +5767,12 @@
       "source": {
         "type": "git",
         "url": "https://github.com/bs-community/TwigBridge.git",
-        "reference": "72d1481a08c145ca3b0020ee6c07c771bb2ca3bf"
+        "reference": "61c2084d29bc63c3fa173fc631d8354fdf1c01fb"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/bs-community/TwigBridge/zipball/72d1481a08c145ca3b0020ee6c07c771bb2ca3bf",
-        "reference": "72d1481a08c145ca3b0020ee6c07c771bb2ca3bf",
+        "url": "https://api.github.com/repos/bs-community/TwigBridge/zipball/61c2084d29bc63c3fa173fc631d8354fdf1c01fb",
+        "reference": "61c2084d29bc63c3fa173fc631d8354fdf1c01fb",
         "shasum": ""
       },
       "require": {
@@ -5829,7 +5829,7 @@
       "support": {
         "source": "https://github.com/bs-community/TwigBridge/tree/blessing"
       },
-      "time": "2025-01-18T08:54:48+00:00"
+      "time": "2025-01-18T13:54:09+00:00"
     },
     {
       "name": "sanmai/hoa-protocol",
@@ -9387,16 +9387,16 @@
     },
     {
       "name": "barryvdh/reflection-docblock",
-      "version": "v2.3.0",
+      "version": "v2.3.1",
       "source": {
         "type": "git",
         "url": "https://github.com/barryvdh/ReflectionDocBlock.git",
-        "reference": "818be8de6af4d16ef3ad51ea9234b3d37026ee5f"
+        "reference": "b6ff9f93603561f50e53b64310495d20b8dff5d8"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/barryvdh/ReflectionDocBlock/zipball/818be8de6af4d16ef3ad51ea9234b3d37026ee5f",
-        "reference": "818be8de6af4d16ef3ad51ea9234b3d37026ee5f",
+        "url": "https://api.github.com/repos/barryvdh/ReflectionDocBlock/zipball/b6ff9f93603561f50e53b64310495d20b8dff5d8",
+        "reference": "b6ff9f93603561f50e53b64310495d20b8dff5d8",
         "shasum": ""
       },
       "require": {
@@ -9433,9 +9433,9 @@
         }
       ],
       "support": {
-        "source": "https://github.com/barryvdh/ReflectionDocBlock/tree/v2.3.0"
+        "source": "https://github.com/barryvdh/ReflectionDocBlock/tree/v2.3.1"
       },
-      "time": "2024-12-30T10:35:04+00:00"
+      "time": "2025-01-18T19:26:32+00:00"
     },
     {
       "name": "clue/ndjson-react",

@@ -10,7 +10,7 @@ import {
 	verificationStatusText,
 } from './utils';
 
-type Properties = {
+type Props = {
 	readonly user: User;
 	readonly currentUser: User;
 	onEmailChange: () => void;
@@ -22,8 +22,8 @@ type Properties = {
 	onDelete: () => void;
 };
 
-const Card: React.FC<Properties> = properties => {
-	const {user, currentUser} = properties;
+const Card: React.FC<Props> = props => {
+	const {user, currentUser} = props;
 
 	const isDarkMode = document.body.classList.contains('dark-mode');
 
@@ -59,7 +59,7 @@ const Card: React.FC<Properties> = properties => {
 									<a
 										href='#'
 										className='dropdown-item'
-										onClick={properties.onEmailChange}
+										onClick={props.onEmailChange}
 									>
 										<i className='fas fa-at mr-2'/>
 										{t('admin.changeEmail')}
@@ -67,7 +67,7 @@ const Card: React.FC<Properties> = properties => {
 									<a
 										href='#'
 										className='dropdown-item'
-										onClick={properties.onNicknameChange}
+										onClick={props.onNicknameChange}
 									>
 										<i className='fas fa-signature mr-2'/>
 										{t('admin.changeNickName')}
@@ -75,7 +75,7 @@ const Card: React.FC<Properties> = properties => {
 									<a
 										href='#'
 										className='dropdown-item'
-										onClick={properties.onPasswordChange}
+										onClick={props.onPasswordChange}
 									>
 										<i className='fas fa-asterisk mr-2'/>
 										{t('admin.changePassword')}
@@ -84,7 +84,7 @@ const Card: React.FC<Properties> = properties => {
 									<a
 										href='#'
 										className='dropdown-item'
-										onClick={properties.onScoreChange}
+										onClick={props.onScoreChange}
 									>
 										<i className='fas fa-coins mr-2'/>
 										{t('admin.changeScore')}
@@ -93,7 +93,7 @@ const Card: React.FC<Properties> = properties => {
 										<a
 											href='#'
 											className='dropdown-item'
-											onClick={properties.onPermissionChange}
+											onClick={props.onPermissionChange}
 										>
 											<i className='fas fa-user-secret mr-2'/>
 											{t('admin.changePermission')}
@@ -102,7 +102,7 @@ const Card: React.FC<Properties> = properties => {
 									<a
 										href='#'
 										className='dropdown-item'
-										onClick={properties.onVerificationToggle}
+										onClick={props.onVerificationToggle}
 									>
 										<i className='fas fa-user-check mr-2'/>
 										{t('admin.toggleVerification')}
@@ -112,7 +112,7 @@ const Card: React.FC<Properties> = properties => {
 										<a
 											href='#'
 											className='dropdown-item dropdown-item-danger'
-											onClick={properties.onDelete}
+											onClick={props.onDelete}
 										>
 											<i className='fas fa-trash mr-2'/>
 											{t('admin.deleteUser')}

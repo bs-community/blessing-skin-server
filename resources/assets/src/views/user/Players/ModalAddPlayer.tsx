@@ -13,13 +13,13 @@ type Extra = {
 	length: string;
 };
 
-type Properties = {
+type Props = {
 	readonly show: boolean;
 	onAdd: (player: Player) => void;
 	onClose: () => void;
 };
 
-const ModalAddPlayer: React.FC<Properties> = properties => {
+const ModalAddPlayer: React.FC<Props> = props => {
 	const [name, setName] = useState('');
 
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +36,7 @@ const ModalAddPlayer: React.FC<Properties> = properties => {
 		});
 		if (code === 0) {
 			toast.success(message);
-			properties.onAdd(player);
+			props.onAdd(player);
 		} else {
 			toast.error(message);
 		}
@@ -44,7 +44,7 @@ const ModalAddPlayer: React.FC<Properties> = properties => {
 
 	const handleClose = () => {
 		setName('');
-		properties.onClose();
+		props.onClose();
 	};
 
 	const {score, cost, rule, length} = blessing.extra as Extra;
@@ -52,7 +52,7 @@ const ModalAddPlayer: React.FC<Properties> = properties => {
 
 	return (
 		<Modal
-			show={properties.show}
+			show={props.show}
 			title={t('user.player.add-player')}
 			onConfirm={handleConfirm}
 			onClose={handleClose}

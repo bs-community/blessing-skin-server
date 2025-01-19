@@ -1,9 +1,9 @@
-type Properties = {
+type Props = {
 	readonly title?: string;
 	readonly onClick: React.MouseEventHandler<HTMLAnchorElement>;
 };
 
-const ButtonEdit: React.FC<Properties> = ({title, onClick}) => (
+const ButtonEdit: React.FC<Props> = ({title, onClick}) => (
 	<a href='#' title={title} className='ml-2' onClick={onClick}>
 		<i className='fas fa-edit'/>
 	</a>

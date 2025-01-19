@@ -10,7 +10,7 @@ import {useEffect, useState} from 'react';
 
 const baseUrl = blessing.base_url;
 
-type Properties = {
+type Props = {
 	readonly show: boolean;
 	readonly canAdd: boolean;
 	readonly skin?: number;
@@ -18,13 +18,13 @@ type Properties = {
 	onClose: () => void;
 };
 
-const ModalApply: React.FC<Properties> = properties => {
+const ModalApply: React.FC<Props> = props => {
 	const [players, setPlayers] = useState<Player[]>([]);
 	const [search, setSearch] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		if (!properties.show) {
+		if (!props.show) {
 			return;
 		}
 
@@ -36,7 +36,7 @@ const ModalApply: React.FC<Properties> = properties => {
 		};
 
 		getPlayers();
-	}, [properties.show]);
+	}, [props.show]);
 
 	const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSearch(event.target.value);
@@ -46,8 +46,8 @@ const ModalApply: React.FC<Properties> = properties => {
 		const {code, message} = await fetch.put<fetch.ResponseBody>(
 			urls.user.player.set(player.pid),
 			{
-				skin: properties.skin,
-				cape: properties.cape,
+				skin: props.skin,
+				cape: props.cape,
 			},
 		);
 		if (code === 0) {
@@ -61,11 +61,11 @@ const ModalApply: React.FC<Properties> = properties => {
 	return (
 		<Modal
 			flexFooter
-			show={properties.show}
+			show={props.show}
 			id='modal-apply'
 			title={t('user.closet.use-as.title')}
 			footer={<></>}
-			onClose={properties.onClose}
+			onClose={props.onClose}
 		>
 			{isLoading
 				? <Loading/>

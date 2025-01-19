@@ -3,7 +3,7 @@ import type {Player} from '@/scripts/types';
 import ButtonEdit from '@/components/ButtonEdit';
 import {t} from '@/scripts/i18n';
 
-type Properties = {
+type Props = {
 	readonly player: Player;
 	onUpdateName: () => void;
 	onUpdateOwner: () => void;
@@ -11,8 +11,8 @@ type Properties = {
 	onDelete: () => void;
 };
 
-const Row: React.FC<Properties> = properties => {
-	const {player} = properties;
+const Row: React.FC<Props> = props => {
+	const {player} = props;
 
 	return (
 		<tr>
@@ -22,7 +22,7 @@ const Row: React.FC<Properties> = properties => {
 				<span className='ml-1'>
 					<ButtonEdit
 						title={t('admin.changePlayerName')}
-						onClick={properties.onUpdateName}
+						onClick={props.onUpdateName}
 					/>
 				</span>
 			</td>
@@ -31,7 +31,7 @@ const Row: React.FC<Properties> = properties => {
 				<span className='ml-1'>
 					<ButtonEdit
 						title={t('admin.changeOwner')}
-						onClick={properties.onUpdateOwner}
+						onClick={props.onUpdateOwner}
 					/>
 				</span>
 			</td>
@@ -68,11 +68,11 @@ const Row: React.FC<Properties> = properties => {
 			<td className='d-flex flex-wrap'>
 				<button
 					className='btn btn-default mr-2'
-					onClick={properties.onUpdateTexture}
+					onClick={props.onUpdateTexture}
 				>
 					{t('admin.changeTexture')}
 				</button>
-				<button className='btn btn-danger' onClick={properties.onDelete}>
+				<button className='btn btn-danger' onClick={props.onDelete}>
 					{t('admin.deletePlayer')}
 				</button>
 			</td>

@@ -2,13 +2,13 @@ import Modal from '@/components/Modal';
 import {t} from '@/scripts/i18n';
 import {useState} from 'react';
 
-type Properties = {
+type Props = {
 	readonly show: boolean;
 	onSubmit: (skin: boolean, cape: boolean) => Promise<void>;
 	onClose: () => void;
 };
 
-const ModalReset: React.FC<Properties> = properties => {
+const ModalReset: React.FC<Props> = props => {
 	const [skin, setSkin] = useState(false);
 	const [cape, setCape] = useState(false);
 
@@ -21,18 +21,18 @@ const ModalReset: React.FC<Properties> = properties => {
 	};
 
 	const handleConfirm = () => {
-		properties.onSubmit(skin, cape);
+		props.onSubmit(skin, cape);
 	};
 
 	const handleClose = () => {
 		setSkin(false);
 		setCape(false);
-		properties.onClose();
+		props.onClose();
 	};
 
 	return (
 		<Modal
-			show={properties.show}
+			show={props.show}
 			title={t('user.chooseClearTexture')}
 			onConfirm={handleConfirm}
 			onClose={handleClose}

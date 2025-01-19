@@ -9,7 +9,7 @@ import {
 	verificationStatusText,
 } from './utils';
 
-type Properties = {
+type Props = {
 	readonly user: User;
 	readonly currentUser: User;
 	onEmailChange: () => void;
@@ -21,8 +21,8 @@ type Properties = {
 	onDelete: () => void;
 };
 
-const Row: React.FC<Properties> = properties => {
-	const {user, currentUser} = properties;
+const Row: React.FC<Props> = props => {
+	const {user, currentUser} = props;
 
 	const canModify = canModifyUser(user, currentUser);
 
@@ -35,7 +35,7 @@ const Row: React.FC<Properties> = properties => {
 					<span className='ml-1'>
 						<ButtonEdit
 							title={t('admin.changeEmail')}
-							onClick={properties.onEmailChange}
+							onClick={props.onEmailChange}
 						/>
 					</span>
 				)}
@@ -46,7 +46,7 @@ const Row: React.FC<Properties> = properties => {
 					<span className='ml-1'>
 						<ButtonEdit
 							title={t('admin.changeNickName')}
-							onClick={properties.onNicknameChange}
+							onClick={props.onNicknameChange}
 						/>
 					</span>
 				)}
@@ -57,7 +57,7 @@ const Row: React.FC<Properties> = properties => {
 					<span className='ml-1'>
 						<ButtonEdit
 							title={t('admin.changeScore')}
-							onClick={properties.onScoreChange}
+							onClick={props.onScoreChange}
 						/>
 					</span>
 				)}
@@ -68,7 +68,7 @@ const Row: React.FC<Properties> = properties => {
 					<span className='ml-1'>
 						<ButtonEdit
 							title={t('admin.changePermission')}
-							onClick={properties.onPermissionChange}
+							onClick={props.onPermissionChange}
 						/>
 					</span>
 				)}
@@ -80,7 +80,7 @@ const Row: React.FC<Properties> = properties => {
 						className='ml-1'
 						href='#'
 						title={t('admin.toggleVerification')}
-						onClick={properties.onVerificationToggle}
+						onClick={props.onVerificationToggle}
 					>
 						{user.verified
 							? <i className='fas fa-toggle-on'/>
@@ -93,14 +93,14 @@ const Row: React.FC<Properties> = properties => {
 				<button
 					className='btn btn-default mr-2'
 					disabled={!canModify}
-					onClick={properties.onPasswordChange}
+					onClick={props.onPasswordChange}
 				>
 					{t('admin.changePassword')}
 				</button>
 				<button
 					className='btn btn-danger'
 					disabled={!canModify || user.uid === currentUser.uid}
-					onClick={properties.onDelete}
+					onClick={props.onDelete}
 				>
 					{t('admin.deleteUser')}
 				</button>

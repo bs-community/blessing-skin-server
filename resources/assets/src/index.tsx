@@ -26,10 +26,9 @@ if (route) {
 		const root = createRoot(container!);
 		root.render(
 <React.StrictMode>
-	<React.Suspense fallback={route.frame?.() ?? ''}>
-					<Component/>
-				</React.Suspense>
-</React.StrictMode>
-);
+				<React.Suspense fallback={route.frame?.() ?? ''}>
+		<Component/>
+ </React.Suspense>
+			</React.StrictMode>,);
 	}
 }

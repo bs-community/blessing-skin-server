@@ -4,7 +4,7 @@ import {t} from '@/scripts/i18n';
 import setAsAvatar from './setAsAvatar';
 import {Card, DropdownButton} from './styles';
 
-type Properties = {
+type Props = {
 	readonly item: ClosetItemType;
 	readonly selected: boolean;
 	onClick: (item: ClosetItemType) => void;
@@ -12,19 +12,19 @@ type Properties = {
 	onRemove: () => void;
 };
 
-const ClosetItem: React.FC<Properties> = properties => {
-	const {item} = properties;
+const ClosetItem: React.FC<Props> = props => {
+	const {item} = props;
 	const preview = `${blessing.base_url}/preview/${item.tid}?height=150`;
 	const previewPNG = `${preview}&png`;
 
 	const handleItemClick = () => {
-		properties.onClick(item);
+		props.onClick(item);
 	};
 
 	const handleSetAsAvatar = async () => setAsAvatar(item.tid);
 
 	return (
-		<Card className={`card mr-3 mb-3 ${properties.selected ? 'shadow' : ''}`}>
+		<Card className={`card mr-3 mb-3 ${props.selected ? 'shadow' : ''}`}>
 			<div className='card-body' onClick={handleItemClick}>
 				<picture>
 					<source srcSet={preview} type='image/webp'/>
@@ -49,10 +49,10 @@ const ClosetItem: React.FC<Properties> = properties => {
 							<i className='fas fa-cog'/>
 						</DropdownButton>
 						<div className='dropdown-menu'>
-							<a href='#' className='dropdown-item' onClick={properties.onRename}>
+							<a href='#' className='dropdown-item' onClick={props.onRename}>
 								{t('user.renameItem')}
 							</a>
-							<a href='#' className='dropdown-item' onClick={properties.onRemove}>
+							<a href='#' className='dropdown-item' onClick={props.onRemove}>
 								{t('user.removeItem')}
 							</a>
 							<a

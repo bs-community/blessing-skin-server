@@ -1,5 +1,5 @@
 
-type Properties = {
+type Props = {
 	readonly active?: boolean;
 	readonly bg?: string;
 };
@@ -9,21 +9,21 @@ type Attributes = React.DetailedHTMLProps<
 	HTMLButtonElement
 >;
 
-const Button: React.FC<Properties & Attributes> = properties => {
-	const classes = [properties.className ?? ''];
-	if (properties.bg) {
-		classes.push('btn', `bg-${properties.bg}`);
+const Button: React.FC<Props & Attributes> = props => {
+	const classes = [props.className ?? ''];
+	if (props.bg) {
+		classes.push('btn', `bg-${props.bg}`);
 	}
 
-	if (properties.active) {
+	if (props.active) {
 		classes.push('active');
 	}
 
-	const rest = {...properties, active: undefined, bg: undefined};
+	const rest = {...props, active: undefined, bg: undefined};
 
 	return (
 		<button {...rest} className={classes.join(' ')}>
-			{properties.children}
+			{props.children}
 		</button>
 	);
 };

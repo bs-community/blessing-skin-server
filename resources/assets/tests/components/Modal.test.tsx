@@ -85,12 +85,11 @@ describe('modal body', () => {
 		it('input control type', () => {
 			const {getByPlaceholderText} = render(
 <Modal
-	show
-	mode='prompt'
-	placeholder='password'
-	inputType='password'
-				/>
-);
+					show
+					mode='prompt'
+					placeholder='password'
+					inputType='password'
+				/>,);
 			expect(getByPlaceholderText('password')).toHaveAttribute(
 				'type',
 				'password',
@@ -169,13 +168,12 @@ describe('"prompt" mode', () => {
 		const reject = vi.fn();
 		const {getByPlaceholderText, getByText} = render(
 <Modal
-	show
-	mode='prompt'
-	placeholder='hint'
-	onConfirm={resolve}
-	onDismiss={reject}
-			/>
-);
+				show
+				mode='prompt'
+				placeholder='hint'
+				onConfirm={resolve}
+				onDismiss={reject}
+			/>,);
 		fireEvent.change(getByPlaceholderText('hint'), {
 			target: {value: 'my'},
 		});
@@ -201,13 +199,12 @@ describe('"prompt" mode', () => {
 		const resolve = vi.fn();
 		const {getByText, getByLabelText} = render(
 <Modal
-	show
-	mode='prompt'
-	inputType='radios'
-	choices={choices}
-	onConfirm={resolve}
-			/>
-);
+				show
+				mode='prompt'
+				inputType='radios'
+				choices={choices}
+				onConfirm={resolve}
+			/>,);
 		fireEvent.click(getByLabelText('B'));
 		fireEvent.click(getByText(t('general.confirm')));
 		expect(resolve).toBeCalledWith({value: 'b'});
@@ -219,14 +216,13 @@ describe('"prompt" mode', () => {
 		const validator = vi.fn().mockReturnValue(true);
 		const {getByText} = render(
 <Modal
-	show
-	mode='prompt'
-	input='val'
-	validator={validator}
-	onConfirm={resolve}
-	onDismiss={reject}
-			/>
-);
+				show
+				mode='prompt'
+				input='val'
+				validator={validator}
+				onConfirm={resolve}
+				onDismiss={reject}
+			/>,);
 		fireEvent.click(getByText(t('general.confirm')));
 		expect(resolve).toBeCalledWith({value: 'val'});
 		expect(reject).not.toBeCalled();
@@ -239,14 +235,13 @@ describe('"prompt" mode', () => {
 		const validator = vi.fn().mockReturnValue(message);
 		const {getByText, queryByText} = render(
 <Modal
-	show
-	mode='prompt'
-	input='val'
-	validator={validator}
-	onConfirm={resolve}
-	onDismiss={reject}
-			/>
-);
+				show
+				mode='prompt'
+				input='val'
+				validator={validator}
+				onConfirm={resolve}
+				onDismiss={reject}
+			/>,);
 		expect(queryByText(message)).not.toBeInTheDocument();
 
 		fireEvent.click(getByText(t('general.confirm')));

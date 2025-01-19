@@ -1,4 +1,4 @@
-<aside class="app-sidebar bg-body shadow elevation-3 layout-fixed" data-bs-theme="{{ color_mode }}">
+<aside class="app-sidebar bg-body shadow elevation-3 sidebar-expand-lg" data-bs-theme="{{ color_mode }}">
   <a href="{{ url('/') }}" class="brand-link text-center">
     <span class="sidebar-brand brand-text font-weight-light">{{ site_name }}</span>
   </a>
@@ -7,8 +7,9 @@
     <nav class="mt-2">
       <ul
         class="nav nav-pills nav-sidebar flex-column nav-child-indent sidebar-menu"
-        data-widget="treeview"
+        data-lte-toggle="treeview"
         role="menu"
+        data-accordion="false"
       >
 
         {% if scope == 'user' %}

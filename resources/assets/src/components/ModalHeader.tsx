@@ -3,12 +3,12 @@ export type Props = {
 	readonly title?: string;
 };
 
-type InternalProperties = {
+type InternalProps = {
 	onDismiss?: () => void;
 	readonly show?: boolean;
 };
 
-const ModalHeader: React.FC<Props & InternalProperties> = ({show, title, onDismiss}) =>
+const ModalHeader: React.FC<Props & InternalProps> = ({show, title, onDismiss}) =>
 	show
 		? (
 			<div className='modal-header'>

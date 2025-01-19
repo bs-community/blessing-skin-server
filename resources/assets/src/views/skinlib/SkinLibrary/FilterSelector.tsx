@@ -5,13 +5,13 @@ import {TextureType} from '@/scripts/types';
 import Button from './Button';
 import {humanizeType} from './utils';
 
-type Properties = {
+type Props = {
 	readonly filter: Filter;
 	onChange: (filter: Filter) => void;
 };
 
-const FilterSelector: React.FC<Properties> = properties => {
-	const {filter, onChange} = properties;
+const FilterSelector: React.FC<Props> = props => {
+	const {filter, onChange} = props;
 
 	const handleSkinClick = () => {
 		onChange('skin');
