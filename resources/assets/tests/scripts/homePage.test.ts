@@ -12,9 +12,7 @@ describe('scroll handler', () => {
 		document.body.innerHTML = '<nav class="navbar"></nav>';
 		scrollHander();
 		window.dispatchEvent(new Event('scroll'));
-		expect(
-			document.querySelector('nav')!.classList.contains('transparent'),
-		).toBeTrue();
+		expect(document.querySelector('nav')!.classList.contains('transparent')).toBeTrue();
 	});
 
 	it('should not be transparent at bottom', () => {
@@ -22,8 +20,6 @@ describe('scroll handler', () => {
 		document.body.innerHTML = '<nav class="navbar transparent"></nav>';
 		scrollHander();
 		window.dispatchEvent(new Event('scroll'));
-		expect(
-			document.querySelector('nav')!.classList.contains('transparent'),
-		).toBeFalse();
+		expect(document.querySelector('nav')!.classList.contains('transparent')).toBeFalse();
 	});
 });

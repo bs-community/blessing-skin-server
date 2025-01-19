@@ -1,4 +1,3 @@
-
 type AlertType = 'success' | 'info' | 'warning' | 'danger';
 
 const icons = new Map<AlertType, string>([
@@ -13,16 +12,17 @@ type Properties = {
 	readonly children?: React.ReactNode;
 };
 
-const Alert: React.FC<Properties> = properties => {
-	const {type} = properties;
+const Alert: React.FC<Properties> = ({type, children}) => {
 	const icon = icons.get(type);
 
-	return properties.children ? (
-		<div className={`alert alert-${type}`}>
-			<i className={`icon fas fa-${icon}`}/>
-			{properties.children}
-		</div>
-	) : null;
+	return children === ''
+		? null
+		: (
+			<div className={`alert alert-${type}`}>
+				<i className={`icon fas fa-${icon}`}/>
+				{children}
+			</div>
+		);
 };
 
 export default Alert;

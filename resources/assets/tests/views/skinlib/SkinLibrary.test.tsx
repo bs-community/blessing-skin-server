@@ -1,14 +1,17 @@
-import {
-	expect, test, vi, it, beforeEach,
-} from 'vitest';
-import {render, fireEvent, waitFor} from '@testing-library/react';
-import {createPaginator} from '../../utils';
+import type {LibraryItem} from '@/views/skinlib/SkinLibrary/types';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {TextureType} from '@/scripts/types';
 import urls from '@/scripts/urls';
 import SkinLibrary from '@/views/skinlib/SkinLibrary';
-import type {LibraryItem} from '@/views/skinlib/SkinLibrary/types';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	beforeEach,
+	expect,
+	it,
+	vi,
+} from 'vitest';
+import {createPaginator} from '../../utils';
 
 vi.mock('@/scripts/net');
 
@@ -26,7 +29,7 @@ beforeEach(() => {
 	window.blessing.extra = {currentUid: null};
 });
 
-test('without authenticated', async () => {
+it('without authenticated', async () => {
 	fetch.get.mockResolvedValue(createPaginator([]));
 
 	const {queryByText} = render(<SkinLibrary/>);
@@ -47,12 +50,10 @@ test('without authenticated', async () => {
 	expect(queryByText(t('skinlib.seeMyUpload'))).not.toBeInTheDocument();
 });
 
-test('search by keyword', async () => {
+it('search by keyword', async () => {
 	fetch.get.mockResolvedValue({...createPaginator([]), last_page: 10});
 
-	const {getByText, getByTitle, getByPlaceholderText} = render(
-		<SkinLibrary/>,
-	);
+	const {getByText, getByTitle, getByPlaceholderText} = render(<SkinLibrary/>);
 	await waitFor(() => {
 		expect(fetch.get).toBeCalled();
 	});
@@ -73,11 +74,10 @@ test('search by keyword', async () => {
 				return true;
 			}),
 		);
-	},
-	);
+	});
 });
 
-test('select uploaded by self', async () => {
+it('select uploaded by self', async () => {
 	window.blessing.extra.currentUid = 1;
 	fetch.get.mockResolvedValue({...createPaginator([]), last_page: 10});
 
@@ -99,18 +99,15 @@ test('select uploaded by self', async () => {
 				return true;
 			}),
 		);
-	},
-	);
+	});
 	expect(queryByText(t('skinlib.filter.uploader', {uid: 1})));
 });
 
-test('reset query', async () => {
+it('reset query', async () => {
 	window.blessing.extra.currentUid = 1;
 	fetch.get.mockResolvedValue(createPaginator([]));
 
-	const {getByText, getByTitle, getByPlaceholderText, queryByText} = render(
-		<SkinLibrary/>,
-	);
+	const {getByText, getByTitle, getByPlaceholderText, queryByText} = render(<SkinLibrary/>);
 	await waitFor(() => {
 		expect(fetch.get).toBeCalled();
 	});
@@ -147,12 +144,11 @@ test('reset query', async () => {
 				return true;
 			}),
 		);
-	},
-	);
+	});
 	expect(queryByText(t('skinlib.filter.uploader', {uid: 1})));
 });
 
-test('browser goes back', async () => {
+it('browser goes back', async () => {
 	fetch.get.mockResolvedValue(createPaginator([]));
 
 	const {getByText} = render(<SkinLibrary/>);
@@ -178,11 +174,10 @@ test('browser goes back', async () => {
 				return true;
 			}),
 		);
-	},
-	);
+	});
 });
 
-test('pagination', async () => {
+it('pagination', async () => {
 	const response = {...createPaginator([]), last_page: 2};
 	fetch.get.mockResolvedValue(response);
 
@@ -202,12 +197,10 @@ test('pagination', async () => {
 	);
 });
 
-test('library item', async () => {
+it('library item', async () => {
 	fetch.get.mockResolvedValue(createPaginator([fixtureItem]));
 
-	const {getByText, queryByText, queryAllByText, queryByAltText} = render(
-		<SkinLibrary/>,
-	);
+	const {getByText, queryByText, queryAllByText, queryByAltText} = render(<SkinLibrary/>);
 	await waitFor(() => {
 		expect(fetch.get).toBeCalled();
 	});
@@ -229,13 +222,12 @@ test('library item', async () => {
 				return true;
 			}),
 		);
-	},
-	);
+	});
 	const search = new URLSearchParams(location.search);
 	expect(search.get('uploader')).toBe(fixtureItem.uploader.toString());
 });
 
-test('private texture', async () => {
+it('private texture', async () => {
 	const item = {...fixtureItem, public: false};
 	fetch.get.mockResolvedValue(createPaginator([item]));
 
@@ -275,8 +267,7 @@ describe('by filter', () => {
 					return true;
 				}),
 			);
-		},
-		);
+		});
 		expect(queryAllByText(t('general.skin'))).toHaveLength(2);
 		const search = new URLSearchParams(location.search);
 		expect(search.get('filter')).toBe('skin');
@@ -301,8 +292,7 @@ describe('by filter', () => {
 					return true;
 				}),
 			);
-		},
-		);
+		});
 		expect(queryAllByText('Steve')).toHaveLength(2);
 		const search = new URLSearchParams(location.search);
 		expect(search.get('filter')).toBe('steve');
@@ -327,8 +317,7 @@ describe('by filter', () => {
 					return true;
 				}),
 			);
-		},
-		);
+		});
 		expect(queryAllByText('Alex')).toHaveLength(2);
 		const search = new URLSearchParams(location.search);
 		expect(search.get('filter')).toBe('alex');
@@ -353,8 +342,7 @@ describe('by filter', () => {
 					return true;
 				}),
 			);
-		},
-		);
+		});
 		expect(queryAllByText(t('general.cape'))).toHaveLength(2);
 		const search = new URLSearchParams(location.search);
 		expect(search.get('filter')).toBe('cape');
@@ -385,8 +373,7 @@ describe('sorting', () => {
 					return true;
 				}),
 			);
-		},
-		);
+		});
 		const search = new URLSearchParams(location.search);
 		expect(search.get('sort')).toBe('time');
 	});
@@ -406,8 +393,7 @@ describe('sorting', () => {
 					return true;
 				}),
 			);
-		},
-		);
+		});
 		const search = new URLSearchParams(location.search);
 		expect(search.get('sort')).toBe('likes');
 	});

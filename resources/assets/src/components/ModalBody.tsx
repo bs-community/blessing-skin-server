@@ -2,8 +2,9 @@
 import ModalContent, {type Props as ContentProperties} from './ModalContent';
 import ModalInput, {
 	type
-	Props as InputProperties, type
 	InternalProps as InputInteralProperties,
+	type
+	Props as InputProperties,
 } from './ModalInput';
 
 type InternalProperties = {

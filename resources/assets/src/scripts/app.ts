@@ -1,4 +1,5 @@
-/* eslint-disable import/no-unassigned-import */
+import {Tooltip} from 'bootstrap';
+import '@popperjs/core';
 import 'admin-lte';
 import './extra';
 import './i18n';
@@ -10,5 +11,5 @@ import './logout';
 import './darkMode';
 
 window.addEventListener('load', () => {
-	$('[data-toggle="tooltip"]').tooltip();
+	[...document.querySelectorAll('[data-toggle="tooltip"]')].map(el => new Tooltip(el));
 });

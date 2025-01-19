@@ -1,12 +1,12 @@
-<aside class="main-sidebar sidebar-{{ sidebar_color }} elevation-3">
+<aside class="app-sidebar bg-body shadow elevation-3 layout-fixed" data-bs-theme="{{ color_mode }}">
   <a href="{{ url('/') }}" class="brand-link text-center">
-    <span class="brand-text font-weight-light">{{ site_name }}</span>
+    <span class="sidebar-brand brand-text font-weight-light">{{ site_name }}</span>
   </a>
-  <div class="sidebar">
+  <div class="sidebar-wrapper">
     {{ include('shared.user-panel') }}
     <nav class="mt-2">
       <ul
-        class="nav nav-pills nav-sidebar flex-column nav-child-indent"
+        class="nav nav-pills nav-sidebar flex-column nav-child-indent sidebar-menu"
         data-widget="treeview"
         role="menu"
       >

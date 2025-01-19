@@ -1,5 +1,5 @@
-import {post} from './net';
 import {t} from './i18n';
+import {post} from './net';
 import {showModal} from './notify';
 import urls from './urls';
 

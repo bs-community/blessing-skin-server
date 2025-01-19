@@ -1,13 +1,13 @@
-import {useState, useEffect, useMemo} from 'react';
-import {enableMapSet} from 'immer';
-import {useImmer} from 'use-immer';
 import type {Plugin} from './types';
-import Row from './Row';
-import {t} from '@/scripts/i18n';
-import * as fetch from '@/scripts/net';
-import {toast, showModal} from '@/scripts/notify';
 import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
+import {t} from '@/scripts/i18n';
+import * as fetch from '@/scripts/net';
+import {showModal, toast} from '@/scripts/notify';
+import {enableMapSet} from 'immer';
+import {useEffect, useMemo, useState} from 'react';
+import {useImmer} from 'use-immer';
+import Row from './Row';
 
 enableMapSet();
 
@@ -21,10 +21,8 @@ export default function PluginsMarket() {
 
 	const searchedPlugins = useMemo(
 		() =>
-			plugins.filter(
-				plugin =>
-					plugin.name.includes(search) || plugin.title.includes(search),
-			),
+			plugins.filter(plugin =>
+				plugin.name.includes(search) || plugin.title.includes(search)),
 		[plugins, search],
 	);
 
@@ -45,9 +43,7 @@ export default function PluginsMarket() {
 		setSearch(search);
 		setPage(1);
 
-		const searchedPlugins = plugins.filter(
-			plugin => plugin.name.includes(search) || plugin.title.includes(search),
-		);
+		const searchedPlugins = plugins.filter(plugin => plugin.name.includes(search) || plugin.title.includes(search));
 		setTotalPages(Math.ceil(searchedPlugins.length / 10));
 	};
 
@@ -79,9 +75,8 @@ export default function PluginsMarket() {
 					<div>
 						<p>{message}</p>
 						<ul>
-							{data.reason.map((t, i) => (
-								<li key={i}>{t}</li>
-							))}
+							{data.reason.map((t, i) =>
+								<li key={i}>{t}</li>)}
 						</ul>
 					</div>
 				),
@@ -122,39 +117,41 @@ export default function PluginsMarket() {
 					onChange={handleSearchChange}
 				/>
 			</div>
-			{isLoading ? (
-				<div className='card-body'>
-					<Loading/>
-				</div>
-			) : (searchedPlugins.length === 0 ? (
-				<div className='card-body text-center'>{t('general.noResult')}</div>
-			) : (
-				<div className='card-body table-responsive p-0'>
-					<table className='table table-striped'>
-						<thead>
-							<tr>
-								<th>{t('admin.pluginTitle')}</th>
-								<th>{t('admin.pluginDescription')}</th>
-								<th>{t('admin.pluginAuthor')}</th>
-								<th>{t('admin.pluginVersion')}</th>
-								<th>{t('admin.pluginDependencies')}</th>
-								<th>{t('admin.operationsTitle')}</th>
-							</tr>
-						</thead>
-						<tbody>
-							{pagedPlugins.map((plugin, i) => (
-								<Row
-									key={plugin.name}
-									plugin={plugin}
-									isInstalling={installings.has(plugin.name)}
-									onInstall={async () => handleInstall(plugin, ((page - 1) * 10) + i)}
-									onUpdate={async () => handleUpdate(plugin, ((page - 1) * 10) + i)}
-								/>
-							))}
-						</tbody>
-					</table>
-				</div>
-			))}
+			{isLoading
+				? (
+					<div className='card-body'>
+						<Loading/>
+					</div>
+				)
+				: searchedPlugins.length === 0
+					? <div className='card-body text-center'>{t('general.noResult')}</div>
+					: (
+						<div className='card-body table-responsive p-0'>
+							<table className='table table-striped'>
+								<thead>
+									<tr>
+										<th>{t('admin.pluginTitle')}</th>
+										<th>{t('admin.pluginDescription')}</th>
+										<th>{t('admin.pluginAuthor')}</th>
+										<th>{t('admin.pluginVersion')}</th>
+										<th>{t('admin.pluginDependencies')}</th>
+										<th>{t('admin.operationsTitle')}</th>
+									</tr>
+								</thead>
+								<tbody>
+									{pagedPlugins.map((plugin, i) => (
+										<Row
+											key={plugin.name}
+											plugin={plugin}
+											isInstalling={installings.has(plugin.name)}
+											onInstall={async () => handleInstall(plugin, ((page - 1) * 10) + i)}
+											onUpdate={async () => handleUpdate(plugin, ((page - 1) * 10) + i)}
+										/>
+									))}
+								</tbody>
+							</table>
+						</div>
+					)}
 			<div className='card-footer'>
 				<div className='float-right'>
 					<Pagination page={page} totalPages={totalPages} onChange={setPage}/>

@@ -20,7 +20,7 @@ homepage:
     label: Esta opción hará que el fondo sea fijo, no desplazado con la barra de desplazamiento.
   copyright_prefer:
     title: Copyright del programa
-    description: "Puede especificar un estilo diferente de copyright del programa para cada idioma. Para editar el correspondiente estilo de copyright de un idioma específico, por favor cambie a ese idioma y someta su edición. <br><b>Advertencia:</b> Cualquier modificación mala aplicada al copyright del programa de pie de página (incluyendo eliminación, modificando el autor, cambiando el destino del enlace) sin permiso es <b>FORBIDO</b>. El autor se reserva el derecho a asumir las responsabilidades pertinentes."
+    description: 'Puede especificar un estilo diferente de copyright del programa para cada idioma. Para editar el correspondiente estilo de copyright de un idioma específico, por favor cambie a ese idioma y someta su edición. <br><b>Advertencia:</b> Cualquier modificación mala aplicada al copyright del programa de pie de página (incluyendo eliminación, modificando el autor, cambiando el destino del enlace) sin permiso es <b>FORBIDO</b>. El autor se reserva el derecho a asumir las responsabilidades pertinentes.'
   copyright_text:
     title: Texto personalizado de copyright
     description: Los marcadores de posición están disponibles en el texto de copyright personalizado. ej. <code>{site_name}</code> & <code>{site_url}</code>. También puedes especificar un pie de página diferente para cada idioma. Para editar el pie de página de un idioma específico, por favor cambie a ese idioma y someta su edición.
@@ -97,7 +97,7 @@ general:
   regs_per_ip: Cuentas máximas de un IP
   max_upload_file_size:
     title: Tamaño máximo de subida
-    hint: "Límite especificado en php.ini: :size"
+    hint: 'Límite especificado en php.ini: :size'
   player_name_rule:
     title: Regla de nombre de jugador
     official: Letras, números y guiones bajos (regla oficial de Mojang)

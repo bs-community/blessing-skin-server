@@ -1,9 +1,6 @@
-import {useState, useEffect} from 'react';
-import addClosetItem from '../Show/addClosetItem';
-import FilterSelector from './FilterSelector';
-import Button from './Button';
-import Item from './Item';
 import type {Filter, LibraryItem} from './types';
+import Loading from '@/components/Loading';
+import Pagination from '@/components/Pagination';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import {t} from '@/scripts/i18n';
@@ -11,9 +8,12 @@ import * as fetch from '@/scripts/net';
 import {toast} from '@/scripts/notify';
 import {type Paginator, TextureType} from '@/scripts/types';
 import urls from '@/scripts/urls';
-import Loading from '@/components/Loading';
-import Pagination from '@/components/Pagination';
 import removeClosetItem from '@/views/user/Closet/removeClosetItem';
+import {useEffect, useState} from 'react';
+import addClosetItem from '../Show/addClosetItem';
+import Button from './Button';
+import FilterSelector from './FilterSelector';
+import Item from './Item';
 
 function SkinLibrary() {
 	const [isLoading, setIsLoading] = useState(true);
@@ -35,16 +35,14 @@ function SkinLibrary() {
 			const search = new URLSearchParams(query);
 
 			const filter = search.get('filter') ?? '';
-			setFilter(
-				[
-					'skin',
-					TextureType.Steve,
-					TextureType.Alex,
-					TextureType.Cape,
-				].includes(filter)
-					? (filter as Filter)
-					: 'skin',
-			);
+			setFilter([
+				'skin',
+				TextureType.Steve,
+				TextureType.Alex,
+				TextureType.Cape,
+			].includes(filter)
+				? (filter as Filter)
+				: 'skin');
 
 			const keyword = decodeURIComponent(search.get('keyword') ?? '');
 			setName(keyword);
@@ -187,17 +185,19 @@ function SkinLibrary() {
 				<div className='container-fluid d-flex justify-content-between'>
 					<h1>{t('general.skinlib')}</h1>
 					<span>
-						{uploader ? (
-							<>
-								<i className='fas fa-user mr-1'/>
-								{t('skinlib.filter.uploader', {uid: uploader.toString()})}
-							</>
-						) : (
-							<>
-								<i className='fas fa-user-friends mr-1'/>
-								{t('skinlib.filter.allUsers')}
-							</>
-						)}
+						{uploader
+							? (
+								<>
+									<i className='fas fa-user mr-1'/>
+									{t('skinlib.filter.uploader', {uid: uploader.toString()})}
+								</>
+							)
+							: (
+								<>
+									<i className='fas fa-user-friends mr-1'/>
+									{t('skinlib.filter.allUsers')}
+								</>
+							)}
 					</span>
 				</div>
 			</div>
@@ -263,22 +263,22 @@ function SkinLibrary() {
 								</div>
 							</div>
 						</div>
-						{items.length > 0 ? (
-							<div className='d-flex flex-wrap'>
-								{items.map((item, i) => (
-									<Item
-										key={item.tid}
-										item={item}
-										liked={closet.includes(item.tid)}
-										onAdd={async item => handleAddToCloset(item, i)}
-										onRemove={async item => handleRemoveFromCloset(item, i)}
-										onUploaderClick={handleUploaderClick}
-									/>
-								))}
-							</div>
-						) : (
-							<p className='text-center m-5'>{t('general.noResult')}</p>
-						)}
+						{items.length > 0
+							? (
+								<div className='d-flex flex-wrap'>
+									{items.map((item, i) => (
+										<Item
+											key={item.tid}
+											item={item}
+											liked={closet.includes(item.tid)}
+											onAdd={async item => handleAddToCloset(item, i)}
+											onRemove={async item => handleRemoveFromCloset(item, i)}
+											onUploaderClick={handleUploaderClick}
+										/>
+									))}
+								</div>
+							)
+							: <p className='text-center m-5'>{t('general.noResult')}</p>}
 					</div>
 					<div className='card-footer'>
 						<div className='d-flex justify-content-center'>

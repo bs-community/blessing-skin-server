@@ -1,11 +1,15 @@
-import {
-	expect, vi, it, test, describe, beforeEach,
-} from 'vitest';
-import {render, fireEvent, waitFor} from '@testing-library/react';
-import * as fetch from '@/scripts/net';
-import {t} from '@/scripts/i18n';
-import OAuth from '@/views/user/OAuth';
 import type {App} from '@/views/user/OAuth/types';
+import {t} from '@/scripts/i18n';
+import * as fetch from '@/scripts/net';
+import OAuth from '@/views/user/OAuth';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from 'vitest';
 
 vi.mock('@/scripts/net');
 
@@ -16,7 +20,7 @@ const fixture: Readonly<App> = Object.freeze({
 	secret: 'abc',
 });
 
-test('loading data', () => {
+it('loading data', () => {
 	fetch.get.mockResolvedValue([]);
 	const {queryByTitle} = render(<OAuth/>);
 	expect(queryByTitle('Loading...')).toBeInTheDocument();
@@ -47,8 +51,7 @@ describe('create app', () => {
 				name: 'My App',
 				redirect: 'http://url.test/',
 			});
-		},
-		);
+		});
 		expect(queryByText(fixture.id.toString())).toBeInTheDocument();
 		expect(queryByText(fixture.name)).toBeInTheDocument();
 		expect(queryByText(fixture.redirect)).toBeInTheDocument();
@@ -57,9 +60,7 @@ describe('create app', () => {
 
 	it('failed', async () => {
 		fetch.post.mockResolvedValue({message: 'exception'});
-		const {getByLabelText, getByText, getByRole, queryByText} = render(
-			<OAuth/>,
-		);
+		const {getByLabelText, getByText, getByRole, queryByText} = render(<OAuth/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -77,8 +78,7 @@ describe('create app', () => {
 				name: 'My App',
 				redirect: 'http://url.test/',
 			});
-		},
-		);
+		});
 		expect(queryByText(fixture.name)).not.toBeInTheDocument();
 		expect(queryByText(fixture.redirect)).not.toBeInTheDocument();
 		expect(queryByText('exception')).toBeInTheDocument();
@@ -119,9 +119,7 @@ describe('edit app', () => {
 		it('succeeded', async () => {
 			fetch.put.mockResolvedValue({...fixture, name: 'new name'});
 
-			const {getByTitle, getByText, getByDisplayValue, queryByText} = render(
-				<OAuth/>,
-			);
+			const {getByTitle, getByText, getByDisplayValue, queryByText} = render(<OAuth/>);
 			await waitFor(() => {
 				expect(fetch.get).toBeCalledTimes(1);
 			});
@@ -136,8 +134,7 @@ describe('edit app', () => {
 					...fixture,
 					name: 'new name',
 				});
-			},
-			);
+			});
 			expect(queryByText('new name')).toBeInTheDocument();
 		});
 
@@ -165,8 +162,7 @@ describe('edit app', () => {
 					...fixture,
 					name: 'new name',
 				});
-			},
-			);
+			});
 			expect(queryByText(fixture.name)).toBeInTheDocument();
 			expect(queryByText('exception')).toBeInTheDocument();
 			expect(getByRole('alert')).toHaveClass('alert-danger');
@@ -191,9 +187,7 @@ describe('edit app', () => {
 		it('succeeded', async () => {
 			fetch.put.mockResolvedValue({...fixture, redirect: 'http://new.test/'});
 
-			const {getByTitle, getByDisplayValue, getByText, queryByText} = render(
-				<OAuth/>,
-			);
+			const {getByTitle, getByDisplayValue, getByText, queryByText} = render(<OAuth/>);
 			await waitFor(() => {
 				expect(fetch.get).toBeCalledTimes(1);
 			});
@@ -208,8 +202,7 @@ describe('edit app', () => {
 					...fixture,
 					redirect: 'http://new.test/',
 				});
-			},
-			);
+			});
 			expect(queryByText('http://new.test/')).toBeInTheDocument();
 		});
 
@@ -237,8 +230,7 @@ describe('edit app', () => {
 					...fixture,
 					redirect: 'http://new.test/',
 				});
-			},
-			);
+			});
 			expect(queryByText(fixture.redirect)).toBeInTheDocument();
 			expect(queryByText('exception')).toBeInTheDocument();
 			expect(getByRole('alert')).toHaveClass('alert-danger');
@@ -275,8 +267,7 @@ describe('delete app', () => {
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
 			expect(fetch.del).toBeCalledWith(`/oauth/clients/${fixture.id}`);
-		},
-		);
+		});
 		expect(queryByText(fixture.name)).not.toBeInTheDocument();
 		expect(queryByText(fixture.redirect)).not.toBeInTheDocument();
 	});

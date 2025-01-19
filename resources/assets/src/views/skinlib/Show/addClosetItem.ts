@@ -1,12 +1,10 @@
+import type {Texture} from '@/scripts/types';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {showModal, toast} from '@/scripts/notify';
-import type {Texture} from '@/scripts/types';
 import urls from '@/scripts/urls';
 
-export default async function addClosetItem(
-	texture: Pick<Texture, 'tid' | 'name'>,
-): Promise<boolean> {
+export default async function addClosetItem(texture: Pick<Texture, 'tid' | 'name'>): Promise<boolean> {
 	let name: string;
 	try {
 		const {value} = await showModal({

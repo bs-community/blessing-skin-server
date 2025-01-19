@@ -2,14 +2,17 @@ type I18nTable = {
 	[key: string]: string | I18nTable | undefined;
 };
 
-export function t(key: string, parameters: Record<string, string> = Object.create(null)): string {
+export function t(
+	key: string,
+	parameters: Record<string, string> = Object.create(null) as Record<string, string>,
+): string {
 	const segments = key.split('.');
 	let temporary = blessing.i18n as I18nTable | undefined;
 	let result = '';
 
 	for (const segment of segments) {
 		const middle = temporary?.[segment];
-		if (!middle) {
+		if (middle === undefined) {
 			return key;
 		}
 
@@ -21,7 +24,7 @@ export function t(key: string, parameters: Record<string, string> = Object.creat
 	}
 
 	for (const slot of Object.keys(parameters)) {
-		(result = result.replace(`:${slot}`, parameters[slot] ?? `%{${slot}}`));
+		result = result.replace(`:${slot}`, parameters[slot] ?? `%{${slot}}`);
 	}
 
 	return result;

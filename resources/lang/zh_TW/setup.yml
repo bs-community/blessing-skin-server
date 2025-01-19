@@ -1,6 +1,6 @@
 ---
 database:
-  connection-error: "無法連接到目標 :type 數據庫，請檢查您的配置。伺服器返回的信息：:msg"
+  connection-error: '無法連接到目標 :type 數據庫，請檢查您的配置。伺服器返回的信息：:msg'
 locked:
   title: 已安裝
   text: 看來您已經安裝了 Blessing Skin Server。 要重新安裝，請刪除 storage 目錄下的 install.lock 文件。
@@ -35,7 +35,7 @@ wizard:
     admin-notice: 這是唯一可以授予或取消其他用戶的管理員權限的超級管理員帳戶。
     nickname: 昵稱
     password: 密碼
-    pwd-notice: '注意：您將需要密碼才能登錄。請妥善保管。'
+    pwd-notice: 注意：您將需要密碼才能登錄。請妥善保管。
     confirm-pwd: 確認密碼
     site-name: 站點名称
     site-name-notice: 將會顯示在首頁以及標題欄。

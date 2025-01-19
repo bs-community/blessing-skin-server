@@ -1,5 +1,5 @@
-import ReactDOM from 'react-dom';
 import EmailVerification from '@/views/widgets/EmailVerification';
+import ReactDOM from 'react-dom';
 
 const container = document.querySelector('#email-verification');
 

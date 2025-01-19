@@ -1,6 +1,6 @@
 ---
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
+  connection-error: 'Unable to connect to the target :type database, please check your configuration. The server replied with: :msg'
 locked:
   title: Already installed
   text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.

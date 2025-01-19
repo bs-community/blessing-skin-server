@@ -15,7 +15,7 @@ between:
   string: ':attribute tiene que tener entre :min - :max caracteres.'
   array: ':attribute tiene que tener entre :min - :max elementos.'
 boolean: 'El campo :attribute debe tener un valor verdadero o falso.'
-captcha: 'Captcha incorrecta.'
+captcha: Captcha incorrecta.
 confirmed: 'La confirmación de :attribute no coincide.'
 date: ':attribute no es una fecha válida.'
 date_equals: ':attribute debe ser una fecha igual a :date.'
@@ -75,7 +75,7 @@ not_regex: 'El formato del campo :attribute no es válido.'
 numeric: ':attribute debe ser numérico.'
 password: La contraseña es incorrecta.
 present: 'El campo :attribute debe estar presente.'
-recaptcha: 'Falló la validación de reCAPTCHA.'
+recaptcha: Falló la validación de reCAPTCHA.
 regex: 'El formato de :attribute es inválido.'
 required: 'El campo :attribute es obligatorio.'
 required_if: 'El campo :attribute es obligatorio cuando :other es :value.'
@@ -97,27 +97,27 @@ unique: 'El campo :attribute ya ha sido registrado.'
 uploaded: 'Subir :attribute ha fallado.'
 url: 'El formato :attribute es inválido.'
 uuid: 'El campo :attribute debe ser un UUID válido.'
-#--------------------------------------------------------------------------
-#Custom Validation Language Lines
-#--------------------------------------------------------------------------
-#Here you may specify custom validation messages for attributes using the
-#convention "attribute.rule" to name the lines. This makes it quick to
-#specify a specific custom language line for a given attribute rule.
-#custom:
-#attribute-name:
-#rule-name: custom-message
-#--------------------------------------------------------------------------
-#Custom Validation Attributes
-#--------------------------------------------------------------------------
-#The following language lines are used to swap attribute place-holders
-#with something more reader friendly such as E-Mail Address instead
-#of "email". This simply helps us make messages a little cleaner.
+# --------------------------------------------------------------------------
+# Custom Validation Language Lines
+# --------------------------------------------------------------------------
+# Here you may specify custom validation messages for attributes using the
+# convention "attribute.rule" to name the lines. This makes it quick to
+# specify a specific custom language line for a given attribute rule.
+# custom:
+# attribute-name:
+# rule-name: custom-message
+# --------------------------------------------------------------------------
+# Custom Validation Attributes
+# --------------------------------------------------------------------------
+# The following language lines are used to swap attribute place-holders
+# with something more reader friendly such as E-Mail Address instead
+# of "email". This simply helps us make messages a little cleaner.
 attributes:
   name: nombre
   player_name: nombre del jugador
   identification: email o nombre del jugador
   email: correo electrónico
   password: contraseña
-  password_confirmation: 'confirmación de la contraseña'
+  password_confirmation: confirmación de la contraseña
   title: título
   content: contenido

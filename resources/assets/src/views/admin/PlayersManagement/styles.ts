@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import * as breakpoints from '@/styles/breakpoints';
+import styled from '@emotion/styled';
 
 export const Box = styled.div`
   width: 48%;

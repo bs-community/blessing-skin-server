@@ -1,11 +1,13 @@
-import {
-	expect, test, vi, it,
-} from 'vitest';
-import {render, waitFor, fireEvent} from '@testing-library/react';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import urls from '@/scripts/urls';
 import Login from '@/views/auth/Login';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	expect,
+	it,
+	vi,
+} from 'vitest';
 
 vi.mock('@/scripts/net');
 
@@ -13,7 +15,7 @@ beforeEach(() => {
 	window.blessing.extra = {tooManyFails: false};
 });
 
-test('show captcha if too many login fails', () => {
+it('show captcha if too many login fails', () => {
 	window.blessing.extra = {tooManyFails: true};
 	const {queryByAltText} = render(<Login/>);
 	expect(queryByAltText(t('auth.captcha'))).toBeInTheDocument();
@@ -41,8 +43,7 @@ describe('submit form', () => {
 				password: 'password',
 				keep: false,
 			});
-		},
-		);
+		});
 	});
 
 	it('remember me', async () => {
@@ -52,9 +53,7 @@ describe('submit form', () => {
 			data: {redirectTo: '/user'},
 		});
 
-		const {getByPlaceholderText, getByText, getByLabelText} = render(
-			<Login/>,
-		);
+		const {getByPlaceholderText, getByText, getByLabelText} = render(<Login/>);
 		fireEvent.input(getByPlaceholderText(t('auth.identification')), {
 			target: {value: 'a@b.c'},
 		});
@@ -69,8 +68,7 @@ describe('submit form', () => {
 				password: 'password',
 				keep: true,
 			});
-		},
-		);
+		});
 	});
 
 	it('failed', async () => {
@@ -94,8 +92,7 @@ describe('submit form', () => {
 				password: 'password',
 				keep: false,
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 	});
 
@@ -121,8 +118,7 @@ describe('submit form', () => {
 				password: 'password',
 				keep: false,
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByText(t('auth.tooManyFails.captcha'))).toBeInTheDocument();
 		expect(queryByAltText(t('auth.captcha'))).toBeInTheDocument();
@@ -139,8 +135,7 @@ describe('submit form', () => {
 				keep: false,
 				captcha: 'captcha',
 			});
-		},
-		);
+		});
 	});
 
 	it('too many fails with normal recaptcha', async () => {
@@ -165,8 +160,7 @@ describe('submit form', () => {
 				password: 'password',
 				keep: false,
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 	});
 
@@ -193,8 +187,7 @@ describe('submit form', () => {
 				password: 'password',
 				keep: false,
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByText(t('auth.tooManyFails.recaptcha'))).toBeInTheDocument();
 

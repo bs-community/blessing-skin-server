@@ -1,15 +1,20 @@
-import {
-	expect, test, vi, it,
-} from 'vitest';
-import {render, waitFor, fireEvent} from '@testing-library/react';
-import {createPaginator} from '../../utils';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {
-	type Texture, TextureType, type User, UserPermission,
+	type Texture,
+	TextureType,
+	type User,
+	UserPermission,
 } from '@/scripts/types';
 import ReportsManagement from '@/views/admin/ReportsManagement';
 import {type Report, Status} from '@/views/admin/ReportsManagement/types';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	expect,
+	it,
+	vi,
+} from 'vitest';
+import {createPaginator} from '../../utils';
 
 vi.mock('@/scripts/net');
 
@@ -52,7 +57,7 @@ const fixture: Readonly<Report> = Object.freeze<Report>({
 	report_at: new Date().toString(),
 });
 
-test('search reports', async () => {
+it('search reports', async () => {
 	fetch.get.mockResolvedValue(createPaginator([]));
 
 	const {getByTitle, getByText} = render(<ReportsManagement/>);
@@ -61,8 +66,7 @@ test('search reports', async () => {
 			q: 'status:0 sort:-report_at',
 			page: 1,
 		});
-	},
-	);
+	});
 
 	fireEvent.input(getByTitle(t('vendor.datatable.search')), {
 		target: {value: 's'},
@@ -73,18 +77,17 @@ test('search reports', async () => {
 			q: 's',
 			page: 1,
 		});
-	},
-	);
+	});
 });
 
-test('empty reporter or texture uploader', () => {
+it('empty reporter or texture uploader', () => {
 	const report = {...fixture, texture_uploader: null, informer: null};
 	fetch.get.mockResolvedValue(createPaginator([report]));
 
 	render(<ReportsManagement/>);
 });
 
-test('preview texture', async () => {
+it('preview texture', async () => {
 	const texture: Texture = {
 		tid: fixture.tid,
 		name: 'cape',
@@ -119,9 +122,7 @@ describe('proceed report', () => {
 				data: {status: Status.Resolved},
 			});
 
-			const {getByText, getByRole, queryByText} = render(
-				<ReportsManagement/>,
-			);
+			const {getByText, getByRole, queryByText} = render(<ReportsManagement/>);
 			await waitFor(() => {
 				expect(fetch.get).toBeCalled();
 			});
@@ -131,8 +132,7 @@ describe('proceed report', () => {
 				expect(fetch.put).toBeCalledWith(`/admin/reports/${fixture.id}`, {
 					action: 'ban',
 				});
-			},
-			);
+			});
 			expect(queryByText('ok')).toBeInTheDocument();
 			expect(getByRole('status')).toBeInTheDocument();
 			expect(queryByText(t('report.status.1'))).toBeInTheDocument();
@@ -141,9 +141,7 @@ describe('proceed report', () => {
 		it('failed', async () => {
 			fetch.put.mockResolvedValue({code: 1, message: 'failed'});
 
-			const {getByText, getByRole, queryByText} = render(
-				<ReportsManagement/>,
-			);
+			const {getByText, getByRole, queryByText} = render(<ReportsManagement/>);
 			await waitFor(() => {
 				expect(fetch.get).toBeCalled();
 			});
@@ -153,8 +151,7 @@ describe('proceed report', () => {
 				expect(fetch.put).toBeCalledWith(`/admin/reports/${fixture.id}`, {
 					action: 'ban',
 				});
-			},
-			);
+			});
 			expect(queryByText('failed')).toBeInTheDocument();
 			expect(getByRole('alert')).toBeInTheDocument();
 			expect(queryByText(t('report.status.0'))).toBeInTheDocument();
@@ -180,9 +177,7 @@ describe('proceed report', () => {
 				data: {status: Status.Resolved},
 			});
 
-			const {getByText, getByRole, queryByText} = render(
-				<ReportsManagement/>,
-			);
+			const {getByText, getByRole, queryByText} = render(<ReportsManagement/>);
 			await waitFor(() => {
 				expect(fetch.get).toBeCalled();
 			});
@@ -193,8 +188,7 @@ describe('proceed report', () => {
 				expect(fetch.put).toBeCalledWith(`/admin/reports/${fixture.id}`, {
 					action: 'delete',
 				});
-			},
-			);
+			});
 			expect(queryByText('ok')).toBeInTheDocument();
 			expect(getByRole('status')).toBeInTheDocument();
 			expect(queryByText(t('report.status.1'))).toBeInTheDocument();
@@ -218,8 +212,7 @@ describe('proceed report', () => {
 			expect(fetch.put).toBeCalledWith(`/admin/reports/${fixture.id}`, {
 				action: 'reject',
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toBeInTheDocument();
 		expect(queryByText(t('report.status.2'))).toBeInTheDocument();

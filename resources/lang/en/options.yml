@@ -110,7 +110,7 @@ general:
   regs_per_ip: Max accounts of one IP
   max_upload_file_size:
     title: Max Upload Size
-    hint: "Limit specified in php.ini: :size"
+    hint: 'Limit specified in php.ini: :size'
   player_name_rule:
     title: Player Name Rule
     official: Letters, numbers and underscores (Mojang's official rule)
@@ -129,8 +129,8 @@ general:
     label: Delete invalid textures automatically.
     hint: Delete textures records whose file no longer exists from skinlib.
   allow_downloading_texture:
-   title: Downloading Textures
-   label: Allow users to directly download the source file of a skinlib item.
+    title: Downloading Textures
+    label: Allow users to directly download the source file of a skinlib item.
   status_code_for_private:
     title: HTTP Code for Rejecting Accessing Private Textures
   texture_name_regexp:

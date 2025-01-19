@@ -1,7 +1,7 @@
-import {Stdio} from './stdio';
 import {Spinner} from '@/scripts/cli/Spinner';
+import {Stdio} from './stdio';
 
-test('run', async () => {
+it('run', async () => {
 	vi.useRealTimers();
 
 	const stdio = new Stdio();

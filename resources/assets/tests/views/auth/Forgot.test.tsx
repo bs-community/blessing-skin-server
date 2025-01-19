@@ -1,9 +1,9 @@
-import {expect, vi, it} from 'vitest';
-import {render, waitFor, fireEvent} from '@testing-library/react';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import urls from '@/scripts/urls';
 import Forgot from '@/views/auth/Forgot';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {expect, it, vi} from 'vitest';
 
 vi.mock('@/scripts/net');
 
@@ -25,8 +25,7 @@ describe('submit', () => {
 				email: 'a@b.c',
 				captcha: 'abc',
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 	});
 
@@ -47,8 +46,7 @@ describe('submit', () => {
 				email: 'a@b.c',
 				captcha: 'abc',
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 	});
 });

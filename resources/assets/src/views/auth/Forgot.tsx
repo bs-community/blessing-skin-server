@@ -1,18 +1,18 @@
-import {useState, useRef} from 'react';
+import Alert from '@/components/Alert';
+import Captcha from '@/components/Captcha';
+import EmailSuggestion from '@/components/EmailSuggestion';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import urls from '@/scripts/urls';
-import Alert from '@/components/Alert';
-import Captcha from '@/components/Captcha';
-import EmailSuggestion from '@/components/EmailSuggestion';
+import {useRef, useState} from 'react';
 
 export default function Forgot() {
 	const [email, setEmail] = useState('');
 	const [isSending, setIsSending] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [warningMessage, setWarningMessage] = useState('');
-	const reference = useRef<Captcha | null>(null);
+	const reference = useRef<Captcha>(null);
 
 	useEmitMounted();
 
@@ -57,14 +57,14 @@ export default function Forgot() {
 					{t('auth.forgot.login-link')}
 				</a>
 				<button className='btn btn-primary' type='submit' disabled={isSending}>
-					{isSending ? (
-						<>
-							<i className='fas fa-spinner fa-spin mr-1'/>
-							{t('auth.sending')}
-						</>
-					) : (
-						t('auth.send')
-					)}
+					{isSending
+						? (
+							<>
+								<i className='fas fa-spinner fa-spin mr-1'/>
+								{t('auth.sending')}
+							</>
+						)
+						: t('auth.send')}
 				</button>
 			</div>
 		</form>

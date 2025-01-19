@@ -1,5 +1,3 @@
-import * as echarts from 'echarts/core';
-import {SVGRenderer} from 'echarts/renderers';
 import {LineChart} from 'echarts/charts';
 import {
 	DataZoomComponent,
@@ -7,6 +5,8 @@ import {
 	TitleComponent,
 	TooltipComponent,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
+import {SVGRenderer} from 'echarts/renderers';
 import {get} from '../../scripts/net';
 
 type ChartData = {
@@ -31,12 +31,8 @@ echarts.use([
 ]);
 
 async function main() {
-	const elementUsersRegistration = document.querySelector<HTMLDivElement>(
-		'#chart-users-registration',
-	);
-	const elementTexturesUpload = document.querySelector<HTMLDivElement>(
-		'#chart-textures-upload',
-	);
+	const elementUsersRegistration = document.querySelector<HTMLDivElement>('#chart-users-registration');
+	const elementTexturesUpload = document.querySelector<HTMLDivElement>('#chart-textures-upload');
 	if (!elementUsersRegistration || !elementTexturesUpload) {
 		return;
 	}

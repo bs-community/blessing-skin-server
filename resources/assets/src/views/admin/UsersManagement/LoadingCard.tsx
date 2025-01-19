@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
-import Skeleton from 'react-loading-skeleton';
-import clsx from 'clsx';
-import {Box, Icon, InfoTable} from './styles';
 import {t} from '@/scripts/i18n';
+import styled from '@emotion/styled';
+import clsx from 'clsx';
+import Skeleton from 'react-loading-skeleton';
+import {Box, Icon, InfoTable} from './styles';
 
 const ShrinkedSkeleton = styled(Skeleton)<{width?: string}>`
   width: ${properties => properties.width};

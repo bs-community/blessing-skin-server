@@ -1,6 +1,6 @@
-import {showModal, toast} from '@/scripts/notify';
 import {t} from '@/scripts/i18n';
 import {post, type ResponseBody} from '@/scripts/net';
+import {showModal, toast} from '@/scripts/notify';
 
 export default async function resetAvatar() {
 	try {

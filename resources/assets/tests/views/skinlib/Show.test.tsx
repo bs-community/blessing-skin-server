@@ -1,12 +1,14 @@
-import {
-	expect, test, vi, it,
-} from 'vitest';
-import {render, fireEvent, waitFor} from '@testing-library/react';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {type Texture, TextureType} from '@/scripts/types';
 import urls from '@/scripts/urls';
 import Show, {type Badge} from '@/views/skinlib/Show';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	expect,
+	it,
+	vi,
+} from 'vitest';
 
 vi.mock('@/scripts/net');
 
@@ -55,7 +57,7 @@ afterEach(() => {
 	document.querySelector('#previewer')!.remove();
 });
 
-test('without authenticated', async () => {
+it('without authenticated', async () => {
 	fetch.get.mockResolvedValue(fixtureSkin);
 
 	const {queryByText, queryByTitle} = render(<Show/>);
@@ -75,7 +77,7 @@ test('without authenticated', async () => {
 	expect(queryByText(t('skinlib.addToCloset'))).toBeDisabled();
 });
 
-test('authenticated but not uploader', async () => {
+it('authenticated but not uploader', async () => {
 	fetch.get.mockResolvedValue(fixtureCape);
 
 	const {queryByText, queryByTitle} = render(<Show/>);
@@ -95,7 +97,7 @@ test('authenticated but not uploader', async () => {
 	expect(queryByText(t('user.setAsAvatar'))).not.toBeInTheDocument();
 });
 
-test('uploader is not existed', async () => {
+it('uploader is not existed', async () => {
 	window.blessing.extra.nickname = 'not existed';
 	window.blessing.extra.uploaderExists = false;
 	fetch.get.mockResolvedValue(fixtureSkin);
@@ -107,7 +109,7 @@ test('uploader is not existed', async () => {
 	expect(queryByText('not existed')).toBeInTheDocument();
 });
 
-test('badges', async () => {
+it('badges', async () => {
 	window.blessing.extra.badges = [
 		{text: 'STAFF', color: 'primary'},
 	] as Badge[];
@@ -120,7 +122,7 @@ test('badges', async () => {
 	expect(queryByText('STAFF')).toBeInTheDocument();
 });
 
-test('apply to player', async () => {
+it('apply to player', async () => {
 	window.blessing.extra.currentUid = 2;
 	window.blessing.extra.inCloset = true;
 	fetch.get.mockResolvedValueOnce(fixtureSkin).mockResolvedValueOnce([]);
@@ -136,7 +138,7 @@ test('apply to player', async () => {
 	expect(fetch.get).toBeCalledTimes(2);
 });
 
-test('set as avatar', async () => {
+it('set as avatar', async () => {
 	window.blessing.extra.currentUid = fixtureSkin.uploader + 1;
 	fetch.get.mockResolvedValue(fixtureSkin);
 	fetch.post.mockResolvedValue({code: 0, message: 'ok'});
@@ -218,9 +220,7 @@ describe('edit texture name', () => {
 	});
 
 	it('cancelled', async () => {
-		const {getByText, getAllByTitle, getByDisplayValue, queryByText} = render(
-			<Show/>,
-		);
+		const {getByText, getAllByTitle, getByDisplayValue, queryByText} = render(<Show/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -262,8 +262,7 @@ describe('edit texture name', () => {
 			expect(fetch.put).toBeCalledWith(urls.texture.name(fixtureSkin.tid), {
 				name: 't',
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 		expect(queryByText('t')).toBeInTheDocument();
@@ -292,8 +291,7 @@ describe('edit texture name', () => {
 			expect(fetch.put).toBeCalledWith(urls.texture.name(fixtureSkin.tid), {
 				name: 't',
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText(fixtureSkin.name)).toBeInTheDocument();
@@ -307,9 +305,7 @@ describe('edit texture type', () => {
 	});
 
 	it('cancelled', async () => {
-		const {getByText, getAllByTitle, getByLabelText, queryByText} = render(
-			<Show/>,
-		);
+		const {getByText, getAllByTitle, getByLabelText, queryByText} = render(<Show/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -339,8 +335,7 @@ describe('edit texture type', () => {
 			expect(fetch.put).toBeCalledWith(urls.texture.type(fixtureSkin.tid), {
 				type: 'alex',
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 		expect(queryByText('alex')).toBeInTheDocument();
@@ -362,8 +357,7 @@ describe('edit texture type', () => {
 			expect(fetch.put).toBeCalledWith(urls.texture.type(fixtureSkin.tid), {
 				type: 'alex',
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText('steve')).toBeInTheDocument();
@@ -398,9 +392,7 @@ describe('add to closet', () => {
 	it('succeeded', async () => {
 		fetch.post.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByDisplayValue, getByRole, queryByText} = render(
-			<Show/>,
-		);
+		const {getByText, getByDisplayValue, getByRole, queryByText} = render(<Show/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -415,8 +407,7 @@ describe('add to closet', () => {
 				tid: fixtureSkin.tid,
 				name: 't',
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 		expect(queryByText('2')).toBeInTheDocument();
@@ -425,9 +416,7 @@ describe('add to closet', () => {
 	it('failed', async () => {
 		fetch.post.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByDisplayValue, getByRole, queryByText} = render(
-			<Show/>,
-		);
+		const {getByText, getByDisplayValue, getByRole, queryByText} = render(<Show/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -442,8 +431,7 @@ describe('add to closet', () => {
 				tid: fixtureSkin.tid,
 				name: 't',
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText('1')).toBeInTheDocument();
@@ -469,8 +457,7 @@ describe('remove from closet', () => {
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
 			expect(fetch.del).toBeCalledWith(`/user/closet/${fixtureSkin.tid}`);
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 		expect(queryByText('0')).toBeInTheDocument();
@@ -488,8 +475,7 @@ describe('remove from closet', () => {
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
 			expect(fetch.del).toBeCalledWith(`/user/closet/${fixtureSkin.tid}`);
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText('1')).toBeInTheDocument();
@@ -535,9 +521,7 @@ describe('report texture', () => {
 	it('succeeded', async () => {
 		fetch.post.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByPlaceholderText, getByRole, queryByText} = render(
-			<Show/>,
-		);
+		const {getByText, getByPlaceholderText, getByRole, queryByText} = render(<Show/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -552,8 +536,7 @@ describe('report texture', () => {
 				tid: fixtureSkin.tid,
 				reason: 'illegal',
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 	});
@@ -561,9 +544,7 @@ describe('report texture', () => {
 	it('failed', async () => {
 		fetch.post.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByPlaceholderText, getByRole, queryByText} = render(
-			<Show/>,
-		);
+		const {getByText, getByPlaceholderText, getByRole, queryByText} = render(<Show/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -578,8 +559,7 @@ describe('report texture', () => {
 				tid: fixtureSkin.tid,
 				reason: 'illegal',
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
 	});
@@ -619,8 +599,7 @@ describe('change privacy', () => {
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
 			expect(fetch.put).toBeCalledWith(urls.texture.privacy(fixtureSkin.tid));
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 		expect(queryByText(t('skinlib.setAsPublic'))).toBeInTheDocument();
@@ -639,8 +618,7 @@ describe('change privacy', () => {
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
 			expect(fetch.put).toBeCalledWith(urls.texture.privacy(fixtureSkin.tid));
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText(t('skinlib.setAsPublic'))).toBeInTheDocument();
@@ -663,8 +641,7 @@ describe('change privacy', () => {
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
 			expect(fetch.put).toBeCalledWith(urls.texture.privacy(fixtureSkin.tid));
-		},
-		);
+		});
 		expect(queryByText('duplicated')).toBeInTheDocument();
 		expect(queryByText(t('skinlib.setAsPublic'))).toBeInTheDocument();
 		fireEvent.click(getByText(t('user.viewInSkinlib')));
@@ -687,8 +664,7 @@ describe('change privacy', () => {
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
 			expect(fetch.put).toBeCalledWith(urls.texture.privacy(fixtureSkin.tid));
-		},
-		);
+		});
 
 		expect(queryByText('duplicated')).toBeInTheDocument();
 		expect(queryByText(t('skinlib.setAsPublic'))).toBeInTheDocument();
@@ -727,8 +703,7 @@ describe('delete texture', () => {
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
 			expect(fetch.del).toBeCalledWith(urls.texture.delete(fixtureSkin.tid));
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 
@@ -747,8 +722,7 @@ describe('delete texture', () => {
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
 			expect(fetch.del).toBeCalledWith(urls.texture.delete(fixtureSkin.tid));
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
 	});

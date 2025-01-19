@@ -1,9 +1,9 @@
 
-import styled from '@emotion/styled';
 import type {LibraryItem} from './types';
-import {humanizeType} from './utils';
 import {t} from '@/scripts/i18n';
 import * as cssUtils from '@/styles/utils';
+import styled from '@emotion/styled';
+import {humanizeType} from './utils';
 
 const Card = styled.div`
   width: 245px;
@@ -42,9 +42,9 @@ const ButtonLike = styled.a<ButtonLikeProperties>`
   ${cssUtils.pointerCursor}
 
   i, span {
-    color: ${properties => (properties.liked ? '#dc3545' : '#6c757d')};
+    color: ${properties => properties.liked ? '#dc3545' : '#6c757d'};
     &:hover {
-      color: ${properties => (properties.liked ? '#dc3545' : '#343a40')};
+      color: ${properties => properties.liked ? '#dc3545' : '#343a40'};
     }
   }
 `;
@@ -52,9 +52,9 @@ const ButtonLike = styled.a<ButtonLikeProperties>`
 type Properties = {
 	readonly item: LibraryItem;
 	readonly liked: boolean;
-	onAdd(texture: LibraryItem): Promise<void>;
-	onRemove(texture: LibraryItem): Promise<void>;
-	onUploaderClick(uploader: number): void;
+	onAdd: (texture: LibraryItem) => Promise<void>;
+	onRemove: (texture: LibraryItem) => Promise<void>;
+	onUploaderClick: (uploader: number) => void;
 };
 
 const Item: React.FC<Properties> = properties => {

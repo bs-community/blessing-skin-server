@@ -1,13 +1,13 @@
-import {expect, vi, test} from 'vitest';
-import {flushPromises} from '../../../utils';
-import {showModal} from '@/scripts/notify';
 import {post} from '@/scripts/net';
+import {showModal} from '@/scripts/notify';
 import handler from '@/views/user/profile/deleteAccount';
+import {expect, vi} from 'vitest';
+import {flushPromises} from '../../../utils';
 
 vi.mock('@/scripts/notify');
 vi.mock('@/scripts/net');
 
-test('delete account', async () => {
+it('delete account', async () => {
 	post
 		.mockResolvedValueOnce({code: 1, message: 'w'})
 		.mockResolvedValue({code: 0, message: 'o'});

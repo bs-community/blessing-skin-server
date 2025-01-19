@@ -1,9 +1,9 @@
-import {expect, vi, it} from 'vitest';
-import React from 'react';
-import {render, fireEvent} from '@testing-library/react';
-import Reaptcha from 'reaptcha';
-import {t} from '@/scripts/i18n';
 import Captcha from '@/components/Captcha';
+import {t} from '@/scripts/i18n';
+import {fireEvent, render} from '@testing-library/react';
+import React from 'react';
+import Reaptcha from 'reaptcha';
+import {expect, it, vi} from 'vitest';
 
 describe('picture captcha', () => {
 	it('retrieve value', async () => {

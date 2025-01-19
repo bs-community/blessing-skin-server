@@ -1,8 +1,8 @@
 
+import type {Texture} from '@/scripts/types';
+import {t} from '@/scripts/i18n';
 import styled from '@emotion/styled';
 import {type Report, Status} from './types';
-import {t} from '@/scripts/i18n';
-import type {Texture} from '@/scripts/types';
 
 const Card = styled.div`
   width: 240px;
@@ -31,10 +31,10 @@ const Card = styled.div`
 
 type Properties = {
 	readonly report: Report;
-	onClick(texture: Texture | undefined): void;
-	onBan(): void;
-	onDelete(): void;
-	onReject(): void;
+	onClick: (texture: Texture | undefined) => void;
+	onBan: () => void;
+	onDelete: () => void;
+	onReject: () => void;
 };
 
 const ImageBox: React.FC<Properties> = properties => {
@@ -54,7 +54,10 @@ const ImageBox: React.FC<Properties> = properties => {
 					{': '}
 				</b>
 				<span className='mr-1'>{report.texture_uploader?.nickname}</span>
-				(UID: {report.uploader})
+				(UID:
+				{' '}
+				{report.uploader}
+				)
 			</div>
 			<div className='card-body'>
 				<picture>
@@ -70,14 +73,15 @@ const ImageBox: React.FC<Properties> = properties => {
 			<div className='card-footer'>
 				<div className='d-flex justify-content-between'>
 					<div>
-						{report.status === Status.Pending ? (
-							<span className='badge bg-warning'>{t('report.status.0')}</span>
-						) : (report.status === Status.Resolved ? (
-							<span className='badge bg-success'>{t('report.status.1')}</span>
-						) : (
-							<span className='badge bg-danger'>{t('report.status.2')}</span>
-						))}
-						<span className='badge bg-info ml-1'>TID: {report.tid}</span>
+						{report.status === Status.Pending
+							? <span className='badge bg-warning'>{t('report.status.0')}</span>
+							: report.status === Status.Resolved
+								? <span className='badge bg-success'>{t('report.status.1')}</span>
+								: <span className='badge bg-danger'>{t('report.status.2')}</span>}
+						<span className='badge bg-info ml-1'>
+							TID:
+							{report.tid}
+						</span>
 					</div>
 					<div className='dropdown'>
 						<a
@@ -92,7 +96,8 @@ const ImageBox: React.FC<Properties> = properties => {
 							<a
 								href={`${blessing.base_url}/skinlib/show/${report.tid}`}
 								className='dropdown-item'
-								target='_blank' rel='noreferrer'
+								target='_blank'
+								rel='noreferrer'
 							>
 								<i className='fas fa-share-square mr-2'/>
 								{t('user.viewInSkinlib')}
@@ -122,7 +127,10 @@ const ImageBox: React.FC<Properties> = properties => {
 						{': '}
 					</b>
 					<span className='mr-1'>{report.informer?.nickname}</span>
-					(UID: {report.reporter})
+					(UID:
+					{' '}
+					{report.reporter}
+					)
 				</div>
 				<details>
 					<summary className='text-truncate'>

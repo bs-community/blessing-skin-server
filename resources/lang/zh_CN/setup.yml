@@ -1,6 +1,6 @@
 ---
 database:
-  connection-error: "无法连接至 :type 目标数据库，请检查你的配置。服务器返回的信息：:msg"
+  connection-error: '无法连接至 :type 目标数据库，请检查你的配置。服务器返回的信息：:msg'
 locked:
   title: 已安装过
   text: Blessing Skin Server 看起来已经安装妥当。如果想重新安装，请删除 storage 目录下的 install.lock 文件。
@@ -35,7 +35,7 @@ wizard:
     admin-notice: 这是唯一的超级管理员账号，可添加或移除其他管理员。
     nickname: 昵称
     password: 密码
-    pwd-notice: '重要：你将需要此密码来登录管理皮肤站，请将其保存在安全的位置。'
+    pwd-notice: 重要：你将需要此密码来登录管理皮肤站，请将其保存在安全的位置。
     confirm-pwd: 重复密码
     site-name: 站点名称
     site-name-notice: 将会显示在首页以及标题栏

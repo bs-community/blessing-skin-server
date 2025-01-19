@@ -1,5 +1,5 @@
-import ReactDOM from 'react-dom';
 import DarkModeButton from '@/components/DarkModeButton';
+import ReactDOM from 'react-dom';
 
 const element = document.querySelector('#toggle-dark-mode');
 if (element) {

@@ -1,17 +1,16 @@
-/** @jsxImportSource @emotion/react */
-import {css} from '@emotion/react';
-import {t} from '@/scripts/i18n';
 import type {Player} from '@/scripts/types';
 import ButtonEdit from '@/components/ButtonEdit';
+import {t} from '@/scripts/i18n';
 import * as cssUtils from '@/styles/utils';
+import {css} from '@emotion/react';
 
 type Properties = {
 	player: Player;
 	selected: boolean;
 	onClick: React.MouseEventHandler;
-	onEditName(player: Player): Promise<void>;
-	onReset(): void;
-	onDelete(player: Player): Promise<void>;
+	onEditName: (player: Player) => Promise<void>;
+	onReset: () => void;
+	onDelete: (player: Player) => Promise<void>;
 };
 
 const Row: React.FC<Properties> = properties => {
@@ -27,7 +26,7 @@ const Row: React.FC<Properties> = properties => {
 
 	const selected
     = properties.selected
-    && css`
+    	&& css`
       background: #efefef;
       .dark-mode & {
         background: var(--dark);

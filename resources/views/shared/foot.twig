@@ -1,5 +1,6 @@
 <script src="{{ i18n }}" crossorigin="anonymous"></script>
-  {{ vite('resources/index.tsx')|raw }}
+  {{ viteReactRefresh()|raw }}
+  {{ vite('resources/assets/src/index.tsx')|raw }}
 {% for script in scripts %}
   <script{% for attribute, value in script %} {{ attribute }}="{{ value }}"{% endfor %}></script>
 {% endfor %}

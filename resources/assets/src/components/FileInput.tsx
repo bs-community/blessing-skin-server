@@ -1,7 +1,6 @@
-/** @jsxImportSource @emotion/react */
-import {useRef} from 'react';
-import {css} from '@emotion/react';
 import {t} from '@/scripts/i18n';
+import {css} from '@emotion/react';
+import {useRef} from 'react';
 
 const hideRawBrowseButton = css`
   ::after {
@@ -12,7 +11,7 @@ const hideRawBrowseButton = css`
 type Properties = {
 	file: File | undefined;
 	accept?: string;
-	onChange(event: React.ChangeEvent<HTMLInputElement>): void;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const FileInput: React.FC<Properties> = properties => {

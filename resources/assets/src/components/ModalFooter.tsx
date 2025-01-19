@@ -10,8 +10,8 @@ export type Props = {
 
 type InternalProperties = {
 	readonly showCancelButton: boolean;
-	onConfirm?(): void;
-	onDismiss?(): void;
+	onConfirm?: () => void;
+	onDismiss?: () => void;
 };
 
 const ModalFooter: React.FC<InternalProperties & Props> = properties => {
@@ -22,29 +22,29 @@ const ModalFooter: React.FC<InternalProperties & Props> = properties => {
 
 	const footerClass = classes.join(' ');
 
-	return properties.children ? (
-		<div className={footerClass}>{properties.children}</div>
-	) : (
-		<div className={footerClass}>
-			{properties.showCancelButton && (
+	return properties.children
+		? <div className={footerClass}>{properties.children}</div>
+		: (
+			<div className={footerClass}>
+				{properties.showCancelButton && (
+					<button
+						type='button'
+						className={`btn btn-${properties.cancelButtonType}`}
+						data-dismiss='modal'
+						onClick={properties.onDismiss}
+					>
+						{properties.cancelButtonText}
+					</button>
+				)}
 				<button
 					type='button'
-					className={`btn btn-${properties.cancelButtonType}`}
-					data-dismiss='modal'
-					onClick={properties.onDismiss}
+					className={`btn btn-${properties.okButtonType}`}
+					onClick={properties.onConfirm}
 				>
-					{properties.cancelButtonText}
+					{properties.okButtonText}
 				</button>
-			)}
-			<button
-				type='button'
-				className={`btn btn-${properties.okButtonType}`}
-				onClick={properties.onConfirm}
-			>
-				{properties.okButtonText}
-			</button>
-		</div>
-	);
+			</div>
+		);
 };
 
 export default ModalFooter;

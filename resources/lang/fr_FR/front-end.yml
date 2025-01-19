@@ -62,7 +62,7 @@ skinlib:
   setPublicNotice: Êtes-vous sûr de vouloir définir ceci comme texture public ?
   setPrivateNotice: Êtes-vous sûr de vouloir définir ceci comme texture public ?
   deleteNotice: Êtes-vous sûr de vouloir supprimer cette texture?
-  setNewTextureModel: "Veuillez sélectionner un nouveau modèle de texture:"
+  setNewTextureModel: 'Veuillez sélectionner un nouveau modèle de texture:'
   upload:
     texture-name: Nom de la texture
     texture-type: Type de texture

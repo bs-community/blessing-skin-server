@@ -1,12 +1,17 @@
-import {
-	expect, test, vi, it, beforeEach, afterEach, describe,
-} from 'vitest';
-import {render, fireEvent, waitFor} from '@testing-library/react';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {isAlex} from '@/scripts/textureUtils';
 import urls from '@/scripts/urls';
 import Upload from '@/views/skinlib/Upload';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from 'vitest';
 
 vi.mock('@/scripts/net');
 vi.mock('@/scripts/textureUtils');
@@ -34,34 +39,30 @@ afterEach(() => {
 	document.querySelector('#previewer')!.remove();
 });
 
-test('display texture name rule', () => {
+it('display texture name rule', () => {
 	const {queryByPlaceholderText} = render(<Upload/>);
 	expect(queryByPlaceholderText('rule')).toBeInTheDocument();
 });
 
-test('content policy', () => {
+it('content policy', () => {
 	const {queryByText} = render(<Upload/>);
 	expect(queryByText('the policy')).toBeInTheDocument();
 });
 
-test('privacy notice', () => {
+it('privacy notice', () => {
 	const {getByLabelText, queryByText} = render(<Upload/>);
 	fireEvent.click(getByLabelText(t('skinlib.upload.set-as-private')));
 	expect(queryByText('privacy notice')).toBeInTheDocument();
 });
 
-test('award notice', () => {
+it('award notice', () => {
 	Object.assign(window.blessing.extra, {award: 5});
 
 	const {getByLabelText, queryByText} = render(<Upload/>);
-	expect(
-		queryByText(t('skinlib.upload.award', {score: 5})),
-	).toBeInTheDocument();
+	expect(queryByText(t('skinlib.upload.award', {score: 5}))).toBeInTheDocument();
 
 	fireEvent.click(getByLabelText(t('skinlib.upload.set-as-private')));
-	expect(
-		queryByText(t('skinlib.upload.award', {score: 5})),
-	).not.toBeInTheDocument();
+	expect(queryByText(t('skinlib.upload.award', {score: 5}))).not.toBeInTheDocument();
 });
 
 describe('input file', () => {
@@ -139,9 +140,7 @@ describe('score cost', () => {
 			target: {files: [file]},
 		});
 
-		expect(
-			queryByText(t('skinlib.upload.cost', {score: 11})),
-		).toBeInTheDocument();
+		expect(queryByText(t('skinlib.upload.cost', {score: 11}))).toBeInTheDocument();
 	});
 
 	it('private texture', () => {
@@ -153,9 +152,7 @@ describe('score cost', () => {
 		});
 		fireEvent.click(getByLabelText(t('skinlib.upload.set-as-private')));
 
-		expect(
-			queryByText(t('skinlib.upload.cost', {score: 20})),
-		).toBeInTheDocument();
+		expect(queryByText(t('skinlib.upload.cost', {score: 20}))).toBeInTheDocument();
 	});
 });
 

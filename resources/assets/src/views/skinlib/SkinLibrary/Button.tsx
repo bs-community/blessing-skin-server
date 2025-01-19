@@ -5,8 +5,8 @@ type Properties = {
 };
 
 type Attributes = React.DetailedHTMLProps<
-React.ButtonHTMLAttributes<HTMLButtonElement>,
-HTMLButtonElement
+	React.ButtonHTMLAttributes<HTMLButtonElement>,
+	HTMLButtonElement
 >;
 
 const Button: React.FC<Properties & Attributes> = properties => {

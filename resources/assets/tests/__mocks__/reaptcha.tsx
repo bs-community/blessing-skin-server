@@ -1,16 +1,16 @@
-import React from 'react'
-import type { ReaptchaProps } from 'reaptcha'
+import type {ReaptchaProps} from 'reaptcha';
+import React from 'react';
 
 class Reaptcha extends React.Component<ReaptchaProps, {}> {
-  execute() {
-    this.props.onVerify('token')
-  }
+	execute() {
+		this.props.onVerify('token');
+	}
 
-  reset() {}
+	reset() {}
 
-  render() {
-    return <></>
-  }
+	render() {
+		return <></>;
+	}
 }
 
-export default Reaptcha
+export default Reaptcha;

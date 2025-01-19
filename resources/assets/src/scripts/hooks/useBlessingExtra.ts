@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 
 export default function useBlessingExtra<T>(key: string, defaultValue?: T): T {
 	const [value, setValue] = useState<T>(defaultValue!);

@@ -1,5 +1,5 @@
-import {useState} from 'react';
 import * as fetch from '@/scripts/net';
+import {useState} from 'react';
 
 type Properties = {
 	readonly initMode: boolean;

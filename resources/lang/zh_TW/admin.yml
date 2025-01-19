@@ -115,8 +115,8 @@ update:
     up-to-date: 已經為最新版本。
     available: 已有新的更新版本。
     versions:
-      latest: "最新版本："
-      current: "當前版本："
+      latest: 最新版本：
+      current: 當前版本：
     check-github: 去查看 GitHub Releases
     button: 立即更新
   cautions:
@@ -127,7 +127,7 @@ update:
       如錯誤选至相对于你的伺服器速度较慢的源，可能会造成检查与下载更新页面长时间无响应。
       如何更换更新源？
   errors:
-    connection: "無法訪問當前更新源。 細節：:error"
+    connection: '無法訪問當前更新源。 細節：:error'
     spec: 不支援当前更新源。
     php: PHP 版本过低，至少需要 :version。
 download:

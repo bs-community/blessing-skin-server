@@ -1,10 +1,9 @@
-/** @jsxImportSource @emotion/react */
-
-import {useState, useEffect} from 'react';
-import Autosuggest from 'react-autosuggest';
-import {css} from '@emotion/react';
 import {emit} from '@/scripts/event';
 import {pointerCursor} from '@/styles/utils';
+import {css} from '@emotion/react';
+import clsx from 'clsx';
+import {useCombobox} from 'downshift';
+import {useEffect, useState} from 'react';
 
 const styles = css`
   .dropdown-menu li {
@@ -14,75 +13,53 @@ const styles = css`
 
 const domainNames = new Set(['qq.com', '163.com', 'gmail.com', 'hotmail.com']);
 
-type Properties = Omit<Autosuggest.InputProps<string>, 'onChange'> & {
-	onChange(value: string): void;
+type Properties = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
+	onChange: (value: string) => void;
 };
 
-const EmailSuggestion: React.FC<Properties> = properties => {
-	const [suggestions, setSuggestions] = useState<string[]>([]);
-
+const EmailSuggestion: React.FC<Properties> = props => {
 	useEffect(() => {
 		emit('emailDomainsSuggestion', domainNames);
 	}, []);
+	const [inputItems, setInputItems] = useState<string[]>([]);
 
-	const handleSuggestionsFetchRequested: Autosuggest.SuggestionsFetchRequested
-    = ({value}) => {
-    	const segments = value.split('@');
-    	setSuggestions([...domainNames].map(name => `${segments[0]}@${name}`));
-    };
+	const {
+		isOpen,
+		getLabelProps,
+		getMenuProps,
+		getInputProps,
+		highlightedIndex,
+		getItemProps,
+	} = useCombobox({
+		items: inputItems,
+		onInputValueChange({inputValue: value}) {
+			setInputItems([...domainNames].map(name => `${value.split('@')[0]}@${name}`));
+			if (value.length === 0 || value.includes('@')) {
+				setInputItems([]);
+			}
 
-	const handleSuggestionsClearRequested = () => {
-		setSuggestions([]);
-	};
+			const {onChange} = props;
+			onChange(value);
+		},
+	});
 
-	const shouldRenderSuggestions = (value: string) => {
-		const isSelecting = [...domainNames].some(name =>
-			value.endsWith(`@${name}`),
-		);
-
-		return isSelecting || (value.length > 0 && !value.includes('@'));
-	};
-
-	const getSuggestionValue = (value: string) => value;
-
-	const renderSuggestion = (suggestion: string) => suggestion;
-
-	const handleChange = (_: React.FormEvent, event: Autosuggest.ChangeEvent) => {
-		properties.onChange(event.newValue);
-	};
-
-	const renderInputComponent = (
-		properties_: Omit<Autosuggest.InputProps<string>, 'onChange'>,
-	) => (
-		<div className='input-group'>
-			<input className='form-control' {...properties_}/>
-			<div className='input-group-append'>
-				<div className='input-group-text'>
+	return (
+		<div>
+			<div className='input-group'>
+				<input className='form-control' {...{...props, onChange: undefined}} {...getInputProps()}/>
+				<div className='input-group-text' {...getLabelProps()}>
 					<i className='fas fa-envelope'/>
 				</div>
 			</div>
-		</div>
-	);
-
-	return (
-		<div css={styles}>
-			<Autosuggest
-				suggestions={suggestions}
-				getSuggestionValue={getSuggestionValue}
-				renderSuggestion={renderSuggestion}
-				shouldRenderSuggestions={shouldRenderSuggestions}
-				inputProps={({...properties, onChange: handleChange})}
-				renderInputComponent={renderInputComponent}
-				theme={{
-					container: 'mb-3',
-					suggestion: 'dropdown-item',
-					suggestionsContainer: 'dropdown',
-					suggestionsList: `dropdown-menu ${suggestions.length > 0 ? 'show' : ''}`,
-					suggestionHighlighted: 'active',
-				}}
-				onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
-				onSuggestionsClearRequested={handleSuggestionsClearRequested}
-			/>
+			<div className='mb-3 dropdown' css={styles}>
+				<ul className={clsx('dropdown-menu', isOpen && inputItems.length > 0 && 'show')} {...getMenuProps()}>
+					{isOpen && inputItems.length > 0 && inputItems.map((item, index) => (
+						<li key={`${item}`} className={clsx('dropdown-item', {active: index === highlightedIndex})} {...getItemProps({item, index})}>
+							{item}
+						</li>
+					))}
+				</ul>
+			</div>
 		</div>
 	);
 };

@@ -9,8 +9,8 @@ function checkPixel(
 
 	return (
 		imageData.data[0] === 0
-    && imageData.data[1] === 0
-    && imageData.data[2] === 0
+		&& imageData.data[1] === 0
+		&& imageData.data[2] === 0
 	);
 }
 

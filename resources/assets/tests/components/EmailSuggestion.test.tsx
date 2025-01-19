@@ -1,8 +1,8 @@
-import {expect, test} from 'vitest';
-import React, {useState} from 'react';
-import {render, fireEvent} from '@testing-library/react';
-import {on} from '@/scripts/event';
 import EmailSuggestion from '@/components/EmailSuggestion';
+import {on} from '@/scripts/event';
+import {fireEvent, render} from '@testing-library/react';
+import React, {useState} from 'react';
+import {expect} from 'vitest';
 
 function Wrapper() {
 	const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ function Wrapper() {
 	return <EmailSuggestion value={email} onChange={setEmail}/>;
 }
 
-test('basic typing', () => {
+it('basic typing', () => {
 	const {getByDisplayValue, queryByText} = render(<Wrapper/>);
 	const input = getByDisplayValue('');
 
@@ -25,7 +25,7 @@ test('basic typing', () => {
 	expect(queryByText('abc@qq.com')).not.toBeInTheDocument();
 });
 
-test('apply suggestion', () => {
+it('apply suggestion', () => {
 	const {getByDisplayValue, getByText} = render(<Wrapper/>);
 	const input = getByDisplayValue('');
 
@@ -35,7 +35,7 @@ test('apply suggestion', () => {
 	expect(input).toHaveValue('abc@hotmail.com');
 });
 
-test('do not suggest when `at` is existed', () => {
+it('do not suggest when `at` is existed', () => {
 	const {getByDisplayValue, queryByText} = render(<Wrapper/>);
 	const input = getByDisplayValue('');
 
@@ -47,7 +47,7 @@ test('do not suggest when `at` is existed', () => {
 	expect(queryByText('abc@outlook.com@hotmail.com')).not.toBeInTheDocument();
 });
 
-test('display suggestions when typing with configured domain names', () => {
+it('display suggestions when typing with configured domain names', () => {
 	const {getByDisplayValue, queryByText} = render(<Wrapper/>);
 	const input = getByDisplayValue('');
 
@@ -59,7 +59,7 @@ test('display suggestions when typing with configured domain names', () => {
 	expect(queryByText('abc@hotmail.com')).toBeInTheDocument();
 });
 
-test('events', () => {
+it('events', () => {
 	const off = on('emailDomainsSuggestion', (names: Set<string>) => {
 		names.add('outlook.com');
 	});

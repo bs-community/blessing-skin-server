@@ -21,7 +21,12 @@ const InfoBox: React.FC<Properties> = properties => {
 			<div className='info-box-content'>
 				<span className='info-box-text'>{properties.name}</span>
 				<span className='info-box-number'>
-					<b>{properties.used}</b> / {total} {properties.unit}
+					<b>{properties.used}</b>
+					{' '}
+					/
+					{total}
+					{' '}
+					{properties.unit}
 				</span>
 				<div className='progress'>
 					<div className='progress-bar' style={{width: `${percentage}%`}}/>

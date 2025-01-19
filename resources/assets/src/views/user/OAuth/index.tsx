@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import Row from './Row';
-import ModalCreate from './ModalCreate';
 import type {App} from './types';
+import Loading from '@/components/Loading';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {showModal, toast} from '@/scripts/notify';
-import Loading from '@/components/Loading';
+import React, {useEffect, useState} from 'react';
+import ModalCreate from './ModalCreate';
+import Row from './Row';
 
 type Exception = {
 	message: string;
@@ -133,14 +133,15 @@ function OAuth() {
 							</tr>
 						</thead>
 						<tbody>
-							{apps.length === 0 ? (
-								<tr>
-									<td className='text-center' colSpan={5}>
-										{isLoading ? <Loading/> : t('general.noResult')}
-									</td>
-								</tr>
-							) : (
-								apps.map((app, i) => (
+							{apps.length === 0
+								? (
+									<tr>
+										<td className='text-center' colSpan={5}>
+											{isLoading ? <Loading/> : t('general.noResult')}
+										</td>
+									</tr>
+								)
+								: apps.map((app, i) => (
 									<Row
 										key={app.id}
 										app={app}
@@ -148,8 +149,7 @@ function OAuth() {
 										onEditRedirect={async () => editRedirect(app, i)}
 										onDelete={async () => handleDelete(app)}
 									/>
-								))
-							)}
+								))}
 						</tbody>
 					</table>
 				</div>

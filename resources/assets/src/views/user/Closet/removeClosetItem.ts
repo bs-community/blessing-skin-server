@@ -13,9 +13,7 @@ export default async function removeClosetItem(tid: number): Promise<boolean> {
 		return false;
 	}
 
-	const {code, message} = await fetch.del<fetch.ResponseBody>(
-		urls.user.closet.remove(tid),
-	);
+	const {code, message} = await fetch.del<fetch.ResponseBody>(urls.user.closet.remove(tid));
 	if (code === 0) {
 		toast.success(message);
 	} else {

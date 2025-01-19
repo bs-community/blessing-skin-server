@@ -1,13 +1,13 @@
-import {expect, test, jest} from 'vitest';
-import {flushPromises} from '../../utils';
-import {showModal} from '@/scripts/notify';
 import {post} from '@/scripts/net';
+import {showModal} from '@/scripts/notify';
 import handler from '@/views/admin/Update';
+import {expect} from 'vitest';
+import {flushPromises} from '../../utils';
 
 vi.mock('@/scripts/notify');
 vi.mock('@/scripts/net');
 
-test('click button', async () => {
+it('click button', async () => {
 	post
 		.mockResolvedValueOnce({code: 1, message: 'failed'})
 		.mockResolvedValue({code: 0, message: 'ok'});

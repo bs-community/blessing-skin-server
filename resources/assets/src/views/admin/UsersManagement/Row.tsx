@@ -1,24 +1,24 @@
 
-import {
-	humanizePermission,
-	verificationStatusText,
-	canModifyUser,
-	canModifyPermission,
-} from './utils';
-import {t} from '@/scripts/i18n';
 import type {User} from '@/scripts/types';
 import ButtonEdit from '@/components/ButtonEdit';
+import {t} from '@/scripts/i18n';
+import {
+	canModifyPermission,
+	canModifyUser,
+	humanizePermission,
+	verificationStatusText,
+} from './utils';
 
 type Properties = {
 	readonly user: User;
 	readonly currentUser: User;
-	onEmailChange(): void;
-	onNicknameChange(): void;
-	onScoreChange(): void;
-	onPermissionChange(): void;
-	onVerificationToggle(): void;
-	onPasswordChange(): void;
-	onDelete(): void;
+	onEmailChange: () => void;
+	onNicknameChange: () => void;
+	onScoreChange: () => void;
+	onPermissionChange: () => void;
+	onVerificationToggle: () => void;
+	onPasswordChange: () => void;
+	onDelete: () => void;
 };
 
 const Row: React.FC<Properties> = properties => {
@@ -82,11 +82,9 @@ const Row: React.FC<Properties> = properties => {
 						title={t('admin.toggleVerification')}
 						onClick={properties.onVerificationToggle}
 					>
-						{user.verified ? (
-							<i className='fas fa-toggle-on'/>
-						) : (
-							<i className='fas fa-toggle-off'/>
-						)}
+						{user.verified
+							? <i className='fas fa-toggle-on'/>
+							: <i className='fas fa-toggle-off'/>}
 					</a>
 				)}
 			</td>

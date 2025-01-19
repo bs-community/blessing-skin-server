@@ -1,15 +1,15 @@
 
+import type {ClosetItem as ClosetItemType} from '@/scripts/types';
+import {t} from '@/scripts/i18n';
 import setAsAvatar from './setAsAvatar';
 import {Card, DropdownButton} from './styles';
-import {t} from '@/scripts/i18n';
-import type {ClosetItem as ClosetItemType} from '@/scripts/types';
 
 type Properties = {
 	readonly item: ClosetItemType;
 	readonly selected: boolean;
-	onClick(item: ClosetItemType): void;
-	onRename(): void;
-	onRemove(): void;
+	onClick: (item: ClosetItemType) => void;
+	onRename: () => void;
+	onRemove: () => void;
 };
 
 const ClosetItem: React.FC<Properties> = properties => {
@@ -58,7 +58,8 @@ const ClosetItem: React.FC<Properties> = properties => {
 							<a
 								href={`${blessing.base_url}/skinlib/show/${item.tid}`}
 								className='dropdown-item'
-								target='_blank' rel='noreferrer'
+								target='_blank'
+								rel='noreferrer'
 							>
 								{t('user.viewInSkinlib')}
 							</a>

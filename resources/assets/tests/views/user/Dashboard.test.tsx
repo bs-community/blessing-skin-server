@@ -1,11 +1,15 @@
-import {
-	expect, vi, it, describe, beforeEach,
-} from 'vitest';
-import {render, fireEvent, waitFor} from '@testing-library/react';
-import * as fetch from '@/scripts/net';
 import {t} from '@/scripts/i18n';
+import * as fetch from '@/scripts/net';
 import urls from '@/scripts/urls';
 import Dashboard from '@/views/user/Dashboard';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from 'vitest';
 
 vi.mock('@/scripts/net');
 
@@ -41,9 +45,7 @@ describe('info box', () => {
 
 	describe('storage', () => {
 		it('in KB', async () => {
-			fetch.get.mockResolvedValue(
-				scoreInfo({}, {score: 100}, {storage: 700}),
-			);
+			fetch.get.mockResolvedValue(scoreInfo({}, {score: 100}, {storage: 700}));
 
 			const {getByText} = render(<Dashboard/>);
 			await waitFor(() => {
@@ -55,9 +57,7 @@ describe('info box', () => {
 		});
 
 		it('in MB', async () => {
-			fetch.get.mockResolvedValue(
-				scoreInfo({}, {score: 3072}, {storage: 4096}),
-			);
+			fetch.get.mockResolvedValue(scoreInfo({}, {score: 3072}, {storage: 4096}));
 
 			const {getByText} = render(<Dashboard/>);
 			await waitFor(() => {
@@ -162,9 +162,7 @@ describe('sign button', () => {
 	});
 
 	it('sign is not allowed', async () => {
-		fetch.get.mockResolvedValue(
-			scoreInfo({signAfterZero: true}, {lastSignAt: Date.now()}),
-		);
+		fetch.get.mockResolvedValue(scoreInfo({signAfterZero: true}, {lastSignAt: Date.now()}));
 		const {getByRole} = render(<Dashboard/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
@@ -187,9 +185,7 @@ describe('sign button', () => {
 	});
 
 	it('remain in minutes', async () => {
-		fetch.get.mockResolvedValue(
-			scoreInfo({}, {lastSignAt: Date.now() - 23.5 * 3600 * 1000}),
-		);
+		fetch.get.mockResolvedValue(scoreInfo({}, {lastSignAt: Date.now() - 23.5 * 3600 * 1000}));
 
 		const {getByRole} = render(<Dashboard/>);
 		await waitFor(() => {

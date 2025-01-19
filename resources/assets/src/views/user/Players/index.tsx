@@ -1,9 +1,3 @@
-import {useState, useEffect} from 'react';
-import Row from './Row';
-import LoadingRow from './LoadingRow';
-import Previewer from './Previewer';
-import ModalAddPlayer from './ModalAddPlayer';
-import ModalReset from './ModalReset';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import useTexture from '@/scripts/hooks/useTexture';
@@ -12,6 +6,12 @@ import * as fetch from '@/scripts/net';
 import {showModal, toast} from '@/scripts/notify';
 import {type Player, TextureType} from '@/scripts/types';
 import urls from '@/scripts/urls';
+import {useEffect, useState} from 'react';
+import LoadingRow from './LoadingRow';
+import ModalAddPlayer from './ModalAddPlayer';
+import ModalReset from './ModalReset';
+import Previewer from './Previewer';
+import Row from './Row';
 
 function Players() {
 	const [players, setPlayers] = useState<Player[]>([]);
@@ -104,9 +104,7 @@ function Players() {
 			search.append('cape', 'true');
 		}
 
-		const {code, message} = await fetch.del<fetch.ResponseBody>(
-			`${urls.user.player.clear(selected)}?${search.toString()}`,
-		);
+		const {code, message} = await fetch.del<fetch.ResponseBody>(`${urls.user.player.clear(selected)}?${search.toString()}`);
 		if (code === 0) {
 			toast.success(message);
 			if (skin) {
@@ -147,9 +145,7 @@ function Players() {
 			return;
 		}
 
-		const {code, message} = await fetch.del<fetch.ResponseBody>(
-			urls.user.player.delete(player.pid),
-		);
+		const {code, message} = await fetch.del<fetch.ResponseBody>(urls.user.player.delete(player.pid));
 		if (code === 0) {
 			toast.success(message);
 			const {pid} = player;
@@ -196,33 +192,33 @@ function Players() {
 							</tr>
 						</thead>
 						<tbody>
-							{isLoading ? (
-								new Array(playersCount)
+							{isLoading
+								? new Array(playersCount)
 									.fill(null)
 									.map((_, i) => <LoadingRow key={i}/>)
-							) : (players.length === 0 ? (
-								<tr>
-									<td className='text-center' colSpan={3}>
-										{t('general.noResult')}
-									</td>
-								</tr>
-							) : (
-								players
-									.filter(({name}) => name.includes(search))
-									.map((player, i) => (
-										<Row
-											key={player.pid}
-											player={player}
-											selected={selected === player.pid}
-											onClick={() => {
-												selectPlayer(player);
-											}}
-											onEditName={async () => editName(player, i)}
-											onReset={openModalReset}
-											onDelete={deletePlayer}
-										/>
-									))
-							))}
+								: players.length === 0
+									? (
+										<tr>
+											<td className='text-center' colSpan={3}>
+												{t('general.noResult')}
+											</td>
+										</tr>
+									)
+									: players
+										.filter(({name}) => name.includes(search))
+										.map((player, i) => (
+											<Row
+												key={player.pid}
+												player={player}
+												selected={selected === player.pid}
+												onClick={() => {
+													selectPlayer(player);
+												}}
+												onEditName={async () => editName(player, i)}
+												onReset={openModalReset}
+												onDelete={deletePlayer}
+											/>
+										))}
 						</tbody>
 					</table>
 				</div>

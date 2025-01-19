@@ -1,10 +1,10 @@
-import {expect, vi, test} from 'vitest';
-import {render, fireEvent, waitFor} from '@testing-library/react';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import NotificationsList, {
 	type Notification,
 } from '@/views/widgets/NotificationsList';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {expect, vi} from 'vitest';
 
 vi.mock('@/scripts/net');
 
@@ -19,11 +19,11 @@ function createContainer(notifications: Notification[]) {
 	document.body.append(container);
 }
 
-test('should not throw if element does not exist', () => {
+it('should not throw if element does not exist', () => {
 	render(<NotificationsList/>);
 });
 
-test('no unread notifications', () => {
+it('no unread notifications', () => {
 	createContainer([]);
 
 	const {queryByText} = render(<NotificationsList/>);
@@ -31,7 +31,7 @@ test('no unread notifications', () => {
 	expect(queryByText('no unread')).toBeInTheDocument();
 });
 
-test('with unread notifications', () => {
+it('with unread notifications', () => {
 	createContainer([{id: '1', title: 'hi'}]);
 
 	const {queryByText} = render(<NotificationsList/>);
@@ -40,7 +40,7 @@ test('with unread notifications', () => {
 	expect(queryByText('hi')).toBeInTheDocument();
 });
 
-test('read notification', async () => {
+it('read notification', async () => {
 	const time = new Date().toLocaleTimeString();
 	const fixture = {
 		title: 'hi - title',

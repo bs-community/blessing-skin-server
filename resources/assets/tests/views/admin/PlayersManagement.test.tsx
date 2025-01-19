@@ -1,13 +1,15 @@
-import {
-	expect, test, vi, it,
-} from 'vitest';
-import {render, waitFor, fireEvent} from '@testing-library/react';
-import {createPaginator} from '../../utils';
+import type {Player} from '@/scripts/types';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
-import type {Player} from '@/scripts/types';
 import urls from '@/scripts/urls';
 import PlayersManagement from '@/views/admin/PlayersManagement';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	expect,
+	it,
+	vi,
+} from 'vitest';
+import {createPaginator} from '../../utils';
 
 vi.mock('@/scripts/net');
 
@@ -28,7 +30,7 @@ afterAll(() => {
 	Object.assign(window, {innerWidth: 1024});
 });
 
-test('search players', async () => {
+it('search players', async () => {
 	fetch.get.mockResolvedValue(createPaginator([]));
 
 	const {getByTitle, getByText} = render(<PlayersManagement/>);
@@ -37,8 +39,7 @@ test('search players', async () => {
 			q: '',
 			page: 1,
 		});
-	},
-	);
+	});
 
 	fireEvent.input(getByTitle(t('vendor.datatable.search')), {
 		target: {value: 's'},
@@ -49,11 +50,10 @@ test('search players', async () => {
 			q: 's',
 			page: 1,
 		});
-	},
-	);
+	});
 });
 
-test('preview textures', async () => {
+it('preview textures', async () => {
 	fetch.get.mockResolvedValue(createPaginator([fixture]));
 
 	const {getByText, queryByAltText} = render(<PlayersManagement/>);
@@ -63,15 +63,11 @@ test('preview textures', async () => {
 
 	fireEvent.click(getByText(t('general.player.previews')));
 
-	expect(
-		queryByAltText(`${fixture.name} - ${t('general.skin')}`),
-	).toHaveAttribute(
+	expect(queryByAltText(`${fixture.name} - ${t('general.skin')}`)).toHaveAttribute(
 		'src',
 		`${blessing.base_url}/preview/${fixture.tid_skin}?png`,
 	);
-	expect(
-		queryByAltText(`${fixture.name} - ${t('general.cape')}`),
-	).toHaveAttribute(
+	expect(queryByAltText(`${fixture.name} - ${t('general.cape')}`)).toHaveAttribute(
 		'src',
 		`${blessing.base_url}/preview/${fixture.tid_cape}?png`,
 	);
@@ -85,9 +81,7 @@ describe('update player name', () => {
 	});
 
 	it('empty value', async () => {
-		const {getByText, getByDisplayValue, queryByText} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -109,9 +103,7 @@ describe('update player name', () => {
 	it('succeeded', async () => {
 		fetch.put.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -126,8 +118,7 @@ describe('update player name', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.players.name(fixture.pid), {
 				player_name: 'reina',
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 		expect(queryByText('reina')).toBeInTheDocument();
@@ -136,9 +127,7 @@ describe('update player name', () => {
 	it('failed', async () => {
 		fetch.put.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -153,8 +142,7 @@ describe('update player name', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.players.name(fixture.pid), {
 				player_name: 'reina',
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText(fixture.name)).toBeInTheDocument();
@@ -176,17 +164,13 @@ describe('update owner', () => {
 		fireEvent.click(getByText(t('general.cancel')));
 
 		expect(fetch.put).not.toBeCalled();
-		expect(
-			queryByText(`${t('general.player.owner')}: ${fixture.uid}`),
-		).toBeInTheDocument();
+		expect(queryByText(`${t('general.player.owner')}: ${fixture.uid}`)).toBeInTheDocument();
 	});
 
 	it('succeeded', async () => {
 		fetch.put.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -201,8 +185,7 @@ describe('update owner', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.players.owner(fixture.pid), {
 				uid: 2,
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 		expect(queryByText(`${t('general.player.owner')}: 2`)).toBeInTheDocument();
@@ -211,9 +194,7 @@ describe('update owner', () => {
 	it('failed', async () => {
 		fetch.put.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -228,13 +209,10 @@ describe('update owner', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.players.owner(fixture.pid), {
 				uid: 2,
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
-		expect(
-			queryByText(`${t('general.player.owner')}: ${fixture.uid}`),
-		).toBeInTheDocument();
+		expect(queryByText(`${t('general.player.owner')}: ${fixture.uid}`)).toBeInTheDocument();
 	});
 });
 
@@ -258,9 +236,7 @@ describe('update texture', () => {
 	it('skin', async () => {
 		fetch.put.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByLabelText, queryByText, queryByRole} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, getByLabelText, queryByText, queryByRole} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -279,8 +255,7 @@ describe('update texture', () => {
 					tid: 2,
 				},
 			);
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 	});
@@ -288,9 +263,7 @@ describe('update texture', () => {
 	it('cape', async () => {
 		fetch.put.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByLabelText, queryByText, queryByRole} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, getByLabelText, queryByText, queryByRole} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -310,8 +283,7 @@ describe('update texture', () => {
 					tid: 2,
 				},
 			);
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 	});
@@ -319,9 +291,7 @@ describe('update texture', () => {
 	it('failed', async () => {
 		fetch.put.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByLabelText, queryByText, queryByRole} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, getByLabelText, queryByText, queryByRole} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -340,8 +310,7 @@ describe('update texture', () => {
 					tid: 2,
 				},
 			);
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
 	});
@@ -368,9 +337,7 @@ describe('delete player', () => {
 	it('succeeded', async () => {
 		fetch.del.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, queryByText, queryByRole} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, queryByText, queryByRole} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -380,8 +347,7 @@ describe('delete player', () => {
 
 		await waitFor(() => {
 			expect(fetch.del).toBeCalledWith(urls.admin.players.delete(fixture.pid));
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 		expect(queryByText(fixture.name)).not.toBeInTheDocument();
@@ -390,9 +356,7 @@ describe('delete player', () => {
 	it('failed', async () => {
 		fetch.del.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, queryByText, queryByRole} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, queryByText, queryByRole} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -402,8 +366,7 @@ describe('delete player', () => {
 
 		await waitFor(() => {
 			expect(fetch.del).toBeCalledWith(urls.admin.players.delete(fixture.pid));
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText(fixture.name)).toBeInTheDocument();
@@ -455,9 +418,7 @@ describe('table mode', () => {
 	});
 
 	it('update texture', async () => {
-		const {getByText, getByTitle, queryByPlaceholderText} = render(
-			<PlayersManagement/>,
-		);
+		const {getByText, getByTitle, queryByPlaceholderText} = render(<PlayersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();

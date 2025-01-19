@@ -115,8 +115,8 @@ update:
     up-to-date: Already up-to-date.
     available: New version available.
     versions:
-      latest: "Latest Version:"
-      current: "Current Version:"
+      latest: 'Latest Version:'
+      current: 'Current Version:'
     check-github: Check GitHub Releases
     button: Update Now
   cautions:
@@ -127,7 +127,7 @@ update:
       Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
       To change the default update source,
   errors:
-    connection: "Unable to access to current update source. Details: :error"
+    connection: 'Unable to access to current update source. Details: :error'
     spec: Current update source is not supported.
     php: Your PHP version is too low to update. Requires :version or later.
 download:

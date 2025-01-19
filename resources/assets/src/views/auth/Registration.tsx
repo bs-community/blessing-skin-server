@@ -1,13 +1,13 @@
-import {useState, useRef} from 'react';
+import Alert from '@/components/Alert';
+import Captcha from '@/components/Captcha';
+import EmailSuggestion from '@/components/EmailSuggestion';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {toast} from '@/scripts/notify';
 import urls from '@/scripts/urls';
-import Alert from '@/components/Alert';
-import Captcha from '@/components/Captcha';
-import EmailSuggestion from '@/components/EmailSuggestion';
+import {useRef, useState} from 'react';
 
 export default function Registration() {
 	const [email, setEmail] = useState('');
@@ -18,8 +18,8 @@ export default function Registration() {
 	const [isPending, setIsPending] = useState(false);
 	const [warningMessage, setWarningMessage] = useState('');
 	const requirePlayer = useBlessingExtra<boolean>('player');
-	const confirmationReference = useRef<HTMLInputElement | undefined>(null);
-	const captchaReference = useRef<Captcha | undefined>(null);
+	const confirmationReference = useRef<HTMLInputElement>(null);
+	const captchaReference = useRef<Captcha>(null);
 
 	useEmitMounted();
 
@@ -27,9 +27,7 @@ export default function Registration() {
 		setPassword(event.target.value);
 	};
 
-	const handleConfirmationChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handleConfirmationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setConfirmation(event.target.value);
 	};
 
@@ -37,9 +35,7 @@ export default function Registration() {
 		setNickName(event.target.value);
 	};
 
-	const handlePlayerNameChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handlePlayerNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setPlayerName(event.target.value);
 	};
 
@@ -57,8 +53,11 @@ export default function Registration() {
 		const {code, message} = await fetch.post<fetch.ResponseBody>(
 			urls.auth.register(),
 			{
-				email, password, captcha: await captchaReference.current!.execute(),
-				...(requirePlayer ? {player_name: playerName} : {nickname: nickName}),
+				email,
+				password,
+				captcha: await captchaReference.current!.execute(),
+				// eslint-disable-next-line ts/naming-convention
+				...requirePlayer ? {player_name: playerName} : {nickname: nickName},
 			},
 		);
 		if (code === 0) {
@@ -121,39 +120,41 @@ export default function Registration() {
 					</div>
 				</div>
 			</div>
-			{requirePlayer ? (
-				<div className='input-group mb-3' title={t('auth.player-name-intro')}>
-					<input
-						required
-						type='text'
-						className='form-control'
-						placeholder={t('auth.player-name')}
-						value={playerName}
-						onChange={handlePlayerNameChange}
-					/>
-					<div className='input-group-append'>
-						<div className='input-group-text'>
-							<i className='fas fa-gamepad'/>
+			{requirePlayer
+				? (
+					<div className='input-group mb-3' title={t('auth.player-name-intro')}>
+						<input
+							required
+							type='text'
+							className='form-control'
+							placeholder={t('auth.player-name')}
+							value={playerName}
+							onChange={handlePlayerNameChange}
+						/>
+						<div className='input-group-append'>
+							<div className='input-group-text'>
+								<i className='fas fa-gamepad'/>
+							</div>
 						</div>
 					</div>
-				</div>
-			) : (
-				<div className='input-group mb-3' title={t('auth.nickname-intro')}>
-					<input
-						required
-						type='text'
-						className='form-control'
-						placeholder={t('auth.nickname')}
-						value={nickName}
-						onChange={handleNickNameChange}
-					/>
-					<div className='input-group-append'>
-						<div className='input-group-text'>
-							<i className='fas fa-gamepad'/>
+				)
+				: (
+					<div className='input-group mb-3' title={t('auth.nickname-intro')}>
+						<input
+							required
+							type='text'
+							className='form-control'
+							placeholder={t('auth.nickname')}
+							value={nickName}
+							onChange={handleNickNameChange}
+						/>
+						<div className='input-group-append'>
+							<div className='input-group-text'>
+								<i className='fas fa-gamepad'/>
+							</div>
 						</div>
 					</div>
-				</div>
-			)}
+				)}
 			<Captcha ref={captchaReference}/>
 
 			<Alert type='warning'>{warningMessage}</Alert>
@@ -161,14 +162,14 @@ export default function Registration() {
 			<div className='d-flex justify-content-between align-items-center mb-3'>
 				<a href={`${blessing.base_url}/auth/login`}>{t('auth.login-link')}</a>
 				<button className='btn btn-primary' type='submit' disabled={isPending}>
-					{isPending ? (
-						<>
-							<i className='fas fa-spinner fa-spin mr-1'/>
-							{t('auth.registering')}
-						</>
-					) : (
-						t('auth.register')
-					)}
+					{isPending
+						? (
+							<>
+								<i className='fas fa-spinner fa-spin mr-1'/>
+								{t('auth.registering')}
+							</>
+						)
+						: t('auth.register')}
 				</button>
 			</div>
 		</form>

@@ -1,9 +1,9 @@
-import {expect, test, it} from 'vitest';
-import {render, fireEvent} from '@testing-library/react';
-import {t} from '@/scripts/i18n';
 import Viewer, {PICTURES_COUNT} from '@/components/Viewer';
+import {t} from '@/scripts/i18n';
+import {fireEvent, render} from '@testing-library/react';
+import {expect, it} from 'vitest';
 
-test('custom footer', () => {
+it('custom footer', () => {
 	const {queryByText} = render(<Viewer isAlex={false}>footer</Viewer>);
 	expect(queryByText('footer')).toBeInTheDocument();
 });
@@ -21,28 +21,20 @@ describe('indicator', () => {
 	});
 
 	it('skin only', () => {
-		const {queryByText} = render(
-			<Viewer showIndicator skin='skin' isAlex={false}/>,
-		);
+		const {queryByText} = render(<Viewer showIndicator skin='skin' isAlex={false}/>);
 		expect(queryByText(t('general.skin'))).toBeInTheDocument();
 		expect(queryByText(t('general.cape'))).not.toBeInTheDocument();
 	});
 
 	it('cape only', () => {
-		const {queryByText} = render(
-			<Viewer showIndicator cape='cape' isAlex={false}/>,
-		);
+		const {queryByText} = render(<Viewer showIndicator cape='cape' isAlex={false}/>);
 		expect(queryByText(t('general.skin'))).not.toBeInTheDocument();
 		expect(queryByText(t('general.cape'))).toBeInTheDocument();
 	});
 
 	it('skin and cape', () => {
-		const {queryByText} = render(
-			<Viewer showIndicator skin='skin' cape='cape' isAlex={false}/>,
-		);
-		expect(
-			queryByText(`${t('general.skin')} & ${t('general.cape')}`),
-		).toBeInTheDocument();
+		const {queryByText} = render(<Viewer showIndicator skin='skin' cape='cape' isAlex={false}/>);
+		expect(queryByText(`${t('general.skin')} & ${t('general.cape')}`)).toBeInTheDocument();
 		expect(queryByText(t('general.skin'))).not.toBeInTheDocument();
 		expect(queryByText(t('general.cape'))).not.toBeInTheDocument();
 	});

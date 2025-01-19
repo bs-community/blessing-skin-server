@@ -1,5 +1,10 @@
-/* eslint-disable object-curly-newline */
-import {fromEvent, merge, of, partition} from 'rxjs';
+
+import {
+	fromEvent,
+	merge,
+	of,
+	partition,
+} from 'rxjs';
 import {filter, map, pairwise} from 'rxjs/operators';
 
 export function registerNavbarPicker(
@@ -9,9 +14,7 @@ export function registerNavbarPicker(
 ): void {
 	const color$ = fromEvent(picker, 'click').pipe(
 		map(event => event.target as HTMLElement),
-		filter(
-			(element): element is HTMLInputElement => element.tagName === 'INPUT',
-		),
+		filter((element): element is HTMLInputElement => element.tagName === 'INPUT'),
 		map(element => element.value),
 	);
 
@@ -22,8 +25,7 @@ export function registerNavbarPicker(
 		});
 
 	const [light$, dark$] = partition(color$, color =>
-		['light', 'warning', 'white', 'orange', 'lime'].includes(color),
-	);
+		['light', 'warning', 'white', 'orange', 'lime'].includes(color));
 	light$.subscribe(() => {
 		// DO NOT use `classList.replace`.
 		navbar.classList.remove('navbar-dark');
@@ -53,9 +55,7 @@ export function registerSidebarPicker(
 		fromEvent(light, 'click'),
 	).pipe(
 		map(event => event.target as HTMLElement),
-		filter(
-			(element): element is HTMLInputElement => element.tagName === 'INPUT',
-		),
+		filter((element): element is HTMLInputElement => element.tagName === 'INPUT'),
 		map(element => element.value),
 	);
 
@@ -67,12 +67,8 @@ export function registerSidebarPicker(
 }
 
 const sidebar = document.querySelector<HTMLElement>('.main-sidebar');
-const darkPicker = document.querySelector<HTMLDivElement>(
-	'#sidebar-dark-picker',
-);
-const lightPicker = document.querySelector<HTMLDivElement>(
-	'#sidebar-light-picker',
-);
+const darkPicker = document.querySelector<HTMLDivElement>('#sidebar-dark-picker');
+const lightPicker = document.querySelector<HTMLDivElement>('#sidebar-light-picker');
 
 if (sidebar && darkPicker && lightPicker) {
 	registerSidebarPicker(

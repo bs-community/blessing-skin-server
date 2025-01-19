@@ -1,6 +1,6 @@
-import {Stdio} from './stdio';
-import * as fetch from '@/scripts/net';
 import apt from '@/scripts/cli/AptCommand';
+import * as fetch from '@/scripts/net';
+import {Stdio} from './stdio';
 
 vi.mock('@/scripts/net');
 

@@ -38,7 +38,7 @@ skinlib:
   setItemName: このテクスチャの名前を設定
   applyNotice: クローゼットでプレイヤーに適用することができます
   emptyItemName: テクスチャ名が空です。
-  setNewTextureName: '新しいテクスチャ名を入力してください。'
+  setNewTextureName: 新しいテクスチャ名を入力してください。
   emptyNewTextureName: 新しいテクスチャ名を空にします。
   seeMyUpload: 自分の投稿
   apply: 適用
@@ -62,7 +62,7 @@ skinlib:
   setPublicNotice: Sure to set this as public texture?
   setPrivateNotice: Sure to set this as private texture?
   deleteNotice: Are you sure to delete this texture?
-  setNewTextureModel: "Please select a new texture model:"
+  setNewTextureModel: 'Please select a new texture model:'
   upload:
     texture-name: Texture Name
     texture-type: Texture Type

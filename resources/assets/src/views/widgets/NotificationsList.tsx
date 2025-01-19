@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
 import * as fetch from '@/scripts/net';
 import {showModal} from '@/scripts/notify';
+import React, {useEffect, useState} from 'react';
 
 export type Notification = {
 	id: string;
@@ -12,9 +12,7 @@ function NotificationsList() {
 	const [noUnreadText, setNoUnreadText] = useState('');
 
 	useEffect(() => {
-		const dataset = document.querySelector<HTMLLIElement>(
-			'[data-notifications]',
-		)?.dataset;
+		const dataset = document.querySelector<HTMLLIElement>('[data-notifications]')?.dataset;
 		if (dataset) {
 			const notifications: Notification[] = JSON.parse(dataset.notifications!);
 			setNotifications(notifications);
@@ -41,8 +39,7 @@ function NotificationsList() {
 			),
 		});
 		setNotifications(notifications =>
-			notifications.filter(notification => notification.id !== id),
-		);
+			notifications.filter(notification => notification.id !== id));
 	};
 
 	const hasUnread = notifications.length > 0;
@@ -58,8 +55,8 @@ function NotificationsList() {
 				)}
 			</a>
 			<div className='dropdown-menu dropdown-menu-lg dropdown-menu-right'>
-				{hasUnread ? (
-					notifications.map(notification => (
+				{hasUnread
+					? notifications.map(notification => (
 						<>
 							<a
 								key={notification.id}
@@ -73,9 +70,7 @@ function NotificationsList() {
 							<div className='dropdown-divider'/>
 						</>
 					))
-				) : (
-					<p className='text-center text-muted pt-2 pb-2'>{noUnreadText}</p>
-				)}
+					: <p className='text-center text-muted pt-2 pb-2'>{noUnreadText}</p>}
 			</div>
 		</>
 	);

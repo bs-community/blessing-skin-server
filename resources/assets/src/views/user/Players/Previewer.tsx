@@ -1,9 +1,9 @@
+import ViewerSkeleton from '@/components/ViewerSkeleton';
+import useMount from '@/scripts/hooks/useMount';
+import {t} from '@/scripts/i18n';
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import Viewer2d from './Viewer2d';
-import useMount from '@/scripts/hooks/useMount';
-import {t} from '@/scripts/i18n';
-import ViewerSkeleton from '@/components/ViewerSkeleton';
 
 const Viewer3d = React.lazy(async () => import('@/components/Viewer'));
 
@@ -32,20 +32,22 @@ const Previewer: React.FC<Properties> = properties => {
 
 	return (
 		container
-    && ReactDOM.createPortal(
-    	is3d ? (
-	<React.Suspense fallback={<ViewerSkeleton/>}>
-	<Viewer3d skin={skin} cape={cape} isAlex={isAlex}>
-	{switcher}
-    			</Viewer3d>
-    		</React.Suspense>
-    	) : (
-	<Viewer2d skin={skin} cape={cape}>
-	{switcher}
-    		</Viewer2d>
-    	),
-    	container,
-    )
+		&& ReactDOM.createPortal(
+			is3d
+				? (
+					<React.Suspense fallback={<ViewerSkeleton/>}>
+						<Viewer3d skin={skin} cape={cape} isAlex={isAlex}>
+							{switcher}
+						</Viewer3d>
+					</React.Suspense>
+				)
+				: (
+					<Viewer2d skin={skin} cape={cape}>
+						{switcher}
+					</Viewer2d>
+				),
+			container,
+		)
 	);
 };
 

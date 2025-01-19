@@ -14,7 +14,7 @@ verification:
     reset: 'Haga clic aquí para verificar su cuenta: <a href=":url">:url</a>'
     ignore: Si no registraste una cuenta, no se requiere ninguna acción adicional.
 score-intro:
-  title: '¿Qué es la puntuación?'
+  title: ¿Qué es la puntuación?
   introduction: |
     Utilizamos el sistema de puntuación para prevenir comportamientos como la subida de gran cantidades de texturas y el registro de jugadores casualmente.
     Agregando jugadores, subiendo texturas o añadiendo un elemento skinlib a tu armario consumirá puntuaciones.
@@ -61,7 +61,7 @@ player:
     success: Las texturas del jugador :name se restablecieron con éxito.
 profile:
   avatar:
-    title: '¿Cambiar avatar?'
+    title: ¿Cambiar avatar?
     notice: Haz clic en el icono del engranaje "<i class="fa fa-cog"></i>" de cualquier aspecto de tu armario, luego haz clic en "Establecer como avatar". Cortaremos el segmento de cabeza de ese skin para ti. Si no hay ningún icono como este, por favor intenta desabilitando su bloqueador de anuncios.
     wrong-type: No puedes establecer una capa como avatar.
     success: Nuevo avatar se ha establecido correctamente.

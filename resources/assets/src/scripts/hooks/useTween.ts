@@ -1,5 +1,5 @@
-import {useState, useEffect, useRef} from 'react';
 import TWEEN from '@tweenjs/tween.js';
+import {useEffect, useRef, useState} from 'react';
 
 export default function useTween<T = any>(initialValue: T) {
 	const [value, setValue] = useState<T>(initialValue);

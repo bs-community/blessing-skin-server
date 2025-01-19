@@ -2,17 +2,17 @@
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "target": "esnext",
+    "baseUrl": "..",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "baseUrl": "..",
-    "noEmit": true,
     "paths": {
       "@/scripts/*": ["./tests/ts-shims/*", "./src/scripts/*"],
       "@/components/*": ["./src/components/*"],
       "@/views/*": ["./src/views/*"],
       "@/*": ["./src/*"]
-    }
+    },
+    "noEmit": true,
+    "esModuleInterop": true
   },
   "include": ["."]
 }

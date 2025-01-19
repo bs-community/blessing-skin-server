@@ -1,6 +1,6 @@
 ---
 database:
-  connection-error: "ターゲット :type データベースに接続できません。設定を確認してください。サーバーが以下の返信を受けました: :msg"
+  connection-error: 'ターゲット :type データベースに接続できません。設定を確認してください。サーバーが以下の返信を受けました: :msg'
 locked:
   title: すでにインストールされています
   text: Blessing Skin Serverがインストールされているようです。再インストールするには、"storage"ディレクトリの下にある"install.lock"ファイルを削除してください。

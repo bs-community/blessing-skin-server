@@ -3,7 +3,7 @@ import {Toast} from './toast';
 
 export const toast = new Toast();
 
-if (process.env.NODE_ENV === 'test') {
+if (import.meta.env.NODE_ENV === 'test') {
 	afterEach(() => {
 		toast.clear();
 	});

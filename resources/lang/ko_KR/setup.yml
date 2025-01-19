@@ -1,6 +1,6 @@
 ---
 database:
-  connection-error: "목표 :type 데이터배이스를 연결할 수 없으니다. 설정를 확인하세요. 서버가 전송된 메세지: :msg"
+  connection-error: '목표 :type 데이터배이스를 연결할 수 없으니다. 설정를 확인하세요. 서버가 전송된 메세지: :msg'
 locked:
   title: 이미 설치됨
   text: Blessing Skin Server가 이미 설치 된 겄을 확인되었습니다. 다시 설치하고 싶으면, storage 목록에 있는 install.lock 파일을 삭재하세요.

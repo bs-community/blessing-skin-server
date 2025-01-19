@@ -1,11 +1,11 @@
-/** @jsxImportSource @emotion/react */
-
-import {useState, useEffect, useRef} from 'react';
-import {useMeasure} from 'react-use';
+import {t} from '@/scripts/i18n';
+import * as breakpoints from '@/styles/breakpoints';
+import * as cssUtils from '@/styles/utils';
 import {css} from '@emotion/react';
 import styled from '@emotion/styled';
+import {useEffect, useRef, useState} from 'react';
+import {useMeasure} from 'react-use';
 import * as skinview3d from 'skinview3d';
-import SkinSteve from '../../../misc/textures/steve.png';
 import bg1 from '../../../misc/backgrounds/1.webp';
 import bg2 from '../../../misc/backgrounds/2.webp';
 import bg3 from '../../../misc/backgrounds/3.webp';
@@ -13,9 +13,7 @@ import bg4 from '../../../misc/backgrounds/4.webp';
 import bg5 from '../../../misc/backgrounds/5.webp';
 import bg6 from '../../../misc/backgrounds/6.webp';
 import bg7 from '../../../misc/backgrounds/7.webp';
-import * as breakpoints from '@/styles/breakpoints';
-import * as cssUtils from '@/styles/utils';
-import {t} from '@/scripts/i18n';
+import SkinSteve from '../../../misc/textures/steve.png';
 
 const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6, bg7];
 export const PICTURES_COUNT = backgrounds.length;
@@ -227,9 +225,8 @@ const Viewer: React.FC<Properties> = properties => {
 				<div className='d-flex justify-content-between'>
 					<h3 className='card-title'>
 						<span>{t('general.texturePreview')}</span>
-						{properties.showIndicator && (
-							<span className='badge bg-olive ml-1'>{indicator}</span>
-						)}
+						{properties.showIndicator
+						&& <span className='badge bg-olive ml-1'>{indicator}</span>}
 					</h3>
 					<div>
 						<ActionButton
@@ -238,14 +235,14 @@ const Viewer: React.FC<Properties> = properties => {
 							data-placement='bottom'
 							title={t('general.switchCapeElytra')}
 							onClick={toggleBackEquippment}
-						 />
+						/>
 						<ActionButton
 							className='fas fa-person-running'
 							data-toggle='tooltip'
 							data-placement='bottom'
 							title={t('general.switchAnimation')}
 							onClick={toggleAnimation}
-						 />
+						/>
 						<ActionButton
 							className={`fas fa-${paused ? 'play' : 'pause'}`}
 							data-toggle='tooltip'
@@ -256,14 +253,14 @@ const Viewer: React.FC<Properties> = properties => {
 									: t('general.pauseAnimation')
 							}
 							onClick={togglePause}
-						 />
+						/>
 						<ActionButton
 							className='fas fa-rotate-right'
 							data-toggle='tooltip'
 							data-placement='bottom'
 							title={t('general.rotation')}
 							onClick={toggleRotate}
-						 />
+						/>
 					</div>
 				</div>
 			</div>

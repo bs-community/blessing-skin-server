@@ -1,6 +1,6 @@
 import * as emitter from '@/scripts/event';
 
-test('add listener and emit event', () => {
+it('add listener and emit event', () => {
 	const mockA1 = vi.fn();
 	const mockA2 = vi.fn();
 	const mockB = vi.fn();
@@ -16,11 +16,11 @@ test('add listener and emit event', () => {
 	expect(mockB).not.toBeCalled();
 });
 
-test('not throw for un-existed event', () => {
+it('not throw for un-existed event', () => {
 	emitter.emit('c');
 });
 
-test('unsubscribe event', () => {
+it('unsubscribe event', () => {
 	const mock = vi.fn();
 
 	const off = emitter.on('c', mock);

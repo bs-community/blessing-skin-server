@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {useImmer} from 'use-immer';
 import type {Report, Status} from './types';
-import ImageBox from './ImageBox';
-import {t} from '@/scripts/i18n';
-import * as fetch from '@/scripts/net';
-import {type Paginator, type Texture, TextureType} from '@/scripts/types';
-import {toast, showModal} from '@/scripts/notify';
 import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
 import ViewerSkeleton from '@/components/ViewerSkeleton';
+import {t} from '@/scripts/i18n';
+import * as fetch from '@/scripts/net';
+import {showModal, toast} from '@/scripts/notify';
+import {type Paginator, type Texture, TextureType} from '@/scripts/types';
+import React, {useEffect, useState} from 'react';
+import {useImmer} from 'use-immer';
+import ImageBox from './ImageBox';
 
 const Previewer = React.lazy(async () => import('@/components/Viewer'));
 
@@ -104,26 +104,28 @@ function ReportsManagement() {
 							</div>
 						</form>
 					</div>
-					{isLoading ? (
-						<div className='card-body'>
-							<Loading/>
-						</div>
-					) : (reports.length === 0 ? (
-						<div className='card-body text-center'>{t('general.noResult')}</div>
-					) : (
-						<div className='card-body d-flex flex-wrap'>
-							{reports.map((report, i) => (
-								<ImageBox
-									key={report.id}
-									report={report}
-									onClick={setViewingTexture}
-									onBan={async () => handleProceedReport(report, i, 'ban')}
-									onDelete={async () => handleDelete(report, i)}
-									onReject={async () => handleProceedReport(report, i, 'reject')}
-								/>
-							))}
-						</div>
-					))}
+					{isLoading
+						? (
+							<div className='card-body'>
+								<Loading/>
+							</div>
+						)
+						: reports.length === 0
+							? <div className='card-body text-center'>{t('general.noResult')}</div>
+							: (
+								<div className='card-body d-flex flex-wrap'>
+									{reports.map((report, i) => (
+										<ImageBox
+											key={report.id}
+											report={report}
+											onClick={setViewingTexture}
+											onBan={async () => handleProceedReport(report, i, 'ban')}
+											onDelete={async () => handleDelete(report, i)}
+											onReject={async () => handleProceedReport(report, i, 'reject')}
+										/>
+									))}
+								</div>
+							)}
 					<div className='card-footer'>
 						<div className='float-right'>
 							<Pagination

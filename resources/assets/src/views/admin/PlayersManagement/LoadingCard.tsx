@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import Skeleton from 'react-loading-skeleton';
 import clsx from 'clsx';
+import Skeleton from 'react-loading-skeleton';
 import {Box} from './styles';
 
 const isDarkMode = document.body.classList.contains('dark-mode');

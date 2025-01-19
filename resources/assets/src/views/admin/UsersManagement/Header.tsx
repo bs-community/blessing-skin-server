@@ -1,5 +1,5 @@
+import {Breakpoint, lessThan} from '@/styles/breakpoints';
 import styled from '@emotion/styled';
-import {lessThan, Breakpoint} from '@/styles/breakpoints';
 
 const Header = styled.div`
   display: flex;

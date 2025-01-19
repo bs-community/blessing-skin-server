@@ -1,12 +1,12 @@
-import {expect, vi, test} from 'vitest';
-import {showModal, toast} from '@/scripts/notify';
 import {post} from '@/scripts/net';
+import {showModal, toast} from '@/scripts/notify';
 import resetAvatar from '@/views/user/profile/resetAvatar';
+import {expect, vi} from 'vitest';
 
 vi.mock('@/scripts/notify');
 vi.mock('@/scripts/net');
 
-test('reset avatar', async () => {
+it('reset avatar', async () => {
 	showModal.mockRejectedValueOnce(null).mockResolvedValue({value: ''});
 	post.mockResolvedValue({message: 'ok'});
 	document.body.innerHTML = '<img alt="User Image" src="a">';

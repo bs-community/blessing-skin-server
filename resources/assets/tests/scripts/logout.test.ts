@@ -6,7 +6,7 @@ import urls from '@/scripts/urls';
 vi.mock('@/scripts/net');
 vi.mock('@/scripts/notify');
 
-test('log out', async () => {
+it('log out', async () => {
 	showModal.mockRejectedValueOnce(null).mockResolvedValueOnce({value: ''});
 	post.mockResolvedValue({message: ''});
 

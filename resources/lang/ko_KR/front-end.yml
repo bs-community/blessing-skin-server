@@ -55,14 +55,14 @@ skinlib:
     likes: 좋아요순
   emptyTextureName: Empty texture name.
   emptyUploadFile: 아직 파일을 업로드하지 않았습니다!
-  fileExtError: 'PNG 형식의 파일이어야 합니다.'
+  fileExtError: PNG 형식의 파일이어야 합니다.
   uploading: 업로드 중...
   setAsPrivate: Set as Private
   setAsPublic: Set as Public
   setPublicNotice: Sure to set this as public texture?
   setPrivateNotice: Sure to set this as private texture?
   deleteNotice: Are you sure to delete this texture?
-  setNewTextureModel: "Please select a new texture model:"
+  setNewTextureModel: 'Please select a new texture model:'
   upload:
     texture-name: Texture Name
     texture-type: Texture Type

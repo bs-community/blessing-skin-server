@@ -1,7 +1,7 @@
 
 import type {App} from './types';
-import {t} from '@/scripts/i18n';
 import ButtonEdit from '@/components/ButtonEdit';
+import {t} from '@/scripts/i18n';
 
 type Properties = {
 	readonly app: App;

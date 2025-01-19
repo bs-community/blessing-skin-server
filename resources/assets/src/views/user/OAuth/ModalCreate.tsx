@@ -1,11 +1,11 @@
-import {useState} from 'react';
-import {t} from '@/scripts/i18n';
 import Modal from '@/components/Modal';
+import {t} from '@/scripts/i18n';
+import {useState} from 'react';
 
 type Properties = {
 	readonly show: boolean;
-	onCreate(name: string, redirect: string): Promise<void>;
-	onClose(): void;
+	onCreate: (name: string, redirect: string) => Promise<void>;
+	onClose: () => void;
 };
 
 const ModalCreate: React.FC<Properties> = properties => {

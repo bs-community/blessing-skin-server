@@ -27,4 +27,4 @@ no-permission: No tienes permiso para moderar esta textura.
 non-existent: No existe la textura.
 report:
   duplicate: Ya ha reportado esta textura. Los administradores la revisarán tan pronto sea posible. También puede rastrear el estado de su informe en el Centro de usuarios.
-  success: '¡Gracias por reportar! Los administradores lo revisarán tan pronto sea posible.'
+  success: ¡Gracias por reportar! Los administradores lo revisarán tan pronto sea posible.

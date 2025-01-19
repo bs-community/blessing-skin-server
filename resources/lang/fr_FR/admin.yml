@@ -115,8 +115,8 @@ update:
     up-to-date: Déjà mis à jour.
     available: Nouvelle version disponible.
     versions:
-      latest: "Dernière version :"
-      current: "Version actuelle :"
+      latest: 'Dernière version :'
+      current: 'Version actuelle :'
     check-github: Consulter les versions de GitHub
     button: Mettre à jour maintenant
   cautions:

@@ -1,22 +1,22 @@
-import {useState, useEffect, useRef} from 'react';
-import debounce from 'lodash-es/debounce';
-import ClosetItem from './ClosetItem';
-import LoadingClosetItem from './LoadingClosetItem';
-import Previewer from './Previewer';
-import ModalApply from './ModalApply';
-import removeClosetItem from './removeClosetItem';
+import Pagination from '@/components/Pagination';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {showModal, toast} from '@/scripts/notify';
 import {
 	type ClosetItem as Item,
-	type Texture,
 	type Paginator,
+	type Texture,
 	TextureType,
 } from '@/scripts/types';
 import urls from '@/scripts/urls';
-import Pagination from '@/components/Pagination';
+import debounce from 'lodash-es/debounce';
+import {useEffect, useRef, useState} from 'react';
+import ClosetItem from './ClosetItem';
+import LoadingClosetItem from './LoadingClosetItem';
+import ModalApply from './ModalApply';
+import Previewer from './Previewer';
+import removeClosetItem from './removeClosetItem';
 
 type Category = 'skin' | 'cape';
 
@@ -39,10 +39,10 @@ function Closet() {
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [items, setItems] = useState<Item[]>([]);
-	const [skin, setSkin] = useState<Texture | null>(null);
-	const [cape, setCape] = useState<Texture | null>(null);
+	const [skin, setSkin] = useState<Texture | undefined>(null);
+	const [cape, setCape] = useState<Texture | undefined>(null);
 	const [showModalApply, setShowModalApply] = useState(false);
-	const containerReference = useRef<HTMLDivElement | null>(null);
+	const containerReference = useRef<HTMLDivElement | undefined>(null);
 	const perPageReference = useRef(6);
 
 	useEmitMounted();
@@ -64,7 +64,10 @@ function Closet() {
 			const {data, last_page: lastPage} = await fetch.get<Paginator<Item>>(
 				urls.user.closet.list(),
 				{
-					category, q: query, page: page.toString(), perPage: perPageReference.current.toString(),
+					category,
+					q: query,
+					page: page.toString(),
+					perPage: perPageReference.current.toString(),
 				},
 			);
 
@@ -223,40 +226,43 @@ function Closet() {
 					</div>
 				</div>
 				<div className='card-body'>
-					{isLoading ? (
-						<div className='d-flex flex-wrap'>
-							{new Array(perPageReference.current).fill(null).map((_, i) => (
-								<LoadingClosetItem key={i}/>
-							))}
-						</div>
-					) : (items.length === 0 ? (
-						<div className='text-center p-3'>
-							{search ? (
-								t('general.noResult')
-							) : (
-								<span
-									dangerouslySetInnerHTML={{
-										__html: t('user.emptyClosetMsg', {
-											url: `${blessing.base_url}/skinlib?filter=${category}`,
-										}),
-									}}
-								 />
+					{isLoading
+						? (
+							<div className='d-flex flex-wrap'>
+								{new Array(perPageReference.current).fill(null).map((_, i) =>
+									<LoadingClosetItem key={i}/>)}
+							</div>
+						)
+						: items.length === 0
+							? (
+								<div className='text-center p-3'>
+									{search
+										? t('general.noResult')
+										: (
+											<span
+												dangerouslySetInnerHTML={{
+													__html: t('user.emptyClosetMsg', {
+														url: `${blessing.base_url}/skinlib?filter=${category}`,
+													}),
+												}}
+											/>
+										)}
+								</div>
+							)
+							: (
+								<div className='d-flex flex-wrap'>
+									{items.map((item, i) => (
+										<ClosetItem
+											key={item.tid}
+											item={item}
+											selected={isSelected(item)}
+											onClick={handleSelect}
+											onRename={async () => renameItem(item, i)}
+											onRemove={async () => removeItem(item)}
+										/>
+									))}
+								</div>
 							)}
-						</div>
-					) : (
-						<div className='d-flex flex-wrap'>
-							{items.map((item, i) => (
-								<ClosetItem
-									key={item.tid}
-									item={item}
-									selected={isSelected(item)}
-									onClick={handleSelect}
-									onRename={async () => renameItem(item, i)}
-									onRemove={async () => removeItem(item)}
-								/>
-							))}
-						</div>
-					))}
 				</div>
 				<div className='card-footer'>
 					<div className='float-right'>

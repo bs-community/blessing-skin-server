@@ -1,6 +1,6 @@
+import {t} from '@/scripts/i18n';
 import React from 'react';
 import * as scoreUtils from './scoreUtils';
-import {t} from '@/scripts/i18n';
 
 type Properties = {
 	readonly isLoading: boolean;
@@ -27,7 +27,9 @@ const SignButton: React.FC<Properties> = properties => {
 			disabled={!canSign || properties.isLoading}
 			onClick={properties.onClick}
 		>
-			<i className='far fa-calendar-check' aria-hidden='true'/> &nbsp;
+			<i className='far fa-calendar-check' aria-hidden='true'/>
+			{' '}
+&nbsp;
 			{canSign ? t('user.sign') : remainingTimeText}
 		</button>
 	);

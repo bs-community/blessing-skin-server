@@ -1,7 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {createPortal} from 'react-dom';
-import Skeleton from 'react-loading-skeleton';
-import addClosetItem from './addClosetItem';
+import ButtonEdit from '@/components/ButtonEdit';
+import ViewerSkeleton from '@/components/ViewerSkeleton';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import useMount from '@/scripts/hooks/useMount';
@@ -10,11 +8,13 @@ import * as fetch from '@/scripts/net';
 import {showModal, toast} from '@/scripts/notify';
 import {type Texture, TextureType} from '@/scripts/types';
 import urls from '@/scripts/urls';
-import ButtonEdit from '@/components/ButtonEdit';
-import ViewerSkeleton from '@/components/ViewerSkeleton';
 import ModalApply from '@/views/user/Closet/ModalApply';
 import removeClosetItem from '@/views/user/Closet/removeClosetItem';
 import setAsAvatar from '@/views/user/Closet/setAsAvatar';
+import React, {useEffect, useState} from 'react';
+import {createPortal} from 'react-dom';
+import Skeleton from 'react-loading-skeleton';
+import addClosetItem from './addClosetItem';
 
 export type Badge = {
 	color: string;
@@ -191,9 +191,7 @@ export default function Show() {
 		type ErrorResp = {code: 1; message: string};
 		type DuplicatedResp = {code: 2; message: string; data: {tid: number}};
 
-		const resp = await fetch.put<OkResp | ErrorResp | DuplicatedResp>(
-			urls.texture.privacy(texture.tid),
-		);
+		const resp = await fetch.put<OkResp | ErrorResp | DuplicatedResp>(urls.texture.privacy(texture.tid));
 		const {code, message} = resp;
 		if (code === 0) {
 			toast.success(message);
@@ -224,9 +222,7 @@ export default function Show() {
 			return;
 		}
 
-		const {code, message} = await fetch.del<fetch.ResponseBody>(
-			urls.texture.delete(texture.tid),
-		);
+		const {code, message} = await fetch.del<fetch.ResponseBody>(urls.texture.delete(texture.tid));
 		if (code === 0) {
 			toast.success(message);
 			setTimeout(() => {
@@ -274,80 +270,84 @@ export default function Show() {
 						isAlex={texture.type === TextureType.Alex}
 						initPositionZ={60}
 					>
-						{currentUid === 0 ? (
-							<button
-								disabled
-								type='button'
-								className='btn btn-outline-secondary'
-								title={t('skinlib.show.anonymous')}
-							>
-								{t('skinlib.addToCloset')}
-							</button>
-						) : (
-							<div className='d-flex justify-content-between align-items-center'>
-								<div>
-									{liked && (
-										<button
-											type='button'
-											className='btn btn-outline-success mr-2'
-											onClick={handleOpenModalApply}
-										>
-											{t('skinlib.apply')}
-										</button>
-									)}
-									{liked ? (
-										<button
-											type='button'
-											className='btn btn-outline-primary mr-2'
-											onClick={handleRemoveItemClick}
-										>
-											{t('skinlib.removeFromCloset')}
-										</button>
-									) : (
-										<button
-											type='button'
-											className='btn btn-outline-primary mr-2'
-											onClick={handleAddItemClick}
-										>
-											{t('skinlib.addToCloset')}
-										</button>
-									)}
-									{texture.type !== TextureType.Cape && (
-										<button
-											type='button'
-											className='btn btn-outline-info mr-2'
-											onClick={handleSetAsAvatar}
-										>
-											{t('user.setAsAvatar')}
-										</button>
-									)}
-									{canBeDownloaded && (
-										<a
-											role='button'
-											className='btn btn-outline-info mr-2'
-											href={`${blessing.base_url}/raw/${texture.tid}`}
-											download={`${texture.name}.png`}
-										>
-											{t('skinlib.show.download')}
-										</a>
-									)}
-									<button
-										type='button'
-										className='btn btn-outline-info mr-2'
-										onClick={handleReport}
-									>
-										{t('skinlib.report.title')}
-									</button>
-								</div>
-								<div
-									className={liked ? 'text-red' : 'text-gray'}
-									title={t('skinlib.show.likes')}
+						{currentUid === 0
+							? (
+								<button
+									disabled
+									type='button'
+									className='btn btn-outline-secondary'
+									title={t('skinlib.show.anonymous')}
 								>
-									<i className='fas fa-heart mr-1'/>
-									<span>{texture.likes}</span>
+									{t('skinlib.addToCloset')}
+								</button>
+							)
+							: (
+								<div className='d-flex justify-content-between align-items-center'>
+									<div>
+										{liked && (
+											<button
+												type='button'
+												className='btn btn-outline-success mr-2'
+												onClick={handleOpenModalApply}
+											>
+												{t('skinlib.apply')}
+											</button>
+										)}
+										{liked
+											? (
+												<button
+													type='button'
+													className='btn btn-outline-primary mr-2'
+													onClick={handleRemoveItemClick}
+												>
+													{t('skinlib.removeFromCloset')}
+												</button>
+											)
+											: (
+												<button
+													type='button'
+													className='btn btn-outline-primary mr-2'
+													onClick={handleAddItemClick}
+												>
+													{t('skinlib.addToCloset')}
+												</button>
+											)}
+										{texture.type !== TextureType.Cape && (
+											<button
+												type='button'
+												className='btn btn-outline-info mr-2'
+												onClick={handleSetAsAvatar}
+											>
+												{t('user.setAsAvatar')}
+											</button>
+										)}
+										{canBeDownloaded && (
+											<a
+												role='button'
+												className='btn btn-outline-info mr-2'
+												href={`${blessing.base_url}/raw/${texture.tid}`}
+												download={`${texture.name}.png`}
+											>
+												{t('skinlib.show.download')}
+											</a>
+										)}
+										<button
+											type='button'
+											className='btn btn-outline-info mr-2'
+											onClick={handleReport}
+										>
+											{t('skinlib.report.title')}
+										</button>
+									</div>
+									<div
+										className={liked ? 'text-red' : 'text-gray'}
+										title={t('skinlib.show.likes')}
+									>
+										<i className='fas fa-heart mr-1'/>
+										<span>{texture.likes}</span>
+									</div>
 								</div>
-							</div>
-						)}
+							)}
 					</Previewer>
 				</React.Suspense>,
 				container,
@@ -360,49 +360,53 @@ export default function Show() {
 					<div className='container'>
 						<div className='row mt-2 mb-4'>
 							<div className='col-4'>{t('skinlib.show.name')}</div>
-							{isLoading ? (
-								<div className='col-8'>
-									<Skeleton/>
-								</div>
-							) : (
-								<>
-									<div className='col-7 text-truncate' title={texture.name}>
-										{texture.name}
+							{isLoading
+								? (
+									<div className='col-8'>
+										<Skeleton/>
 									</div>
-									{canEdit && (
-										<div className='col-1'>
-											<ButtonEdit
-												title={t('skinlib.show.edit')}
-												onClick={handleEditName}
-											/>
+								)
+								: (
+									<>
+										<div className='col-7 text-truncate' title={texture.name}>
+											{texture.name}
 										</div>
-									)}
-								</>
-							)}
+										{canEdit && (
+											<div className='col-1'>
+												<ButtonEdit
+													title={t('skinlib.show.edit')}
+													onClick={handleEditName}
+												/>
+											</div>
+										)}
+									</>
+								)}
 						</div>
 						<div className='row my-4'>
 							<div className='col-4'>{t('skinlib.show.model')}</div>
-							{isLoading ? (
-								<div className='col-8'>
-									<Skeleton/>
-								</div>
-							) : (
-								<>
-									<div className='col-7'>
-										{texture.type === TextureType.Cape
-											? t('general.cape')
-											: texture.type}
+							{isLoading
+								? (
+									<div className='col-8'>
+										<Skeleton/>
 									</div>
-									{canEdit && (
-										<div className='col-1'>
-											<ButtonEdit
-												title={t('skinlib.show.edit')}
-												onClick={handleSwitchType}
-											/>
+								)
+								: (
+									<>
+										<div className='col-7'>
+											{texture.type === TextureType.Cape
+												? t('general.cape')
+												: texture.type}
 										</div>
-									)}
-								</>
-							)}
+										{canEdit && (
+											<div className='col-1'>
+												<ButtonEdit
+													title={t('skinlib.show.edit')}
+													onClick={handleSwitchType}
+												/>
+											</div>
+										)}
+									</>
+								)}
 						</div>
 						<div className='row my-4'>
 							<div className='col-4'>Hash</div>
@@ -416,35 +420,41 @@ export default function Show() {
 						<div className='row my-4'>
 							<div className='col-4'>{t('skinlib.show.size')}</div>
 							<div className='col-8'>
-								{isLoading ? <Skeleton/> : <span>{texture.size} KB</span>}
+								{isLoading
+									? <Skeleton/>
+									: <span>
+										{texture.size}
+										{' '}
+										KB
+									</span>}
 							</div>
 						</div>
 						<div className='row my-4'>
 							<div className='col-4'>{t('skinlib.show.uploader')}</div>
 							<div className='col-8 text-truncate'>
-								{isLoading ? (
-									<Skeleton/>
-								) : (isUploaderExists ? (
-									<>
-										<div>
-											<a href={linkToUploader} target='_blank' rel='noreferrer'>
-												{nickname}
-											</a>
-										</div>
-										<div>
-											{badges.map(badge => (
-												<span
-													key={badge.text}
-													className={`badge bg-${badge.color} mr-2`}
-												>
-													{badge.text}
-												</span>
-											))}
-										</div>
-									</>
-								) : (
-									nickname
-								))}
+								{isLoading
+									? <Skeleton/>
+									: isUploaderExists
+										? (
+											<>
+												<div>
+													<a href={linkToUploader} target='_blank' rel='noreferrer'>
+														{nickname}
+													</a>
+												</div>
+												<div>
+													{badges.map(badge => (
+														<span
+															key={badge.text}
+															className={`badge bg-${badge.color} mr-2`}
+														>
+															{badge.text}
+														</span>
+													))}
+												</div>
+											</>
+										)
+										: nickname}
 							</div>
 						</div>
 						<div className='row mt-4 mb-2'>

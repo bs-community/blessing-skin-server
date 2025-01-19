@@ -21,8 +21,8 @@ auth:
   password: Contraseña
   captcha: CAPTCHA
   change-captcha: Haga clic para cambiar la imagen CAPTCHA.
-  login-link: '¿Ya está registrado? Inicie su sesión aquí.'
-  forgot-link: '¿Olvidó su contraseña?'
+  login-link: ¿Ya está registrado? Inicie su sesión aquí.
+  forgot-link: ¿Olvidó su contraseña?
   keep: Recuérdame
   repeat-pwd: Repita su contraseña
   nickname-intro: Lo que quieras excepto caracteres especiales
@@ -59,10 +59,10 @@ skinlib:
   uploading: Subiendo
   setAsPrivate: Establecer como privado
   setAsPublic: Establecer como público
-  setPublicNotice: '¿Seguro que quieres establecer esto como textura pública?'
-  setPrivateNotice: '¿Seguro que quieres establecer esto como textura privada?'
-  deleteNotice: '¿Seguro que desea eliminar esta textura?'
-  setNewTextureModel: "Por favor, seleccione un nuevo modelo de textura:"
+  setPublicNotice: ¿Seguro que quieres establecer esto como textura pública?
+  setPrivateNotice: ¿Seguro que quieres establecer esto como textura privada?
+  deleteNotice: ¿Seguro que desea eliminar esta textura?
+  setNewTextureModel: 'Por favor, seleccione un nuevo modelo de textura:'
   upload:
     texture-name: Nombre de textura
     texture-type: Tipo de textura
@@ -102,25 +102,25 @@ user:
   viewInSkinlib: Ver en la colección de skins
   switch2dPreview: Cambiar a preestreno 2D
   switch3dPreview: Cambiar a preestreno 3D
-  removeFromClosetNotice: '¿Seguro que quiere eliminar esta textura de su armario?'
+  removeFromClosetNotice: ¿Seguro que quiere eliminar esta textura de su armario?
   emptySelectedTexture: No hay textura seleccionada.
   renameClosetItem: 'Establecer un nuevo nombre para este elemento:'
   changePlayerName: 'Por favor, introduzca el nombre del jugador:'
   emptyPlayerName: Nombre de jugador vacío.
-  deletePlayer: '¿Seguro que quiere eliminar este jugador?'
+  deletePlayer: ¿Seguro que quiere eliminar este jugador?
   deletePlayerNotice: Es permanente. No hay copias de seguridad.
   chooseClearTexture: Elige los tipos de texturas que quiera borrar
   noClearChoice: No ha elegido ningún tipo
-  setAvatar: '¿Seguro que quiere establecer esto como su avatar?'
+  setAvatar: ¿Seguro que quiere establecer esto como su avatar?
   setAvatarNotice: El segmento de cabeza del skin se usará.
-  resetAvatarConfirm: '¿Está seguro que quiere restablecer su avatar?'
+  resetAvatarConfirm: ¿Está seguro que quiere restablecer su avatar?
   typeToSearch: Escriba para buscar
   useAs: Aplicar...
   resetSelected: Borrar seleccionado
   closet:
     upload: Subir textura
     use-as:
-      title: '¿A qué jugador se debe aplicar?'
+      title: ¿A qué jugador se debe aplicar?
       empty: Parece que no tienes jugador...
   used:
     title: Recursos usados
@@ -149,7 +149,7 @@ user:
     modifyName: Modificar el nombre de la aplicación.
     modifyUrl: Modificar callback URL.
     create: Crear nueva app
-    confirmRemove: '¿Estás seguro de eliminar esta aplicación? No podrás deshacer esto.'
+    confirmRemove: ¿Estás seguro de eliminar esta aplicación? No podrás deshacer esto.
 admin:
   operationsTitle: Operaciones
   permission: Permiso
@@ -166,7 +166,7 @@ admin:
   newScore: 'Por favor, introduzca la nueva puntuación:'
   changePermission: Cambiar permiso
   newPermission: 'Por favor, seleccione un nuevo permiso:'
-  deleteUserNotice: '¿Está seguro de eliminar este usuario? Es permanente.'
+  deleteUserNotice: ¿Está seguro de eliminar este usuario? Es permanente.
   banned: Baneado
   normal: Normal
   admin: Admin
@@ -181,7 +181,7 @@ admin:
   textureType: Tipo de textura
   deletePlayer: Eliminar
   changePlayerOwner: 'Por favor, introduzca el id del usuario al que este jugador debe ser transferido:'
-  deletePlayerNotice: '¿Está seguro de eliminar este jugador? Es permanente.'
+  deletePlayerNotice: ¿Está seguro de eliminar este jugador? Es permanente.
   changePlayerNameNotice: 'Por favor, introduce un nuevo nombre de jugador:'
   emptyPlayerName: El nombre del jugador no puede estar vacío.
   configurePlugin: Configurar
@@ -200,7 +200,7 @@ admin:
   confirmUpdate: '¿Estás seguro de actualizar ":plugin" de :old a :new?'
   enablePlugin: Habilitar
   disablePlugin: Deshabilitar
-  confirmDeletion: '¿Seguro que desea eliminar este plugin?'
+  confirmDeletion: ¿Seguro que desea eliminar este plugin?
   uploadArchive: Subir archivo
   uploadArchiveNotice: Instalar un plugin subiendo un archivo zip.
   downloadRemote: Descargar desde remoto
@@ -215,7 +215,7 @@ admin:
     modify: Modificar
     delete: Eliminar
     updating: 'Por favor, escribe un nuevo texto:'
-    confirmDelete: '¿Está seguro? Esto es irreversible.'
+    confirmDelete: ¿Está seguro? Esto es irreversible.
 report:
   tid: ID de textura
   reporter: Informante
@@ -233,7 +233,7 @@ general:
   skin: Skin
   cape: Capa
   fatalError: Error fatal
-  confirmLogout: '¿Seguro que quiere cerrar sesión?'
+  confirmLogout: ¿Seguro que quiere cerrar sesión?
   confirm: OK
   cancel: Cancelar
   submit: Someter

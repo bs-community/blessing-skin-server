@@ -1,12 +1,12 @@
-import {useState} from 'react';
+import Modal from '@/components/Modal';
 import {t} from '@/scripts/i18n';
 import {TextureType} from '@/scripts/types';
-import Modal from '@/components/Modal';
+import {useState} from 'react';
 
 type Properties = {
 	readonly open: boolean;
-	onSubmit(type: 'skin' | 'cape', tid: number): void;
-	onClose(): void;
+	onSubmit: (type: 'skin' | 'cape', tid: number) => void;
+	onClose: () => void;
 };
 
 const ModalUpdateTexture: React.FC<Properties> = properties => {

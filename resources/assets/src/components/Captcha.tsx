@@ -1,11 +1,10 @@
-/** @jsxImportSource @emotion/react */
-import React from 'react';
-import Reaptcha from 'reaptcha';
 import {emit, on} from '@/scripts/event';
 import {t} from '@/scripts/i18n';
 import * as cssUtils from '@/styles/utils';
+import React from 'react';
+import Reaptcha from 'reaptcha';
 
-const eventId = Symbol();
+const eventId = Symbol('EventId');
 
 type State = {
 	value: string;
@@ -16,20 +15,22 @@ type State = {
 
 class Captcha extends React.Component<Record<string, unknown>, State> {
 	state: State;
-	ref: React.MutableRefObject<Reaptcha | undefined>;
+	// eslint-disable-next-line ts/no-restricted-types
+	ref: React.RefObject<Reaptcha | null>;
 
 	constructor(properties: Record<string, unknown>) {
 		super(properties);
 		this.state = {
 			value: '',
 			time: Date.now(),
-			sitekey: blessing.extra.recaptcha,
-			invisible: blessing.extra.invisible,
+			sitekey: blessing.extra.recaptcha as string,
+			invisible: blessing.extra.invisible as boolean,
 		};
-		this.ref = React.createRef();
+		this.ref = React.createRef<Reaptcha>();
 	}
 
-	execute = async () => {
+	// eslint-disable-next-line react/no-unused-class-component-members
+	async execute() {
 		const recaptcha = this.ref.current;
 		if (recaptcha && this.state.invisible) {
 			return new Promise<string>(resolve => {
@@ -37,21 +38,22 @@ class Captcha extends React.Component<Record<string, unknown>, State> {
 					resolve(value);
 					off();
 				});
-				recaptcha.execute();
+				void recaptcha.execute();
 			});
 		}
 
 		return this.state.value;
-	};
+	}
 
-	reset = () => {
+	// eslint-disable-next-line react/no-unused-class-component-members
+	reset() {
 		const recaptcha = this.ref.current;
 		if (recaptcha) {
-			recaptcha.reset();
+			void recaptcha.reset();
 		} else {
 			this.setState({time: Date.now()});
 		}
-	};
+	}
 
 	handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		this.setState({value: event.target.value});
@@ -67,37 +69,39 @@ class Captcha extends React.Component<Record<string, unknown>, State> {
 	};
 
 	render() {
-		return this.state.sitekey ? (
-			<div className='mb-2'>
-				<Reaptcha
-					ref={this.ref}
-					sitekey={this.state.sitekey}
-					size={this.state.invisible ? 'invisible' : 'normal'}
-					onVerify={this.handleVerify}
-				/>
-			</div>
-		) : (
-			<div className='d-flex'>
-				<div className='form-group mb-3 mr-2'>
-					<input
-						required
-						type='text'
-						className='form-control'
-						placeholder={t('auth.captcha')}
-						value={this.state.value}
-						onChange={this.handleValueChange}
+		return this.state.sitekey
+			? (
+				<div className='mb-2'>
+					<Reaptcha
+						ref={this.ref}
+						sitekey={this.state.sitekey}
+						size={this.state.invisible ? 'invisible' : 'normal'}
+						onVerify={this.handleVerify}
 					/>
 				</div>
-				<img
-					src={`${blessing.base_url}/auth/captcha?v=${this.state.time}`}
-					alt={t('auth.captcha')}
-					css={cssUtils.pointerCursor}
-					height={34}
-					title={t('auth.change-captcha')}
-					onClick={this.handleRefresh}
-				/>
-			</div>
-		);
+			)
+			: (
+				<div className='d-flex'>
+					<div className='form-group mb-3 mr-2'>
+						<input
+							required
+							type='text'
+							className='form-control'
+							placeholder={t('auth.captcha')}
+							value={this.state.value}
+							onChange={this.handleValueChange}
+						/>
+					</div>
+					<img
+						src={`${blessing.base_url}/auth/captcha?v=${this.state.time}`}
+						alt={t('auth.captcha')}
+						css={cssUtils.pointerCursor}
+						height={34}
+						title={t('auth.change-captcha')}
+						onClick={this.handleRefresh}
+					/>
+				</div>
+			);
 	}
 }
 

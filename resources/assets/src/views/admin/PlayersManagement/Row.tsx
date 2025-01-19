@@ -1,14 +1,14 @@
 
-import {t} from '@/scripts/i18n';
 import type {Player} from '@/scripts/types';
 import ButtonEdit from '@/components/ButtonEdit';
+import {t} from '@/scripts/i18n';
 
 type Properties = {
 	readonly player: Player;
-	onUpdateName(): void;
-	onUpdateOwner(): void;
-	onUpdateTexture(): void;
-	onDelete(): void;
+	onUpdateName: () => void;
+	onUpdateOwner: () => void;
+	onUpdateTexture: () => void;
+	onDelete: () => void;
 };
 
 const Row: React.FC<Properties> = properties => {
@@ -40,7 +40,8 @@ const Row: React.FC<Properties> = properties => {
 					<a
 						href={`${blessing.base_url}/skinlib/show/${player.tid_skin}`}
 						target='_blank'
-						className='mr-1' rel='noreferrer'
+						className='mr-1'
+						rel='noreferrer'
 					>
 						<img
 							src={`${blessing.base_url}/preview/${player.tid_skin}`}
@@ -52,7 +53,8 @@ const Row: React.FC<Properties> = properties => {
 				{player.tid_cape > 0 && (
 					<a
 						href={`${blessing.base_url}/skinlib/show/${player.tid_cape}`}
-						target='_blank' rel='noreferrer'
+						target='_blank'
+						rel='noreferrer'
 					>
 						<img
 							src={`${blessing.base_url}/preview/${player.tid_cape}`}

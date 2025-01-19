@@ -1,10 +1,10 @@
-import {expect, test} from 'vitest';
 import {
 	registerNavbarPicker,
 	registerSidebarPicker,
 } from '@/views/admin/Customization';
+import {expect} from 'vitest';
 
-test('preview navbar color', () => {
+it('preview navbar color', () => {
 	const nav = document.createElement('nav');
 	nav.className = 'navbar-primary navbar-dark';
 	const picker = document.createElement('div');
@@ -27,23 +27,19 @@ test('preview navbar color', () => {
 	expect(nav.className).not.toContain('navbar-dark');
 });
 
-test('preview sidebar color', () => {
+it('preview sidebar color', () => {
 	const sidebar = document.createElement('aside');
 	sidebar.className = 'sidebar-dark-primary';
 
 	const darkPicker = document.createElement('div');
 	darkPicker.innerHTML = `
     <label><input type="radio" name="sidebar" value="dark-cyan"></label>`;
-	const darkCyan = darkPicker.querySelector<HTMLInputElement>(
-		'[value="dark-cyan"]',
-	)!;
+	const darkCyan = darkPicker.querySelector<HTMLInputElement>('[value="dark-cyan"]')!;
 
 	const lightPicker = document.createElement('div');
 	lightPicker.innerHTML = `
     <label><input type="radio" name="sidebar" value="light-cyan"></label>`;
-	const lightCyan = lightPicker.querySelector<HTMLInputElement>(
-		'[value="light-cyan"]',
-	)!;
+	const lightCyan = lightPicker.querySelector<HTMLInputElement>('[value="light-cyan"]')!;
 
 	registerSidebarPicker(
 		sidebar,

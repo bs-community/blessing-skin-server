@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import * as fetch from '../net';
 import {type Texture, TextureType} from '../types';
 

@@ -6,13 +6,18 @@
       "@/*": [
         "./resources/assets/src/*"
       ]
-    }
+    },
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": false,
+    "jsxImportSource": "@emotion/react"
   },
   "include": [
     "resources/assets/src",
     "resources/assets/tests",
     "tools",
     "vite.config.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "eslint.config.js"
   ]
 }

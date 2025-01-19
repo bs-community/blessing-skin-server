@@ -97,7 +97,7 @@ general:
   regs_per_ip: Comptes maximum par IP
   max_upload_file_size:
     title: Taille maximale d'envoie
-    hint: "Limite spécifiée dans php.ini : :size"
+    hint: 'Limite spécifiée dans php.ini : :size'
   player_name_rule:
     title: Player Name Rule
     official: Letters, numbers and underscores (Mojang's official rule)

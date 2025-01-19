@@ -1,9 +1,9 @@
-import {expect, test, jest} from 'vitest';
-import {render, waitFor, fireEvent} from '@testing-library/react';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import urls from '@/scripts/urls';
 import Registration from '@/views/auth/Registration';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {expect} from 'vitest';
 
 vi.mock('@/scripts/net');
 
@@ -11,10 +11,8 @@ beforeEach(() => {
 	window.blessing.extra = {player: false};
 });
 
-test('confirmation is not matched', () => {
-	const {getByText, getByPlaceholderText, queryByText} = render(
-		<Registration/>,
-	);
+it('confirmation is not matched', () => {
+	const {getByText, getByPlaceholderText, queryByText} = render(<Registration/>);
 
 	fireEvent.input(getByPlaceholderText(t('auth.email')), {
 		target: {value: 'a@b.c'},
@@ -37,11 +35,9 @@ test('confirmation is not matched', () => {
 	expect(fetch.post).not.toBeCalled();
 });
 
-test('succeeded', async () => {
+it('succeeded', async () => {
 	fetch.post.mockResolvedValue({code: 0, message: 'ok'});
-	const {getByText, getByPlaceholderText, getByRole, queryByText} = render(
-		<Registration/>,
-	);
+	const {getByText, getByPlaceholderText, getByRole, queryByText} = render(<Registration/>);
 
 	fireEvent.input(getByPlaceholderText(t('auth.email')), {
 		target: {value: 'a@b.c'},
@@ -66,18 +62,15 @@ test('succeeded', async () => {
 			nickname: 't',
 			captcha: 'a',
 		});
-	},
-	);
+	});
 	expect(queryByText('ok')).toBeInTheDocument();
 	expect(getByRole('status')).toHaveClass('alert-success');
 	vi.runAllTimers();
 });
 
-test('failed', async () => {
+it('failed', async () => {
 	fetch.post.mockResolvedValue({code: 1, message: 'failed'});
-	const {getByText, getByPlaceholderText, queryByText} = render(
-		<Registration/>,
-	);
+	const {getByText, getByPlaceholderText, queryByText} = render(<Registration/>);
 
 	fireEvent.input(getByPlaceholderText(t('auth.email')), {
 		target: {value: 'a@b.c'},
@@ -102,17 +95,14 @@ test('failed', async () => {
 			nickname: 't',
 			captcha: 'a',
 		});
-	},
-	);
+	});
 	expect(queryByText('failed')).toBeInTheDocument();
 });
 
-test('register with new player', async () => {
+it('register with new player', async () => {
 	window.blessing.extra = {player: true};
 	fetch.post.mockResolvedValue({code: 0, message: 'ok'});
-	const {getByText, getByPlaceholderText, queryByText} = render(
-		<Registration/>,
-	);
+	const {getByText, getByPlaceholderText, queryByText} = render(<Registration/>);
 
 	fireEvent.input(getByPlaceholderText(t('auth.email')), {
 		target: {value: 'a@b.c'},
@@ -137,7 +127,6 @@ test('register with new player', async () => {
 			player_name: 'player',
 			captcha: 'a',
 		});
-	},
-	);
+	});
 	expect(queryByText('ok')).toBeInTheDocument();
 });

@@ -1,13 +1,13 @@
-import {useState, useRef, useEffect} from 'react';
+import Alert from '@/components/Alert';
+import Captcha from '@/components/Captcha';
+import EmailSuggestion from '@/components/EmailSuggestion';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {showModal} from '@/scripts/notify';
 import urls from '@/scripts/urls';
-import Alert from '@/components/Alert';
-import Captcha from '@/components/Captcha';
-import EmailSuggestion from '@/components/EmailSuggestion';
+import {useEffect, useRef, useState} from 'react';
 
 type SuccessfulResponse = {
 	code: 0;
@@ -21,9 +21,7 @@ type FailedResponse = {
 };
 type Response = SuccessfulResponse | FailedResponse;
 
-function isSuccessfulResponse(
-	response: Response,
-): response is SuccessfulResponse {
+function isSuccessfulResponse(response: Response): response is SuccessfulResponse {
 	return response.code === 0;
 }
 
@@ -34,7 +32,7 @@ export default function Login() {
 	const [hasTooManyFails, setHasTooManyFails] = useState(false);
 	const [isPending, setIsPending] = useState(false);
 	const [warningMessage, setWarningMessage] = useState('');
-	const reference = useRef<Captcha | null>(null);
+	const reference = useRef<Captcha>(null);
 	const recaptcha = useBlessingExtra<string>('recaptcha');
 	const invisibleRecaptcha = useBlessingExtra<boolean>('invisible');
 
@@ -111,10 +109,8 @@ export default function Login() {
 					value={password}
 					onChange={handlePasswordChange}
 				/>
-				<div className='input-group-append'>
-					<div className='input-group-text'>
-						<i className='fas fa-lock'/>
-					</div>
+				<div className='input-group-text'>
+					<i className='fas fa-lock'/>
 				</div>
 			</div>
 
@@ -126,7 +122,7 @@ export default function Login() {
 				<label>
 					<input
 						type='checkbox'
-						className='mr-1'
+						className='me-1'
 						checked={remember}
 						onChange={handleRememberChange}
 					/>
@@ -140,14 +136,14 @@ export default function Login() {
 				type='submit'
 				disabled={isPending}
 			>
-				{isPending ? (
-					<>
-						<i className='fas fa-spinner fa-spin mr-1'/>
-						{t('auth.loggingIn')}
-					</>
-				) : (
-					t('auth.login')
-				)}
+				{isPending
+					? (
+						<>
+							<i className='fas fa-spinner fa-spin mr-1'/>
+							{t('auth.loggingIn')}
+						</>
+					)
+					: t('auth.login')}
 			</button>
 		</form>
 	);

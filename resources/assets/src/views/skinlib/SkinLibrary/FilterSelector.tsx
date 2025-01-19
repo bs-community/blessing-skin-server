@@ -1,13 +1,13 @@
 
-import Button from './Button';
 import type {Filter} from './types';
-import {humanizeType} from './utils';
-import {TextureType} from '@/scripts/types';
 import {t} from '@/scripts/i18n';
+import {TextureType} from '@/scripts/types';
+import Button from './Button';
+import {humanizeType} from './utils';
 
 type Properties = {
 	readonly filter: Filter;
-	onChange(filter: Filter): void;
+	onChange: (filter: Filter) => void;
 };
 
 const FilterSelector: React.FC<Properties> = properties => {

@@ -1,35 +1,35 @@
-import {expect, test} from 'vitest';
-import {render, fireEvent} from '@testing-library/react';
-import {t} from '@/scripts/i18n';
 import FileInput from '@/components/FileInput';
+import {t} from '@/scripts/i18n';
+import {fireEvent, render} from '@testing-library/react';
+import {expect} from 'vitest';
 
-test('click to select file', () => {
+it('click to select file', () => {
 	const {getAllByText} = render(
-		<FileInput
-			file={null}
-			onChange={() => {
+<FileInput
+	file={null}
+	onChange={() => {
 				/* */
 			}}
-		/>,
-	);
+		/>
+);
 
 	fireEvent.click(getAllByText(t('skinlib.upload.select-file'))[1]);
 });
 
-test('display file name', () => {
+it('display file name', () => {
 	const file = new File([], 'f.txt');
 	const {queryByText} = render(
-		<FileInput
-			file={file}
-			onChange={() => {
+<FileInput
+	file={file}
+	onChange={() => {
 				/* */
 			}}
-		/>,
-	);
+		/>
+);
 	expect(queryByText('f.txt')).toBeInTheDocument();
 });
 
-test('input file', () => {
+it('input file', () => {
 	const mock = vi.fn();
 
 	const {getByLabelText} = render(<FileInput file={null} onChange={mock}/>);

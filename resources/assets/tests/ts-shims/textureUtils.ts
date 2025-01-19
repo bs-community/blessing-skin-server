@@ -1,1 +1,1 @@
-export const isAlex = {} as jest.Mock<Promise<boolean>, [string]>
+export const isAlex = {} as jest.Mock<Promise<boolean>, [string]>;

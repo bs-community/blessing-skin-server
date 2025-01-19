@@ -1,17 +1,18 @@
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import Modal, {type ModalOptions, type ModalResult} from '../components/Modal';
 
 export async function showModal(options: ModalOptions = {}): Promise<ModalResult> {
 	return new Promise((resolve, reject) => {
 		const container = document.createElement('div');
 		document.body.append(container);
+		const root = createRoot(container);
 
 		const handleClose = () => {
-			ReactDOM.unmountComponentAtNode(container);
+			root.unmount();
 			container.remove();
 		};
 
-		ReactDOM.render(
+		root.render((
 			<Modal
 				{...options}
 				show
@@ -19,8 +20,7 @@ export async function showModal(options: ModalOptions = {}): Promise<ModalResult
 				onConfirm={resolve}
 				onDismiss={reject}
 				onClose={handleClose}
-			/>,
-			container,
-		);
+			/>
+		));
 	});
 }

@@ -1,7 +1,7 @@
+import ViewerSkeleton from '@/components/ViewerSkeleton';
+import useMount from '@/scripts/hooks/useMount';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import useMount from '@/scripts/hooks/useMount';
-import ViewerSkeleton from '@/components/ViewerSkeleton';
 
 const Viewer = React.lazy(async () => import('@/components/Viewer'));
 
@@ -20,14 +20,14 @@ const Previewer: React.FC<Properties> = properties => {
 
 	return (
 		container
-    && ReactDOM.createPortal(
-    	<React.Suspense fallback={<ViewerSkeleton/>}>
-    		<Viewer showIndicator skin={skin} cape={cape} isAlex={properties.isAlex}>
-    			{properties.children}
- </Viewer>
- </React.Suspense>,
-    	container,
-    )
+		&& ReactDOM.createPortal(
+			<React.Suspense fallback={<ViewerSkeleton/>}>
+				<Viewer showIndicator skin={skin} cape={cape} isAlex={properties.isAlex}>
+					{properties.children}
+				</Viewer>
+			</React.Suspense>,
+			container,
+		)
 	);
 };
 

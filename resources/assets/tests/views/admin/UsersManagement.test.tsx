@@ -1,13 +1,15 @@
-import {
-	expect, test, vi, it,
-} from 'vitest';
-import {render, waitFor, fireEvent} from '@testing-library/react';
-import {createPaginator} from '../../utils';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {type User, UserPermission} from '@/scripts/types';
 import urls from '@/scripts/urls';
 import UsersManagement from '@/views/admin/UsersManagement';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	expect,
+	it,
+	vi,
+} from 'vitest';
+import {createPaginator} from '../../utils';
 
 vi.mock('@/scripts/net');
 
@@ -40,7 +42,7 @@ beforeEach(() => {
 	};
 });
 
-test('search users', async () => {
+it('search users', async () => {
 	fetch.get.mockResolvedValue(createPaginator([]));
 
 	const {getByTitle, getByText} = render(<UsersManagement/>);
@@ -49,8 +51,7 @@ test('search users', async () => {
 			q: '',
 			page: 1,
 		});
-	},
-	);
+	});
 
 	fireEvent.input(getByTitle(t('vendor.datatable.search')), {
 		target: {value: 's'},
@@ -61,8 +62,7 @@ test('search users', async () => {
 			q: 's',
 			page: 1,
 		});
-	},
-	);
+	});
 });
 
 describe('access control', () => {
@@ -78,15 +78,11 @@ describe('access control', () => {
 		});
 
 		it('target user is super administrator', async () => {
-			fetch.get.mockResolvedValue(
-				createPaginator([
-					{...fixture, permission: UserPermission.SuperAdmin},
-				]),
-			);
+			fetch.get.mockResolvedValue(createPaginator([
+				{...fixture, permission: UserPermission.SuperAdmin},
+			]));
 
-			const {getByTitle, getByText, queryByText, queryByTitle} = render(
-				<UsersManagement/>,
-			);
+			const {getByTitle, getByText, queryByText, queryByTitle} = render(<UsersManagement/>);
 			await waitFor(() => {
 				expect(fetch.get).toBeCalled();
 			});
@@ -103,21 +99,15 @@ describe('access control', () => {
 			expect(queryByTitle(t('admin.changeNickName'))).not.toBeInTheDocument();
 			expect(queryByTitle(t('admin.changeScore'))).not.toBeInTheDocument();
 			expect(queryByTitle(t('admin.changePermission'))).not.toBeInTheDocument();
-			expect(
-				queryByTitle(t('admin.toggleVerification')),
-			).not.toBeInTheDocument();
+			expect(queryByTitle(t('admin.toggleVerification'))).not.toBeInTheDocument();
 			expect(getByText(t('admin.changePassword'))).toBeDisabled();
 			expect(getByText(t('admin.deleteUser'))).toBeDisabled();
 		});
 
 		it('target user is normal administrator', async () => {
-			fetch.get.mockResolvedValue(
-				createPaginator([{...fixture, permission: UserPermission.Admin}]),
-			);
+			fetch.get.mockResolvedValue(createPaginator([{...fixture, permission: UserPermission.Admin}]));
 
-			const {getByTitle, getByText, queryByText, queryByTitle} = render(
-				<UsersManagement/>,
-			);
+			const {getByTitle, getByText, queryByText, queryByTitle} = render(<UsersManagement/>);
 			await waitFor(() => {
 				expect(fetch.get).toBeCalled();
 			});
@@ -152,15 +142,11 @@ describe('access control', () => {
 		});
 
 		it('target user is super administrator', async () => {
-			fetch.get.mockResolvedValue(
-				createPaginator([
-					{...fixture, permission: UserPermission.SuperAdmin},
-				]),
-			);
+			fetch.get.mockResolvedValue(createPaginator([
+				{...fixture, permission: UserPermission.SuperAdmin},
+			]));
 
-			const {getByTitle, getByText, queryByText, queryByTitle} = render(
-				<UsersManagement/>,
-			);
+			const {getByTitle, getByText, queryByText, queryByTitle} = render(<UsersManagement/>);
 			await waitFor(() => {
 				expect(fetch.get).toBeCalled();
 			});
@@ -177,21 +163,15 @@ describe('access control', () => {
 			expect(queryByTitle(t('admin.changeNickName'))).not.toBeInTheDocument();
 			expect(queryByTitle(t('admin.changeScore'))).not.toBeInTheDocument();
 			expect(queryByTitle(t('admin.changePermission'))).not.toBeInTheDocument();
-			expect(
-				queryByTitle(t('admin.toggleVerification')),
-			).not.toBeInTheDocument();
+			expect(queryByTitle(t('admin.toggleVerification'))).not.toBeInTheDocument();
 			expect(getByText(t('admin.changePassword'))).toBeDisabled();
 			expect(getByText(t('admin.deleteUser'))).toBeDisabled();
 		});
 
 		it('target user is normal administrator', async () => {
-			fetch.get.mockResolvedValue(
-				createPaginator([{...fixture, permission: UserPermission.Admin}]),
-			);
+			fetch.get.mockResolvedValue(createPaginator([{...fixture, permission: UserPermission.Admin}]));
 
-			const {getByTitle, getByText, queryByText, queryByTitle} = render(
-				<UsersManagement/>,
-			);
+			const {getByTitle, getByText, queryByText, queryByTitle} = render(<UsersManagement/>);
 			await waitFor(() => {
 				expect(fetch.get).toBeCalled();
 			});
@@ -208,9 +188,7 @@ describe('access control', () => {
 			expect(queryByTitle(t('admin.changeNickName'))).not.toBeInTheDocument();
 			expect(queryByTitle(t('admin.changeScore'))).not.toBeInTheDocument();
 			expect(queryByTitle(t('admin.changePermission'))).not.toBeInTheDocument();
-			expect(
-				queryByTitle(t('admin.toggleVerification')),
-			).not.toBeInTheDocument();
+			expect(queryByTitle(t('admin.toggleVerification'))).not.toBeInTheDocument();
 			expect(getByText(t('admin.changePassword'))).toBeDisabled();
 			expect(getByText(t('admin.deleteUser'))).toBeDisabled();
 		});
@@ -224,9 +202,7 @@ describe('access control', () => {
 		window.blessing.extra = {currentUser: user};
 		fetch.get.mockResolvedValue(createPaginator([user]));
 
-		const {getByTitle, getByText, queryByText, queryByTitle} = render(
-			<UsersManagement/>,
-		);
+		const {getByTitle, getByText, queryByText, queryByTitle} = render(<UsersManagement/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
 		});
@@ -255,9 +231,7 @@ describe('update email', () => {
 	});
 
 	it('empty value', async () => {
-		const {getByText, getByDisplayValue, queryByText} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -277,9 +251,7 @@ describe('update email', () => {
 	it('succeeded', async () => {
 		fetch.put.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -294,8 +266,7 @@ describe('update email', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.users.email(fixture.uid), {
 				email: 'd@e.f',
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 		expect(queryByText('d@e.f')).toBeInTheDocument();
@@ -304,9 +275,7 @@ describe('update email', () => {
 	it('failed', async () => {
 		fetch.put.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -321,8 +290,7 @@ describe('update email', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.users.email(fixture.uid), {
 				email: 'd@e.f',
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText(fixture.email)).toBeInTheDocument();
@@ -335,9 +303,7 @@ describe('update nickname', () => {
 	});
 
 	it('empty value', async () => {
-		const {getByText, getByDisplayValue, queryByText} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -357,9 +323,7 @@ describe('update nickname', () => {
 	it('succeeded', async () => {
 		fetch.put.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -374,8 +338,7 @@ describe('update nickname', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.users.nickname(fixture.uid), {
 				nickname: 'kumiko',
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 		expect(queryByText('kumiko')).toBeInTheDocument();
@@ -384,9 +347,7 @@ describe('update nickname', () => {
 	it('failed', async () => {
 		fetch.put.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -401,8 +362,7 @@ describe('update nickname', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.users.nickname(fixture.uid), {
 				nickname: 'kumiko',
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText(fixture.nickname)).toBeInTheDocument();
@@ -429,9 +389,7 @@ describe('update score', () => {
 	it('succeeded', async () => {
 		fetch.put.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -446,8 +404,7 @@ describe('update score', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.users.score(fixture.uid), {
 				score: 999,
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 		expect(queryByText('999')).toBeInTheDocument();
@@ -456,9 +413,7 @@ describe('update score', () => {
 	it('failed', async () => {
 		fetch.put.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByDisplayValue, queryByText, queryByRole} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -473,8 +428,7 @@ describe('update score', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.users.score(fixture.uid), {
 				score: 999,
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText(fixture.score.toString())).toBeInTheDocument();
@@ -501,9 +455,7 @@ describe('update permission', () => {
 	it('succeeded', async () => {
 		fetch.put.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByLabelText, queryByText, queryByRole} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByLabelText, queryByText, queryByRole} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -519,8 +471,7 @@ describe('update permission', () => {
 					permission: UserPermission.Banned,
 				},
 			);
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 		expect(queryByText(t('admin.banned'))).toBeInTheDocument();
@@ -529,9 +480,7 @@ describe('update permission', () => {
 	it('failed', async () => {
 		fetch.put.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByLabelText, queryByText, queryByRole} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByLabelText, queryByText, queryByRole} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -547,8 +496,7 @@ describe('update permission', () => {
 					permission: UserPermission.Banned,
 				},
 			);
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText(t('admin.normal'))).toBeInTheDocument();
@@ -564,9 +512,7 @@ describe('update permission', () => {
 		};
 		fetch.put.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByLabelText, queryByText, queryByRole} = render(
-			<UsersManagement/>,
-		);
+		const {getByText, getByLabelText, queryByText, queryByRole} = render(<UsersManagement/>);
 
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
@@ -582,8 +528,7 @@ describe('update permission', () => {
 					permission: UserPermission.Admin,
 				},
 			);
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 		expect(queryByText(t('admin.admin'))).toBeInTheDocument();
@@ -606,11 +551,8 @@ describe('toggle verification', () => {
 		fireEvent.click(getByText(t('admin.toggleVerification')));
 
 		await waitFor(() => {
-			expect(fetch.put).toBeCalledWith(
-				urls.admin.users.verification(fixture.uid),
-			);
-		},
-		);
+			expect(fetch.put).toBeCalledWith(urls.admin.users.verification(fixture.uid));
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 		expect(queryByText(t('admin.unverified'))).toBeInTheDocument();
@@ -627,11 +569,8 @@ describe('toggle verification', () => {
 		fireEvent.click(getByText(t('admin.toggleVerification')));
 
 		await waitFor(() => {
-			expect(fetch.put).toBeCalledWith(
-				urls.admin.users.verification(fixture.uid),
-			);
-		},
-		);
+			expect(fetch.put).toBeCalledWith(urls.admin.users.verification(fixture.uid));
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText(t('admin.verified'))).toBeInTheDocument();
@@ -674,8 +613,7 @@ describe('update password', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.users.password(fixture.uid), {
 				password: '123',
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 	});
@@ -699,8 +637,7 @@ describe('update password', () => {
 			expect(fetch.put).toBeCalledWith(urls.admin.users.password(fixture.uid), {
 				password: '123',
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
 	});
@@ -736,8 +673,7 @@ describe('delete user', () => {
 
 		await waitFor(() => {
 			expect(fetch.del).toBeCalledWith(urls.admin.users.delete(fixture.uid));
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
 		expect(queryByText(fixture.email)).not.toBeInTheDocument();
@@ -756,8 +692,7 @@ describe('delete user', () => {
 
 		await waitFor(() => {
 			expect(fetch.del).toBeCalledWith(urls.admin.users.delete(fixture.uid));
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByRole('alert')).toHaveClass('alert-danger');
 		expect(queryByText(fixture.email)).toBeInTheDocument();

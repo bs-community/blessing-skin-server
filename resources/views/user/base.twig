@@ -5,8 +5,8 @@
     <title>{% block title %}{% endblock %} - {{ site_name }}</title>
   </head>
 
-  <body class="{{ dark_mode ? 'dark-mode' : '' }} hold-transition sidebar-mini">
-    <div class="wrapper">
+  <body class="{{ dark_mode ? 'dark-mode' : '' }} hold-transition">
+    <div class="app-wrapper">
       {{ include('shared.header') }}
       {{ include('shared.sidebar', {scope: 'user'}) }}
       <div class="content-wrapper">
@@ -22,13 +22,13 @@
             </div>
           </div>
         </div>
-        <section class="content">
+        <section class="app-content">
           <div class="container-fluid">
             {% block content %}{% endblock %}
           </div>
         </section>
       </div>
-      <footer class="main-footer">
+      <footer class="app-footer">
         {{ include('shared.copyright') }}
       </footer>
     </div>

@@ -1,11 +1,11 @@
-import * as net from '@/scripts/net';
 import {on} from '@/scripts/event';
 import {t} from '@/scripts/i18n';
+import * as net from '@/scripts/net';
 import {showModal} from '@/scripts/notify';
 
 vi.mock('@/scripts/notify');
 
-test('the GET method', async () => {
+it('the GET method', async () => {
 	const json = vi.fn().mockResolvedValue({});
 	window.fetch = vi.fn().mockResolvedValue({
 		ok: true,
@@ -30,7 +30,7 @@ test('the GET method', async () => {
 	expect(window.fetch.mock.calls[1][0].url).toBe('/abc?');
 });
 
-test('the POST method', async () => {
+it('the POST method', async () => {
 	window.fetch = vi.fn().mockResolvedValue({
 		ok: true,
 		json: async () => ({}),
@@ -72,7 +72,7 @@ test('the POST method', async () => {
 	expect(window.fetch.mock.calls[2][0].body).toBeUndefined();
 });
 
-test('the PUT method', () => {
+it('the PUT method', () => {
 	const fetch = vi.fn();
 	window.fetch = fetch;
 
@@ -92,7 +92,7 @@ test('the PUT method', () => {
 	});
 });
 
-test('the DELETE method', () => {
+it('the DELETE method', () => {
 	const fetch = vi.fn();
 	window.fetch = fetch;
 
@@ -112,7 +112,7 @@ test('the DELETE method', () => {
 	});
 });
 
-test('low level fetch', async () => {
+it('low level fetch', async () => {
 	const json = vi.fn().mockResolvedValue({});
 	window.fetch = vi.fn()
 		.mockRejectedValueOnce(new Error('network'))
@@ -184,7 +184,7 @@ test('low level fetch', async () => {
 	expect(await net.walkFetch(request as Request)).toBe('text');
 });
 
-test('process backend errors', async () => {
+it('process backend errors', async () => {
 	window.fetch = vi.fn()
 		.mockResolvedValueOnce({
 			status: 422,

@@ -1,15 +1,16 @@
 {
   "name": "blessing-skin-server",
+  "type": "module",
   "version": "6.0.2",
   "private": true,
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "description": "A web application brings your custom skins back in offline Minecraft servers.",
+  "author": "printempw",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/bs-community/blessing-skin-server"
   },
-  "license": "MIT",
-  "author": "printempw",
-  "type": "module",
   "scripts": {
     "build": "vite build",
     "build:urls": "ts-node tools/generateUrls.ts",
@@ -22,109 +23,64 @@
     "iOS >= 12.5",
     "Chrome >= 87"
   ],
-  "eslintConfig": {
-    "env": {
-      "es2024": true
-    },
-    "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
-    },
-    "extends": [
-      "xo",
-      "xo-react",
-      "plugin:react/jsx-runtime",
-      "./node_modules/xo/config/plugins.cjs"
-    ],
-    "rules": {
-      "import/extensions": "off",
-      "import/no-named-as-default": "off",
-      "n/file-extension-in-import": "off",
-      "unicorn/filename-case": "off",
-      "n/prefer-global/process": "off"
-    },
-    "overrides": [
-      {
-        "files": [
-          "*.ts",
-          "*.tsx"
-        ],
-        "extends": [
-          "xo-typescript"
-        ],
-        "rules": {
-          "@typescript-eslint/ban-types": "off",
-          "@typescript-eslint/consistent-type-definitions": "warn",
-          "@typescript-eslint/naming-convention": "warn"
-        }
-      }
-    ],
-    "ignorePatterns": [
-      "dist",
-      "public"
-    ],
-    "root": true
-  },
-  "resolutions": {
-    "kleur": "^4.1.3"
-  },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.0.0",
-    "@fortawesome/fontawesome-free": "^6.3.0",
-    "@tweenjs/tween.js": "^23.1.1",
-    "admin-lte": "next",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@tweenjs/tween.js": "^25.0.0",
+    "admin-lte": "4.0.0-beta3",
     "bootstrap": "^5.3.3",
-    "clsx": "^2.1.0",
-    "echarts": "^5.5.0",
-    "immer": "^10.0.3",
+    "clsx": "^2.1.1",
+    "downshift": "^9.0.8",
+    "echarts": "^5.6.0",
+    "immer": "^10.1.1",
     "jquery": "^3.6.0",
     "lodash-es": "^4.0.8",
-    "nanoid": "^5.0.6",
+    "nanoid": "^5.0.9",
     "prompts": "^2.4.0",
-    "react": "^18.2.0",
-    "react-autosuggest": "^10.0.2",
-    "react-dom": "^18.2.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-draggable": "^4.4.2",
-    "react-loading-skeleton": "^3.4.0",
-    "react-use": "^17.5.0",
+    "react-loading-skeleton": "^3.5.0",
+    "react-use": "^17.6.0",
     "reaptcha": "^1.7.2",
     "rxjs": "^7.8.1",
     "skinview-utils": "^0.7.1",
-    "skinview3d": "^3.0.0-alpha.1",
-    "spectre.css": "npm:@angular-package/spectre.css",
-    "use-immer": "^0.9.0"
+    "skinview3d": "^3.1.0",
+    "spectre.css": "github:angular-package/spectre.css",
+    "use-immer": "^0.11.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^14.2.1",
-    "@tsconfig/vite-react": "^3.0.0",
+    "@eslint-react/eslint-plugin": "^1.23.2",
+    "@mochaa/eslintrc": "^0.1.12",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@tsconfig/vite-react": "^3.4.0",
     "@types/bootstrap": "^5.2.10",
-    "@types/jquery": "^3.5.13",
+    "@types/jquery": "^3.5.32",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash-es": "^4.0.6",
     "@types/prompts": "^2.0.9",
-    "@types/react": "^18.2.62",
-    "@types/react-autosuggest": "^10.1.11",
-    "@types/react-dom": "^18.2.19",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "@types/tween.js": "^18.5.0",
-    "@vitejs/plugin-react-swc": "^3.6.0",
-    "autoprefixer": "^10.4.18",
-    "browserslist": "^4.23.0",
+    "@vitejs/plugin-react-swc": "^3.7.2",
+    "autoprefixer": "^10.4.20",
+    "browserslist": "^4.24.4",
     "browserslist-to-esbuild": "^2.1.1",
-    "eslint-config-xo-react": "^0.27.0",
-    "eslint-plugin-react": "^7.34.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint": "^9.18.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
     "js-yaml": "^4.1.0",
-    "laravel-vite-plugin": "^1.0.2",
-    "postcss": "^8.4.35",
-    "sass": "^1.71.1",
-    "typescript": "^5.3.3",
-    "vite": "^5.1.5",
-    "vite-plugin-top-level-await": "^1.4.1",
-    "vite-plugin-wasm": "^3.3.0",
-    "vitest": "^1.3.1",
-    "xo": "^0.57.0"
+    "laravel-vite-plugin": "^1.1.1",
+    "postcss": "^8.5.1",
+    "sass": "^1.83.4",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vitest": "^3.0.2"
+  },
+  "resolutions": {
+    "kleur": "^4.1.3"
   },
   "postcss": {
     "plugins": {

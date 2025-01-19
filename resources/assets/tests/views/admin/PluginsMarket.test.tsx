@@ -1,11 +1,13 @@
-import {
-	expect, test, vi, it,
-} from 'vitest';
-import {render, waitFor, fireEvent} from '@testing-library/react';
+import type {Plugin} from '@/views/admin/PluginsMarket/types';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import PluginsMarket from '@/views/admin/PluginsMarket';
-import type {Plugin} from '@/views/admin/PluginsMarket/types';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	expect,
+	it,
+	vi,
+} from 'vitest';
 
 vi.mock('@/scripts/net');
 
@@ -24,7 +26,7 @@ const fixture: Readonly<Plugin> = Object.freeze<Readonly<Plugin>>({
 	},
 });
 
-test('search plugins', async () => {
+it('search plugins', async () => {
 	fetch.get.mockResolvedValue([fixture]);
 
 	const {getByPlaceholderText, queryByText} = render(<PluginsMarket/>);
@@ -38,7 +40,7 @@ test('search plugins', async () => {
 	expect(queryByText('yggdrasil-api')).not.toBeInTheDocument();
 });
 
-test('install a plugin after first page', async () => {
+it('install a plugin after first page', async () => {
 	const plugins = Array.from({length: 10}).map(() => ({...fixture, name: `${fixture.name}_${Math.random()}`}));
 	plugins.push(fixture);
 	fetch.get.mockResolvedValue(plugins);
@@ -55,8 +57,7 @@ test('install a plugin after first page', async () => {
 		expect(fetch.post).toBeCalledWith('/admin/plugins/market/download', {
 			name: fixture.name,
 		});
-	},
-	);
+	});
 	expect(queryByText(t('admin.installPlugin'))).toBeDisabled();
 
 	fireEvent.click(getByText('1'));
@@ -83,11 +84,7 @@ describe('dependencies', () => {
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
 		});
-		expect(
-			queryByText(
-				`blessing-skin-server: ${fixture.dependencies.all['blessing-skin-server']}`,
-			),
-		).toHaveClass('bg-green');
+		expect(queryByText(`blessing-skin-server: ${fixture.dependencies.all['blessing-skin-server']}`)).toHaveClass('bg-green');
 	});
 
 	it('unsatisfied dependencies', async () => {
@@ -105,11 +102,7 @@ describe('dependencies', () => {
 		await waitFor(() => {
 			expect(fetch.get).toBeCalled();
 		});
-		expect(
-			queryByText(
-				`blessing-skin-server: ${fixture.dependencies.all['blessing-skin-server']}`,
-			),
-		).toHaveClass('bg-red');
+		expect(queryByText(`blessing-skin-server: ${fixture.dependencies.all['blessing-skin-server']}`)).toHaveClass('bg-red');
 	});
 });
 
@@ -131,8 +124,7 @@ describe('install plugin', () => {
 			expect(fetch.post).toBeCalledWith('/admin/plugins/market/download', {
 				name: fixture.name,
 			});
-		},
-		);
+		});
 		expect(queryByText(t('admin.installPlugin'))).toBeDisabled();
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByRole('status')).toHaveClass('alert-success');
@@ -151,8 +143,7 @@ describe('install plugin', () => {
 			expect(fetch.post).toBeCalledWith('/admin/plugins/market/download', {
 				name: fixture.name,
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByText(t('admin.installPlugin'))).toBeEnabled();
 
@@ -176,8 +167,7 @@ describe('install plugin', () => {
 			expect(fetch.post).toBeCalledWith('/admin/plugins/market/download', {
 				name: fixture.name,
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(queryByText('version is too low')).toBeInTheDocument();
 		expect(queryByText(t('admin.installPlugin'))).toBeEnabled();
@@ -200,15 +190,11 @@ describe('update plugin', () => {
 		});
 
 		fireEvent.click(getByText(t('admin.updatePlugin')));
-		expect(
-			queryByText(
-				t('admin.confirmUpdate', {
-					plugin: fixture.title,
-					old: '0.5.0',
-					new: fixture.version,
-				}),
-			),
-		).toBeInTheDocument();
+		expect(queryByText(t('admin.confirmUpdate', {
+			plugin: fixture.title,
+			old: '0.5.0',
+			new: fixture.version,
+		}))).toBeInTheDocument();
 
 		fireEvent.click(getByText(t('general.cancel')));
 		expect(fetch.post).not.toBeCalled();
@@ -229,8 +215,7 @@ describe('update plugin', () => {
 			expect(fetch.post).toBeCalledWith('/admin/plugins/market/download', {
 				name: fixture.name,
 			});
-		},
-		);
+		});
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(queryByText(t('admin.updatePlugin'))).not.toBeInTheDocument();
 		expect(queryByText(t('admin.installPlugin'))).toBeDisabled();

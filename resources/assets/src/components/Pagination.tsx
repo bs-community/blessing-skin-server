@@ -1,11 +1,11 @@
 
-import PaginationItem from './PaginationItem';
 import {t} from '@/scripts/i18n';
+import PaginationItem from './PaginationItem';
 
 type Properties = {
 	readonly page: number;
 	readonly totalPages: number;
-	onChange(page: number): void | Promise<void>;
+	onChange: (page: number) => void | Promise<void>;
 };
 
 const labels = {
@@ -32,8 +32,8 @@ const Pagination: React.FC<Properties> = properties => {
 					{t('vendor.datatable.prev')}
 				</span>
 			</PaginationItem>
-			{totalPages < 8 ? (
-				Array.from({length: totalPages}).map((_, i) => (
+			{totalPages < 8
+				? Array.from({length: totalPages}).map((_, i) => (
 					<PaginationItem
 						key={i}
 						className='d-none d-sm-block'
@@ -43,33 +43,10 @@ const Pagination: React.FC<Properties> = properties => {
 						{i + 1}
 					</PaginationItem>
 				))
-			) : (
-				<>
-					{page < 4 ? (
-						[1, 2, 3, 4].map(n => (
-							<PaginationItem
-								key={n}
-								className='d-none d-sm-block'
-								active={page === n}
-								onClick={async () => onChange(n)}
-							>
-								{n}
-							</PaginationItem>
-						))
-					) : (
-						<PaginationItem
-							className='d-none d-sm-block'
-							onClick={async () => onChange(1)}
-						>
-							1
-						</PaginationItem>
-					)}
-					<PaginationItem disabled className='d-none d-sm-block'>
-						...
-					</PaginationItem>
-					{page > 3 && page < totalPages - 2 && (
-						<>
-							{[page - 1, page, page + 1].map(n => (
+				: (
+					<>
+						{page < 4
+							? [1, 2, 3, 4].map(n => (
 								<PaginationItem
 									key={n}
 									className='d-none d-sm-block'
@@ -78,15 +55,37 @@ const Pagination: React.FC<Properties> = properties => {
 								>
 									{n}
 								</PaginationItem>
-							))}
-							<PaginationItem disabled className='d-none d-sm-block'>
-								...
-							</PaginationItem>
-						</>
-					)}
-					{totalPages - page < 3 ? (
-						[totalPages - 3, totalPages - 2, totalPages - 1, totalPages].map(
-							n => (
+							))
+							: (
+								<PaginationItem
+									className='d-none d-sm-block'
+									onClick={async () => onChange(1)}
+								>
+									1
+								</PaginationItem>
+							)}
+						<PaginationItem disabled className='d-none d-sm-block'>
+							...
+						</PaginationItem>
+						{page > 3 && page < totalPages - 2 && (
+							<>
+								{[page - 1, page, page + 1].map(n => (
+									<PaginationItem
+										key={n}
+										className='d-none d-sm-block'
+										active={page === n}
+										onClick={async () => onChange(n)}
+									>
+										{n}
+									</PaginationItem>
+								))}
+								<PaginationItem disabled className='d-none d-sm-block'>
+									...
+								</PaginationItem>
+							</>
+						)}
+						{totalPages - page < 3
+							? [totalPages - 3, totalPages - 2, totalPages - 1, totalPages].map(n => (
 								<PaginationItem
 									key={n}
 									className='d-none d-sm-block'
@@ -95,18 +94,17 @@ const Pagination: React.FC<Properties> = properties => {
 								>
 									{n}
 								</PaginationItem>
-							),
-						)
-					) : (
-						<PaginationItem
-							className='d-none d-sm-block'
-							onClick={async () => onChange(totalPages)}
-						>
-							{totalPages}
-						</PaginationItem>
-					)}
-				</>
-			)}
+							))
+							: (
+								<PaginationItem
+									className='d-none d-sm-block'
+									onClick={async () => onChange(totalPages)}
+								>
+									{totalPages}
+								</PaginationItem>
+							)}
+					</>
+				)}
 			<PaginationItem
 				title={t('vendor.datatable.next')}
 				disabled={page === totalPages}

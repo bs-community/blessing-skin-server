@@ -1,14 +1,13 @@
-import {
-	expect, test, it, jest,
-} from 'vitest';
-import {render, fireEvent} from '@testing-library/react';
-import {t} from '@/scripts/i18n';
 import Pagination from '@/components/Pagination';
+import {t} from '@/scripts/i18n';
+import {fireEvent, render} from '@testing-library/react';
+import {
+	expect,
+	it,
+} from 'vitest';
 
-test('hide when total pages is invalid', () => {
-	const {queryByText} = render(
-		<Pagination page={1} totalPages={0} onChange={() => {}}/>,
-	);
+it('hide when total pages is invalid', () => {
+	const {queryByText} = render(<Pagination page={1} totalPages={0} onChange={() => {}}/>);
 	expect(queryByText(t('vendor.datatable.prev'))).not.toBeInTheDocument();
 	expect(queryByText(t('vendor.datatable.next'))).not.toBeInTheDocument();
 });
@@ -16,18 +15,14 @@ test('hide when total pages is invalid', () => {
 describe('previous page', () => {
 	it('enabled', () => {
 		const mock = vi.fn(() => {});
-		const {getByText} = render(
-			<Pagination page={3} totalPages={5} onChange={mock}/>,
-		);
+		const {getByText} = render(<Pagination page={3} totalPages={5} onChange={mock}/>);
 		fireEvent.click(getByText(t('vendor.datatable.prev')));
 		expect(mock).toBeCalledWith(2);
 	});
 
 	it('disabled', () => {
 		const mock = vi.fn(() => {});
-		const {getByText} = render(
-			<Pagination page={1} totalPages={5} onChange={mock}/>,
-		);
+		const {getByText} = render(<Pagination page={1} totalPages={5} onChange={mock}/>);
 		fireEvent.click(getByText(t('vendor.datatable.prev')));
 		expect(mock).not.toBeCalled();
 	});
@@ -36,18 +31,14 @@ describe('previous page', () => {
 describe('next page', () => {
 	it('enabled', () => {
 		const mock = vi.fn(() => {});
-		const {getByText} = render(
-			<Pagination page={3} totalPages={5} onChange={mock}/>,
-		);
+		const {getByText} = render(<Pagination page={3} totalPages={5} onChange={mock}/>);
 		fireEvent.click(getByText(t('vendor.datatable.next')));
 		expect(mock).toBeCalledWith(4);
 	});
 
 	it('disabled', () => {
 		const mock = vi.fn(() => {});
-		const {getByText} = render(
-			<Pagination page={5} totalPages={5} onChange={mock}/>,
-		);
+		const {getByText} = render(<Pagination page={5} totalPages={5} onChange={mock}/>);
 		fireEvent.click(getByText(t('vendor.datatable.next')));
 		expect(mock).not.toBeCalled();
 	});
@@ -56,9 +47,7 @@ describe('next page', () => {
 describe('middle pages', () => {
 	it('pages count less than 8', () => {
 		const mock = vi.fn(() => {});
-		const {getByText} = render(
-			<Pagination page={1} totalPages={7} onChange={mock}/>,
-		);
+		const {getByText} = render(<Pagination page={1} totalPages={7} onChange={mock}/>);
 
 		fireEvent.click(getByText('1'));
 		expect(mock).toBeCalledWith(1);
@@ -85,9 +74,7 @@ describe('middle pages', () => {
 	describe('pages count greater than or equals to 8', () => {
 		it('left edge', () => {
 			const mock = vi.fn(() => {});
-			const {getByText, queryByText} = render(
-				<Pagination page={2} totalPages={10} onChange={mock}/>,
-			);
+			const {getByText, queryByText} = render(<Pagination page={2} totalPages={10} onChange={mock}/>);
 
 			fireEvent.click(getByText('1'));
 			expect(mock).toBeCalledWith(1);
@@ -108,9 +95,7 @@ describe('middle pages', () => {
 
 		it('right edge', () => {
 			const mock = vi.fn(() => {});
-			const {getByText, queryByText} = render(
-				<Pagination page={9} totalPages={10} onChange={mock}/>,
-			);
+			const {getByText, queryByText} = render(<Pagination page={9} totalPages={10} onChange={mock}/>);
 
 			fireEvent.click(getByText('10'));
 			expect(mock).toBeCalledWith(10);
@@ -131,9 +116,7 @@ describe('middle pages', () => {
 
 		it('middle', () => {
 			const mock = vi.fn(() => {});
-			const {getByText, queryByText, queryAllByText} = render(
-				<Pagination page={4} totalPages={10} onChange={mock}/>,
-			);
+			const {getByText, queryByText, queryAllByText} = render(<Pagination page={4} totalPages={10} onChange={mock}/>);
 
 			expect(queryByText('1')).toBeInTheDocument();
 			expect(queryAllByText('...')).toHaveLength(2);

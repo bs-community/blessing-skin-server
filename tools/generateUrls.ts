@@ -10,14 +10,14 @@ type Tree = TreeObject | string;
 const tree: TreeObject = {};
 
 function parseURI(uri: string): ts.ArrowFunction {
-	const matches = /{([a-z]+)}/.exec(uri);
+	const matches = /\{([a-z]+)\}/.exec(uri);
 	if (matches?.[0] && matches?.[1]) {
 		const parameter = matches[1];
 		const type = parameter.endsWith('id')
-		|| parameter === 'texture'
-		|| parameter === 'user'
-		|| parameter === 'player'
-		|| parameter === 'report'
+			|| parameter === 'texture'
+			|| parameter === 'user'
+			|| parameter === 'player'
+			|| parameter === 'report'
 			? ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword)
 			: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
 
@@ -37,8 +37,8 @@ function parseURI(uri: string): ts.ArrowFunction {
 			ts.factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
 			ts.factory.createTemplateExpression(
 				ts.factory.createTemplateHead(
-					'/' + uri.slice(0, matches.index),
-					'/' + uri.slice(0, matches.index),
+					`/${uri.slice(0, matches.index)}`,
+					`/${uri.slice(0, matches.index)}`,
 				),
 				[
 					ts.factory.createTemplateSpan(
@@ -68,7 +68,7 @@ function parseURI(uri: string): ts.ArrowFunction {
 
 function parseTree(tree: Tree): ts.ObjectLiteralExpression {
 	const properties = Object.entries(tree)
-		.sort(([a], [b]) => (a > b ? 1 : -1))
+		.sort(([a], [b]) => a > b ? 1 : -1)
 		.map(([key, value]) => {
 			if (typeof value === 'string') {
 				return ts.factory.createPropertyAssignment(
@@ -100,16 +100,13 @@ try {
 }
 
 for (const route of routes
-	.filter(
-		route =>
-			route.name
-      && supportedPrefixes.some(prefix => route.name!.startsWith(prefix))
-      && !route.name.endsWith('.'),
-	)) {
+	.filter(route =>
+		route.name
+		&& supportedPrefixes.some(prefix => route.name!.startsWith(prefix))
+		&& !route.name.endsWith('.'))) {
 	const path = route.name!.split('.');
 	const {length} = path;
 
-	// eslint-disable-next-line unicorn/no-array-reduce
 	path.reduce((object: TreeObject, p, index) => {
 		if (index === length - 1) {
 			object[p] = route.uri;

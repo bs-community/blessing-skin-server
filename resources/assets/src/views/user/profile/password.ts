@@ -1,5 +1,5 @@
-import {post, type ResponseBody} from '@/scripts/net';
 import {t} from '@/scripts/i18n';
+import {post, type ResponseBody} from '@/scripts/net';
 import {showModal, toast} from '@/scripts/notify';
 
 export default async function handler(event: Event) {

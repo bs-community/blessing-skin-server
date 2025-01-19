@@ -1,14 +1,14 @@
-import {expect, vi, test} from 'vitest';
-import {flushPromises} from '../../../utils';
 import {t} from '@/scripts/i18n';
-import {showModal, toast} from '@/scripts/notify';
 import {post} from '@/scripts/net';
+import {showModal, toast} from '@/scripts/notify';
 import handler from '@/views/user/profile/password';
+import {expect, vi} from 'vitest';
+import {flushPromises} from '../../../utils';
 
 vi.mock('@/scripts/notify');
 vi.mock('@/scripts/net');
 
-test('change password', async () => {
+it('change password', async () => {
 	post
 		.mockResolvedValueOnce({code: 1, message: 'w'})
 		.mockResolvedValue({code: 0, message: 'o'});

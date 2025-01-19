@@ -1,14 +1,12 @@
-/** @jsxImportSource @emotion/react */
-
-import {useState, useEffect} from 'react';
 import {css} from '@emotion/react';
+import {useEffect, useState} from 'react';
 
 export type ToastType = 'success' | 'info' | 'warning' | 'error';
 
 type Properties = {
 	readonly type: ToastType;
 	readonly distance: number;
-	onClose(): void | Promise<void>;
+	onClose: () => void | Promise<void>;
 	readonly children: React.ReactNode;
 };
 

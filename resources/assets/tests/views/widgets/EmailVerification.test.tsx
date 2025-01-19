@@ -1,10 +1,13 @@
-import {
-	expect, vi, it, describe,
-} from 'vitest';
-import {render, fireEvent, waitFor} from '@testing-library/react';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import EmailVerification from '@/views/widgets/EmailVerification';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	describe,
+	expect,
+	it,
+	vi,
+} from 'vitest';
 
 vi.mock('@/scripts/net');
 
@@ -17,8 +20,7 @@ describe('send email', () => {
 		fireEvent.click(getByText(t('user.verification.resend')));
 		await waitFor(() => {
 			expect(fetch.post).toBeCalledWith('/user/email-verification');
-		},
-		);
+		});
 		expect(queryByText('success')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 	});
@@ -31,8 +33,7 @@ describe('send email', () => {
 		fireEvent.click(getByText(t('user.verification.resend')));
 		await waitFor(() => {
 			expect(fetch.post).toBeCalledWith('/user/email-verification');
-		},
-		);
+		});
 		expect(fetch.post).toBeCalledWith('/user/email-verification');
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');

@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import * as breakpoints from '@/styles/breakpoints';
+import styled from '@emotion/styled';
 
 export const Box = styled.div`
   width: 48%;
@@ -14,7 +14,7 @@ export const Icon = styled.div<{py?: boolean}>`
   width: 70px;
   display: flex;
   justify-content: center;
-  padding-top: ${properties => (properties.py ? '22px' : '0')};
+  padding-top: ${properties => properties.py ? '22px' : '0'};
 `;
 
 export const InfoTable = styled.div`

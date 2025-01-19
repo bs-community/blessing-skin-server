@@ -1,32 +1,34 @@
-import {
-	expect, test, vi, it,
-} from 'vitest';
-import {render, fireEvent, act} from '@testing-library/react';
-import $ from 'jquery';
-import {t} from '@/scripts/i18n';
 import Modal from '@/components/Modal';
+import {t} from '@/scripts/i18n';
+import {act, fireEvent, render} from '@testing-library/react';
+import $ from 'jquery';
+import {
+	expect,
+	it,
+	vi,
+} from 'vitest';
 
-test('hidden by default', () => {
+it('hidden by default', () => {
 	const {queryByRole} = render(<Modal/>);
 	expect(queryByRole('dialog')).toBeNull();
 });
 
-test('receive id', () => {
+it('receive id', () => {
 	const {getByRole} = render(<Modal show id='kumiko'/>);
 	expect(getByRole('dialog')).toHaveAttribute('id', 'kumiko');
 });
 
-test('centered dialog', () => {
+it('centered dialog', () => {
 	const {getByRole} = render(<Modal center show/>);
 	expect(getByRole('document')).toHaveClass('modal-dialog-centered');
 });
 
-test('background color', () => {
+it('background color', () => {
 	const {container} = render(<Modal show type='primary'/>);
 	expect(container.querySelector('.modal-content')).toHaveClass('bg-primary');
 });
 
-test('jQuery events', () => {
+it('jQuery events', () => {
 	const {getByText} = render(<Modal show mode='confirm'/>);
 	act(() => {
 		vi.runAllTimers();
@@ -47,9 +49,7 @@ describe('modal header', () => {
 	});
 
 	it('hide modal header', () => {
-		const {queryByText} = render(
-			<Modal show title='Tips' showHeader={false}/>,
-		);
+		const {queryByText} = render(<Modal show title='Tips' showHeader={false}/>);
 		expect(queryByText('Tips')).not.toBeInTheDocument();
 	});
 });
@@ -67,36 +67,30 @@ describe('modal body', () => {
 	});
 
 	it('dangerous HTML', () => {
-		const {getByText} = render(
-			<Modal show dangerousHTML="<h1 class='h1'>ab</h1>"/>,
-		);
+		const {getByText} = render(<Modal show dangerousHTML="<h1 class='h1'>ab</h1>"/>);
 		expect(getByText('ab')).toHaveClass('h1');
 	});
 
 	describe('input control', () => {
 		it('set default value', () => {
-			const {queryByDisplayValue} = render(
-				<Modal show mode='prompt' input='val'/>,
-			);
+			const {queryByDisplayValue} = render(<Modal show mode='prompt' input='val'/>);
 			expect(queryByDisplayValue('val')).toBeInTheDocument();
 		});
 
 		it('placeholder', () => {
-			const {queryByPlaceholderText} = render(
-				<Modal show mode='prompt' placeholder='hint'/>,
-			);
+			const {queryByPlaceholderText} = render(<Modal show mode='prompt' placeholder='hint'/>);
 			expect(queryByPlaceholderText('hint')).toBeInTheDocument();
 		});
 
 		it('input control type', () => {
 			const {getByPlaceholderText} = render(
-				<Modal
-					show
-					mode='prompt'
-					placeholder='password'
-					inputType='password'
-				/>,
-			);
+<Modal
+	show
+	mode='prompt'
+	placeholder='password'
+	inputType='password'
+				/>
+);
 			expect(getByPlaceholderText('password')).toHaveAttribute(
 				'type',
 				'password',
@@ -118,16 +112,12 @@ describe('modal footer', () => {
 	});
 
 	it('custom ok button', () => {
-		const {getByText} = render(
-			<Modal show okButtonType='primary' okButtonText='kumiko'/>,
-		);
+		const {getByText} = render(<Modal show okButtonType='primary' okButtonText='kumiko'/>);
 		expect(getByText('kumiko')).toHaveClass('btn-primary');
 	});
 
 	it('custom cancel button', () => {
-		const {getByText} = render(
-			<Modal show cancelButtonType='success' cancelButtonText='reina'/>,
-		);
+		const {getByText} = render(<Modal show cancelButtonType='success' cancelButtonText='reina'/>);
 		expect(getByText('reina')).toHaveClass('btn-success');
 	});
 });
@@ -135,9 +125,7 @@ describe('modal footer', () => {
 describe('"alert" mode', () => {
 	it('buttons', () => {
 		const resolve = vi.fn();
-		const {getByText, queryByText} = render(
-			<Modal show mode='alert' onConfirm={resolve}/>,
-		);
+		const {getByText, queryByText} = render(<Modal show mode='alert' onConfirm={resolve}/>);
 		fireEvent.click(getByText(t('general.confirm')));
 		expect(resolve).toBeCalledWith({value: ''});
 		expect(queryByText(t('general.cancel'))).toBeNull();
@@ -159,9 +147,7 @@ describe('"confirm" mode', () => {
 	it('"confirm" button', () => {
 		const resolve = vi.fn();
 		const reject = vi.fn();
-		const {getByText} = render(
-			<Modal show mode='prompt' onConfirm={resolve} onDismiss={reject}/>,
-		);
+		const {getByText} = render(<Modal show mode='prompt' onConfirm={resolve} onDismiss={reject}/>);
 		fireEvent.click(getByText(t('general.confirm')));
 		expect(resolve).toBeCalledWith({value: ''});
 		expect(reject).not.toBeCalled();
@@ -170,9 +156,7 @@ describe('"confirm" mode', () => {
 	it('"cancel" button', () => {
 		const resolve = vi.fn();
 		const reject = vi.fn();
-		const {getByText} = render(
-			<Modal show mode='prompt' onConfirm={resolve} onDismiss={reject}/>,
-		);
+		const {getByText} = render(<Modal show mode='prompt' onConfirm={resolve} onDismiss={reject}/>);
 		fireEvent.click(getByText(t('general.cancel')));
 		expect(resolve).not.toBeCalled();
 		expect(reject).toBeCalled();
@@ -184,14 +168,14 @@ describe('"prompt" mode', () => {
 		const resolve = vi.fn();
 		const reject = vi.fn();
 		const {getByPlaceholderText, getByText} = render(
-			<Modal
-				show
-				mode='prompt'
-				placeholder='hint'
-				onConfirm={resolve}
-				onDismiss={reject}
-			/>,
-		);
+<Modal
+	show
+	mode='prompt'
+	placeholder='hint'
+	onConfirm={resolve}
+	onDismiss={reject}
+			/>
+);
 		fireEvent.change(getByPlaceholderText('hint'), {
 			target: {value: 'my'},
 		});
@@ -203,9 +187,7 @@ describe('"prompt" mode', () => {
 	it('cancel dialog', () => {
 		const resolve = vi.fn();
 		const reject = vi.fn();
-		const {getByText} = render(
-			<Modal show mode='prompt' onConfirm={resolve} onDismiss={reject}/>,
-		);
+		const {getByText} = render(<Modal show mode='prompt' onConfirm={resolve} onDismiss={reject}/>);
 		fireEvent.click(getByText(t('general.cancel')));
 		expect(resolve).not.toBeCalled();
 		expect(reject).toBeCalled();
@@ -218,14 +200,14 @@ describe('"prompt" mode', () => {
 		];
 		const resolve = vi.fn();
 		const {getByText, getByLabelText} = render(
-			<Modal
-				show
-				mode='prompt'
-				inputType='radios'
-				choices={choices}
-				onConfirm={resolve}
-			/>,
-		);
+<Modal
+	show
+	mode='prompt'
+	inputType='radios'
+	choices={choices}
+	onConfirm={resolve}
+			/>
+);
 		fireEvent.click(getByLabelText('B'));
 		fireEvent.click(getByText(t('general.confirm')));
 		expect(resolve).toBeCalledWith({value: 'b'});
@@ -236,15 +218,15 @@ describe('"prompt" mode', () => {
 		const reject = vi.fn();
 		const validator = vi.fn().mockReturnValue(true);
 		const {getByText} = render(
-			<Modal
-				show
-				mode='prompt'
-				input='val'
-				validator={validator}
-				onConfirm={resolve}
-				onDismiss={reject}
-			/>,
-		);
+<Modal
+	show
+	mode='prompt'
+	input='val'
+	validator={validator}
+	onConfirm={resolve}
+	onDismiss={reject}
+			/>
+);
 		fireEvent.click(getByText(t('general.confirm')));
 		expect(resolve).toBeCalledWith({value: 'val'});
 		expect(reject).not.toBeCalled();
@@ -256,15 +238,15 @@ describe('"prompt" mode', () => {
 		const reject = vi.fn();
 		const validator = vi.fn().mockReturnValue(message);
 		const {getByText, queryByText} = render(
-			<Modal
-				show
-				mode='prompt'
-				input='val'
-				validator={validator}
-				onConfirm={resolve}
-				onDismiss={reject}
-			/>,
-		);
+<Modal
+	show
+	mode='prompt'
+	input='val'
+	validator={validator}
+	onConfirm={resolve}
+	onDismiss={reject}
+			/>
+);
 		expect(queryByText(message)).not.toBeInTheDocument();
 
 		fireEvent.click(getByText(t('general.confirm')));

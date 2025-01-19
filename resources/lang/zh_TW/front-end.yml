@@ -38,7 +38,7 @@ skinlib:
   setItemName: 為這件材質設置名稱
   applyNotice: 你可以在“衣櫃”中將這件材質設置到你的角色上。
   emptyItemName: 請輸入材質名稱。
-  setNewTextureName: '請輸入新的材質名稱'
+  setNewTextureName: 請輸入新的材質名稱
   emptyNewTextureName: 請輸入新的材質名稱。
   seeMyUpload: 我的上傳
   apply: 應用
@@ -55,14 +55,14 @@ skinlib:
     likes: 最多收藏
   emptyTextureName: 請輸入材質名稱。
   emptyUploadFile: 未上傳任何文件。
-  fileExtError: '材質應該是 PNG 文件。'
+  fileExtError: 材質應該是 PNG 文件。
   uploading: 正在上傳
   setAsPrivate: 設為隱私
   setAsPublic: 設為公開
   setPublicNotice: 確定要把這個材質設爲公開嗎？
   setPrivateNotice: 確定要把這個材質設爲隱私嗎？
   deleteNotice: 確定要刪除此材質嗎？
-  setNewTextureModel: "請為材質選擇新的模型："
+  setNewTextureModel: 請為材質選擇新的模型：
   upload:
     texture-name: 材質名稱
     texture-type: 材質種類
@@ -104,8 +104,8 @@ user:
   switch3dPreview: 切換至 3D 預覽
   removeFromClosetNotice: 確定要將這個材質從你的衣櫃中移除嗎？
   emptySelectedTexture: 未選擇任何材質。
-  renameClosetItem: '為這個材質設置新的名稱：'
-  changePlayerName: '請輸入角色名稱。'
+  renameClosetItem: 為這個材質設置新的名稱：
+  changePlayerName: 請輸入角色名稱。
   emptyPlayerName: 請輸入角色名。
   deletePlayer: 確定要刪除此角色？
   deletePlayerNotice: 這是永久的，沒有備份。
@@ -155,17 +155,17 @@ admin:
   permission: 權限
   deleteUser: 刪除
   changeEmail: 編輯電子郵件地址
-  newUserEmail: '請輸入新的電子郵件地址'
+  newUserEmail: 請輸入新的電子郵件地址
   verification: 電子郵件驗證
   toggleVerification: 檢查驗證狀態
   changeNickName: 編輯暱稱
-  newUserNickname: '請輸入新的昵稱：'
+  newUserNickname: 請輸入新的昵稱：
   changePassword: 編輯密碼
   newUserPassword: '請輸入新密碼:'
   changeScore: 編輯積分
-  newScore: '請輸入新的積分數目：'
+  newScore: 請輸入新的積分數目：
   changePermission: 變更權限
-  newPermission: '請選擇新的權限：'
+  newPermission: 請選擇新的權限：
   deleteUserNotice: 確定刪除此用戶？此操作無法撤銷。
   banned: 封禁
   normal: 普通用戶
@@ -180,9 +180,9 @@ admin:
   changeOwner: 變更所有者
   textureType: 材質種類
   deletePlayer: 刪除
-  changePlayerOwner: '請輸入欲讓渡角色的用戶編號：'
+  changePlayerOwner: 請輸入欲讓渡角色的用戶編號：
   deletePlayerNotice: 確定刪除此角色？此操作無法撤銷。
-  changePlayerNameNotice: '請輸入新的角色名稱：'
+  changePlayerNameNotice: 請輸入新的角色名稱：
   emptyPlayerName: 角色名不能為空。
   configurePlugin: 配置
   deletePlugin: 刪除
@@ -211,10 +211,10 @@ admin:
     group: 分組
     key: 鍵
     text: 文本
-    empty: '（空）'
+    empty: （空）
     modify: 修改
     delete: 刪除
-    updating: '請輸入新的文字：'
+    updating: 請輸入新的文字：
     confirmDelete: 確定執行此操作？這無法恢復。
 report:
   tid: 材質 ID

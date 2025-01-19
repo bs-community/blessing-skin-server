@@ -13,9 +13,8 @@ const ModalContent: React.FC<Props> = properties => {
 	if (properties.text) {
 		return (
 			<>
-				{properties.text.split(/\r?\n/).map((line, i) => (
-					<p key={i}>{line}</p>
-				))}
+				{properties.text.split(/\r?\n/).map((line, i) =>
+					<p key={i}>{line}</p>)}
 			</>
 		);
 	}

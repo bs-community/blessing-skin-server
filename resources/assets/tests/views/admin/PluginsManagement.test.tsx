@@ -1,20 +1,22 @@
-import {
-	expect, test, vi, it,
-} from 'vitest';
-import {render, waitFor, fireEvent} from '@testing-library/react';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import PluginsManagement from '@/views/admin/PluginsManagement';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	expect,
+	it,
+	vi,
+} from 'vitest';
 
 vi.mock('@/scripts/net');
 
-test('show loading indicator', () => {
+it('show loading indicator', () => {
 	fetch.get.mockResolvedValue([]);
 	const {queryByTitle} = render(<PluginsManagement/>);
 	expect(queryByTitle('Loading...')).not.toBeNull();
 });
 
-test('plugin info box', async () => {
+it('plugin info box', async () => {
 	fetch.get.mockResolvedValue([
 		{
 			name: 'a',
@@ -82,8 +84,7 @@ describe('enable plugin', () => {
 				action: 'enable',
 				name: 'a',
 			});
-		},
-		);
+		});
 		expect(queryByText('success')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 		expect(getByTitle(t('admin.disablePlugin'))).toBeChecked();
@@ -107,8 +108,7 @@ describe('enable plugin', () => {
 				action: 'enable',
 				name: 'a',
 			});
-		},
-		);
+		});
 		expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
 			action: 'enable',
 			name: 'a',
@@ -145,8 +145,7 @@ describe('disable plugin', () => {
 				action: 'disable',
 				name: 'a',
 			});
-		},
-		);
+		});
 		expect(queryByText('success')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 		expect(getByTitle(t('admin.enablePlugin'))).not.toBeChecked();
@@ -166,8 +165,7 @@ describe('disable plugin', () => {
 				action: 'disable',
 				name: 'a',
 			});
-		},
-		);
+		});
 		expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
 			action: 'disable',
 			name: 'a',
@@ -205,9 +203,7 @@ describe('delete plugin', () => {
 	it('succeeded', async () => {
 		fetch.post.mockResolvedValue({code: 0, message: 'success'});
 
-		const {getByTitle, getByText, getByRole, queryByText} = render(
-			<PluginsManagement/>,
-		);
+		const {getByTitle, getByText, getByRole, queryByText} = render(<PluginsManagement/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -219,8 +215,7 @@ describe('delete plugin', () => {
 				action: 'delete',
 				name: 'a',
 			});
-		},
-		);
+		});
 		expect(queryByText('success')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 		expect(queryByText('My Plugin')).toBeNull();
@@ -229,9 +224,7 @@ describe('delete plugin', () => {
 	it('failed', async () => {
 		fetch.post.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByTitle, getByText, getByRole, queryByText} = render(
-			<PluginsManagement/>,
-		);
+		const {getByTitle, getByText, getByRole, queryByText} = render(<PluginsManagement/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -243,8 +236,7 @@ describe('delete plugin', () => {
 				action: 'delete',
 				name: 'a',
 			});
-		},
-		);
+		});
 		expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
 			action: 'delete',
 			name: 'a',
@@ -272,9 +264,7 @@ describe('upload plugin archive', () => {
 		fetch.get.mockResolvedValue([]);
 		fetch.post.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByTitle, getAllByText, getByRole, queryByText} = render(
-			<PluginsManagement/>,
-		);
+		const {getByTitle, getAllByText, getByRole, queryByText} = render(<PluginsManagement/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -302,9 +292,7 @@ describe('upload plugin archive', () => {
 		fetch.get.mockResolvedValue([]);
 		fetch.post.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByTitle, getAllByText, getByRole, queryByText} = render(
-			<PluginsManagement/>,
-		);
+		const {getByTitle, getAllByText, getByRole, queryByText} = render(<PluginsManagement/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -353,9 +341,7 @@ describe('submit remote URL', () => {
 				url: 'https://example.com/a.zip',
 			});
 		});
-		expect(
-			queryByDisplayValue('https://example.com/a.zip'),
-		).not.toBeInTheDocument();
+		expect(queryByDisplayValue('https://example.com/a.zip')).not.toBeInTheDocument();
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 	});

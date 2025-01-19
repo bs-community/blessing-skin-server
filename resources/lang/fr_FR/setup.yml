@@ -1,6 +1,6 @@
 ---
 database:
-  connection-error: "Impossible de se connecter à la base de données cible :type, veuillez vérifier votre configuration. Le serveur a répondu avec: :msg"
+  connection-error: 'Impossible de se connecter à la base de données cible :type, veuillez vérifier votre configuration. Le serveur a répondu avec: :msg'
 locked:
   title: Déjà installé
   text: Il semble que vous ayez déjà installé Blessing Skin Server. Pour le réinstaller, veuillez supprimer le fichier "install.lock" dans le répertoire "storage".

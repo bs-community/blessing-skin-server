@@ -4,7 +4,7 @@ type Properties = {
 	readonly active?: boolean;
 	readonly title?: string;
 	readonly className?: string;
-	onClick?(): void;
+	onClick?: () => void;
 	readonly children?: React.ReactNode;
 };
 

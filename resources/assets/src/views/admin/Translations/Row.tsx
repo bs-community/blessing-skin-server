@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
 import type {Line} from './types';
 import {t} from '@/scripts/i18n';
+import styled from '@emotion/styled';
 
 const Group = styled.td`
   width: 15%;
@@ -14,8 +14,8 @@ const Operations = styled.td`
 
 type Properties = {
 	readonly line: Line;
-	onEdit(line: Line): void;
-	onRemove(line: Line): void;
+	onEdit: (line: Line) => void;
+	onRemove: (line: Line) => void;
 };
 
 const Row: React.FC<Properties> = properties => {

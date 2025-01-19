@@ -4,24 +4,24 @@ export type Props = {
 };
 
 type InternalProperties = {
-	onDismiss?(): void;
+	onDismiss?: () => void;
 	readonly show?: boolean;
 };
 
-const ModalHeader: React.FC<Props & InternalProperties> = properties =>
-	properties.show ? (
-		<div className='modal-header'>
-			<h5 className='modal-title'>{properties.title}</h5>
-			<button
-				type='button'
-				className='close'
-				data-dismiss='modal'
-				aria-label='Close'
-				onClick={properties.onDismiss}
-			>
-				<span aria-hidden>&times;</span>
-			</button>
-		</div>
-	) : null;
+const ModalHeader: React.FC<Props & InternalProperties> = ({show, title, onDismiss}) =>
+	show
+		? (
+			<div className='modal-header'>
+				<h5 className='modal-title'>{title}</h5>
+				<button
+					type='button'
+					className='btn-close'
+					data-bs-dismiss='modal'
+					aria-label='Close'
+					onClick={onDismiss}
+				/>
+			</div>
+		)
+		: null;
 
 export default ModalHeader;

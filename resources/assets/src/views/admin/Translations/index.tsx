@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {useImmer} from 'use-immer';
+import type {Paginator} from '@/scripts/types';
 import type {Line} from './types';
-import Row from './Row';
+import Loading from '@/components/Loading';
+import Pagination from '@/components/Pagination';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {showModal, toast} from '@/scripts/notify';
-import type {Paginator} from '@/scripts/types';
-import Loading from '@/components/Loading';
-import Pagination from '@/components/Pagination';
+import React, {useEffect, useState} from 'react';
+import {useImmer} from 'use-immer';
+import Row from './Row';
 
 function Translations() {
 	const [lines, setLines] = useImmer<Line[]>([]);
@@ -85,28 +85,30 @@ function Translations() {
 						</tr>
 					</thead>
 					<tbody>
-						{isLoading ? (
-							<tr>
-								<td className='text-center' colSpan={4}>
-									<Loading/>
-								</td>
-							</tr>
-						) : (lines.length === 0 ? (
-							<tr>
-								<td className='text-center' colSpan={4}>
-									{t('general.noResult')}
-								</td>
-							</tr>
-						) : (
-							lines.map((line, i) => (
-								<Row
-									key={line.id}
-									line={line}
-									onEdit={async line => handleEdit(line, i)}
-									onRemove={handleRemove}
-								/>
-							))
-						))}
+						{isLoading
+							? (
+								<tr>
+									<td className='text-center' colSpan={4}>
+										<Loading/>
+									</td>
+								</tr>
+							)
+							: lines.length === 0
+								? (
+									<tr>
+										<td className='text-center' colSpan={4}>
+											{t('general.noResult')}
+										</td>
+									</tr>
+								)
+								: lines.map((line, i) => (
+									<Row
+										key={line.id}
+										line={line}
+										onEdit={async line => handleEdit(line, i)}
+										onRemove={handleRemove}
+									/>
+								))}
 					</tbody>
 				</table>
 			</div>

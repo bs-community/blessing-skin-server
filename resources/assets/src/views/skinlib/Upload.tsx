@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import {t} from '@/scripts/i18n';
+import FileInput from '@/components/FileInput';
+import ViewerSkeleton from '@/components/ViewerSkeleton';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import useMount from '@/scripts/hooks/useMount';
+import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {showModal, toast} from '@/scripts/notify';
 import {isAlex} from '@/scripts/textureUtils';
 import {TextureType} from '@/scripts/types';
 import urls from '@/scripts/urls';
-import FileInput from '@/components/FileInput';
-import ViewerSkeleton from '@/components/ViewerSkeleton';
+import React, {useState} from 'react';
+import ReactDOM from 'react-dom';
 
 const Previewer = React.lazy(async () => import('@/components/Viewer'));
 
@@ -46,9 +46,7 @@ function Upload() {
 		setIsPrivate(event.target.checked);
 	};
 
-	const handleFileChange = async (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		const files = event.target.files!;
 		const [file] = files;
 		if (file) {
@@ -60,7 +58,7 @@ function Upload() {
 			const texture = URL.createObjectURL(file);
 			setTexture(texture);
 			if (type !== TextureType.Cape) {
-				setType((await isAlex(texture)) ? TextureType.Alex : TextureType.Steve);
+				setType(await isAlex(texture) ? TextureType.Alex : TextureType.Steve);
 			}
 		}
 	};
@@ -208,14 +206,14 @@ function Upload() {
 							disabled={isUploading}
 							onClick={handleUpload}
 						>
-							{isUploading ? (
-								<>
-									<i className='fas fa-spinner fa-spin mr-1'/>
-									<span>{t('skinlib.uploading')}</span>
-								</>
-							) : (
-								t('skinlib.upload.button')
-							)}
+							{isUploading
+								? (
+									<>
+										<i className='fas fa-spinner fa-spin mr-1'/>
+										<span>{t('skinlib.uploading')}</span>
+									</>
+								)
+								: t('skinlib.upload.button')}
 						</button>
 					</div>
 					{file && (
@@ -231,9 +229,8 @@ function Upload() {
 							</div>
 						</div>
 					)}
-					{isPrivate && (
-						<div className='callout callout-info mt-3'>{privacyNotice}</div>
-					)}
+					{isPrivate
+					&& <div className='callout callout-info mt-3'>{privacyNotice}</div>}
 					{!isPrivate && award > 0 && (
 						<div className='callout callout-success mt-3'>
 							{t('skinlib.upload.award', {score: award.toString()})}
@@ -242,16 +239,16 @@ function Upload() {
 				</div>
 			</div>
 			{container
-        && ReactDOM.createPortal(
-	<React.Suspense fallback={<ViewerSkeleton/>}>
-	<Previewer
-	skin={type === TextureType.Cape ? undefined : texture}
-	cape={type === TextureType.Cape ? texture : undefined}
-	isAlex={type === TextureType.Alex}
-        		/>
-        	</React.Suspense>,
-        	container,
-        )}
+			&& ReactDOM.createPortal(
+				<React.Suspense fallback={<ViewerSkeleton/>}>
+					<Previewer
+						skin={type === TextureType.Cape ? undefined : texture}
+						cape={type === TextureType.Cape ? texture : undefined}
+						isAlex={type === TextureType.Alex}
+					/>
+				</React.Suspense>,
+				container,
+			)}
 		</>
 	);
 }

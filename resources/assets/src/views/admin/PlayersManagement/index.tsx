@@ -1,18 +1,18 @@
-import {useState, useEffect, useLayoutEffect} from 'react';
+import type {Paginator, Player} from '@/scripts/types';
+import Pagination from '@/components/Pagination';
+import useIsLargeScreen from '@/scripts/hooks/useIsLargeScreen';
+import {t} from '@/scripts/i18n';
+import * as fetch from '@/scripts/net';
+import {showModal, toast} from '@/scripts/notify';
+import urls from '@/scripts/urls';
+import {useEffect, useLayoutEffect, useState} from 'react';
 import {useImmer} from 'use-immer';
 import Header from '../UsersManagement/Header';
 import Card from './Card';
 import LoadingCard from './LoadingCard';
-import Row from './Row';
 import LoadingRow from './LoadingRow';
 import ModalUpdateTexture from './ModalUpdateTexture';
-import useIsLargeScreen from '@/scripts/hooks/useIsLargeScreen';
-import {t} from '@/scripts/i18n';
-import * as fetch from '@/scripts/net';
-import type {Player, Paginator} from '@/scripts/types';
-import {toast, showModal} from '@/scripts/notify';
-import urls from '@/scripts/urls';
-import Pagination from '@/components/Pagination';
+import Row from './Row';
 
 function PlayersManagement() {
 	const [players, setPlayers] = useImmer<Player[]>([]);
@@ -152,9 +152,7 @@ function PlayersManagement() {
 			return;
 		}
 
-		const {code, message} = await fetch.del<fetch.ResponseBody>(
-			urls.admin.players.delete(player.pid),
-		);
+		const {code, message} = await fetch.del<fetch.ResponseBody>(urls.admin.players.delete(player.pid));
 		if (code === 0) {
 			setPlayers(players => players.filter(({pid}) => pid !== player.pid));
 			toast.success(message);
@@ -208,26 +206,47 @@ function PlayersManagement() {
 					</label>
 				</div>
 			</Header>
-			{players.length === 0 && !isLoading ? (
-				<div className='card-body text-center'>{t('general.noResult')}</div>
-			) : (isTableMode ? (
-				<div className='card-body table-responsive p-0'>
-					<table className={`table ${isLoading ? '' : 'table-striped'}`}>
-						<thead>
-							<tr>
-								<th>PID</th>
-								<th>{t('general.player.player-name')}</th>
-								<th>{t('general.player.owner')}</th>
-								<th>{t('general.player.previews')}</th>
-								<th>{t('general.player.last-modified')}</th>
-								<th>{t('admin.operationsTitle')}</th>
-							</tr>
-						</thead>
-						<tbody>
+			{players.length === 0 && !isLoading
+				? <div className='card-body text-center'>{t('general.noResult')}</div>
+				: isTableMode
+					? (
+						<div className='card-body table-responsive p-0'>
+							<table className={`table ${isLoading ? '' : 'table-striped'}`}>
+								<thead>
+									<tr>
+										<th>PID</th>
+										<th>{t('general.player.player-name')}</th>
+										<th>{t('general.player.owner')}</th>
+										<th>{t('general.player.previews')}</th>
+										<th>{t('general.player.last-modified')}</th>
+										<th>{t('admin.operationsTitle')}</th>
+									</tr>
+								</thead>
+								<tbody>
+									{isLoading
+										? Array.from({length: 10}).fill(null).map((_, i) => <LoadingRow key={i}/>)
+										: players.map((player, i) => (
+											<Row
+												key={player.pid}
+												player={player}
+												onUpdateName={async () => handleUpdateName(player, i)}
+												onUpdateOwner={async () => handleUpdateOwner(player, i)}
+												onUpdateTexture={() => {
+													setTextureUpdating(i);
+												}}
+												onDelete={async () => handleDelete(player)}
+											/>
+										))}
+								</tbody>
+							</table>
+						</div>
+					)
+					: (
+						<div className='card-body d-flex flex-wrap'>
 							{isLoading
-								? Array.from({length: 10}).fill(null).map((_, i) => <LoadingRow key={i}/>)
+								? Array.from({length: 10}).fill(null).map((_, i) => <LoadingCard key={i}/>)
 								: players.map((player, i) => (
-									<Row
+									<Card
 										key={player.pid}
 										player={player}
 										onUpdateName={async () => handleUpdateName(player, i)}
@@ -238,27 +257,8 @@ function PlayersManagement() {
 										onDelete={async () => handleDelete(player)}
 									/>
 								))}
-						</tbody>
-					</table>
-				</div>
-			) : (
-				<div className='card-body d-flex flex-wrap'>
-					{isLoading
-						? Array.from({length: 10}).fill(null).map((_, i) => <LoadingCard key={i}/>)
-						: players.map((player, i) => (
-							<Card
-								key={player.pid}
-								player={player}
-								onUpdateName={async () => handleUpdateName(player, i)}
-								onUpdateOwner={async () => handleUpdateOwner(player, i)}
-								onUpdateTexture={() => {
-									setTextureUpdating(i);
-								}}
-								onDelete={async () => handleDelete(player)}
-							/>
-						))}
-				</div>
-			))}
+						</div>
+					)}
 			<div className='card-footer'>
 				<div className='float-right'>
 					<Pagination page={page} totalPages={totalPages} onChange={setPage}/>

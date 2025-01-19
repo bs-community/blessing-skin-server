@@ -1,16 +1,16 @@
 
-import clsx from 'clsx';
-import {Box} from './styles';
+import type {Player} from '@/scripts/types';
 import {t} from '@/scripts/i18n';
 import {showModal} from '@/scripts/notify';
-import type {Player} from '@/scripts/types';
+import clsx from 'clsx';
+import {Box} from './styles';
 
 type Properties = {
 	readonly player: Player;
-	onUpdateName(): void;
-	onUpdateOwner(): void;
-	onUpdateTexture(): void;
-	onDelete(): void;
+	onUpdateName: () => void;
+	onUpdateOwner: () => void;
+	onUpdateTexture: () => void;
+	onDelete: () => void;
 };
 
 const Card: React.FC<Properties> = properties => {
@@ -31,7 +31,8 @@ const Card: React.FC<Properties> = properties => {
 						{player.tid_skin > 0 && (
 							<a
 								href={`${blessing.base_url}/skinlib/show/${player.tid_skin}`}
-								target='_blank' rel='noreferrer'
+								target='_blank'
+								rel='noreferrer'
 							>
 								<picture>
 									<source srcSet={skinPreview} type='image/webp'/>
@@ -48,7 +49,8 @@ const Card: React.FC<Properties> = properties => {
 						{player.tid_cape > 0 && (
 							<a
 								href={`${blessing.base_url}/skinlib/show/${player.tid_cape}`}
-								target='_blank' rel='noreferrer'
+								target='_blank'
+								rel='noreferrer'
 							>
 								<picture>
 									<source srcSet={capePreview} type='image/webp'/>
@@ -143,9 +145,14 @@ const Card: React.FC<Properties> = properties => {
 				</div>
 				<div>
 					<div>
-						<span className='mr-2'>PID: {player.pid}</span>
+						<span className='mr-2'>
+							PID:
+							{player.pid}
+						</span>
 						<span>
-							{t('general.player.owner')}: {player.uid}
+							{t('general.player.owner')}
+							:
+							{player.uid}
 						</span>
 					</div>
 					<div>

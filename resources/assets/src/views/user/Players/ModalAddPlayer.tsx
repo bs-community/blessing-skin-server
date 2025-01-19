@@ -1,10 +1,10 @@
-import {useState} from 'react';
+import type {Player} from '@/scripts/types';
+import Modal from '@/components/Modal';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {toast} from '@/scripts/notify';
-import type {Player} from '@/scripts/types';
 import urls from '@/scripts/urls';
-import Modal from '@/components/Modal';
+import {useState} from 'react';
 
 type Extra = {
 	score: number;
@@ -15,8 +15,8 @@ type Extra = {
 
 type Properties = {
 	readonly show: boolean;
-	onAdd(player: Player): void;
-	onClose(): void;
+	onAdd: (player: Player) => void;
+	onClose: () => void;
 };
 
 const ModalAddPlayer: React.FC<Properties> = properties => {
@@ -81,7 +81,9 @@ const ModalAddPlayer: React.FC<Properties> = properties => {
 			>
 				<i className={`icon fas fa-${isScoreEnough ? 'check' : 'times'}`}/>
 				<span className='ml-1'>
-					{t('user.cur-score')} {score}
+					{t('user.cur-score')}
+					{' '}
+					{score}
 				</span>
 			</div>
 		</Modal>

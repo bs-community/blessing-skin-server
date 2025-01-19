@@ -1,12 +1,14 @@
-import {
-	expect, test, vi, it,
-} from 'vitest';
-import {render, waitFor, fireEvent} from '@testing-library/react';
-import {createPaginator} from '../../utils';
+import type {Line} from '@/views/admin/Translations/types';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import Translations from '@/views/admin/Translations';
-import type {Line} from '@/views/admin/Translations/types';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import {
+	expect,
+	it,
+	vi,
+} from 'vitest';
+import {createPaginator} from '../../utils';
 
 vi.mock('@/scripts/net');
 
@@ -19,7 +21,7 @@ const fixtureLine: Readonly<Line> = Object.freeze<Line>({
 	},
 });
 
-test('empty text', async () => {
+it('empty text', async () => {
 	const line = {...fixtureLine, text: {en: ''}};
 	fetch.get.mockResolvedValue(createPaginator([line]));
 
@@ -38,9 +40,7 @@ describe('edit line', () => {
 	it('succeeded', async () => {
 		fetch.put.mockResolvedValue({code: 0, message: 'ok'});
 
-		const {getByText, getByDisplayValue, getByRole, queryByText} = render(
-			<Translations/>,
-		);
+		const {getByText, getByDisplayValue, getByRole, queryByText} = render(<Translations/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -54,8 +54,7 @@ describe('edit line', () => {
 			expect(fetch.put).toBeCalledWith(`/admin/i18n/${fixtureLine.id}`, {
 				text: 'finish',
 			});
-		},
-		);
+		});
 		expect(queryByText('finish')).toBeInTheDocument();
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
@@ -64,9 +63,7 @@ describe('edit line', () => {
 	it('failed', async () => {
 		fetch.put.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByDisplayValue, getByRole, queryByText} = render(
-			<Translations/>,
-		);
+		const {getByText, getByDisplayValue, getByRole, queryByText} = render(<Translations/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -80,17 +77,14 @@ describe('edit line', () => {
 			expect(fetch.put).toBeCalledWith(`/admin/i18n/${fixtureLine.id}`, {
 				text: 'finish',
 			});
-		},
-		);
+		});
 		expect(queryByText(fixtureLine.text.en)).toBeInTheDocument();
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
 	});
 
 	it('cancelled', async () => {
-		const {getByText, getByDisplayValue, queryByText} = render(
-			<Translations/>,
-		);
+		const {getByText, getByDisplayValue, queryByText} = render(<Translations/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -124,8 +118,7 @@ describe('delete line', () => {
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
 			expect(fetch.del).toBeCalledWith(`/admin/i18n/${fixtureLine.id}`);
-		},
-		);
+		});
 		expect(queryByText(fixtureLine.text.en)).not.toBeInTheDocument();
 		expect(queryByText('ok')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');

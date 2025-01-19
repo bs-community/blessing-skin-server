@@ -1,6 +1,6 @@
 import {emit} from './event';
-import {showModal} from './notify';
 import {t} from './i18n';
+import {showModal} from './notify';
 
 export type ResponseBody<T = undefined> = {
 	code: number;
@@ -26,9 +26,7 @@ export const init: RequestInit = {
 };
 
 function retrieveToken() {
-	const csrfField = document.querySelector<HTMLMetaElement>(
-		'meta[name="csrf-token"]',
-	);
+	const csrfField = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]');
 
 	return csrfField?.content || '';
 }

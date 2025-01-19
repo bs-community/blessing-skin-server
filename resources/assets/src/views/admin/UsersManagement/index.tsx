@@ -1,19 +1,19 @@
-import {useState, useEffect, useLayoutEffect} from 'react';
-import {useImmer} from 'use-immer';
-import Header from './Header';
-import Card from './Card';
-import LoadingCard from './LoadingCard';
-import Row from './Row';
-import LoadingRow from './LoadingRow';
+import type {Props as ModalInputProperties} from '@/components/ModalInput';
+import Pagination from '@/components/Pagination';
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra';
 import useIsLargeScreen from '@/scripts/hooks/useIsLargeScreen';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
-import {type User, UserPermission, type Paginator} from '@/scripts/types';
-import {toast, showModal} from '@/scripts/notify';
+import {showModal, toast} from '@/scripts/notify';
+import {type Paginator, type User, UserPermission} from '@/scripts/types';
 import urls from '@/scripts/urls';
-import type {Props as ModalInputProperties} from '@/components/ModalInput';
-import Pagination from '@/components/Pagination';
+import {useEffect, useLayoutEffect, useState} from 'react';
+import {useImmer} from 'use-immer';
+import Card from './Card';
+import Header from './Header';
+import LoadingCard from './LoadingCard';
+import LoadingRow from './LoadingRow';
+import Row from './Row';
 
 function UsersManagement() {
 	const [users, setUsers] = useImmer<User[]>([]);
@@ -196,9 +196,7 @@ function UsersManagement() {
 	};
 
 	const handleVerificationToggle = async (user: User, index: number) => {
-		const {code, message} = await fetch.put<fetch.ResponseBody>(
-			urls.admin.users.verification(user.uid),
-		);
+		const {code, message} = await fetch.put<fetch.ResponseBody>(urls.admin.users.verification(user.uid));
 		if (code === 0) {
 			toast.success(message);
 			setUsers(users => {
@@ -298,28 +296,52 @@ function UsersManagement() {
 					</label>
 				</div>
 			</Header>
-			{users.length === 0 && !isLoading ? (
-				<div className='card-body text-center'>{t('general.noResult')}</div>
-			) : (isTableMode ? (
-				<div className='card-body table-responsive p-0'>
-					<table className={`table ${isLoading ? '' : 'table-striped'}`}>
-						<thead>
-							<tr>
-								<th>UID</th>
-								<th>{t('general.user.email')}</th>
-								<th>{t('general.user.nickname')}</th>
-								<th>{t('general.user.score')}</th>
-								<th>{t('admin.permission')}</th>
-								<th>{t('admin.verification')}</th>
-								<th>{t('general.user.register-at')}</th>
-								<th>{t('admin.operationsTitle')}</th>
-							</tr>
-						</thead>
-						<tbody>
+			{users.length === 0 && !isLoading
+				? <div className='card-body text-center'>{t('general.noResult')}</div>
+				: isTableMode
+					? (
+						<div className='card-body table-responsive p-0'>
+							<table className={`table ${isLoading ? '' : 'table-striped'}`}>
+								<thead>
+									<tr>
+										<th>UID</th>
+										<th>{t('general.user.email')}</th>
+										<th>{t('general.user.nickname')}</th>
+										<th>{t('general.user.score')}</th>
+										<th>{t('admin.permission')}</th>
+										<th>{t('admin.verification')}</th>
+										<th>{t('general.user.register-at')}</th>
+										<th>{t('admin.operationsTitle')}</th>
+									</tr>
+								</thead>
+								<tbody>
+									{isLoading
+										? Array.from({length: 10}).fill(null).map((_, i) => <LoadingRow key={i}/>)
+										: users.map((user, i) => (
+											<Row
+												key={user.uid}
+												user={user}
+												currentUser={currentUser}
+												onEmailChange={async () => handleEmailChange(user, i)}
+												onNicknameChange={async () => handleNicknameChange(user, i)}
+												onScoreChange={async () => handleScoreChange(user, i)}
+												onPermissionChange={async () => handlePermissionChange(user, i)}
+												onVerificationToggle={async () =>
+													handleVerificationToggle(user, i)}
+												onPasswordChange={async () => handlePasswordChange(user)}
+												onDelete={async () => handleDelete(user)}
+											/>
+										))}
+								</tbody>
+							</table>
+						</div>
+					)
+					: (
+						<div className='card-body d-flex flex-wrap'>
 							{isLoading
-								? Array.from({length: 10}).fill(null).map((_, i) => <LoadingRow key={i}/>)
+								? Array.from({length: 10}).fill(null).map((_, i) => <LoadingCard key={i}/>)
 								: users.map((user, i) => (
-									<Row
+									<Card
 										key={user.uid}
 										user={user}
 										currentUser={currentUser}
@@ -327,35 +349,13 @@ function UsersManagement() {
 										onNicknameChange={async () => handleNicknameChange(user, i)}
 										onScoreChange={async () => handleScoreChange(user, i)}
 										onPermissionChange={async () => handlePermissionChange(user, i)}
-										onVerificationToggle={async () =>
-											handleVerificationToggle(user, i)}
+										onVerificationToggle={async () => handleVerificationToggle(user, i)}
 										onPasswordChange={async () => handlePasswordChange(user)}
 										onDelete={async () => handleDelete(user)}
 									/>
 								))}
-						</tbody>
-					</table>
-				</div>
-			) : (
-				<div className='card-body d-flex flex-wrap'>
-					{isLoading
-						? Array.from({length: 10}).fill(null).map((_, i) => <LoadingCard key={i}/>)
-						: users.map((user, i) => (
-							<Card
-								key={user.uid}
-								user={user}
-								currentUser={currentUser}
-								onEmailChange={async () => handleEmailChange(user, i)}
-								onNicknameChange={async () => handleNicknameChange(user, i)}
-								onScoreChange={async () => handleScoreChange(user, i)}
-								onPermissionChange={async () => handlePermissionChange(user, i)}
-								onVerificationToggle={async () => handleVerificationToggle(user, i)}
-								onPasswordChange={async () => handlePasswordChange(user)}
-								onDelete={async () => handleDelete(user)}
-							/>
-						))}
-				</div>
-			))}
+						</div>
+					)}
 			<div className='card-footer'>
 				<div className='float-right'>
 					<Pagination page={page} totalPages={totalPages} onChange={setPage}/>

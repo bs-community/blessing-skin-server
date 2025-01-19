@@ -1,6 +1,6 @@
 
-import styled from '@emotion/styled';
 import {t} from '@/scripts/i18n';
+import styled from '@emotion/styled';
 
 const TexturePreview = styled.div`
   display: flex;
@@ -27,19 +27,15 @@ const Viewer2d: React.FC<Properties> = properties => (
 		<div className='card-body'>
 			<TexturePreview className='mb-5'>
 				<span>{t('general.skin')}</span>
-				{properties.skin ? (
-					<img src={properties.skin} alt={t('general.skin')}/>
-				) : (
-					<span>{t('user.player.texture-empty')}</span>
-				)}
+				{properties.skin
+					? <img src={properties.skin} alt={t('general.skin')}/>
+					: <span>{t('user.player.texture-empty')}</span>}
 			</TexturePreview>
 			<TexturePreview className='mt-5'>
 				<span>{t('general.cape')}</span>
-				{properties.cape ? (
-					<img src={properties.cape} alt={t('general.cape')}/>
-				) : (
-					<span>{t('user.player.texture-empty')}</span>
-				)}
+				{properties.cape
+					? <img src={properties.cape} alt={t('general.cape')}/>
+					: <span>{t('user.player.texture-empty')}</span>}
 			</TexturePreview>
 		</div>
 		<div className='card-footer'>{properties.children}</div>

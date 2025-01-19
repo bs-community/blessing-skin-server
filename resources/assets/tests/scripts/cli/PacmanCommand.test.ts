@@ -1,10 +1,10 @@
-import {Stdio} from './stdio';
-import * as fetch from '@/scripts/net';
 import pacman from '@/scripts/cli/PacmanCommand';
+import * as fetch from '@/scripts/net';
+import {Stdio} from './stdio';
 
 vi.mock('@/scripts/net');
 
-test('no arguments', async () => {
+it('no arguments', async () => {
 	const stdio = new Stdio();
 	await pacman(stdio, []);
 	expect(stdio.getStdout()).toInclude('help');

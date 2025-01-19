@@ -1,8 +1,8 @@
 
-import styled from '@emotion/styled';
-import clsx from 'clsx';
 import type {Plugin} from './types';
 import {t} from '@/scripts/i18n';
+import styled from '@emotion/styled';
+import clsx from 'clsx';
 
 const Box = styled.div`
   cursor: default;
@@ -41,9 +41,9 @@ const Description = styled.div`
 
 type Properties = {
 	readonly plugin: Plugin;
-	onEnable(plugin: Plugin): void;
-	onDisable(plugin: Plugin): void;
-	onDelete(plugin: Plugin): void;
+	onEnable: (plugin: Plugin) => void;
+	onDisable: (plugin: Plugin) => void;
+	onDelete: (plugin: Plugin) => void;
 	readonly baseUrl: string;
 };
 
@@ -89,7 +89,8 @@ const InfoBox: React.FC<Properties> = properties => {
 							{plugin.title}
 						</strong>
 						<span className='d-none d-sm-inline-block text-gray'>
-							v{plugin.version}
+							v
+							{plugin.version}
 						</span>
 					</Header>
 					<div>

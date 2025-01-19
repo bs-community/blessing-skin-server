@@ -1,12 +1,12 @@
-import {useState, useEffect} from 'react';
-import {useImmer} from 'use-immer';
-import InfoBox from './InfoBox';
 import type {Plugin} from './types';
-import {t} from '@/scripts/i18n';
-import * as fetch from '@/scripts/net';
-import {toast, showModal} from '@/scripts/notify';
 import FileInput from '@/components/FileInput';
 import Loading from '@/components/Loading';
+import {t} from '@/scripts/i18n';
+import * as fetch from '@/scripts/net';
+import {showModal, toast} from '@/scripts/notify';
+import {useEffect, useState} from 'react';
+import {useImmer} from 'use-immer';
+import InfoBox from './InfoBox';
 
 function PluginsManagement() {
 	const [isLoading, setIsLoading] = useState(true);
@@ -33,9 +33,9 @@ function PluginsManagement() {
 			message,
 			data: {reason} = {reason: []},
 		} = await fetch.post<
-		fetch.ResponseBody<{
-			reason: string[];
-		}>
+			fetch.ResponseBody<{
+				reason: string[];
+			}>
 		>('/admin/plugins/manage', {
 			action: 'enable',
 			name: plugin.name,
@@ -52,9 +52,8 @@ function PluginsManagement() {
 					<div>
 						<p>{message}</p>
 						<ul>
-							{reason.map((t, i) => (
-								<li key={i}>{t}</li>
-							))}
+							{reason.map((t, i) =>
+								<li key={i}>{t}</li>)}
 						</ul>
 					</div>
 				),
@@ -166,27 +165,25 @@ function PluginsManagement() {
 	return (
 		<div className='row'>
 			<div className='col-lg-8'>
-				{isLoading ? (
-					<Loading/>
-				) : (plugins.length === 0 ? (
-					t('general.noResult')
-				) : (
-					chunks.map((chunk, i) => (
-						<div key={`${chunk[0].name}&${chunk[1]?.name}`} className='row'>
-							{(chunk as Plugin[]).map((plugin, index) => (
-								<div key={plugin.name} className='col-md-6'>
-									<InfoBox
-										plugin={plugin}
-										baseUrl={blessing.base_url}
-										onEnable={async plugin => handleEnable(plugin, i * 2 + index)}
-										onDisable={async plugin => handleDisable(plugin, i * 2 + index)}
-										onDelete={handleDelete}
-									/>
-								</div>
-							))}
-						</div>
-					))
-				))}
+				{isLoading
+					? <Loading/>
+					: plugins.length === 0
+						? t('general.noResult')
+						: chunks.map((chunk, i) => (
+							<div key={`${chunk[0].name}&${chunk[1]?.name}`} className='row'>
+								{(chunk as Plugin[]).map((plugin, index) => (
+									<div key={plugin.name} className='col-md-6'>
+										<InfoBox
+											plugin={plugin}
+											baseUrl={blessing.base_url}
+											onEnable={async plugin => handleEnable(plugin, i * 2 + index)}
+											onDisable={async plugin => handleDisable(plugin, i * 2 + index)}
+											onDelete={handleDelete}
+										/>
+									</div>
+								))}
+							</div>
+						))}
 			</div>
 			<div className='col-lg-4'>
 				<div className='card card-primary card-outline'>

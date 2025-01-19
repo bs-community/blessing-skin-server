@@ -1,10 +1,10 @@
-import {useState} from 'react';
+import Alert from '@/components/Alert';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {toast} from '@/scripts/notify';
 import urls from '@/scripts/urls';
-import Alert from '@/components/Alert';
+import {useState} from 'react';
 
 export default function Reset() {
 	const [password, setPassword] = useState('');
@@ -18,9 +18,7 @@ export default function Reset() {
 		setPassword(event.target.value);
 	};
 
-	const handleConfirmationChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handleConfirmationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setConfirmation(event.target.value);
 	};
 
@@ -94,14 +92,14 @@ export default function Reset() {
 				type='submit'
 				disabled={isPending}
 			>
-				{isPending ? (
-					<>
-						<i className='fas fa-spinner fa-spin mr-1'/>
-						{t('auth.resetting')}
-					</>
-				) : (
-					t('auth.reset')
-				)}
+				{isPending
+					? (
+						<>
+							<i className='fas fa-spinner fa-spin mr-1'/>
+							{t('auth.resetting')}
+						</>
+					)
+					: t('auth.reset')}
 			</button>
 		</form>
 	);

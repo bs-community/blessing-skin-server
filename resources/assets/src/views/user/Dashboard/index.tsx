@@ -1,15 +1,15 @@
-import {useState, useEffect, useCallback} from 'react';
-import styled from '@emotion/styled';
-import InfoBox from './InfoBox';
-import SignButton from './SignButton';
-import * as scoreUtils from './scoreUtils';
 import useEmitMounted from '@/scripts/hooks/useEmitMounted';
+import useTween from '@/scripts/hooks/useTween';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {toast} from '@/scripts/notify';
-import useTween from '@/scripts/hooks/useTween';
 import urls from '@/scripts/urls';
 import * as breakpoints from '@/styles/breakpoints';
+import styled from '@emotion/styled';
+import {useCallback, useEffect, useState} from 'react';
+import InfoBox from './InfoBox';
+import * as scoreUtils from './scoreUtils';
+import SignButton from './SignButton';
 
 type ScoreInfo = {
 	signAfterZero: boolean;
@@ -77,7 +77,7 @@ export default function Dashboard() {
 	const handleSign = useCallback(async () => {
 		setLoading(true);
 		const {code, message, data} = await fetch.post<
-		fetch.ResponseBody<SignReturn>
+			fetch.ResponseBody<SignReturn>
 		>(urls.user.sign());
 
 		if (code === 0) {
@@ -116,25 +116,27 @@ export default function Dashboard() {
 							unused={score / playersRate}
 							unit=''
 						/>
-						{storage > 1024 ? (
-							<InfoBox
-								color='maroon'
-								icon='hdd'
-								name={t('user.used.storage')}
-								used={Math.trunc(storage / 1024)}
-								unused={Math.trunc(score / storageRate / 1024)}
-								unit='MB'
-							/>
-						) : (
-							<InfoBox
-								color='maroon'
-								icon='hdd'
-								name={t('user.used.storage')}
-								used={storage}
-								unused={score / storageRate}
-								unit='KB'
-							/>
-						)}
+						{storage > 1024
+							? (
+								<InfoBox
+									color='maroon'
+									icon='hdd'
+									name={t('user.used.storage')}
+									used={Math.trunc(storage / 1024)}
+									unused={Math.trunc(score / storageRate / 1024)}
+									unit='MB'
+								/>
+							)
+							: (
+								<InfoBox
+									color='maroon'
+									icon='hdd'
+									name={t('user.used.storage')}
+									used={storage}
+									unused={score / storageRate}
+									unit='KB'
+								/>
+							)}
 					</div>
 					<div className='col-md-4 text-center'>
 						<ScoreTitle>{t('user.cur-score')}</ScoreTitle>

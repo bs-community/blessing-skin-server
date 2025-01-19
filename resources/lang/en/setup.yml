@@ -1,5 +1,5 @@
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
+  connection-error: 'Unable to connect to the target :type database, please check your configuration. The server replied with: :msg'
 
 locked:
   title: Already installed

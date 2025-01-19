@@ -38,15 +38,15 @@ skinlib:
   setItemName: 给你的皮肤起个名字吧~
   applyNotice: 收藏后可以在我的衣柜里将皮肤应用至角色
   emptyItemName: 你还没有填写要收藏的材质名称啊
-  setNewTextureName: '请输入新的材质名称：'
+  setNewTextureName: 请输入新的材质名称：
   emptyNewTextureName: 你还没有输入新名称啊
   seeMyUpload: 我上传的
   apply: 立即使用
   filter:
-    skin: '（任意模型）'
-    steve: '（Steve）'
-    alex: '（Alex）'
-    cape: '（披风）'
+    skin: （任意模型）
+    steve: （Steve）
+    alex: （Alex）
+    cape: （披风）
     uploader: '用户（UID = :uid）上传'
     allUsers: 所有用户
   sort:
@@ -55,14 +55,14 @@ skinlib:
     likes: 最多收藏
   emptyTextureName: 给你的材质起个名字吧
   emptyUploadFile: 你还没有上传任何文件哦
-  fileExtError: '错误：皮肤文件必须为 PNG 格式'
+  fileExtError: 错误：皮肤文件必须为 PNG 格式
   uploading: 上传中
   setAsPrivate: 设为隐私
   setAsPublic: 设为公开
   setPublicNotice: 要将此材质设置为公开吗？
   setPrivateNotice: 要将此材质设置为私有吗？
   deleteNotice: 真的要删除此材质吗？
-  setNewTextureModel: '请选择新的材质适用模型：'
+  setNewTextureModel: 请选择新的材质适用模型：
   upload:
     texture-name: 材质名称
     texture-type: 材质类型
@@ -104,8 +104,8 @@ user:
   switch3dPreview: 切换 3D 预览
   removeFromClosetNotice: 确定要从衣柜中移除此材质吗？
   emptySelectedTexture: 你还没有选择要应用的材质哦
-  renameClosetItem: '请输入此衣柜物品的新名称：'
-  changePlayerName: '请输入角色名：'
+  renameClosetItem: 请输入此衣柜物品的新名称：
+  changePlayerName: 请输入角色名：
   emptyPlayerName: 你还没有填写名称哦
   deletePlayer: 真的要删除该玩家吗？
   deletePlayerNotice: 这将是永久性的删除
@@ -155,17 +155,17 @@ admin:
   permission: 权限
   deleteUser: 删除
   changeEmail: 修改邮箱
-  newUserEmail: '请输入新邮箱：'
+  newUserEmail: 请输入新邮箱：
   verification: 邮箱验证
   toggleVerification: 修改邮箱验证状态
   changeNickName: 修改昵称
-  newUserNickname: '请输入新昵称：'
+  newUserNickname: 请输入新昵称：
   changePassword: 更改密码
-  newUserPassword: '请输入新密码：'
+  newUserPassword: 请输入新密码：
   changeScore: 更改积分
-  newScore: '请输入积分值：'
+  newScore: 请输入积分值：
   changePermission: 更改权限
-  newPermission: '请选择新的权限：'
+  newPermission: 请选择新的权限：
   deleteUserNotice: 真的要删除此用户吗？此操作不可恢复
   banned: 封禁
   normal: 普通用户
@@ -180,9 +180,9 @@ admin:
   changeOwner: 更换角色拥有者
   textureType: 材质类型
   deletePlayer: 删除
-  changePlayerOwner: '请输入此角色要让渡至的用户 ID：'
+  changePlayerOwner: 请输入此角色要让渡至的用户 ID：
   deletePlayerNotice: 真的要删除此角色吗？此操作不可恢复
-  changePlayerNameNotice: '请输入新的角色名：'
+  changePlayerNameNotice: 请输入新的角色名：
   emptyPlayerName: 您还没填写角色名呢
   configurePlugin: 配置
   deletePlugin: 删除
@@ -211,10 +211,10 @@ admin:
     group: 分组
     key: 键
     text: 文本
-    empty: '（空）'
+    empty: （空）
     modify: 修改
     delete: 删除
-    updating: '请输入新的文本内容：'
+    updating: 请输入新的文本内容：
     confirmDelete: 确认删除吗？此操作不可恢复。
 report:
   tid: 材质 ID

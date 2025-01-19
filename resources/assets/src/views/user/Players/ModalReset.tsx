@@ -1,11 +1,11 @@
-import {useState} from 'react';
-import {t} from '@/scripts/i18n';
 import Modal from '@/components/Modal';
+import {t} from '@/scripts/i18n';
+import {useState} from 'react';
 
 type Properties = {
 	readonly show: boolean;
-	onSubmit(skin: boolean, cape: boolean): Promise<void>;
-	onClose(): void;
+	onSubmit: (skin: boolean, cape: boolean) => Promise<void>;
+	onClose: () => void;
 };
 
 const ModalReset: React.FC<Properties> = properties => {

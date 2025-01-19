@@ -10,7 +10,7 @@ index:
 notifications:
   send:
     title: Enviar Notificación
-    success: '¡Enviado con éxito!'
+    success: ¡Enviado con éxito!
   receiver:
     title: Receptor
     all: Todos los Usuarios
@@ -63,7 +63,7 @@ i18n:
   group: Grupo
   key: Clave
   text: Texto
-  tip: '¿Cómo puedo usar esta página?'
+  tip: ¿Cómo puedo usar esta página?
 status:
   info: Información
   health: Salud
@@ -71,7 +71,7 @@ status:
     name: Blessing Skin
     version: Versión
     env: Entorno de aplicación
-    debug: '¿Depurar o no?'
+    debug: ¿Depurar o no?
     commit: Commit
     laravel: Versión de Laravel
   server:
@@ -115,8 +115,8 @@ update:
     up-to-date: Ya está actualizado.
     available: Nueva versión disponible.
     versions:
-      latest: "Última versión:"
-      current: "Versión actual:"
+      latest: 'Última versión:'
+      current: 'Versión actual:'
     check-github: Comprobar versiones de GitHub
     button: Actualizar ahora
   cautions:
@@ -127,7 +127,7 @@ update:
       La conexión de baja velocidad entre la fuente de actualización y su host causará una carga lenta a la hora de comprobar y descargar la página.
       Para cambiar la fuente de actualización por defecto,
   errors:
-    connection: "No se puede acceder a la fuente de actualización actual. Detalles: :error"
+    connection: 'No se puede acceder a la fuente de actualización actual. Detalles: :error'
     spec: La fuente de actualización actual no está soportada.
     php: Tu versión de PHP es demasiado baja para actualizar. Requiere :version o posterior.
 download:

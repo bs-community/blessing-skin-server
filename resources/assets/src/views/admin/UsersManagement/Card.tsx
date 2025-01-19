@@ -1,25 +1,25 @@
 
+import type {User} from '@/scripts/types';
+import {t} from '@/scripts/i18n';
 import clsx from 'clsx';
 import {Box, Icon, InfoTable} from './styles';
 import {
+	canModifyPermission,
+	canModifyUser,
 	humanizePermission,
 	verificationStatusText,
-	canModifyUser,
-	canModifyPermission,
 } from './utils';
-import {t} from '@/scripts/i18n';
-import type {User} from '@/scripts/types';
 
 type Properties = {
 	readonly user: User;
 	readonly currentUser: User;
-	onEmailChange(): void;
-	onNicknameChange(): void;
-	onScoreChange(): void;
-	onPermissionChange(): void;
-	onVerificationToggle(): void;
-	onPasswordChange(): void;
-	onDelete(): void;
+	onEmailChange: () => void;
+	onNicknameChange: () => void;
+	onScoreChange: () => void;
+	onPermissionChange: () => void;
+	onVerificationToggle: () => void;
+	onPasswordChange: () => void;
+	onDelete: () => void;
 };
 
 const Card: React.FC<Properties> = properties => {
@@ -124,7 +124,10 @@ const Card: React.FC<Properties> = properties => {
 					</div>
 				</div>
 				<div>
-					<div>UID: {user.uid}</div>
+					<div>
+						UID:
+						{user.uid}
+					</div>
 					<div>
 						{t('general.user.email')}
 						{': '}

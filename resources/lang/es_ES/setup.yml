@@ -1,6 +1,6 @@
 ---
 database:
-  connection-error: "No se puede conectar a la base de datos :type, favor comprobar su configuración. El servidor respondió con: :msg"
+  connection-error: 'No se puede conectar a la base de datos :type, favor comprobar su configuración. El servidor respondió con: :msg'
 locked:
   title: Ya instalado
   text: Parece que ya tienes instalado Blessing Skin Server. Para reinstalar, por favor elimine primero las tablas en su base de datos, o use un nuevo prefijo de tabla.

@@ -1,14 +1,16 @@
-import {
-	expect, vi, it, test,
-} from 'vitest';
-import {render, fireEvent, waitFor} from '@testing-library/react';
-import $ from 'jquery';
-import {createPaginator} from '../../utils';
 import {t} from '@/scripts/i18n';
 import * as fetch from '@/scripts/net';
 import {type ClosetItem, type Player, TextureType} from '@/scripts/types';
 import urls from '@/scripts/urls';
 import Closet from '@/views/user/Closet';
+import {fireEvent, render, waitFor} from '@testing-library/react';
+import $ from 'jquery';
+import {
+	expect,
+	it,
+	vi,
+} from 'vitest';
+import {createPaginator} from '../../utils';
 
 vi.mock('@/scripts/net');
 
@@ -65,7 +67,7 @@ afterEach(() => {
 	document.querySelector('#previewer')!.remove();
 });
 
-test('empty closet', async () => {
+it('empty closet', async () => {
 	fetch.get.mockResolvedValue(createPaginator([]));
 
 	const {queryByText} = render(<Closet/>);
@@ -75,7 +77,7 @@ test('empty closet', async () => {
 	expect(queryByText(/skin library/i)).toBeInTheDocument();
 });
 
-test('search textures', async () => {
+it('search textures', async () => {
 	fetch.get
 		.mockResolvedValueOnce(createPaginator([fixtureSkin]))
 		.mockResolvedValueOnce(createPaginator([]));
@@ -91,7 +93,7 @@ test('search textures', async () => {
 	expect(await findByText(/no result/i)).toBeInTheDocument();
 });
 
-test('switch page', async () => {
+it('switch page', async () => {
 	fetch.get
 		.mockResolvedValueOnce({...createPaginator([]), last_page: 2})
 		.mockResolvedValueOnce({...createPaginator([fixtureSkin]), last_page: 2});
@@ -149,22 +151,14 @@ describe('switch category', () => {
 
 	it('reset page', async () => {
 		fetch.get
-			.mockResolvedValueOnce(
-				createPaginator(
-					Array.from({length: 30}).map((_, i) => ({
-						...fixtureSkin,
-						tid: i + 1,
-					})),
-				),
-			)
-			.mockResolvedValueOnce(
-				createPaginator(
-					Array.from({length: 30}).map((_, i) => ({
-						...fixtureSkin,
-						tid: i + 1,
-					})),
-				),
-			)
+			.mockResolvedValueOnce(createPaginator(Array.from({length: 30}).map((_, i) => ({
+				...fixtureSkin,
+				tid: i + 1,
+			}))))
+			.mockResolvedValueOnce(createPaginator(Array.from({length: 30}).map((_, i) => ({
+				...fixtureSkin,
+				tid: i + 1,
+			}))))
 			.mockResolvedValueOnce(createPaginator([fixtureCape]));
 
 		const {getByText} = render(<Closet/>);
@@ -175,8 +169,7 @@ describe('switch category', () => {
 				page: 1,
 				perPage: 6,
 			});
-		},
-		);
+		});
 
 		fireEvent.click(getByText('3'));
 		await waitFor(() => {
@@ -186,8 +179,7 @@ describe('switch category', () => {
 				page: 3,
 				perPage: 6,
 			});
-		},
-		);
+		});
 
 		fireEvent.click(getByText(t('general.cape')));
 		await waitFor(() => {
@@ -197,8 +189,7 @@ describe('switch category', () => {
 				page: 1,
 				perPage: 6,
 			});
-		},
-		);
+		});
 	});
 });
 
@@ -210,9 +201,7 @@ describe('rename item', () => {
 	it('succeeded', async () => {
 		fetch.put.mockResolvedValue({code: 0, message: 'success'});
 
-		const {getByText, getByDisplayValue, getByRole, queryByText} = render(
-			<Closet/>,
-		);
+		const {getByText, getByDisplayValue, getByRole, queryByText} = render(<Closet/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -227,8 +216,7 @@ describe('rename item', () => {
 				urls.user.closet.rename(fixtureSkin.tid),
 				{name: 'my skin'},
 			);
-		},
-		);
+		});
 		expect(queryByText('my skin')).toBeInTheDocument();
 		expect(queryByText('success')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
@@ -256,9 +244,7 @@ describe('rename item', () => {
 	it('failed', async () => {
 		fetch.put.mockResolvedValue({code: 1, message: 'failed'});
 
-		const {getByText, getByDisplayValue, getByRole, queryByText} = render(
-			<Closet/>,
-		);
+		const {getByText, getByDisplayValue, getByRole, queryByText} = render(<Closet/>);
 		await waitFor(() => {
 			expect(fetch.get).toBeCalledTimes(1);
 		});
@@ -273,8 +259,7 @@ describe('rename item', () => {
 				urls.user.closet.rename(fixtureSkin.tid),
 				{name: 'my skin'},
 			);
-		},
-		);
+		});
 		expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument();
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
@@ -297,11 +282,8 @@ describe('remove item', () => {
 		fireEvent.click(getByText(t('user.removeItem')));
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
-			expect(fetch.del).toBeCalledWith(
-				urls.user.closet.remove(fixtureSkin.tid),
-			);
-		},
-		);
+			expect(fetch.del).toBeCalledWith(urls.user.closet.remove(fixtureSkin.tid));
+		});
 		expect(queryByText(/skin library/i)).toBeInTheDocument();
 		expect(queryByText('success')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
@@ -318,11 +300,8 @@ describe('remove item', () => {
 		fireEvent.click(getByText(t('user.removeItem')));
 		fireEvent.click(getByText(t('general.confirm')));
 		await waitFor(() => {
-			expect(fetch.del).toBeCalledWith(
-				urls.user.closet.remove(fixtureSkin.tid),
-			);
-		},
-		);
+			expect(fetch.del).toBeCalledWith(urls.user.closet.remove(fixtureSkin.tid));
+		});
 		expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument();
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
@@ -388,14 +367,10 @@ describe('select textures', () => {
 		});
 		fireEvent.click(getByAltText(fixtureCape.pivot.item_name));
 
-		expect(
-			queryByText(`${t('general.skin')} & ${t('general.cape')}`),
-		).toBeInTheDocument();
+		expect(queryByText(`${t('general.skin')} & ${t('general.cape')}`)).toBeInTheDocument();
 
 		fireEvent.click(getByText(t('user.resetSelected')));
-		expect(
-			queryByText(`${t('general.skin')} & ${t('general.cape')}`),
-		).not.toBeInTheDocument();
+		expect(queryByText(`${t('general.skin')} & ${t('general.cape')}`)).not.toBeInTheDocument();
 	});
 });
 
@@ -426,8 +401,7 @@ describe('set avatar', () => {
 			expect(fetch.post).toBeCalledWith(urls.user.profile.avatar(), {
 				tid: fixtureSkin.tid,
 			});
-		},
-		);
+		});
 		expect(queryByText('success')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 		expect(document.querySelector('[alt="User Image"]')).toHaveAttribute(
@@ -450,8 +424,7 @@ describe('set avatar', () => {
 			expect(fetch.post).toBeCalledWith(urls.user.profile.avatar(), {
 				tid: fixtureSkin.tid,
 			});
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
 	});
@@ -535,8 +508,7 @@ describe('apply textures to player', () => {
 				urls.user.player.set(fixturePlayer.pid),
 				{skin: fixtureSkin.tid},
 			);
-		},
-		);
+		});
 		expect(queryByText('success')).toBeInTheDocument();
 		expect(getByRole('status')).toHaveClass('alert-success');
 	});
@@ -564,8 +536,7 @@ describe('apply textures to player', () => {
 				urls.user.player.set(fixturePlayer.pid),
 				{skin: fixtureSkin.tid},
 			);
-		},
-		);
+		});
 		expect(queryByText('failed')).toBeInTheDocument();
 		expect(getByRole('alert')).toHaveClass('alert-danger');
 	});

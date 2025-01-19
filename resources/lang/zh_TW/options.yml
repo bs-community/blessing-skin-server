@@ -20,7 +20,7 @@ homepage:
     label: 此選項將使背景圖固定，不再滾動。
   copyright_prefer:
     title: 軟體版權
-    description: "您可以為每種語言指定不同形式的軟體版權。若要編輯它們，請切換到該語言並提交您的編輯訊息。 <br><b>警告:</b> <b>禁止</b>對頁脚軟體版權進行任何惡意的修改 (包括刪除, 修改作者, 更改連結對象)。相關作者保留追究相關責任的權利。"
+    description: '您可以為每種語言指定不同形式的軟體版權。若要編輯它們，請切換到該語言並提交您的編輯訊息。 <br><b>警告:</b> <b>禁止</b>對頁脚軟體版權進行任何惡意的修改 (包括刪除, 修改作者, 更改連結對象)。相關作者保留追究相關責任的權利。'
   copyright_text:
     title: 自訂版權文字
     description: 自訂版權文字中允許使用形如<code>{site_name}</code> & <code>{site_url}</code>的佔位符。您也可以為每一種顯示語言自訂不同的文字。如欲編輯不同語言的文字，請切換到對應語言並提交修改。
@@ -97,7 +97,7 @@ general:
   regs_per_ip: 同一個 IP 的最大賬戶數
   max_upload_file_size:
     title: 最大檔案上傳大小
-    hint: "php.ini 設定的最大上傳大小： :size"
+    hint: 'php.ini 設定的最大上傳大小： :size'
   player_name_rule:
     title: 角色名規則
     official: 字元、數字和下劃綫（Mojang 官方角色名規則）

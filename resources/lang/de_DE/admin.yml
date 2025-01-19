@@ -115,8 +115,8 @@ update:
     up-to-date: Bereits aktuell.
     available: Neue Version verfügbar.
     versions:
-      latest: "Neueste Version:"
-      current: "Aktuelle Version:"
+      latest: 'Neueste Version:'
+      current: 'Aktuelle Version:'
     check-github: GitHub Versionen prüfen
     button: Jetzt aktualisieren
   cautions:
@@ -127,7 +127,7 @@ update:
       Langsame Verbindungen zwischen Updatequelle und Ihrem Host verlangsamen das Überprüfen und Herunterladen der Seite.
       Um die Standard-Updatequelle zu ändern,
   errors:
-    connection: "Zugriff auf die aktuelle Updatequelle nicht möglich. Details: :error"
+    connection: 'Zugriff auf die aktuelle Updatequelle nicht möglich. Details: :error'
     spec: Aktuelle Updatequelle wird nicht unterstützt.
     php: Ihre PHP-Version ist zu niedrig zum Aktualisieren. Benötigt :version oder neuer.
 download:
