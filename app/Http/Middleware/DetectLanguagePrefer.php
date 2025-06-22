@@ -28,6 +28,10 @@ class DetectLanguagePrefer
 
         /** @var Response */
         $response = $next($request);
+        if (!in_array('api', $request->route()->middleware())) {
+            $response->cookie('locale', $locale, 120);
+        }
+
         $response->cookie('locale', $locale, 120);
 
         return $response;
