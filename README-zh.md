@@ -159,7 +159,7 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
 
 ## 自行构建
 
-详情可阅读 [这里](https://blessing.netlify.com/build.html)。
+详情可阅读 [这里](https://blessing.netlify.app/build.html)。
 
 > 您可以订阅我们的 Telegram 频道 [Blessing Skin News](https://t.me/blessing_skin_news) 来获取最新开发动态。当有新的 Commit 被推送时，我们的机器人将会在频道内发送一条消息来提示您能否拉取最新代码，以及拉取后应该做什么。
 
@@ -171,7 +171,7 @@ Blessing Skin 可支持多种语言，当前支持英语、简体中文和西班
 
 ## 问题报告
 
-请参阅 [报告问题的正确姿势](https://blessing.netlify.com/report.html)。
+请参阅 [报告问题的正确姿势](https://blessing.netlify.app/report.html)。
 
 ## 相关链接
 
