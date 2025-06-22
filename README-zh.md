@@ -171,7 +171,7 @@ Blessing Skin 可支持多种语言，当前支持英语、简体中文和西班
 
 ## 问题报告
 
-请参阅 [报告问题的正确姿势](https://blessing.netlify.com/report.html)。
+请参阅 [报告问题的正确姿势](https://blessing.netlify.app/report.html)。
 
 ## 相关链接
 
