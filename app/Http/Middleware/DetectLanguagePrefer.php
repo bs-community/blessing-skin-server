@@ -32,8 +32,6 @@ class DetectLanguagePrefer
             $response->cookie('locale', $locale, 120);
         }
 
-        $response->cookie('locale', $locale, 120);
-
         return $response;
     }
 }
