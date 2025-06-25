@@ -33,7 +33,7 @@ return [
     */
     'registry' => env(
         'PLUGINS_REGISTRY',
-        'https://d2jw1l0ullrzt6.cloudfront.net/registry_{lang}.json'
+        'https://bs-plugins.littleservice.cn/registry_{lang}.json'
     ),
 
     /*
