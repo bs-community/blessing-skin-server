@@ -149,6 +149,7 @@ jobs:
       - name: Archive release
         run: zip -9 -r blessing-skin-server-${{ steps.short-sha.outputs.sha }}.zip app bootstrap config database plugins public resources/lang resources/views resources/misc/textures routes storage vendor .env.example artisan LICENSE README.md README-zh.md index.html
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
+          if-no-files-found: error
           path: blessing-skin-server-${{ steps.short-sha.outputs.sha }}.zip
