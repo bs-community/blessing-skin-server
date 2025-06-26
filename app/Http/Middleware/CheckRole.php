@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 class CheckRole
 {
     protected $roles = [
-        'banned' => USER::BANNED,
-        'normal' => USER::NORMAL,
-        'admin' => USER::ADMIN,
-        'super-admin' => USER::SUPER_ADMIN,
+        'banned' => User::BANNED,
+        'normal' => User::NORMAL,
+        'admin' => User::ADMIN,
+        'super-admin' => User::SUPER_ADMIN,
     ];
 
     public function handle(Request $request, Closure $next, $role)

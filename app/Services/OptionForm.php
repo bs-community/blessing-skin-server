@@ -203,7 +203,7 @@ class OptionForm
     /**
      * Handle the HTTP post request and update modified options.
      */
-    public function handle(callable $callback = null): self
+    public function handle(?callable $callback = null): self
     {
         $request = request();
         $allPostData = $request->all();

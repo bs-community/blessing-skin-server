@@ -50,7 +50,7 @@ class AuthController extends Controller
         Request $request,
         Rules\Captcha $captcha,
         Dispatcher $dispatcher,
-        Filter $filter
+        Filter $filter,
     ) {
         $data = $request->validate([
             'identification' => 'required',
@@ -151,7 +151,7 @@ class AuthController extends Controller
         Request $request,
         Rules\Captcha $captcha,
         Dispatcher $dispatcher,
-        Filter $filter
+        Filter $filter,
     ) {
         $can = $filter->apply('can_register', null);
         if ($can instanceof Rejection) {
@@ -248,7 +248,7 @@ class AuthController extends Controller
         Request $request,
         Rules\Captcha $captcha,
         Dispatcher $dispatcher,
-        Filter $filter
+        Filter $filter,
     ) {
         $data = $request->validate([
             'email' => 'required|email',

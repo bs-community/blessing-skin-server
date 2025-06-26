@@ -36,7 +36,7 @@ class PluginManager
         Application $app,
         Option $option,
         Dispatcher $dispatcher,
-        Filesystem $filesystem
+        Filesystem $filesystem,
     ) {
         $this->app = $app;
         $this->option = $option;
@@ -366,7 +366,7 @@ class PluginManager
      */
     public function formatUnresolved(
         Collection $unsatisfied,
-        Collection $conflicts
+        Collection $conflicts,
     ): array {
         $unsatisfied = $unsatisfied->map(function ($detail, $name) {
             if ($name === 'blessing-skin-server') {

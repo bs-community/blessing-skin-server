@@ -75,7 +75,7 @@ class ClosetController extends Controller
     public function add(
         Request $request,
         Dispatcher $dispatcher,
-        Filter $filter
+        Filter $filter,
     ) {
         ['tid' => $tid, 'name' => $name] = $request->validate([
             'tid' => 'required|integer',
@@ -132,7 +132,7 @@ class ClosetController extends Controller
         Request $request,
         Dispatcher $dispatcher,
         Filter $filter,
-        $tid
+        $tid,
     ) {
         ['name' => $name] = $request->validate(['name' => 'required']);
         /** @var User */

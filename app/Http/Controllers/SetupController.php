@@ -20,7 +20,7 @@ class SetupController extends Controller
         Request $request,
         Filesystem $filesystem,
         Connection $connection,
-        DatabaseManager $manager
+        DatabaseManager $manager,
     ) {
         if ($request->isMethod('get')) {
             try {
@@ -121,7 +121,7 @@ class SetupController extends Controller
                 'database/migrations',
                 'vendor/laravel/passport/database/migrations',
             ],
-          ]);
+        ]);
 
         $siteUrl = url('/');
         if (Str::endsWith($siteUrl, '/index.php')) {

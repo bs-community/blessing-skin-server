@@ -489,12 +489,12 @@ class UserControllerTest extends TestCase
         // Administrator cannot be deleted
         $this->actingAs(User::factory()->admin()->create())
             ->postJson('/user/profile', [
-            'action' => 'delete',
-            'password' => '87654321',
-        ])->assertJson([
-            'code' => 1,
-            'message' => trans('user.profile.delete.admin'),
-        ]);
+                'action' => 'delete',
+                'password' => '87654321',
+            ])->assertJson([
+                'code' => 1,
+                'message' => trans('user.profile.delete.admin'),
+            ]);
     }
 
     public function testSetAvatar()

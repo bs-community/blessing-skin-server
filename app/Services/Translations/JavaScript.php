@@ -20,7 +20,7 @@ class JavaScript
     public function __construct(
         Filesystem $filesystem,
         Repository $cache,
-        PluginManager $plugins
+        PluginManager $plugins,
     ) {
         $this->filesystem = $filesystem;
         $this->cache = $cache;

@@ -25,7 +25,7 @@ class AuthControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        app()->instance(Captcha::class, new class() extends Captcha {
+        app()->instance(Captcha::class, new class extends Captcha {
             public function passes($attribute, $value)
             {
                 return true;
@@ -35,7 +35,7 @@ class AuthControllerTest extends TestCase
 
     public function testLogin()
     {
-        $filter = Fakes\Filter::fake();
+        $filter = Filter::fake();
 
         $this->get('/auth/login')->assertSee('Log in');
         $filter->assertApplied('auth_page_rows:login');
@@ -60,28 +60,28 @@ class AuthControllerTest extends TestCase
         // Should return a warning if length of `password` is lower than 6
         $this->postJson(
             '/auth/login', [
-            'identification' => $user->email,
-            'password' => '123',
-        ])->assertJsonValidationErrors('password');
+                'identification' => $user->email,
+                'password' => '123',
+            ])->assertJsonValidationErrors('password');
 
         // Should return a warning if length of `password` is greater than 32
         $this->postJson(
             '/auth/login', [
-            'identification' => $user->email,
-            'password' => Str::random(80),
-        ])->assertJsonValidationErrors('password');
+                'identification' => $user->email,
+                'password' => Str::random(80),
+            ])->assertJsonValidationErrors('password');
 
         $this->flushSession();
 
         // Should return a warning if user isn't existed
         $this->postJson(
             '/auth/login', [
-            'identification' => 'nope@nope.net',
-            'password' => '12345678',
-        ])->assertJson([
-            'code' => 2,
-            'message' => trans('auth.validation.user'),
-        ]);
+                'identification' => 'nope@nope.net',
+                'password' => '12345678',
+            ])->assertJson([
+                'code' => 2,
+                'message' => trans('auth.validation.user'),
+            ]);
         Event::assertDispatched('auth.login.attempt', function ($event, $payload) {
             $this->assertEquals('nope@nope.net', $payload[0]);
             $this->assertEquals('12345678', $payload[1]);
@@ -103,15 +103,15 @@ class AuthControllerTest extends TestCase
         // Logging in should be failed if password is wrong
         $this->postJson(
             '/auth/login', [
-            'identification' => $user->email,
-            'password' => 'wrong-password',
-        ])->assertJson(
-            [
-                'code' => 1,
-                'message' => trans('auth.validation.password'),
-                'data' => ['login_fails' => 1],
-            ]
-        );
+                'identification' => $user->email,
+                'password' => 'wrong-password',
+            ])->assertJson(
+                [
+                    'code' => 1,
+                    'message' => trans('auth.validation.password'),
+                    'data' => ['login_fails' => 1],
+                ]
+            );
         $filter->assertApplied('client_ip', function ($value) use ($ip) {
             $this->assertEquals($ip, $value);
 
@@ -143,8 +143,8 @@ class AuthControllerTest extends TestCase
         Cache::put($loginFailsCacheKey, 4);
         $this->postJson(
             '/auth/login', [
-            'identification' => $user->email,
-            'password' => '12345678',
+                'identification' => $user->email,
+                'password' => '12345678',
             ])->assertJsonValidationErrors('captcha');
 
         Cache::flush();
@@ -183,9 +183,9 @@ class AuthControllerTest extends TestCase
         auth()->logout();
         $this->postJson(
             '/auth/login', [
-            'identification' => $player->name,
-            'password' => '12345678',
-        ]
+                'identification' => $player->name,
+                'password' => '12345678',
+            ]
         )->assertJson(
             [
                 'code' => 0,
@@ -240,7 +240,7 @@ class AuthControllerTest extends TestCase
 
     public function testRegister()
     {
-        $filter = Fakes\Filter::fake();
+        $filter = Filter::fake();
 
         $this->get('/auth/register')->assertSee('Register');
         $filter->assertApplied('auth_page_rows:register');

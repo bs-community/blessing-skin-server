@@ -86,7 +86,7 @@ class AdminController extends Controller
         Request $request,
         PluginManager $plugins,
         Filesystem $filesystem,
-        Filter $filter
+        Filter $filter,
     ) {
         $db = config('database.connections.'.config('database.default'));
         $dbType = Arr::get([

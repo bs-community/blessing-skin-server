@@ -22,7 +22,7 @@ class FootComposer
         Request $request,
         JavaScript $javascript,
         Dispatcher $dispatcher,
-        Filter $filter
+        Filter $filter,
     ) {
         $this->request = $request;
         $this->javascript = $javascript;

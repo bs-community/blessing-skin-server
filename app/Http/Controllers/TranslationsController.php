@@ -40,7 +40,7 @@ class TranslationsController extends Controller
         Request $request,
         Application $app,
         JavaScript $js,
-        LanguageLine $line
+        LanguageLine $line,
     ) {
         $data = $request->validate(['text' => 'required|string']);
 
@@ -57,7 +57,7 @@ class TranslationsController extends Controller
     public function delete(
         Application $app,
         JavaScript $js,
-        LanguageLine $line
+        LanguageLine $line,
     ) {
         $line->delete();
 

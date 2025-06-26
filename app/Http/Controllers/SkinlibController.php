@@ -189,7 +189,7 @@ class SkinlibController extends Controller
     public function handleUpload(
         Request $request,
         Filter $filter,
-        Dispatcher $dispatcher
+        Dispatcher $dispatcher,
     ) {
         $file = $request->file('file');
         if ($file && !$file->isValid()) {
@@ -386,7 +386,7 @@ class SkinlibController extends Controller
         Request $request,
         Dispatcher $dispatcher,
         Filter $filter,
-        Texture $texture
+        Texture $texture,
     ) {
         $data = $request->validate(['name' => [
             'required',
@@ -416,7 +416,7 @@ class SkinlibController extends Controller
         Request $request,
         Dispatcher $dispatcher,
         Filter $filter,
-        Texture $texture
+        Texture $texture,
     ) {
         $data = $request->validate([
             'type' => ['required', Rule::in(['steve', 'alex', 'cape'])],

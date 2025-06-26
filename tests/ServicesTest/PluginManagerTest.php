@@ -425,7 +425,7 @@ class PluginManagerTest extends TestCase
                 ->with('/mayaka/callbacks.php')
                 ->once()
                 ->andReturn([
-                    \App\Events\PluginWasDeleted::class => function ($plugin) {
+                    Events\PluginWasDeleted::class => function ($plugin) {
                         $this->assertInstanceOf(Plugin::class, $plugin);
                         $this->assertEquals('mayaka', $plugin->name);
                     },
@@ -434,7 +434,7 @@ class PluginManagerTest extends TestCase
 
         app()->forgetInstance(PluginManager::class);
         resolve(PluginManager::class)->boot();
-        event(new \App\Events\PluginWasDeleted(new Plugin('/mayaka', ['name' => 'mayaka'])));
+        event(new Events\PluginWasDeleted(new Plugin('/mayaka', ['name' => 'mayaka'])));
     }
 
     public function testRegisterAutoload()

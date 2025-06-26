@@ -20,7 +20,7 @@ class HeadComposer
     public function __construct(
         Dispatcher $dispatcher,
         Request $request,
-        Filter $filter
+        Filter $filter,
     ) {
         $this->dispatcher = $dispatcher;
         $this->request = $request;

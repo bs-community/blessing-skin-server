@@ -480,15 +480,15 @@ class SkinlibControllerTest extends TestCase
         $texture->uploader = $user->uid;
         $texture->save();
         $this->postJson(route('texture.upload'), [
-                'name' => 'texture',
-                'public' => true,
-                'type' => 'steve',
-                'file' => $upload,
-            ])->assertJson([
-                'code' => 2,
-                'message' => trans('skinlib.upload.repeated'),
-                'data' => ['tid' => $texture->tid],
-            ]);
+            'name' => 'texture',
+            'public' => true,
+            'type' => 'steve',
+            'file' => $upload,
+        ])->assertJson([
+            'code' => 2,
+            'message' => trans('skinlib.upload.repeated'),
+            'data' => ['tid' => $texture->tid],
+        ]);
 
         // rejected
         $filter->add('can_upload_texture', function ($can, $file, $name) {
@@ -498,11 +498,11 @@ class SkinlibControllerTest extends TestCase
             return new Rejection('rejected');
         });
         $this->postJson(route('texture.upload'), [
-                'name' => 'texture',
-                'public' => true,
-                'type' => 'steve',
-                'file' => $upload,
-            ])->assertJson(['code' => 1, 'message' => 'rejected']);
+            'name' => 'texture',
+            'public' => true,
+            'type' => 'steve',
+            'file' => $upload,
+        ])->assertJson(['code' => 1, 'message' => 'rejected']);
 
         $disk->delete($texture->hash);
     }

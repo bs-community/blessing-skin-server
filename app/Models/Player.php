@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\PlayerProfileUpdated;
-use App\Models;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -57,17 +56,17 @@ class Player extends Model
 
     public function user()
     {
-        return $this->belongsTo(Models\User::class, 'uid');
+        return $this->belongsTo(User::class, 'uid');
     }
 
     public function skin()
     {
-        return $this->belongsTo(Models\Texture::class, 'tid_skin');
+        return $this->belongsTo(Texture::class, 'tid_skin');
     }
 
     public function cape()
     {
-        return $this->belongsTo(Models\Texture::class, 'tid_cape');
+        return $this->belongsTo(Texture::class, 'tid_cape');
     }
 
     public function getModelAttribute()

@@ -41,20 +41,20 @@ class ClosetControllerTest extends TestCase
         $user->closet()->attach($cape->tid, ['item_name' => 'custom_name']);
         $this->getJson('/user/closet/list?category=cape')
             ->assertJson(['data' => [[
-                    'tid' => $cape->tid,
-                    'type' => 'cape',
-                    'pivot' => ['item_name' => 'custom_name'],
-                ],
+                'tid' => $cape->tid,
+                'type' => 'cape',
+                'pivot' => ['item_name' => 'custom_name'],
+            ],
             ]]);
 
         // Search by keyword
         $random = $textures->random();
         $this->getJson('/user/closet/list?q='.$random->name)
             ->assertJson(['data' => [[
-                    'tid' => $random->tid,
-                    'name' => $random->name,
-                    'type' => $random->type,
-                ],
+                'tid' => $random->tid,
+                'name' => $random->name,
+                'type' => $random->type,
+            ],
             ]]);
     }
 

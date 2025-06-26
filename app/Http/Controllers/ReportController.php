@@ -77,7 +77,7 @@ class ReportController extends Controller
     public function review(
         Report $report,
         Request $request,
-        Dispatcher $dispatcher
+        Dispatcher $dispatcher,
     ) {
         $data = $request->validate([
             'action' => ['required', Rule::in(['delete', 'ban', 'reject'])],

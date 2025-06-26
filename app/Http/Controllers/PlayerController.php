@@ -124,7 +124,7 @@ class PlayerController extends Controller
     public function delete(
         Dispatcher $dispatcher,
         Filter $filter,
-        Player $player
+        Player $player,
     ) {
         /** @var User */
         $user = auth()->user();
@@ -157,7 +157,7 @@ class PlayerController extends Controller
         Request $request,
         Dispatcher $dispatcher,
         Filter $filter,
-        Player $player
+        Player $player,
     ) {
         $name = $request->validate([
             'name' => [
@@ -194,7 +194,7 @@ class PlayerController extends Controller
         Request $request,
         Dispatcher $dispatcher,
         Filter $filter,
-        Player $player
+        Player $player,
     ) {
         /** @var User */
         $user = auth()->user();
@@ -234,7 +234,7 @@ class PlayerController extends Controller
         Request $request,
         Dispatcher $dispatcher,
         Filter $filter,
-        Player $player
+        Player $player,
     ) {
         $types = $request->input('type', []);
 
