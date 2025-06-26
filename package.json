@@ -37,6 +37,7 @@
     "immer": "^7.0.4",
     "jquery": "^3.6.0",
     "lodash.debounce": "^4.0.8",
+    "lcobucci/jwt": "^4.0",
     "nanoid": "^3.1.9",
     "prompts": "^2.4.0",
     "react": "^17.0.1",
