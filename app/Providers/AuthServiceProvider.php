@@ -38,10 +38,19 @@ class AuthServiceProvider extends ServiceProvider
             'ReportsManagement.Read' => 'auth.oauth.scope.reports-management.read',
             'ReportsManagement.ReadWrite' => 'auth.oauth.scope.reports-management.readwrite',
         ];
-
+        // 添加 Yggdrasil Connect 插件的作用域
+        $yggdrasilScopes = [
+            'openid' => 'LittleSkin\\YggdrasilConnect::scopes.openid',
+            'profile' => 'LittleSkin\\YggdrasilConnect::scopes.profile',
+            'email' => 'LittleSkin\\YggdrasilConnect::scopes.email',
+            'offline_access' => 'LittleSkin\\YggdrasilConnect::scopes.offline-access',
+            'Yggdrasil.PlayerProfiles.Read' => 'LittleSkin\\YggdrasilConnect::scopes.player-profiles.read',
+            'Yggdrasil.PlayerProfiles.Select' => 'LittleSkin\\YggdrasilConnect::scopes.player-profiles.select',
+            'Yggdrasil.Server.Join' => 'LittleSkin\\YggdrasilConnect::scopes.server.join',
+        ];
         $scopes = Cache::get('scopes', []);
 
-        Passport::tokensCan(array_merge($defaultScopes, $scopes));
+        Passport::tokensCan(array_merge($defaultScopes, $yggdrasilScopes, $scopes));
 
         Passport::setDefaultScope(['User.Read']);
     }
