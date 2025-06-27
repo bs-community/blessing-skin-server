@@ -20,7 +20,18 @@ class UpdateCommandTest extends TestCase
                 ->once()
                 ->andReturn(true);
         });
+
+        /*
+         * Yeah I know it's FUCKING UGLY
+         * But it's the only FUCKING way that WORKS
+         * SOMEONE REFACTOR THIS SHIT PLEASE, I BEG
+        */
         Cache::partialMock()->shouldReceive('flush')->once();
+        $mock = \Mockery::mock(\Illuminate\Contracts\Cache\Repository::class);
+        $mock->shouldReceive('put');
+        $mock->shouldReceive('get');
+        $this->app->instance('cache.store', $mock);
+
         option(['version' => '0.0.0']);
         config([
             'app.version' => '0.0.1',
