@@ -1,38 +1,40 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "type": "node",
-        "request": "launch",
-        "name": "Launch Jest Tests",
-        "program": "${workspaceFolder}/node_modules/.bin/jest",
-        "args": ["${file}"],
-        "internalConsoleOptions": "openOnSessionStart",
-        "skipFiles": [
-          "<node_internals>/**"
-        ]
-      },
-      {
-        "type": "php",
-        "request": "launch",
-        "name": "Launch with XDebug",
-        "ignore": [
-          "**/vendor/**/*.php"
-        ]
-      },
-      {
-        "type": "firefox",
-        "request": "launch",
-        "reAttach": true,
-        "name": "Launch with Firefox Debugger",
-        "url": "http://localhost/",
-        "webRoot": "${workspaceFolder}",
-        "pathMappings": [
-          {
-            "url": "webpack:///",
-            "path": "${workspaceFolder}/"
-          }
-        ]
-      }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Listen for Xdebug",
+      "type": "php",
+      "request": "launch",
+      "port": 9003
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Jest Tests",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["${file}"],
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "php",
+      "request": "launch",
+      "name": "Launch with XDebug",
+      "ignore": ["**/vendor/**/*.php"]
+    },
+    {
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "name": "Launch with Firefox Debugger",
+      "url": "http://localhost/",
+      "webRoot": "${workspaceFolder}",
+      "pathMappings": [
+        {
+          "url": "webpack:///",
+          "path": "${workspaceFolder}/"
+        }
+      ]
+    }
+  ]
 }

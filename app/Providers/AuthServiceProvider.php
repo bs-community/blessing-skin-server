@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Models\Scope;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 
@@ -42,7 +41,7 @@ class AuthServiceProvider extends ServiceProvider
             'ReportsManagement.ReadWrite' => 'auth.oauth.scope.reports-management.readwrite',
         ];
 
-        /* 
+        /*
          * Return empty scopes if running unit tests or before installation.
          * In these cases, migrations aren’t run yet, so DB queries will fail.
          * OAuth isn’t tested in unit tests, so returning empty scopes should be fine...?
@@ -51,7 +50,7 @@ class AuthServiceProvider extends ServiceProvider
          * Or change how scopes are registered so they don't depend on the database,
          * but that may introduce BREAKING CHANGES and plugin incompatibility.
          * PRs welcome for better solutions!
-        */
+         */
         $scopes = (app()->runningUnitTests() || !Storage::disk('root')->exists('storage/install.lock')) ? [] : Cache::rememberForever('scopes', function () {
             return Scope::pluck('description', 'name')->toArray();
         });

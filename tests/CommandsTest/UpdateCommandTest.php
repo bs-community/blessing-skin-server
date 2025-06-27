@@ -25,7 +25,7 @@ class UpdateCommandTest extends TestCase
          * Yeah I know it's FUCKING UGLY
          * But it's the only FUCKING way that WORKS
          * SOMEONE REFACTOR THIS SHIT PLEASE, I BEG
-        */
+         */
         Cache::partialMock()->shouldReceive('flush')->once();
         $mock = \Mockery::mock(\Illuminate\Contracts\Cache\Repository::class);
         $mock->shouldReceive('put');
