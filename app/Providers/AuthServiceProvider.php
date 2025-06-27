@@ -40,7 +40,7 @@ class AuthServiceProvider extends ServiceProvider
             'ReportsManagement.ReadWrite' => 'auth.oauth.scope.reports-management.readwrite',
         ];
 
-        $scopes = Cache::rememberForever('scopes', function () {
+        $scopes = app()->runningConsoleCommand('package:discover') ? [] : Cache::rememberForever('scopes', function () {
             return Scope::pluck('description', 'name')->toArray();
         });
 
