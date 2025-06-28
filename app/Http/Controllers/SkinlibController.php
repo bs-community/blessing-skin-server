@@ -224,8 +224,9 @@ class SkinlibController extends Controller
         if ($size[0] > $maxWidth) {
             $message = trans('skinlib.upload.too-wide', [
                 'width' => $size[0],
-                'maxWidth' => $maxWidth
+                'maxWidth' => $maxWidth,
             ]);
+
             return json($message, 1);
         }
 
