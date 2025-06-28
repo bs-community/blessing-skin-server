@@ -217,8 +217,9 @@ class SkinlibController extends Controller
             return json($can->getReason(), 1);
         }
 
+        $image = imagecreatefrompng($file);
         $type = $data['type'];
-        $size = getimagesize($file);
+        $size = [imagesx($image), imagesy($image)];
 
         if ($size[0] % 64 != 0 || $size[1] % 32 != 0) {
             $message = trans('skinlib.upload.invalid-size', [
@@ -253,8 +254,18 @@ class SkinlibController extends Controller
             }
         }
 
-        $hash = hash_file('sha256', $file);
-        $hash = $filter->apply('uploaded_texture_hash', $hash, [$file]);
+        $imageSanitized = imagecreatetruecolor($size[0], $size[1]);
+        imagealphablending($imageSanitized, false);
+        imagesavealpha($imageSanitized, true);
+        imagecopy($imageSanitized, $image, 0, 0, 0, 0, $size[0], $size[1]);
+
+        ob_start();
+        imagepng($imageSanitized);
+        $fileSanitized = ob_get_contents();
+        ob_end_clean();
+
+        $hash = hash('sha256', $fileSanitized);
+        $hash = $filter->apply('uploaded_texture_hash', $hash, [$fileSanitized]);
 
         /** @var User */
         $user = Auth::user();
@@ -270,11 +281,11 @@ class SkinlibController extends Controller
             return json(trans('skinlib.upload.repeated'), 2, ['tid' => $duplicated->tid]);
         }
 
-        $size = ceil($file->getSize() / 1024);
+        $fileSize = ceil(strlen($fileSanitized) / 1024);
         $isPublic = is_string($data['public'])
             ? $data['public'] === '1'
             : $data['public'];
-        $cost = $size * (
+        $cost = $fileSize * (
             $isPublic
             ? option('score_per_storage')
             : option('private_score_per_storage')
@@ -285,13 +296,13 @@ class SkinlibController extends Controller
             return json(trans('skinlib.upload.lack-score'), 1);
         }
 
-        $dispatcher->dispatch('texture.uploading', [$file, $name, $hash]);
+        $dispatcher->dispatch('texture.uploading', [$fileSanitized, $name, $hash]);
 
         $texture = new Texture();
         $texture->name = $name;
         $texture->type = $type;
         $texture->hash = $hash;
-        $texture->size = $size;
+        $texture->size = $fileSize;
         $texture->public = $isPublic;
         $texture->uploader = $user->uid;
         $texture->likes = 1;
@@ -300,14 +311,14 @@ class SkinlibController extends Controller
         /** @var FilesystemAdapter */
         $disk = Storage::disk('textures');
         if ($disk->missing($hash)) {
-            $file->storePubliclyAs('', $hash, ['disk' => 'textures']);
+            $disk->put($hash, $fileSanitized);
         }
 
         $user->score -= $cost;
         $user->closet()->attach($texture->tid, ['item_name' => $name]);
         $user->save();
 
-        $dispatcher->dispatch('texture.uploaded', [$texture, $file]);
+        $dispatcher->dispatch('texture.uploaded', [$texture, $fileSanitized]);
 
         return json(trans('skinlib.upload.success', ['name' => $name]), 0, [
             'tid' => $texture->tid,
