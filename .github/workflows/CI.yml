@@ -143,7 +143,7 @@ jobs:
           yarn build
           cp resources/assets/src/images/bg.webp public/app/
           cp resources/assets/src/images/favicon.ico public/app/
-      - uses: benjlevesque/short-sha@v1.2
+      - uses: benjlevesque/short-sha@v3.0
         id: short-sha
       - name: Archive release
         run: zip -9 -r blessing-skin-server-${{ steps.short-sha.outputs.sha }}.zip app bootstrap config database plugins public resources/lang resources/views resources/misc/textures routes storage vendor .env.example artisan LICENSE README.md README-zh.md index.html
