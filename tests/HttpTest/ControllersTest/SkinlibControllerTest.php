@@ -303,6 +303,22 @@ class SkinlibControllerTest extends TestCase
             'type' => 'steve',
         ])->assertJsonValidationErrors('public');
 
+        // too wide texture
+        option(['max_texture_width' => 128]);
+        $this->postJson(route('texture.upload'), [
+            'name' => 'texture',
+            'file' => UploadedFile::fake()->image('wide.png', 256, 256),
+            'type' => 'steve',
+            'public' => true,
+        ])->assertJson([
+            'code' => 1,
+            'message' => trans('skinlib.upload.too-wide', [
+                'width' => 256,
+                'maxWidth' => 128,
+            ]),
+        ]);
+        option(['max_texture_width' => 8192]);
+
         // invalid skin size
         $this->postJson(route('texture.upload'), [
             'name' => 'texture',

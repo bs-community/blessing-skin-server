@@ -163,6 +163,10 @@ class OptionsController extends Controller
                     ->text('max_upload_file_size')->addon('KB')
                     ->hint(trans('options.general.max_upload_file_size.hint', ['size' => ini_get('upload_max_filesize')]));
 
+            $form->group('max_texture_width')
+                    ->text('max_texture_width')->addon('px')
+                    ->hint(trans('options.general.max_texture_width.hint'));
+
             $form->select('player_name_rule')
                     ->option('official', trans('options.general.player_name_rule.official'))
                     ->option('cjk', trans('options.general.player_name_rule.cjk'))

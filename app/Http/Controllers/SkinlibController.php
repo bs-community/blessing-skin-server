@@ -217,9 +217,17 @@ class SkinlibController extends Controller
             return json($can->getReason(), 1);
         }
 
-        $image = imagecreatefrompng($file);
         $type = $data['type'];
-        $size = [imagesx($image), imagesy($image)];
+        $size = getimagesize($file);
+
+        $maxWidth = option('max_texture_width', 8192);
+        if ($size[0] > $maxWidth) {
+            $message = trans('skinlib.upload.too-wide', [
+                'width' => $size[0],
+                'maxWidth' => $maxWidth
+            ]);
+            return json($message, 1);
+        }
 
         if ($size[0] % 64 != 0 || $size[1] % 32 != 0) {
             $message = trans('skinlib.upload.invalid-size', [
@@ -254,6 +262,7 @@ class SkinlibController extends Controller
             }
         }
 
+        $image = imagecreatefrompng($file);
         $imageSanitized = imagecreatetruecolor($size[0], $size[1]);
         imagealphablending($imageSanitized, false);
         imagesavealpha($imageSanitized, true);
