@@ -33,7 +33,6 @@ jobs:
       - name: Prepare
         run: |
           cp .env.example .env
-          php artisan key:generate
           mkdir -p resources/views/overrides
       - name: Validate Twig templates
         run: php artisan twig:lint -v
