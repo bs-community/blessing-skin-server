@@ -12,6 +12,7 @@ upload:
   private-score-notice: 私密材质将会消耗更多的积分：每 KB 存储空间 :score 积分
   invalid-size: 不是有效的 :type 文件（宽 :width，高 :height）
   invalid-hd-skin: 不是有效的高清皮肤（宽和高不是 32 的整数倍）
+  too-wide: 材质过宽（:widthpx），本站允许的最大宽度为 :maxWidthpx
   lack-score: 积分不足
   repeated: 已经有人上传过这个材质了，直接添加到衣柜使用吧~
   success: 材质 :name 上传成功

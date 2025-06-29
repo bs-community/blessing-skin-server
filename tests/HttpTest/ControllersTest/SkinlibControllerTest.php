@@ -303,6 +303,22 @@ class SkinlibControllerTest extends TestCase
             'type' => 'steve',
         ])->assertJsonValidationErrors('public');
 
+        // too wide texture
+        option(['max_texture_width' => 128]);
+        $this->postJson(route('texture.upload'), [
+            'name' => 'texture',
+            'file' => UploadedFile::fake()->image('wide.png', 256, 256),
+            'type' => 'steve',
+            'public' => true,
+        ])->assertJson([
+            'code' => 1,
+            'message' => trans('skinlib.upload.too-wide', [
+                'width' => 256,
+                'maxWidth' => 128,
+            ]),
+        ]);
+        option(['max_texture_width' => 8192]);
+
         // invalid skin size
         $this->postJson(route('texture.upload'), [
             'name' => 'texture',
@@ -437,7 +453,7 @@ class SkinlibControllerTest extends TestCase
             'uploaded_texture_hash',
             function ($hash, $file) use ($texture) {
                 $this->assertEquals($texture->hash, $hash);
-                $this->assertInstanceOf(UploadedFile::class, $file);
+                $this->assertIsString($file);
 
                 return true;
             }
@@ -445,7 +461,7 @@ class SkinlibControllerTest extends TestCase
         Event::assertDispatched(
             'texture.uploading',
             function ($eventName, $payload) use ($texture) {
-                $this->assertInstanceOf(UploadedFile::class, $payload[0]);
+                $this->assertIsString($payload[0]);
                 $this->assertEquals($texture->name, $payload[1]);
                 $this->assertEquals($texture->hash, $payload[2]);
 
@@ -456,7 +472,7 @@ class SkinlibControllerTest extends TestCase
             'texture.uploaded',
             function ($eventName, $payload) use ($texture) {
                 $this->assertTrue($texture->is($payload[0]));
-                $this->assertInstanceOf(UploadedFile::class, $payload[1]);
+                $this->assertIsString($payload[1]);
 
                 return true;
             }
