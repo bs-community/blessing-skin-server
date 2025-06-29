@@ -6,11 +6,11 @@ use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use Blessing\Minecraft;
-use Cache;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Image;
-use Storage;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class TextureController extends Controller
 {

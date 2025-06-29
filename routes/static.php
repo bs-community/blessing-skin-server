@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('{player}.json', 'TextureController@json');
 Route::get('csl/{player}.json', 'TextureController@json');
 

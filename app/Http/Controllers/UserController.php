@@ -6,16 +6,16 @@ use App\Events\UserProfileUpdated;
 use App\Mail\EmailVerification;
 use App\Models\Texture;
 use App\Models\User;
-use Auth;
 use Blessing\Filter;
 use Blessing\Rejection;
 use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
-use Mail;
-use Session;
-use URL;
 
 class UserController extends Controller
 {

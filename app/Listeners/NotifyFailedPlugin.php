@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\User;
-use Event;
+use Illuminate\Support\Facades\Event;
 
 class NotifyFailedPlugin
 {

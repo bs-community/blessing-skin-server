@@ -6,7 +6,7 @@ use App\Events;
 use App\Models\User;
 use App\Services\Plugin;
 use App\Services\PluginManager;
-use Event;
+use Illuminate\Support\Facades\Event;
 use Symfony\Component\DomCrawler\Crawler;
 
 class SideMenuComposerTest extends TestCase

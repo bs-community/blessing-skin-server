@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::any('', 'HomeController@apiRoot');
 
 Route::prefix('user')->middleware('auth:oauth')->group(function () {

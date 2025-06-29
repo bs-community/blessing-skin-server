@@ -4,8 +4,8 @@ namespace Tests;
 
 use App\Models\User;
 use App\Services\Translations\JavaScript;
-use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 use Symfony\Component\DomCrawler\Crawler;
 
 class FootComposerTest extends TestCase

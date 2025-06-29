@@ -3,7 +3,7 @@
 namespace Tests;
 
 use App\Models\User;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 

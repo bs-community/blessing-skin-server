@@ -8,10 +8,10 @@ use App\Events;
 use App\Notifications;
 use Blessing\Filter;
 use Closure;
-use Event;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
-use Notification;
 
 class Hook
 {

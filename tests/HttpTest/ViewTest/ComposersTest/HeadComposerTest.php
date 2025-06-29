@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 use Symfony\Component\DomCrawler\Crawler;
 
 class HeadComposerTest extends TestCase

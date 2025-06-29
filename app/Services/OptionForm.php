@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
+use App\Services\Facades\Option;
 use BadMethodCallException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Option;
 use ReflectionClass;
 
 /**

@@ -10,11 +10,11 @@ use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use App\Rules;
-use Auth;
 use Blessing\Filter;
 use Blessing\Rejection;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class PlayerController extends Controller

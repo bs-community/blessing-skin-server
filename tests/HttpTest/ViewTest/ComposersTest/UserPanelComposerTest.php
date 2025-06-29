@@ -3,7 +3,7 @@
 namespace Tests;
 
 use App\Models\User;
-use Event;
+use Illuminate\Support\Facades\Event;
 
 class UserPanelComposerTest extends TestCase
 {

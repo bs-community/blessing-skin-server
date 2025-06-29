@@ -1,6 +1,8 @@
 <?php
 
+use App\Services\Facades\Option;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class ImportOptions extends Migration
 {

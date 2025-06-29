@@ -5,8 +5,8 @@ namespace Tests;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
-use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 
 class PlayersManagementControllerTest extends TestCase
 {

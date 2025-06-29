@@ -8,16 +8,16 @@ use App\Mail\ForgotPassword;
 use App\Models\Player;
 use App\Models\User;
 use App\Rules;
-use Auth;
 use Blessing\Filter;
 use Blessing\Rejection;
-use Cache;
 use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Mail;
-use Session;
-use URL;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Vectorface\Whip\Whip;
 
 class AuthController extends Controller

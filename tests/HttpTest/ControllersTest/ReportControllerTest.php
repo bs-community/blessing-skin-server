@@ -7,8 +7,8 @@ use App\Models\Texture;
 use App\Models\User;
 use Blessing\Filter;
 use Blessing\Rejection;
-use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 
 class ReportControllerTest extends TestCase

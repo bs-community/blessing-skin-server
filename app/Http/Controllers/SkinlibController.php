@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Texture;
 use App\Models\User;
-use Auth;
 use Blessing\Filter;
 use Blessing\Rejection;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -12,11 +11,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
-use Storage;
 
 class SkinlibController extends Controller
 {

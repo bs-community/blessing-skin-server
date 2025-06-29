@@ -7,8 +7,8 @@ use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use Blessing\Rejection;
-use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 
 class PlayerControllerTest extends TestCase
 {

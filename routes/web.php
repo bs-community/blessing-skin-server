@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

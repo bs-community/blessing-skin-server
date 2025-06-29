@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class Option
 {

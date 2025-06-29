@@ -6,8 +6,8 @@ use App\Events;
 use App\Services\Option;
 use App\Services\Plugin;
 use App\Services\PluginManager;
-use Event;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Event;
 use ReflectionClass;
 
 class PluginManagerTest extends TestCase

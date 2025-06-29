@@ -6,10 +6,10 @@ use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use Blessing\Minecraft;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Storage;
-use Image;
+use Intervention\Image\Facades\Image;
 
 class TextureControllerTest extends TestCase
 {
