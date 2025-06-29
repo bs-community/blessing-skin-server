@@ -25,3 +25,5 @@ storage/options.php
 .phpunit.result.cache
 .php-cs-fixer.cache
 resources/views/overrides
+.DS_Store
+*/.DS_Store
