@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Intervention\Image\Facades\Image;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Storage;
 
@@ -263,19 +264,11 @@ class SkinlibController extends Controller
             }
         }
 
-        $image = imagecreatefrompng($file);
-        $imageSanitized = imagecreatetruecolor($size[0], $size[1]);
-        imagealphablending($imageSanitized, false);
-        imagesavealpha($imageSanitized, true);
-        imagecopy($imageSanitized, $image, 0, 0, 0, 0, $size[0], $size[1]);
+        $image = Image::make($file);
+        $sanitized = $image->encode('png', 100)->getEncoded();
 
-        ob_start();
-        imagepng($imageSanitized);
-        $fileSanitized = ob_get_contents();
-        ob_end_clean();
-
-        $hash = hash('sha256', $fileSanitized);
-        $hash = $filter->apply('uploaded_texture_hash', $hash, [$fileSanitized]);
+        $hash = hash('sha256', $image->encoded);
+        $hash = $filter->apply('uploaded_texture_hash', $hash, [$image]);
 
         /** @var User */
         $user = Auth::user();
@@ -291,7 +284,7 @@ class SkinlibController extends Controller
             return json(trans('skinlib.upload.repeated'), 2, ['tid' => $duplicated->tid]);
         }
 
-        $fileSize = ceil(strlen($fileSanitized) / 1024);
+        $fileSize = ceil(strlen($sanitized) / 1024);
         $isPublic = is_string($data['public'])
             ? $data['public'] === '1'
             : $data['public'];
@@ -306,7 +299,7 @@ class SkinlibController extends Controller
             return json(trans('skinlib.upload.lack-score'), 1);
         }
 
-        $dispatcher->dispatch('texture.uploading', [$fileSanitized, $name, $hash]);
+        $dispatcher->dispatch('texture.uploading', [$image, $name, $hash]);
 
         $texture = new Texture();
         $texture->name = $name;
@@ -321,14 +314,14 @@ class SkinlibController extends Controller
         /** @var FilesystemAdapter */
         $disk = Storage::disk('textures');
         if ($disk->missing($hash)) {
-            $disk->put($hash, $fileSanitized);
+            $disk->put($hash, $sanitized);
         }
 
         $user->score -= $cost;
         $user->closet()->attach($texture->tid, ['item_name' => $name]);
         $user->save();
 
-        $dispatcher->dispatch('texture.uploaded', [$texture, $fileSanitized]);
+        $dispatcher->dispatch('texture.uploaded', [$texture, $image]);
 
         return json(trans('skinlib.upload.success', ['name' => $name]), 0, [
             'tid' => $texture->tid,

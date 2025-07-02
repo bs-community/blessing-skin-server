@@ -11,6 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Image;
 
 class SkinlibControllerTest extends TestCase
 {
@@ -453,7 +454,7 @@ class SkinlibControllerTest extends TestCase
             'uploaded_texture_hash',
             function ($hash, $file) use ($texture) {
                 $this->assertEquals($texture->hash, $hash);
-                $this->assertIsString($file);
+                $this->assertInstanceOf(Image::class, $file);
 
                 return true;
             }
@@ -461,7 +462,7 @@ class SkinlibControllerTest extends TestCase
         Event::assertDispatched(
             'texture.uploading',
             function ($eventName, $payload) use ($texture) {
-                $this->assertIsString($payload[0]);
+                $this->assertInstanceOf(Image::class, $payload[0]);
                 $this->assertEquals($texture->name, $payload[1]);
                 $this->assertEquals($texture->hash, $payload[2]);
 
@@ -472,7 +473,7 @@ class SkinlibControllerTest extends TestCase
             'texture.uploaded',
             function ($eventName, $payload) use ($texture) {
                 $this->assertTrue($texture->is($payload[0]));
-                $this->assertIsString($payload[1]);
+                $this->assertInstanceOf(Image::class, $payload[1]);
 
                 return true;
             }
