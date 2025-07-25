@@ -51,6 +51,7 @@ ini_set('display_errors', true);
             'json',
             'fileinfo',
             'zip',
+            'imagick',
         ],
         'write_permission' => [
             'bootstrap/cache',
