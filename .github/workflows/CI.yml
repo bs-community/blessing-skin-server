@@ -26,7 +26,7 @@ jobs:
         with:
           php-version: 8.3
           coverage: none
-          extensions: mbstring, dom, fileinfo, gd
+          extensions: mbstring, dom, fileinfo, gd, imagick
       - name: Install dependencies
         run: |
           composer install --prefer-dist --no-progress
@@ -54,14 +54,14 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: none
-          extensions: mbstring, dom, fileinfo, sqlite, gd, zip
+          extensions: mbstring, dom, fileinfo, sqlite, gd, zip, imagick
       - name: Setup PHP with Xdebug
         uses: shivammathur/setup-php@v2
         if: matrix.php == '8.3'
         with:
           php-version: ${{ matrix.php }}
           coverage: xdebug
-          extensions: mbstring, dom, fileinfo, sqlite, gd, zip
+          extensions: mbstring, dom, fileinfo, sqlite, gd, zip, imagick
       - name: Cache Composer dependencies
         uses: actions/cache@v3
         with:
@@ -119,7 +119,7 @@ jobs:
         with:
           php-version: 8.2
           coverage: none
-          extensions: mbstring, dom, fileinfo, sqlite, gd, zip
+          extensions: mbstring, dom, fileinfo, sqlite, gd, zip, imagick
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Cache Node dependencies
