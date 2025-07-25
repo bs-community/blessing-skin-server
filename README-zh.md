@@ -52,6 +52,7 @@ Blessing Skin 对您的服务器有一定的要求。在大多数情况下，下
   - JSON
   - fileinfo
   - zip
+  - Imagick
 
 ## 快速使用
 

@@ -52,6 +52,7 @@ Blessing Skin has only a few system requirements. In most cases, these PHP exten
   - JSON
   - fileinfo
   - zip
+  - Imagick
 
 ## Quick Install
 
