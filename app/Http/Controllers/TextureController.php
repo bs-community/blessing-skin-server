@@ -71,7 +71,8 @@ class TextureController extends Controller
 
                 $lastModified = $disk->lastModified($hash);
 
-                return Image::make($image)
+                // TODO: refactor
+                return \Intervention\Image\ImageManagerStatic::configure(['driver' => 'gd'])->make($image)
                     ->response($usePNG ? 'png' : 'webp', 100)
                     ->setLastModified(Carbon::createFromTimestamp($lastModified));
             }
