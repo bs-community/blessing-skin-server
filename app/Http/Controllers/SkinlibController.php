@@ -265,7 +265,13 @@ class SkinlibController extends Controller
         }
 
         $image = Image::make($file);
-        $sanitized = $image->encode('png', 100)->getEncoded();
+        $imagick = $image->getCore();
+        $imagick->setOption('png:compression-filter', '0');
+        $imagick->setOption('png:compression-level', '9');
+        $imagick->setOption('png:compression-strategy', '0');
+        $imagick->setOption('png:exclude-chunk', 'all');
+        $imagick->stripImage();
+        $sanitized = $image->encode('png')->getEncoded();
 
         $hash = hash('sha256', $image->encoded);
         $hash = $filter->apply('uploaded_texture_hash', $hash, [$image]);
