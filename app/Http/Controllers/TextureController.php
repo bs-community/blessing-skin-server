@@ -146,7 +146,8 @@ class TextureController extends Controller
 
         $disk = Storage::disk('textures');
         if (is_null($texture) || $disk->missing($texture->hash)) {
-            return Image::make(resource_path("misc/textures/avatar$mode.png"))
+            // TODO: refactor
+            return \Intervention\Image\ImageManagerStatic::configure(['driver' => 'gd'])->make(resource_path("misc/textures/avatar$mode.png"))
                 ->resize($size, $size)
                 ->response($usePNG ? 'png' : 'webp', 100);
         }
