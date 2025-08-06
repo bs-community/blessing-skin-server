@@ -62,22 +62,36 @@ class TextureController extends Controller
             'preview-t'.$tid."-$format",
             option('enable_preview_cache') ? $now->addYear() : $now->addMinute(),
             function () use ($minecraft, $disk, $texture, $hash, $height, $usePNG) {
-                $file = $disk->get($hash);
+                $file = $disk->get($hash); 
+                    
                 if ($texture->type === 'cape') {
-                    $image = $minecraft->renderCape($file, $height);
+                    $gdResource = $minecraft->renderCape($file, $height); 
                 } else {
-                    $image = $minecraft->renderSkin($file, 12, $texture->type === 'alex');
-                }
+                    $gdResource = $minecraft->renderSkin($file, 12, $texture->type === 'alex'); 
+                }   
+            
+                ob_start();
+                imagepng($gdResource);
+                $imageBlob = ob_get_clean();
+                imagedestroy($gdResource); 
+    
+                $imagick = new \Imagick();
+                $imagick->readImageBlob($imageBlob); 
+    
 
-                $lastModified = $disk->lastModified($hash);
+                if (!$usePNG) {
+                    $imagick->setImageFormat('webp');
+                }    
 
-                // TODO: refactor
-                return \Intervention\Image\ImageManagerStatic::configure(['driver' => 'gd'])->make($image)
-                    ->response($usePNG ? 'png' : 'webp', 100)
-                    ->setLastModified(Carbon::createFromTimestamp($lastModified));
+                $response = response($imagick->getImageBlob(), 200, [
+                    'Content-Type' => $usePNG ? 'image/png' : 'image/webp',
+                    'Content-Length' => strlen($imagick->getImageBlob()),
+                ]);
+                $response->setLastModified(Carbon::createFromTimestamp($disk->lastModified($hash)));
+                return $response;
             }
         );
-
+    
         return $response;
     }
 
