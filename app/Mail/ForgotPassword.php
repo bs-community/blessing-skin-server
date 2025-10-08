@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Headers;
 use Illuminate\Queue\SerializesModels;
 
 class ForgotPassword extends Mailable
@@ -25,5 +26,14 @@ class ForgotPassword extends Mailable
         return $this
             ->subject(trans('auth.forgot.mail.title', ['sitename' => $site_name]))
             ->view('mails.password-reset');
+    }
+
+    public function headers(): Headers
+    {
+        return new Headers(
+            text: [
+                'Auto-Submitted' => 'auto-generated',
+            ]
+        );
     }
 }
