@@ -6,16 +6,16 @@ use App\Events\UserProfileUpdated;
 use App\Mail\EmailVerification;
 use App\Models\Texture;
 use App\Models\User;
+use Auth;
 use Blessing\Filter;
 use Blessing\Rejection;
 use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
+use Mail;
+use Session;
+use URL;
 
 class UserController extends Controller
 {
@@ -157,7 +157,24 @@ class UserController extends Controller
             return json(trans('user.verification.verified'), 1);
         }
 
-        $url = URL::signedRoute('auth.verify', ['user' => $user], null, false);
+        // 生成带有时间戳的签名
+        $timestamp = time();
+        $uid = $user->uid;
+        
+        // 使用应用密钥、时间戳和用户ID生成签名
+        $signature = hash_hmac('sha256', "{$uid}:{$timestamp}", config('app.key'));
+        
+        // 存储签名和过期时间到数据库
+        $user->email_verification_signature = $signature;
+        $user->email_verification_expires_at = Carbon::now()->addHour();
+        $user->save();
+        
+        // 生成验证链接
+        $url = URL::route(
+            'auth.verify',
+            ['uid' => $uid, 'timestamp' => $timestamp, 'signature' => $signature],
+            false
+        );
 
         try {
             Mail::to($user->email)->send(new EmailVerification(url($url)));
@@ -330,9 +347,9 @@ class UserController extends Controller
             }
 
             if (
-                !$texture->public
-                && $user->uid !== $texture->uploader
-                && !$user->isAdmin()
+                !$texture->public &&
+                $user->uid !== $texture->uploader &&
+                !$user->isAdmin()
             ) {
                 return json(trans('skinlib.show.private'), 1);
             }
