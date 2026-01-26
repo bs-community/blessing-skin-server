@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Mail\EmailVerification;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
