@@ -20,6 +20,11 @@ class Option
             return;
         }
 
+        if (!file_exists(storage_path('install.lock')) || app()->runningUnitTests()) {
+            $this->items = collect();
+            return;
+        }
+
         $this->items = DB::table('options')
             ->get()
             ->mapWithKeys(fn ($item) => [$item->option_name => $item->option_value]);
