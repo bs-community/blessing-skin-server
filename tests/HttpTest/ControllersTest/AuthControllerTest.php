@@ -724,7 +724,7 @@ class AuthControllerTest extends TestCase
 
     public function testVerify()
     {
-        $url = URL::temporarySignedRoute('auth.verify', Carbon::now()->addHour(), ['user' => 1, 'hash' => sha1('a@b.c')], false);
+        $url = URL::temporarySignedRoute('auth.verify', Carbon::now()->addHour(), ['user' => 1, 'hash' => hash('sha256', 'a@b.c')], false);
 
         // should be forbidden if account verification is disabled
         option(['require_verification' => false]);
@@ -732,17 +732,17 @@ class AuthControllerTest extends TestCase
         option(['require_verification' => true]);
 
         // invalid link
-        $this->get(route('auth.verify', ['user' => 1, 'hash' => sha1('a@b.c')]))->assertForbidden();
+        $this->get(route('auth.verify', ['user' => 1, 'hash' => hash('sha256', 'a@b.c')]))->assertForbidden();
 
         $user = User::factory()->create(['verified' => false]);
-        $url = URL::temporarySignedRoute('auth.verify', Carbon::now()->addHour(), ['user' => $user, 'hash' => sha1($user->email)], false);
+        $url = URL::temporarySignedRoute('auth.verify', Carbon::now()->addHour(), ['user' => $user, 'hash' => hash('sha256', $user->email)], false);
         $this->get($url)->assertViewIs('auth.verify');
     }
 
     public function testHandleVerify()
     {
         $user = User::factory()->create(['verified' => false]);
-        $url = URL::temporarySignedRoute('auth.verify', Carbon::now()->addHour(), ['user' => $user, 'hash' => sha1($user->email)], false);
+        $url = URL::temporarySignedRoute('auth.verify', Carbon::now()->addHour(), ['user' => $user, 'hash' => hash('sha256', $user->email)], false);
 
         // empty email
         $this->post($url, [], ['Referer' => $url])->assertRedirect($url);
