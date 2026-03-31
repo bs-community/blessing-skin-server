@@ -344,20 +344,20 @@ class AuthController extends Controller
         return redirect('/user');
     }
 
-    public function verify(Request $request)
+    public function verify(Request $request, User $user)
     {
         if (!option('require_verification')) {
             throw new PrettyPageException(trans('user.verification.disabled'), 1);
         }
 
-        abort_unless($request->hasValidSignature(false), 403, trans('auth.verify.invalid'));
+        abort_unless($request->hasValidSignature(false) && hash_equals((string)$request->route('hash'), hash('sha256', $user->email)), 403, trans('auth.verify.invalid'));
 
         return view('auth.verify');
     }
 
     public function handleVerify(Request $request, User $user)
     {
-        abort_unless($request->hasValidSignature(false), 403, trans('auth.verify.invalid'));
+        abort_unless($request->hasValidSignature(false) && hash_equals((string)$request->route('hash'), hash('sha256', $user->email)), 403, trans('auth.verify.invalid'));
 
         ['email' => $email] = $request->validate(['email' => 'required|email']);
 
