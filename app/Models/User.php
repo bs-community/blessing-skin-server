@@ -46,6 +46,8 @@ class User extends Authenticatable
 
     protected $fillable = [
         'email', 'nickname', 'avatar', 'score', 'permission', 'last_sign_at',
+        'password_reset_signature', 'password_reset_expires_at',
+        'email_verification_signature', 'email_verification_expires_at',
     ];
 
     protected $casts = [

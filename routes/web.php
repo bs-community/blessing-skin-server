@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Middleware;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,35 +13,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('', 'HomeController@index')->name('home');
+Route::get('', 'HomeController@index');
 
 Route::prefix('auth')->name('auth.')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', 'AuthController@login')->name('login');
-        Route::post('login', 'AuthController@handleLogin')->name('handle.login');
+        Route::post('login', 'AuthController@handleLogin');
 
         Route::get('register', 'AuthController@register')->name('register');
-        Route::post('register', 'AuthController@handleRegister')->name('handle.register');
+        Route::post('register', 'AuthController@handleRegister');
 
         Route::get('forgot', 'AuthController@forgot')->name('forgot');
-        Route::post('forgot', 'AuthController@handleForgot')->name('handle.forgot');
+        Route::post('forgot', 'AuthController@handleForgot');
 
         Route::get('reset/{uid}', 'AuthController@reset')->name('reset');
-        Route::post('reset/{uid}', 'AuthController@handleReset')->name('handle.reset');
+        Route::post('reset/{uid}', 'AuthController@handleReset');
     });
 
     Route::post('logout', 'AuthController@logout')->name('logout')->middleware('authorize');
-    Route::any('captcha', 'AuthController@captcha')->name('captcha');
+    Route::any('captcha', 'AuthController@captcha');
 
     Route::middleware(['authorize', Middleware\EnsureEmailFilled::class])
-        ->name('bind.')
         ->group(function () {
-            Route::view('bind', 'auth.bind')->name('view');
-            Route::post('bind', 'AuthController@fillEmail')->name('verify');
+            Route::view('bind', 'auth.bind');
+            Route::post('bind', 'AuthController@fillEmail');
         });
 
-    Route::get('verify/{user}', 'AuthController@verify')->name('verify');
-    Route::post('verify/{user}', 'AuthController@handleVerify')->name('handle.verify');
+    Route::get('verify/{uid}', 'AuthController@verify')->name('verify');
+    Route::post('verify/{uid}', 'AuthController@handleVerify');
 });
 
 Route::prefix('user')
@@ -50,27 +48,27 @@ Route::prefix('user')
     ->middleware(['authorize'])
     ->group(function () {
         Route::get('', 'UserController@index')->name('home');
-        Route::post('notifications/{id}', 'NotificationsController@read')->name('notification.read');
+        Route::post('notifications/{id}', 'NotificationsController@read')->name('notification');
         Route::get('score-info', 'UserController@scoreInfo')->name('score');
         Route::post('sign', 'UserController@sign')->name('sign');
 
-        Route::get('reports', 'ReportController@track')->name('list');
+        Route::get('reports', 'ReportController@track');
 
         Route::prefix('profile')->name('profile.')->group(function () {
-            Route::get('', 'UserController@profile')->name('view');
-            Route::post('', 'UserController@handleProfile')->name('handle.profile');
+            Route::get('', 'UserController@profile');
+            Route::post('', 'UserController@handleProfile');
             Route::post('avatar', 'UserController@setAvatar')->name('avatar');
         });
 
-        Route::post('email-verification', 'UserController@sendVerificationEmail')->name('email-verification');
+        Route::post('email-verification', 'UserController@sendVerificationEmail');
 
-        Route::put('dark-mode', 'UserController@toggleDarkMode')->name('dark-mode');
+        Route::put('dark-mode', 'UserController@toggleDarkMode');
 
         Route::prefix('player')
             ->name('player.')
             ->middleware('verified')
             ->group(function () {
-                Route::get('', 'PlayerController@index')->name('view');
+                Route::get('', 'PlayerController@index')->name('page');
                 Route::get('list', 'PlayerController@list')->name('list');
                 Route::post('', 'PlayerController@add')->name('add');
                 Route::put('{player}/textures', 'PlayerController@setTexture')->name('set');
@@ -80,7 +78,7 @@ Route::prefix('user')
             });
 
         Route::prefix('closet')->name('closet.')->group(function () {
-            Route::get('', 'ClosetController@index')->name('view');
+            Route::get('', 'ClosetController@index')->name('page');
             Route::get('list', 'ClosetController@getClosetData')->name('list');
             Route::get('ids', 'ClosetController@allIds')->name('ids');
             Route::post('', 'ClosetController@add')->name('add');
@@ -112,8 +110,8 @@ Route::prefix('skinlib')->name('skinlib.')->group(function () {
     Route::get('list', 'SkinlibController@library')->name('list');
 
     Route::middleware(['authorize', 'verified'])->group(function () {
-        Route::get('upload', 'SkinlibController@upload')->name('upload');
-        Route::post('report', 'ReportController@submit')->name('report');
+        Route::get('upload', 'SkinlibController@upload');
+        Route::post('report', 'ReportController@submit');
     });
 });
 
@@ -121,19 +119,19 @@ Route::prefix('admin')
     ->name('admin.')
     ->middleware(['authorize', 'role:admin'])
     ->group(function () {
-        Route::get('', 'AdminController@index')->name('view');
-        Route::get('chart', 'AdminController@chartData')->name('chart');
-        Route::post('notifications/send', 'NotificationsController@send')->name('notification.send');
+        Route::get('', 'AdminController@index');
+        Route::get('chart', 'AdminController@chartData');
+        Route::post('notifications/send', 'NotificationsController@send');
 
-        Route::any('customize', 'OptionsController@customize')->name('customize');
-        Route::any('score', 'OptionsController@score')->name('score');
-        Route::any('options', 'OptionsController@options')->name('options');
-        Route::any('resource', 'OptionsController@resource')->name('resource');
+        Route::any('customize', 'OptionsController@customize');
+        Route::any('score', 'OptionsController@score');
+        Route::any('options', 'OptionsController@options');
+        Route::any('resource', 'OptionsController@resource');
 
-        Route::get('status', 'AdminController@status')->name('status');
+        Route::get('status', 'AdminController@status');
 
         Route::prefix('users')->name('users.')->group(function () {
-            Route::view('', 'admin.users')->name('view');
+            Route::view('', 'admin.users');
             Route::get('list', 'UsersManagementController@list')->name('list');
             Route::prefix('{user}')->group(function () {
                 Route::put('email', 'UsersManagementController@email')->name('email');
@@ -147,7 +145,7 @@ Route::prefix('admin')
         });
 
         Route::prefix('players')->name('players.')->group(function () {
-            Route::view('', 'admin.players')->name('view');
+            Route::view('', 'admin.players');
             Route::get('list', 'PlayersManagementController@list')->name('list');
             Route::prefix('{player}')->group(function () {
                 Route::put('name', 'PlayersManagementController@name')->name('name');
@@ -157,56 +155,56 @@ Route::prefix('admin')
             });
         });
 
-        Route::prefix('closet')->name('closet.')->group(function () {
-            Route::post('{user}', 'ClosetManagementController@add')->name('add');
-            Route::delete('{user}', 'ClosetManagementController@remove')->name('remove');
+        Route::prefix('closet')->group(function () {
+            Route::post('{user}', 'ClosetManagementController@add');
+            Route::delete('{user}', 'ClosetManagementController@remove');
         });
 
-        Route::prefix('reports')->name('reports.')->group(function () {
-            Route::view('', 'admin.reports')->name('view');
-            Route::put('{report}', 'ReportController@review')->name('review');
-            Route::get('list', 'ReportController@manage')->name('list');
+        Route::prefix('reports')->group(function () {
+            Route::view('', 'admin.reports');
+            Route::put('{report}', 'ReportController@review');
+            Route::get('list', 'ReportController@manage');
         });
 
-        Route::prefix('i18n')->name('i18n.')->group(function () {
-            Route::view('', 'admin.i18n')->name('view');
-            Route::get('list', 'TranslationsController@list')->name('list');
-            Route::post('', 'TranslationsController@create')->name('create');
-            Route::put('{line}', 'TranslationsController@update')->name('update');
-            Route::delete('{line}', 'TranslationsController@delete')->name('delete');
+        Route::prefix('i18n')->group(function () {
+            Route::view('', 'admin.i18n');
+            Route::get('list', 'TranslationsController@list');
+            Route::post('', 'TranslationsController@create');
+            Route::put('{line}', 'TranslationsController@update');
+            Route::delete('{line}', 'TranslationsController@delete');
         });
 
-        Route::prefix('plugins')->name('plugins.')->group(function () {
-            Route::get('data', 'PluginController@getPluginData')->name('data');
+        Route::prefix('plugins')->group(function () {
+            Route::get('data', 'PluginController@getPluginData');
 
-            Route::view('manage', 'admin.plugins')->name('view');
-            Route::post('manage', 'PluginController@manage')->name('view');
-            Route::any('config/{name}', 'PluginController@config')->name('config');
-            Route::get('readme/{name}', 'PluginController@readme')->name('readme');
+            Route::view('manage', 'admin.plugins');
+            Route::post('manage', 'PluginController@manage');
+            Route::any('config/{name}', 'PluginController@config');
+            Route::get('readme/{name}', 'PluginController@readme');
             Route::middleware('role:super-admin')->group(function () {
-                Route::post('upload', 'PluginController@upload')->name('upload');
-                Route::post('wget', 'PluginController@wget')->name('wget');
+                Route::post('upload', 'PluginController@upload');
+                Route::post('wget', 'PluginController@wget');
             });
 
-            Route::prefix('market')->name('market.')->group(function () {
-                Route::view('', 'admin.market')->name('view');
-                Route::get('list', 'MarketController@marketData')->name('list');
-                Route::post('download', 'MarketController@download')->name('download');
+            Route::prefix('market')->group(function () {
+                Route::view('', 'admin.market');
+                Route::get('list', 'MarketController@marketData');
+                Route::post('download', 'MarketController@download');
             });
         });
 
-        Route::prefix('update')->name('update.')->middleware('role:super-admin')->group(function () {
-            Route::get('', 'UpdateController@showUpdatePage')->name('view');
-            Route::post('download', 'UpdateController@download')->name('download');
+        Route::prefix('update')->middleware('role:super-admin')->group(function () {
+            Route::get('', 'UpdateController@showUpdatePage');
+            Route::post('download', 'UpdateController@download');
         });
     });
 
-Route::prefix('setup')->name('setup.')->group(function () {
+Route::prefix('setup')->group(function () {
     Route::middleware('setup')->group(function () {
-        Route::view('', 'setup.wizard.welcome')->name('view');
-        Route::any('database', 'SetupController@database')->name('database');
-        Route::view('info', 'setup.wizard.info')->name('info');
-        Route::post('finish', 'SetupController@finish')->name('finish');
+        Route::view('', 'setup.wizard.welcome');
+        Route::any('database', 'SetupController@database');
+        Route::view('info', 'setup.wizard.info');
+        Route::post('finish', 'SetupController@finish');
     });
 });
 

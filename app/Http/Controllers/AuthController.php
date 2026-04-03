@@ -8,16 +8,16 @@ use App\Mail\ForgotPassword;
 use App\Models\Player;
 use App\Models\User;
 use App\Rules;
+use Auth;
 use Blessing\Filter;
 use Blessing\Rejection;
+use Cache;
 use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
+use Mail;
+use Session;
+use URL;
 use Vectorface\Whip\Whip;
 
 class AuthController extends Controller
@@ -50,7 +50,7 @@ class AuthController extends Controller
         Request $request,
         Rules\Captcha $captcha,
         Dispatcher $dispatcher,
-        Filter $filter,
+        Filter $filter
     ) {
         $data = $request->validate([
             'identification' => 'required',
@@ -151,7 +151,7 @@ class AuthController extends Controller
         Request $request,
         Rules\Captcha $captcha,
         Dispatcher $dispatcher,
-        Filter $filter,
+        Filter $filter
     ) {
         $can = $filter->apply('can_register', null);
         if ($can instanceof Rejection) {
@@ -176,8 +176,8 @@ class AuthController extends Controller
         $dispatcher->dispatch('auth.registration.attempt', [$data]);
 
         if (
-            option('register_with_player_name')
-            && Player::where('name', $playerName)->count() > 0
+            option('register_with_player_name') &&
+            Player::where('name', $playerName)->count() > 0
         ) {
             return json(trans('user.player.add.repeated'), 1);
         }
@@ -248,7 +248,7 @@ class AuthController extends Controller
         Request $request,
         Rules\Captcha $captcha,
         Dispatcher $dispatcher,
-        Filter $filter,
+        Filter $filter
     ) {
         $data = $request->validate([
             'email' => 'required|email',
@@ -279,12 +279,25 @@ class AuthController extends Controller
 
         $dispatcher->dispatch('auth.forgot.ready', [$user]);
 
-        $url = URL::temporarySignedRoute(
+        // 生成带有时间戳的签名
+        $timestamp = time();
+        $uid = $user->uid;
+        
+        // 使用应用密钥、时间戳和用户ID生成签名
+        $signature = hash_hmac('sha256', "{$uid}:{$timestamp}", config('app.key'));
+        
+        // 存储签名和过期时间到数据库
+        $user->password_reset_signature = $signature;
+        $user->password_reset_expires_at = Carbon::now()->addHour();
+        $user->save();
+        
+        // 生成重置链接
+        $url = URL::route(
             'auth.reset',
-            Carbon::now()->addHour(),
-            ['uid' => $user->uid],
+            ['uid' => $uid, 'timestamp' => $timestamp, 'signature' => $signature],
             false
         );
+        
         try {
             Mail::to($email)->send(new ForgotPassword(url($url)));
         } catch (\Exception $e) {
@@ -302,22 +315,81 @@ class AuthController extends Controller
 
     public function reset(Request $request, $uid)
     {
-        abort_unless($request->hasValidSignature(false), 403, trans('auth.reset.invalid'));
+        $signature = $request->input('signature');
+        $timestamp = $request->input('timestamp');
+        
+        // 验证参数完整性
+        if (!$signature || !$timestamp) {
+            abort(403, trans('auth.reset.invalid'));
+        }
+        
+        $user = User::find($uid);
+        if (!$user) {
+            abort(403, trans('auth.reset.invalid'));
+        }
+        
+        // 验证签名匹配
+        if ($user->password_reset_signature !== $signature) {
+            abort(403, trans('auth.reset.invalid'));
+        }
+        
+        // 验证签名未过期
+        if (Carbon::parse($user->password_reset_expires_at)->isPast()) {
+            abort(403, trans('auth.reset.expired'));
+        }
+        
+        // 验证时间戳是否匹配签名生成时的时间戳
+        $expectedSignature = hash_hmac('sha256', "{$uid}:{$timestamp}", config('app.key'));
+        if ($signature !== $expectedSignature) {
+            abort(403, trans('auth.reset.invalid'));
+        }
 
-        return view('auth.reset')->with('user', User::find($uid));
+        return view('auth.reset')->with('user', $user);
     }
 
     public function handleReset(Dispatcher $dispatcher, Request $request, $uid)
     {
-        abort_unless($request->hasValidSignature(false), 403, trans('auth.reset.invalid'));
+        $signature = $request->input('signature');
+        $timestamp = $request->input('timestamp');
+        
+        // 验证参数完整性
+        if (!$signature || !$timestamp) {
+            return json(trans('auth.reset.invalid'), 1);
+        }
+        
+        $user = User::find($uid);
+        if (!$user) {
+            return json(trans('auth.reset.invalid'), 1);
+        }
+        
+        // 验证签名匹配
+        if ($user->password_reset_signature !== $signature) {
+            return json(trans('auth.reset.invalid'), 1);
+        }
+        
+        // 验证签名未过期
+        if (Carbon::parse($user->password_reset_expires_at)->isPast()) {
+            return json(trans('auth.reset.expired'), 1);
+        }
+        
+        // 验证时间戳是否匹配签名生成时的时间戳
+        $expectedSignature = hash_hmac('sha256', "{$uid}:{$timestamp}", config('app.key'));
+        if ($signature !== $expectedSignature) {
+            return json(trans('auth.reset.invalid'), 1);
+        }
 
         ['password' => $password] = $request->validate([
             'password' => 'required|min:8|max:32',
         ]);
-        $user = User::find($uid);
 
         $dispatcher->dispatch('auth.reset.before', [$user, $password]);
         $user->changePassword($password);
+        
+        // 清除数据库中的签名，确保一次性使用
+        $user->password_reset_signature = null;
+        $user->password_reset_expires_at = null;
+        $user->save();
+        
         $dispatcher->dispatch('auth.reset.after', [$user, $password]);
 
         return json(trans('auth.reset.success'), 0);
@@ -344,20 +416,74 @@ class AuthController extends Controller
         return redirect('/user');
     }
 
-    public function verify(Request $request)
+    public function verify(Request $request, $uid)
     {
         if (!option('require_verification')) {
             throw new PrettyPageException(trans('user.verification.disabled'), 1);
         }
 
-        abort_unless($request->hasValidSignature(false), 403, trans('auth.verify.invalid'));
+        $signature = $request->input('signature');
+        $timestamp = $request->input('timestamp');
+        
+        // 验证参数完整性
+        if (!$signature || !$timestamp) {
+            abort(403, trans('auth.verify.invalid'));
+        }
+        
+        $user = User::find($uid);
+        if (!$user) {
+            abort(403, trans('auth.verify.invalid'));
+        }
+        
+        // 验证签名匹配
+        if ($user->email_verification_signature !== $signature) {
+            abort(403, trans('auth.verify.invalid'));
+        }
+        
+        // 验证签名未过期
+        if (Carbon::parse($user->email_verification_expires_at)->isPast()) {
+            abort(403, trans('auth.verify.invalid'));
+        }
+        
+        // 验证时间戳是否匹配签名生成时的时间戳
+        $expectedSignature = hash_hmac('sha256', "{$uid}:{$timestamp}", config('app.key'));
+        if ($signature !== $expectedSignature) {
+            abort(403, trans('auth.verify.invalid'));
+        }
 
         return view('auth.verify');
     }
 
-    public function handleVerify(Request $request, User $user)
+    public function handleVerify(Request $request, $uid)
     {
-        abort_unless($request->hasValidSignature(false), 403, trans('auth.verify.invalid'));
+        $signature = $request->input('signature');
+        $timestamp = $request->input('timestamp');
+        
+        // 验证参数完整性
+        if (!$signature || !$timestamp) {
+            abort(403, trans('auth.verify.invalid'));
+        }
+        
+        $user = User::find($uid);
+        if (!$user) {
+            abort(403, trans('auth.verify.invalid'));
+        }
+        
+        // 验证签名匹配
+        if ($user->email_verification_signature !== $signature) {
+            abort(403, trans('auth.verify.invalid'));
+        }
+        
+        // 验证签名未过期
+        if (Carbon::parse($user->email_verification_expires_at)->isPast()) {
+            abort(403, trans('auth.verify.invalid'));
+        }
+        
+        // 验证时间戳是否匹配签名生成时的时间戳
+        $expectedSignature = hash_hmac('sha256', "{$uid}:{$timestamp}", config('app.key'));
+        if ($signature !== $expectedSignature) {
+            abort(403, trans('auth.verify.invalid'));
+        }
 
         ['email' => $email] = $request->validate(['email' => 'required|email']);
 
@@ -366,6 +492,9 @@ class AuthController extends Controller
         }
 
         $user->verified = true;
+        // 清除数据库中的签名，确保一次性使用
+        $user->email_verification_signature = null;
+        $user->email_verification_expires_at = null;
         $user->save();
 
         return redirect()->route('user.home');
