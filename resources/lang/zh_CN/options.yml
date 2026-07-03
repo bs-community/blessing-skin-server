@@ -148,6 +148,27 @@ recaptcha:
   recaptcha_invisible:
     title: 隐藏
     label: 开启隐藏式人机验证模式
+mail:
+  title: 邮件服务
+  mail_mailer: 邮件驱动
+  mail_host: SMTP 主机
+  mail_port: SMTP 端口
+  mail_username: SMTP 用户名
+  mail_password:
+    title: SMTP 密码
+    placeholder: 密码
+    description: 留空表示保留当前密码。
+  mail_encryption:
+    title: SMTP 加密
+    none: 不加密
+  mail_from_address: 发件人地址
+  mail_from_name: 发件人名称
+  errors:
+    unsupported_mailer: 当前设置页面不支持所选邮件驱动。
+    required: 选择 SMTP 时必须填写 :field。
+    invalid_port: SMTP 端口必须是 1 到 65535 之间的整数。
+    invalid_from_address: 发件人地址必须是有效的邮箱地址。
+    invalid_encryption: SMTP 加密只能是不加密、SSL 或 TLS。
 res-warning: 本页面仅供高级用户使用。如果您不清楚这些设置的含义，请不要随意修改它们！
 resources:
   title: 资源文件配置

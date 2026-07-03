@@ -134,7 +134,7 @@ class OptionsController extends Controller
         return view('admin.score', ['forms' => compact('rate', 'report', 'sign', 'sharing')]);
     }
 
-    public function options()
+    public function options(Request $request)
     {
         $general = Option::form('general', OptionForm::AUTO_DETECT, function ($form) {
             $form->text('site_name');
@@ -216,8 +216,79 @@ class OptionsController extends Controller
             $form->checkbox('recaptcha_invisible')->label();
         })->handle();
 
+        $mail = Option::form('mail', OptionForm::AUTO_DETECT, function ($form) {
+            $form->select('mail_mailer')
+                ->option('smtp', 'SMTP')
+                ->option('log', 'Log')
+                ->option('array', 'Array');
+            $form->text('mail_host');
+            $form->text('mail_port');
+            $form->text('mail_username');
+            $form->password('mail_password')->placeholder()->description();
+            $form->select('mail_encryption')
+                ->option('', trans('options.mail.mail_encryption.none'))
+                ->option('ssl', 'SSL')
+                ->option('tls', 'TLS');
+            $form->text('mail_from_address');
+            $form->text('mail_from_name');
+        });
+
+        if ($request->isMethod('POST') && $request->input('option') === 'mail') {
+            $errors = $this->validateMailOptions($request);
+            if ($errors) {
+                foreach ($errors as $error) {
+                    $mail->addAlert($error, 'danger');
+                }
+            } else {
+                $mail->handle();
+            }
+        } else {
+            $mail->handle();
+        }
+
         return view('admin.options')
-            ->with('forms', compact('general', 'announ', 'meta', 'recaptcha'));
+            ->with('forms', compact('general', 'announ', 'meta', 'recaptcha', 'mail'));
+    }
+
+    private function validateMailOptions(Request $request): array
+    {
+        $errors = [];
+        $mailer = $request->input('mail_mailer');
+
+        if (!in_array($mailer, ['smtp', 'log', 'array'], true)) {
+            $errors[] = trans('options.mail.errors.unsupported_mailer');
+        }
+
+        if ($mailer !== 'smtp') {
+            return $errors;
+        }
+
+        foreach (['mail_host', 'mail_port', 'mail_from_address'] as $field) {
+            if (trim((string) $request->input($field)) === '') {
+                $errors[] = trans('options.mail.errors.required', [
+                    'field' => trans("options.mail.$field"),
+                ]);
+            }
+        }
+
+        $port = $request->input('mail_port');
+        if (
+            trim((string) $port) !== ''
+            && filter_var($port, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 65535]]) === false
+        ) {
+            $errors[] = trans('options.mail.errors.invalid_port');
+        }
+
+        $fromAddress = $request->input('mail_from_address');
+        if (trim((string) $fromAddress) !== '' && filter_var($fromAddress, FILTER_VALIDATE_EMAIL) === false) {
+            $errors[] = trans('options.mail.errors.invalid_from_address');
+        }
+
+        if (!in_array($request->input('mail_encryption', ''), ['', 'ssl', 'tls'], true)) {
+            $errors[] = trans('options.mail.errors.invalid_encryption');
+        }
+
+        return $errors;
     }
 
     public function resource(Request $request)

@@ -12,6 +12,7 @@ use ReflectionClass;
  * @method OptionFormText     text(string $id, string|null $name)
  * @method OptionFormCheckbox checkbox(string $id, string|null $name)
  * @method OptionFormTextarea textarea(string $id, string|null $name)
+ * @method OptionFormPassword password(string $id, string|null $name)
  * @method OptionFormSelect   select(string $id, string|null $name)
  * @method OptionFormGroup    group(string $id, string|null $name)
  */
@@ -63,7 +64,7 @@ class OptionForm
      */
     public function __call(string $method, array $params): OptionFormItem
     {
-        if (!in_array($method, ['text', 'checkbox', 'textarea', 'select', 'group'])) {
+        if (!in_array($method, ['text', 'checkbox', 'textarea', 'password', 'select', 'group'])) {
             throw new BadMethodCallException("Method [$method] does not exist on option form.");
         }
 
@@ -238,8 +239,13 @@ class OptionForm
                     $allPostData[$item->id] = false;
                 }
 
+                $data = Arr::get($allPostData, $item->id);
+                if ($item instanceof OptionFormPassword && ($data === '' || is_null($data))) {
+                    continue;
+                }
+
                 // Compare with raw option value
-                if (($data = Arr::get($allPostData, $item->id)) != option($item->id, null, true)) {
+                if ($data != option($item->id, null, true)) {
                     $formatted = is_null($item->format) ? $data : call_user_func($item->format, $data);
                     Option::set($item->id, $formatted);
                 }
@@ -487,6 +493,32 @@ class OptionFormTextarea extends OptionFormItem
             'rows' => $this->rows,
             'value' => $this->value,
             'disabled' => $this->disabled,
+        ]);
+    }
+}
+
+class OptionFormPassword extends OptionFormItem
+{
+    protected $placeholder = '';
+
+    public function placeholder($placeholder = OptionForm::AUTO_DETECT)
+    {
+        if ($placeholder == OptionForm::AUTO_DETECT) {
+            $key = "options.$this->parentId.$this->id.placeholder";
+            $placeholder = trans()->has($key) ? trans($key) : '';
+        }
+
+        $this->placeholder = $placeholder;
+
+        return $this;
+    }
+
+    public function render()
+    {
+        return view('forms.password')->with([
+            'id' => $this->id,
+            'disabled' => $this->disabled,
+            'placeholder' => $this->placeholder,
         ]);
     }
 }

@@ -60,12 +60,12 @@ RUN composer dump-autoload -o --no-dev -n && \
     sed 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' -i storage/.env && \
     sed 's/DB_DATABASE=blessingskin/DB_DATABASE=\/app\/storage\/database\.db/' -i storage/.env
 
-FROM php:8-apache
+FROM php:8.2-apache
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions gd zip
+    install-php-extensions curl gd imagick mbstring pdo_mysql zip
 
 WORKDIR /app
 

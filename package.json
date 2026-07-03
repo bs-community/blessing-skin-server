@@ -10,6 +10,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "start": "php artisan serve --host=127.0.0.1 --port=8000",
     "dev": "webpack serve",
     "build": "webpack --env production --progress",
     "lint": "eslint --ext=ts -f=beauty .",

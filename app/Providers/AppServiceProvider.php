@@ -21,7 +21,22 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
+        $this->configureMail();
         $this->configureUrlGenerator($request);
+    }
+
+    protected function configureMail(): void
+    {
+        config([
+            'mail.default' => option('mail_mailer', env('MAIL_MAILER')) ?: 'smtp',
+            'mail.mailers.smtp.host' => option('mail_host', env('MAIL_HOST')) ?: 'smtp.mailgun.org',
+            'mail.mailers.smtp.port' => option('mail_port', env('MAIL_PORT')) ?: 587,
+            'mail.mailers.smtp.username' => option('mail_username', env('MAIL_USERNAME')),
+            'mail.mailers.smtp.password' => option('mail_password', env('MAIL_PASSWORD')),
+            'mail.mailers.smtp.encryption' => option('mail_encryption', env('MAIL_ENCRYPTION', 'tls')),
+            'mail.from.address' => option('mail_from_address', env('MAIL_FROM_ADDRESS')) ?: 'hello@example.com',
+            'mail.from.name' => option('mail_from_name', env('MAIL_FROM_NAME')) ?: config('app.name', 'Example'),
+        ]);
     }
 
     /**

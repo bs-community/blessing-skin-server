@@ -257,6 +257,33 @@ class OptionFormTest extends TestCase
         $this->assertEquals('formatted value', option('t'));
     }
 
+    public function testPasswordKeepsValueHiddenAndUnchangedWhenSubmittedBlank()
+    {
+        option(['secret' => 'old-value']);
+
+        $form = new OptionForm('test', 'test');
+        $form->password('secret')->value('old-value');
+        $crawler = new Crawler($form->render());
+        $this->assertCount(1, $crawler->filter('[name=secret][type=password]'));
+        $this->assertNull($crawler->filter('[name=secret]')->attr('value'));
+
+        $request = request();
+        $request->setMethod('POST');
+        $request->request->replace(['option' => 'test', 'secret' => '']);
+
+        $form = new OptionForm('test', 'test');
+        $form->password('secret');
+        $form->handle();
+        $this->assertEquals('old-value', option('secret', null, true));
+
+        $request->request->replace(['option' => 'test', 'secret' => 'new-value']);
+
+        $form = new OptionForm('test', 'test');
+        $form->password('secret');
+        $form->handle();
+        $this->assertEquals('new-value', option('secret', null, true));
+    }
+
     public function testToString()
     {
         $form = new OptionForm('test');

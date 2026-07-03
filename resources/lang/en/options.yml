@@ -166,6 +166,28 @@ recaptcha:
     title: Invisible
     label: Enable Invisible Mode
 
+mail:
+  title: Mail
+  mail_mailer: Mailer
+  mail_host: SMTP Host
+  mail_port: SMTP Port
+  mail_username: SMTP Username
+  mail_password:
+    title: SMTP Password
+    placeholder: Password
+    description: Leave blank to keep the current password.
+  mail_encryption:
+    title: SMTP Encryption
+    none: None
+  mail_from_address: From Address
+  mail_from_name: From Name
+  errors:
+    unsupported_mailer: The selected mailer is not supported by this settings page.
+    required: ':field is required when SMTP is selected.'
+    invalid_port: SMTP Port must be an integer between 1 and 65535.
+    invalid_from_address: From Address must be a valid email address.
+    invalid_encryption: SMTP Encryption must be None, SSL, or TLS.
+
 res-warning: This page is ONLY for advanced users. If you aren't familiar with these, please don't modify them!
 
 resources:
