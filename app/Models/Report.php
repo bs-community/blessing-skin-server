@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Searchable;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Lorisleiva\LaravelSearchString\Concerns\SearchString;
 
 /**
  * @property int     $id
@@ -20,7 +20,7 @@ use Lorisleiva\LaravelSearchString\Concerns\SearchString;
  */
 class Report extends Model
 {
-    use SearchString;
+    use Searchable;
 
     public const CREATED_AT = 'report_at';
     public const UPDATED_AT = null;
@@ -40,7 +40,7 @@ class Report extends Model
         'status' => 'integer',
     ];
 
-    protected $searchStringColumns = [
+    protected $searchable = [
         'id', 'tid', 'uploader', 'reporter',
         'reason', 'status',
         'report_at' => ['date' => true],

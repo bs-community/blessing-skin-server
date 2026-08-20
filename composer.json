@@ -26,7 +26,6 @@
     "intervention/image": "^2.7",
     "laravel/framework": "^13.0",
     "laravel/passport": "^13.0",
-    "lorisleiva/laravel-search-string": "^1.4",
     "nesbot/carbon": "^3.8",
     "nunomaduro/collision": "^8.0",
     "rcrowe/twigbridge": "^0.14.7",
@@ -101,10 +100,6 @@
     "blessing-rejection": {
       "type": "vcs",
       "url": "https://github.com/mk990/rejection"
-    },
-    "laravel-search-string": {
-      "type": "vcs",
-      "url": "https://github.com/mk990/laravel-search-string"
     },
     "packagist": {
       "type": "composer",

@@ -33,7 +33,7 @@ class UsersManagementController extends Controller
     {
         $q = $request->input('q');
 
-        return User::usingSearchString($q)->paginate(10);
+        return User::search($q)->paginate(10);
     }
 
     public function email(User $user, Request $request, Dispatcher $dispatcher)

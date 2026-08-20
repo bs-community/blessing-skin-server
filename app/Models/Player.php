@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Events\PlayerProfileUpdated;
+use App\Models\Concerns\Searchable;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Lorisleiva\LaravelSearchString\Concerns\SearchString;
 
 /**
  * @property int     $pid
@@ -24,7 +24,7 @@ use Lorisleiva\LaravelSearchString\Concerns\SearchString;
 class Player extends Model
 {
     use HasFactory;
-    use SearchString;
+    use Searchable;
 
     public const CREATED_AT = null;
     public const UPDATED_AT = 'last_modified';
@@ -46,10 +46,10 @@ class Player extends Model
         'updated' => PlayerProfileUpdated::class,
     ];
 
-    protected $searchStringColumns = [
+    protected $searchable = [
         'pid', 'uid',
-        'tid_skin' => '/^(?:tid_)?skin$/',
-        'tid_cape' => '/^(?:tid_)?cape$/',
+        'tid_skin' => ['alias' => ['skin']],
+        'tid_cape' => ['alias' => ['cape']],
         'name' => ['searchable' => true],
         'last_modified' => ['date' => true],
     ];

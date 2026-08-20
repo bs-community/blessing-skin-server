@@ -38,7 +38,7 @@ class PlayersManagementController extends Controller
     {
         $query = $request->query('q');
 
-        return Player::usingSearchString($query)->paginate(10);
+        return Player::search($query)->paginate(10);
     }
 
     public function name(

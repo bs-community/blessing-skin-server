@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasPassword;
+use App\Models\Concerns\Searchable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use Lorisleiva\LaravelSearchString\Concerns\SearchString;
 
 /**
  * @property int         $uid
@@ -34,7 +34,7 @@ class User extends Authenticatable
     use HasFactory;
     use HasPassword;
     use HasApiTokens;
-    use SearchString;
+    use Searchable;
 
     public const BANNED = -1;
     public const NORMAL = 0;
@@ -59,7 +59,7 @@ class User extends Authenticatable
 
     protected $hidden = ['password', 'remember_token'];
 
-    protected $searchStringColumns = [
+    protected $searchable = [
         'uid',
         'email' => ['searchable' => true],
         'nickname' => ['searchable' => true],

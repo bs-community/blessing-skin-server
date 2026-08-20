@@ -69,7 +69,7 @@ class ReportController extends Controller
     {
         $q = $request->input('q');
 
-        return Report::usingSearchString($q)
+        return Report::search($q)
             ->with(['texture', 'textureUploader', 'informer'])
             ->paginate(9);
     }
