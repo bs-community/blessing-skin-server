@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\ServicesTest;
 
 use App\Events;
 use App\Services\Option;
@@ -9,6 +9,7 @@ use App\Services\PluginManager;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
 use ReflectionClass;
+use Tests\TestCase;
 
 class PluginManagerTest extends TestCase
 {

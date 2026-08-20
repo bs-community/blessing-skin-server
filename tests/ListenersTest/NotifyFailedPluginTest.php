@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\ListenersTest;
 
 use App\Events;
 use App\Models\User;
 use App\Services\Plugin;
+use Tests\TestCase;
 
 class NotifyFailedPluginTest extends TestCase
 {

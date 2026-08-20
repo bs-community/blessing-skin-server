@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Models\User;
 use App\Services\Translations\JavaScript;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\TranslationLoader\LanguageLine;
+use Tests\TestCase;
 
 class TranslationsControllerTest extends TestCase
 {

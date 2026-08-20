@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests;
+namespace Tests\CommandsTest;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
 class UpdateCommandTest extends TestCase
 {

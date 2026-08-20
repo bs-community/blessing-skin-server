@@ -22,6 +22,7 @@ class Option
 
         if (!file_exists(storage_path('install.lock')) || app()->runningUnitTests()) {
             $this->items = collect();
+
             return;
         }
 

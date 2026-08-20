@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\RulesTest;
 
 use App\Rules\Captcha;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use Tests\TestCase;
 
 class CaptchaTest extends TestCase
 {

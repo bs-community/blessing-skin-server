@@ -19,9 +19,8 @@ class RejectBannedUser
                 $response->setStatusCode(403);
 
                 return $response;
-            } else {
-                abort(403, trans('auth.check.banned'));
             }
+            abort(403, trans('auth.check.banned'));
         }
 
         return $next($request);

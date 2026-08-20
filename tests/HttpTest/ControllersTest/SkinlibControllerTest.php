@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Models\Texture;
 use App\Models\User;
@@ -12,6 +12,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Image;
+use Tests\Fakes;
+use Tests\TestCase;
 
 class SkinlibControllerTest extends TestCase
 {

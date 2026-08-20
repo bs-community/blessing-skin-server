@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\MiddlewareTest;
+
+use Tests\TestCase;
 
 class EnforceEverGreenTest extends TestCase
 {

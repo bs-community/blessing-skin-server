@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests;
+namespace Tests\ListenersTest;
+
+use Tests\TestCase;
 
 class CopyPluginAssetsTest extends TestCase
 {

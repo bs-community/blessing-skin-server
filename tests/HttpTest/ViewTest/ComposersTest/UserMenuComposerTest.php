@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ViewTest\ComposersTest;
 
 use App\Models\User;
+use Tests\TestCase;
 
 class UserMenuComposerTest extends TestCase
 {

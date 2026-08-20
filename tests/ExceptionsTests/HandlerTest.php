@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests;
+namespace Tests\ExceptionsTests;
 
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class HandlerTest extends TestCase
 {

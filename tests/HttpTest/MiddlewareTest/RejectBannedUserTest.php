@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\MiddlewareTest;
 
 use App\Models\User;
+use Tests\TestCase;
 
 class RejectBannedUserTest extends TestCase
 {

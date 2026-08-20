@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\MiddlewareTest;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CheckInstallationTest extends TestCase
 {

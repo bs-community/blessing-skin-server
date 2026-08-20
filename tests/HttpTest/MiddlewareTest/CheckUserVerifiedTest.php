@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\MiddlewareTest;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CheckUserVerifiedTest extends TestCase
 {

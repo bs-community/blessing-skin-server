@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests;
+namespace Tests\ListenersTest;
 
 use App\Mail\EmailVerification;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class SendEmailVerificationTest extends TestCase
 {

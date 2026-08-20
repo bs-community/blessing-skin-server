@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
 class PlayersManagementControllerTest extends TestCase
 {

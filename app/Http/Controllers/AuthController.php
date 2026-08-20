@@ -106,15 +106,14 @@ class AuthController extends Controller
             return json(trans('auth.login.success'), 0, [
                 'redirectTo' => $request->session()->pull('last_requested_path', url('/user')),
             ]);
-        } else {
-            $loginFails++;
-            Cache::put($loginFailsCacheKey, $loginFails, 3600);
-            $dispatcher->dispatch('auth.login.failed', [$user, $loginFails]);
-
-            return json(trans('auth.validation.password'), 1, [
-                'login_fails' => $loginFails,
-            ]);
         }
+        $loginFails++;
+        Cache::put($loginFailsCacheKey, $loginFails, 3600);
+        $dispatcher->dispatch('auth.login.failed', [$user, $loginFails]);
+
+        return json(trans('auth.validation.password'), 1, [
+            'login_fails' => $loginFails,
+        ]);
     }
 
     public function logout(Dispatcher $dispatcher)
@@ -239,9 +238,8 @@ class AuthController extends Controller
                     'invisible' => (bool) option('recaptcha_invisible'),
                 ],
             ]);
-        } else {
-            throw new PrettyPageException(trans('auth.forgot.disabled'), 8);
         }
+        throw new PrettyPageException(trans('auth.forgot.disabled'), 8);
     }
 
     public function handleForgot(

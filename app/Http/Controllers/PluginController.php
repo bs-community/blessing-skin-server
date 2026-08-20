@@ -20,12 +20,12 @@ class PluginController extends Controller
                 return app()->call($plugin->getConfigClass().'@render');
             } elseif ($plugin->hasConfigView()) {
                 return $plugin->getConfigView();
-            } else {
-                return abort(404, trans('admin.plugins.operations.no-config-notice'));
             }
-        } else {
+
             return abort(404, trans('admin.plugins.operations.no-config-notice'));
         }
+
+        return abort(404, trans('admin.plugins.operations.no-config-notice'));
     }
 
     public function readme(PluginManager $plugins, $name)
@@ -63,13 +63,11 @@ class PluginController extends Controller
 
                     if ($result === true) {
                         return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
-                    } else {
-                        $reason = $plugins->formatUnresolved($result['unsatisfied'], $result['conflicts']);
-
-                        return json(trans('admin.plugins.operations.unsatisfied.notice'), 1, compact('reason'));
                     }
+                    $reason = $plugins->formatUnresolved($result['unsatisfied'], $result['conflicts']);
 
-                    // no break
+                    return json(trans('admin.plugins.operations.unsatisfied.notice'), 1, compact('reason'));
+
                 case 'disable':
                     $plugins->disable($name);
 
@@ -133,8 +131,8 @@ class PluginController extends Controller
             $unzip->extract($path, $manager->getPluginsDirs()->first());
 
             return json(trans('admin.plugins.market.install-success'), 0);
-        } else {
-            return json(trans('admin.download.errors.download', ['error' => $response->status()]), 1);
         }
+
+        return json(trans('admin.download.errors.download', ['error' => $response->status()]), 1);
     }
 }

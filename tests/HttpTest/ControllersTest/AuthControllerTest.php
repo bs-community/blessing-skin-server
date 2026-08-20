@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Events;
 use App\Mail\ForgotPassword;
@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Tests\Fakes\Filter;
+use Tests\TestCase;
 use Vectorface\Whip\Whip;
 
 class AuthControllerTest extends TestCase

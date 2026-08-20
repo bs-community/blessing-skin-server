@@ -1,9 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ViewTest\ComposersTest;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
+use Tests\Fakes;
+use Tests\TestCase;
 
 class UserPanelComposerTest extends TestCase
 {

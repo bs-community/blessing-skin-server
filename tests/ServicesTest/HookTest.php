@@ -1,9 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\ServicesTest;
 
 use App\Models\User;
 use App\Services\Hook;
+use Tests\Concerns;
+use Tests\TestCase;
 
 class HookTest extends TestCase
 {

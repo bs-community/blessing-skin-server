@@ -1,55 +1,87 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Create The Application
-|--------------------------------------------------------------------------
-|
-| The first thing we will do is create a new Laravel application instance
-| which serves as the "glue" for all the components of Laravel, and is
-| the IoC container for the system binding all of the various parts.
-|
-*/
-
-$app = new Illuminate\Foundation\Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-);
+use App\Console\Commands;
+use App\Exceptions\Handler;
+use App\Http\Middleware;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Middleware as MiddlewareConfig;
 
 /*
-|--------------------------------------------------------------------------
-| Bind Important Interfaces
-|--------------------------------------------------------------------------
-|
-| Next, we need to bind some important interfaces into the container so
-| we will be able to resolve them when needed. The kernels serve the
-| incoming requests to this application from both the web and CLI.
-|
-*/
+ * Routing is not declared here. App\Providers\RouteServiceProvider maps the
+ * "static", "web" and "api" route files, applies middleware to Passport's
+ * routes and fires the ConfigureRoutes event that plugins listen to, none of
+ * which withRouting() can express.
+ */
+$app = Application::configure(basePath: dirname(__DIR__))
+    ->withMiddleware(function (MiddlewareConfig $middleware) {
+        /*
+         * The global stack is declared with use() rather than assembled from
+         * Laravel's defaults with append()/remove(): this application never
+         * ran TrustProxies, HandleCors or ValidatePathEncoding, and pulling
+         * them in here would be a behaviour change rather than a port.
+         */
+        $middleware->use([
+            \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
+            \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+            \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
+            Middleware\ConvertEmptyStringsToNull::class,
+            Middleware\DetectLanguagePrefer::class,
+        ]);
 
-$app->singleton(
-    Illuminate\Contracts\Http\Kernel::class,
-    App\Http\Kernel::class
-);
+        $middleware->group('web', [
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+            Middleware\EnforceEverGreen::class,
+            Middleware\RedirectToSetup::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ]);
 
-$app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
-);
+        $middleware->group('api', [
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ]);
 
-$app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
-);
+        $middleware->group('authorize', [
+            'auth:web',
+            Middleware\RejectBannedUser::class,
+            Middleware\EnsureEmailFilled::class,
+            Middleware\FireUserAuthenticated::class,
+        ]);
+
+        $middleware->alias([
+            'auth' => Middleware\Authenticate::class,
+            'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+            'guest' => Middleware\RedirectIfAuthenticated::class,
+            'role' => Middleware\CheckRole::class,
+            'setup' => Middleware\CheckInstallation::class,
+            'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+            'verified' => Middleware\CheckUserVerified::class,
+            'scope' => \Laravel\Passport\Http\Middleware\CheckTokenForAnyScope::class,
+            'scopes' => \Laravel\Passport\Http\Middleware\CheckToken::class,
+        ]);
+    })
+    ->withCommands([
+        \Laravel\Passport\Console\KeysCommand::class,
+        Commands\BsInstallCommand::class,
+        Commands\OptionsCacheCommand::class,
+        Commands\PluginDisableCommand::class,
+        Commands\PluginEnableCommand::class,
+        Commands\SaltRandomCommand::class,
+        Commands\UpdateCommand::class,
+    ])
+    ->withExceptions()
+    ->create();
 
 /*
-|--------------------------------------------------------------------------
-| Return The Application
-|--------------------------------------------------------------------------
-|
-| This script returns the application instance. The instance is given to
-| the calling script so we can separate the building of the instances
-| from the actual running of the application and sending responses.
-|
-*/
+ * App\Exceptions\Handler overrides convertExceptionToArray() to emit the
+ * trimmed, plugin-aware trace this application's JSON API returns. Laravel's
+ * Exceptions configuration object exposes report/render/respond hooks but
+ * nothing for that method, so the handler stays a real class and is bound
+ * over the default one here.
+ */
+$app->singleton(ExceptionHandler::class, Handler::class);
 
 return $app;

@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Models\User;
 use App\Services\Unzip;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Http;
+use Tests\TestCase;
 
 class UpdateControllerTest extends TestCase
 {

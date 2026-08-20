@@ -69,9 +69,9 @@ class MarketController extends Controller
             $unzip->extract($path, $manager->getPluginsDirs()->first());
 
             return json(trans('admin.plugins.market.install-success'), 0);
-        } else {
-            return json(trans('admin.download.errors.download', ['error' => $response->status()]), 1);
         }
+
+        return json(trans('admin.download.errors.download', ['error' => $response->status()]), 1);
     }
 
     protected function fetch(): Collection
@@ -89,9 +89,8 @@ class MarketController extends Controller
 
                 if ($response->ok()) {
                     return $response->json()['packages'];
-                } else {
-                    throw new Exception(trans('admin.plugins.market.connection-error', ['error' => $response->status()]));
                 }
+                throw new Exception(trans('admin.plugins.market.connection-error', ['error' => $response->status()]));
             })
             ->flatten(1);
 

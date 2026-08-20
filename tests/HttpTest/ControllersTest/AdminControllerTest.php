@@ -1,11 +1,13 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Models\Texture;
 use App\Models\User;
 use App\Services\Plugin;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\Fakes;
+use Tests\TestCase;
 
 class AdminControllerTest extends TestCase
 {

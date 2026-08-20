@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Events\RenderingFooter;
 use App\Events\RenderingHeader;
 use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
 class HomeControllerTest extends TestCase
 {

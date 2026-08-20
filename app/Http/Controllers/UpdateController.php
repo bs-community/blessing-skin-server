@@ -51,9 +51,9 @@ class UpdateController extends Controller
             $filesystem->delete(storage_path('options.php'));
 
             return json(trans('admin.update.complete'), 0);
-        } else {
-            return json(trans('admin.download.errors.download', ['error' => $response->status()]), 1);
         }
+
+        return json(trans('admin.download.errors.download', ['error' => $response->status()]), 1);
     }
 
     protected function getUpdateInfo()
@@ -66,12 +66,12 @@ class UpdateController extends Controller
             $info = $response->json();
             if (Arr::get($info, 'spec') === self::SPEC) {
                 return ['ok' => true, 'info' => $info];
-            } else {
-                return ['ok' => false, 'error' => trans('admin.update.errors.spec')];
             }
-        } else {
-            return ['ok' => false, 'error' => 'HTTP status code: '.$response->status()];
+
+            return ['ok' => false, 'error' => trans('admin.update.errors.spec')];
         }
+
+        return ['ok' => false, 'error' => 'HTTP status code: '.$response->status()];
     }
 
     protected function canUpdate($info = [])

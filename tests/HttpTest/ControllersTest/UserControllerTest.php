@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Events;
 use App\Mail\EmailVerification;
@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
+use Tests\Fakes;
+use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {

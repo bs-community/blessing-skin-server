@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Tests\ServicesTest;
 
 use App\Services\Option;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class OptionTest extends TestCase
 {

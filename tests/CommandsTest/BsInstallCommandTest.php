@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\CommandsTest;
 
 use App\Models\User;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class BsInstallCommandTest extends TestCase
 {

@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Tests\ListenersTest;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class SetAppLocaleTest extends TestCase
 {

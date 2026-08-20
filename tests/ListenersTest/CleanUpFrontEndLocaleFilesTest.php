@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests;
+namespace Tests\ListenersTest;
 
 use Symfony\Component\Finder\SplFileInfo;
+use Tests\TestCase;
 
 class CleanUpFrontEndLocaleFilesTest extends TestCase
 {

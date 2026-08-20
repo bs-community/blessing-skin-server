@@ -1,12 +1,14 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Models\Texture;
 use App\Models\User;
 use Blessing\Rejection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
+use Tests\Fakes;
+use Tests\TestCase;
 
 class ClosetControllerTest extends TestCase
 {

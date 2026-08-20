@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ViewTest\ComposersTest;
 
 use App\Events;
 use App\Models\User;
@@ -8,6 +8,8 @@ use App\Services\Plugin;
 use App\Services\PluginManager;
 use Illuminate\Support\Facades\Event;
 use Symfony\Component\DomCrawler\Crawler;
+use Tests\Fakes;
+use Tests\TestCase;
 
 class SideMenuComposerTest extends TestCase
 {

@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\ServicesTest;
 
 use App\Services\Unzip;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
+use Tests\TestCase;
 use ZipArchive;
 
 class UnzipTest extends TestCase

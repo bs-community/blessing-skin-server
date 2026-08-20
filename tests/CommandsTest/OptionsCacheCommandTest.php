@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Tests\CommandsTest;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class OptionsCacheCommandTest extends TestCase
 {

@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Scope;
+use App\Services\OAuthClientRepository;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
@@ -17,6 +19,24 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
     ];
+
+    /**
+     * Opt back in to Passport's JSON management endpoints.
+     *
+     * Passport 12 made /oauth/clients, /oauth/tokens and /oauth/scopes opt-in
+     * via $registersJsonApiRoutes. The "user/oauth/manage" page consumes them,
+     * so they have to stay registered. This belongs in register() rather than
+     * boot(): Passport registers its routes from its own boot(), which runs
+     * before any application provider boots.
+     */
+    public function register(): void
+    {
+        parent::register();
+
+        Passport::$registersJsonApiRoutes = true;
+
+        $this->app->bind(ClientRepository::class, OAuthClientRepository::class);
+    }
 
     /**
      * Register any authentication / authorization services.

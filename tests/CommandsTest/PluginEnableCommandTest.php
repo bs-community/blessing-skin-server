@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\CommandsTest;
 
 use App\Services\Plugin;
 use App\Services\PluginManager;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class PluginEnableCommandTest extends TestCase
 {

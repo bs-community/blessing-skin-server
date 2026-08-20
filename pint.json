@@ -1,0 +1,30 @@
+{
+    "preset": "symfony",
+    "exclude": [
+        "bootstrap",
+        "config",
+        "plugins",
+        "public",
+        "resources",
+        "storage",
+        "tools"
+    ],
+    "rules": {
+        "align_multiline_comment": true,
+        "array_syntax": {
+            "syntax": "short"
+        },
+        "increment_style": {
+            "style": "post"
+        },
+        "list_syntax": {
+            "syntax": "short"
+        },
+        "yoda_style": false,
+        "global_namespace_import": {
+            "import_constants": true,
+            "import_functions": true,
+            "import_classes": null
+        }
+    }
+}

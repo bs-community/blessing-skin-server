@@ -60,12 +60,15 @@ RUN composer dump-autoload -o --no-dev -n && \
     sed 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' -i storage/.env && \
     sed 's/DB_DATABASE=blessingskin/DB_DATABASE=\/app\/storage\/database\.db/' -i storage/.env
 
-FROM php:8-apache
+FROM php:8.3-apache
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
+# imagick is required by composer.json and is the default driver in
+# config/image.php; the vendor stage only gets away without it because it
+# installs with --ignore-platform-reqs.
 RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions gd zip
+    install-php-extensions gd zip imagick
 
 WORKDIR /app
 

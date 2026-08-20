@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests;
+namespace Tests\RulesTest;
 
 use App\Rules\PlayerName;
+use Tests\TestCase;
 
 class PlayerNameTest extends TestCase
 {

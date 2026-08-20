@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\ServicesTest\TranslationsTest;
 
 use App\Services\Plugin;
 use App\Services\PluginManager;
@@ -8,6 +8,7 @@ use App\Services\Translations\JavaScript;
 use Illuminate\Cache\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class JavaScriptTest extends TestCase
 {

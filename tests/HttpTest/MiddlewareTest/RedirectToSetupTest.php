@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\MiddlewareTest;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Artisan;
+use Tests\TestCase;
 
 class RedirectToSetupTest extends TestCase
 {

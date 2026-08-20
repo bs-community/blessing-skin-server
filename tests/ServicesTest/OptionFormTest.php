@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Tests\ServicesTest;
 
 use App\Services\OptionForm;
 use Symfony\Component\DomCrawler\Crawler;
+use Tests\TestCase;
 
 class OptionFormTest extends TestCase
 {

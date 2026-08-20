@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use Illuminate\Contracts\Console\Kernel as Artisan;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class SetupControllerTest extends TestCase
 {

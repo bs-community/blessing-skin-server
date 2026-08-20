@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Tests\ListenersTest;
 
 use App\Models\Texture;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class UpdateScoreForDeletedTextureTest extends TestCase
 {

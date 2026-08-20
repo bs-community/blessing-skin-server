@@ -338,13 +338,12 @@ class PluginManager
                         : [];
                 } elseif (!$this->enabled->has($name)) {
                     return [$name => ['version' => null, 'constraint' => $constraint]];
-                } else {
-                    $version = $this->enabled->get($name)['version'];
-
-                    return (!Semver::satisfies($version, $constraint))
-                        ? [$name => compact('version', 'constraint')]
-                        : [];
                 }
+                $version = $this->enabled->get($name)['version'];
+
+                return (!Semver::satisfies($version, $constraint))
+                    ? [$name => compact('version', 'constraint')]
+                    : [];
             });
     }
 
@@ -355,9 +354,9 @@ class PluginManager
                 $info = $this->enabled->get($name);
                 if ($info && Semver::satisfies($info['version'], $constraint)) {
                     return [$name => ['version' => $info['version'], 'constraint' => $constraint]];
-                } else {
-                    return [];
                 }
+
+                return [];
             });
     }
 
@@ -400,8 +399,8 @@ class PluginManager
         if ($config) {
             return collect(preg_split('/,\s*/', $config))
                 ->map(fn ($directory) => realpath($directory) ?: $directory);
-        } else {
-            return collect([base_path('plugins')]);
         }
+
+        return collect([base_path('plugins')]);
     }
 }

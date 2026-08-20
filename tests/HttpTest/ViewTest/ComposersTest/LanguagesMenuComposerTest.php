@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ViewTest\ComposersTest;
+
+use Tests\TestCase;
 
 class LanguagesMenuComposerTest extends TestCase
 {

@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ViewTest\ComposersTest;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Symfony\Component\DomCrawler\Crawler;
+use Tests\TestCase;
 
 class HeadComposerTest extends TestCase
 {

@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Models\User;
 use App\Notifications;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
+use Tests\TestCase;
 
 class NotificationsControllerTest extends TestCase
 {

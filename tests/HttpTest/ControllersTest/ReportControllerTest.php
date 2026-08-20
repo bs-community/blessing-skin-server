@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Models\Report;
 use App\Models\Texture;
@@ -10,6 +10,7 @@ use Blessing\Rejection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class ReportControllerTest extends TestCase
 {

@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ViewTest\ComposersTest;
 
 use App\Models\User;
 use App\Services\Translations\JavaScript;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Symfony\Component\DomCrawler\Crawler;
+use Tests\TestCase;
 
 class FootComposerTest extends TestCase
 {

@@ -18,9 +18,8 @@ if (!function_exists('plugin_assets')) {
         $plugin = plugin($name);
         if ($plugin) {
             return $plugin->assets($relativeUri);
-        } else {
-            throw new InvalidArgumentException('No such plugin.');
         }
+        throw new InvalidArgumentException('No such plugin.');
     }
 }
 
@@ -38,12 +37,12 @@ if (!function_exists('json')) {
                 'message' => $args[0],
                 'data' => $args[2],
             ]);
-        } else {
-            return response()->json([
-                'code' => Arr::get($args, 1, 1),
-                'message' => $args[0],
-            ]);
         }
+
+        return response()->json([
+            'code' => Arr::get($args, 1, 1),
+            'message' => $args[0],
+        ]);
     }
 }
 

@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class UsersManagementControllerTest extends TestCase
 {

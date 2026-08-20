@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\ControllersTest;
 
 use App\Models\User;
 use App\Services\Plugin;
 use App\Services\PluginManager;
 use App\Services\Unzip;
 use Illuminate\Support\Facades\Http;
+use Tests\TestCase;
 
 class MarketControllerTest extends TestCase
 {

@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Tests\ServicesTest\TranslationsTest;
 
 use App\Services\Translations\Yaml;
 use Illuminate\Contracts\Cache\Repository;
+use Tests\TestCase;
 
 class YamlTest extends TestCase
 {

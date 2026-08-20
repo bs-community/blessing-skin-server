@@ -178,7 +178,15 @@ return [
     |
     */
 
-    'providers' => ServiceProvider::defaultProviders()->merge([
+    'providers' => ServiceProvider::defaultProviders()->except([
+        /*
+         * Laravel's own image manager is backed by Intervention Image v3,
+         * whose API this application does not use. Leaving it out keeps the
+         * "image" binding on the v2 manager that blessing/texture-renderer
+         * and the texture controllers expect.
+         */
+        Illuminate\Image\ImageServiceProvider::class,
+    ])->merge([
         /*
          * Package Service Providers...
          */
@@ -206,6 +214,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Image' => Intervention\Image\Facades\Image::class,
         'Option' => App\Services\Facades\Option::class,
     ])->toArray(),
 ];

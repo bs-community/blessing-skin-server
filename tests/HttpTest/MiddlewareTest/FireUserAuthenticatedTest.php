@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Tests\HttpTest\MiddlewareTest;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
 class FireUserAuthenticatedTest extends TestCase
 {

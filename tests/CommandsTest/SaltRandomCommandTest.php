@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests;
+namespace Tests\CommandsTest;
+
+use Tests\TestCase;
 
 class SaltRandomCommandTest extends TestCase
 {

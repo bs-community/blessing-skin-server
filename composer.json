@@ -3,7 +3,7 @@
   "description": "A web application brings your custom skins back in offline Minecraft servers.",
   "license": "MIT",
   "require": {
-    "php": "^8.1",
+    "php": "^8.3",
     "ext-ctype": "*",
     "ext-gd": "*",
     "ext-imagick": "*",
@@ -14,40 +14,40 @@
     "ext-tokenizer": "*",
     "ext-xml": "*",
     "ext-zip": "*",
-    "blessing/filter": "^1.0",
-    "blessing/rejection": "^1.0",
+    "blessing/filter": "^1.5",
+    "blessing/rejection": "^1.5",
     "blessing/texture-renderer": "^0.2",
     "composer/ca-bundle": "^1.2",
     "composer/semver": "^3.2",
-    "doctrine/dbal": "^3.0",
     "doctrine/inflector": "^2.0",
-    "spatie/laravel-ignition": "^2.0",
+    "spatie/laravel-ignition": "^2.12",
     "gregwar/captcha": "1.*",
     "guzzlehttp/guzzle": "^7.0",
     "intervention/image": "^2.7",
-    "laravel/framework": "^10.0",
-    "laravel/passport": "^11.0",
-    "lorisleiva/laravel-search-string": "^1.0",
-    "nesbot/carbon": "^2.0",
-    "nunomaduro/collision": "^7.0",
-    "rcrowe/twigbridge": "^0.14",
-    "spatie/laravel-translation-loader": "^2.7",
-    "symfony/process": "^6.0",
-    "symfony/yaml": "^5.0",
+    "laravel/framework": "^13.0",
+    "laravel/passport": "^13.0",
+    "lorisleiva/laravel-search-string": "^1.4",
+    "nesbot/carbon": "^3.8",
+    "nunomaduro/collision": "^8.0",
+    "rcrowe/twigbridge": "^0.14.7",
+    "spatie/laravel-translation-loader": "^2.8",
+    "symfony/process": "^7.4",
+    "symfony/yaml": "^7.4",
     "twig/twig": "^3.0",
-    "vectorface/whip": "^0.4.0"
+    "vectorface/whip": "^0.5.0"
   },
   "require-dev": {
-    "barryvdh/laravel-debugbar": "^3.5",
-    "barryvdh/laravel-ide-helper": "^2.10",
+    "barryvdh/laravel-debugbar": "^4.0",
+    "barryvdh/laravel-ide-helper": "^3.0",
     "fakerphp/faker": "^1.13",
     "friendsofphp/php-cs-fixer": "^3.13",
-    "laravel/browser-kit-testing": "^7.0",
-    "laravel/tinker": "^2.4",
-    "mockery/mockery": "^1.4",
-    "phpunit/phpunit": "^10.0",
-    "symfony/css-selector": "^6.2",
-    "symfony/dom-crawler": "^6.2"
+    "laravel/browser-kit-testing": "^7.2",
+    "laravel/pint": "^1.30",
+    "laravel/tinker": "^3.0",
+    "mockery/mockery": "^1.6",
+    "phpunit/phpunit": "^11.0 || ^12.0",
+    "symfony/css-selector": "^7.4",
+    "symfony/dom-crawler": "^7.4"
   },
   "autoload": {
     "psr-4": {
@@ -61,9 +61,14 @@
   "autoload-dev": {
     "psr-4": {
       "Tests\\": "tests/"
-    }
+    },
+    "exclude-from-classmap": [
+      "tests/__mocks__/"
+    ]
   },
   "scripts": {
+    "lint": "pint",
+    "lint:test": "pint --test",
     "test": "phpunit",
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
@@ -71,7 +76,13 @@
     ]
   },
   "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    },
     "optimize-autoloader": true,
+    "platform": {
+      "php": "8.3"
+    },
     "preferred-install": "dist",
     "sort-packages": true
   },
@@ -83,6 +94,18 @@
     }
   },
   "repositories": {
+    "blessing-filter": {
+      "type": "vcs",
+      "url": "https://github.com/mk990/filter"
+    },
+    "blessing-rejection": {
+      "type": "vcs",
+      "url": "https://github.com/mk990/rejection"
+    },
+    "laravel-search-string": {
+      "type": "vcs",
+      "url": "https://github.com/mk990/laravel-search-string"
+    },
     "packagist": {
       "type": "composer",
       "url": "https://packagist.org/"
