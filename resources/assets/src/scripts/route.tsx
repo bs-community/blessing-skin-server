@@ -1,6 +1,19 @@
 import React from 'react'
 
-export default [
+/**
+ * Without this annotation the array literal is inferred as a union of the
+ * differing entry shapes, and narrowing on one optional member reduces the
+ * rest to `never`.
+ */
+type Route = {
+  path: string
+  module?: Array<() => Promise<unknown>>
+  react?: () => Promise<unknown>
+  el?: string
+  frame?: () => React.ReactElement
+}
+
+const routes: Route[] = [
   {
     path: 'user',
     react: () => import('../views/user/Dashboard'),
@@ -116,3 +129,5 @@ export default [
     el: '#file-input',
   },
 ]
+
+export default routes

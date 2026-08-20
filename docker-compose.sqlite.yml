@@ -1,0 +1,28 @@
+# Blessing Skin backed by SQLite, with no database container.
+#
+#   docker compose -f docker-compose.sqlite.yml up -d --build
+#
+# This is a complete stack on its own, not an override of docker-compose.yml.
+# The database file lives on the storage volume at storage/database.db and is
+# created by the entrypoint on first boot.
+services:
+  app:
+    build:
+      context: .
+    image: blessing-skin-server:local
+    restart: unless-stopped
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /app/storage/database.db
+    ports:
+      # Bound to loopback: the reverse proxy runs on the host and forwards
+      # here. Change to "8080:80" only if the proxy is on another machine.
+      - "127.0.0.1:8080:80"
+    volumes:
+      - storage:/app/storage
+
+volumes:
+  storage:

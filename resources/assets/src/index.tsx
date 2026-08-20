@@ -30,8 +30,7 @@ if (route) {
         </React.Suspense>
       </React.StrictMode>
     )
-    const c =
-      typeof route.el === 'string' ? document.querySelector(route.el) : route.el
+    const c = route.el ? document.querySelector(route.el) : null
     ReactDOM.render(<Root />, c)
   }
 }

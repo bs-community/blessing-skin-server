@@ -1,7 +1,7 @@
 import React from 'react'
-import type { ReaptchaProps } from 'reaptcha'
+import type { Props } from 'reaptcha'
 
-class Reaptcha extends React.Component<ReaptchaProps, {}> {
+class Reaptcha extends React.Component<Props, {}> {
   execute() {
     this.props.onVerify('token')
   }

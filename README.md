@@ -58,6 +58,51 @@ Blessing Skin has only a few system requirements. In most cases, these PHP exten
 
 Please read [Installation Guide](https://blessing.netlify.app/en/setup.html).
 
+## Run With Docker
+
+The image serves plain HTTP on port 80 and is meant to sit behind a reverse
+proxy that terminates TLS.
+
+### With MariaDB
+
+```bash
+cp .env.docker.example .env.docker   # set DB_PASSWORD
+docker compose --env-file .env.docker up -d --build
+```
+
+### With SQLite
+
+No database container; the database file lives on the storage volume.
+
+```bash
+docker compose -f docker-compose.sqlite.yml up -d --build
+```
+
+Either way the site is then reachable on <http://127.0.0.1:8080>. Point your
+reverse proxy at that address and finish setup in the browser.
+
+### Pre-built image
+
+Images are published to GitHub Container Registry on every push to the default
+branch and on every `v*` tag:
+
+```bash
+docker pull ghcr.io/mk990/blessing-skin-server:latest
+```
+
+### Notes
+
+- The port is bound to `127.0.0.1`, assuming the proxy runs on the same host.
+  Change it to `"8080:80"` in the compose file if the proxy is elsewhere.
+- `APP_KEY` is generated on first boot and stored in the `storage` volume, so
+  it survives upgrades. Do not delete that volume unless you intend to lose
+  sessions, and keep a backup of it along with your database.
+- Application configuration lives at `storage/.env` inside the volume. The
+  `DB_*` and `APP_*` values from compose are re-applied to it on every start.
+- The application reads the client address from the connecting socket, so
+  behind a proxy every user appears to come from the proxy's address. Forward
+  the real address at the proxy if you rely on per-IP registration limits.
+
 ## Plugin System
 
 Blessing Skin provides an elegant and powerful plugin system, and you can attach plenty of functions and customization to your site via installing plugins.

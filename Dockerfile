@@ -4,14 +4,23 @@ WORKDIR /app
 
 COPY composer.json composer.lock ./
 
-RUN composer install \
-    --prefer-dist \
-    --no-dev \
-    --no-progress \
-    --no-autoloader \
-    --no-scripts \
-    --no-interaction \
-    --ignore-platform-reqs
+# Retried, and without --prefer-dist: that flag turns a transient 504 from
+# api.github.com's zipball endpoint into a hard build failure by disabling the
+# fallback to cloning from source. composer.json still prefers dist through
+# its config.preferred-install setting.
+RUN for attempt in 1 2 3; do \
+        composer install \
+            --no-dev \
+            --no-progress \
+            --no-autoloader \
+            --no-scripts \
+            --no-interaction \
+            --ignore-platform-reqs \
+        && installed=yes && break; \
+        echo "composer install failed (attempt ${attempt}), retrying..."; \
+        sleep 15; \
+    done; \
+    [ "$installed" = yes ]
 
 # Pinned: node:alpine no longer ships yarn, and Corepack resolves the exact
 # version from package.json's "packageManager" field.

@@ -53,6 +53,14 @@ set_env DB_PASSWORD "$DB_PASSWORD"
 set_env DB_PREFIX "$DB_PREFIX"
 set_env PLUGINS_DIR "${PLUGINS_DIR:-$APP_DIR/storage/plugins}"
 
+# SQLite keeps its database on the volume, and Laravel will not create the
+# file itself.
+if [ "${DB_CONNECTION:-mysql}" = "sqlite" ]; then
+    SQLITE_PATH="${DB_DATABASE:-$APP_DIR/storage/database.db}"
+    set_env DB_DATABASE "$SQLITE_PATH"
+    [ -f "$SQLITE_PATH" ] || install -m 0664 /dev/null "$SQLITE_PATH"
+fi
+
 # A key baked into the image would be shared by every deployment that pulls
 # it, so one is generated per volume instead.
 if ! grep -qE '^APP_KEY=base64:' "$ENV_FILE"; then

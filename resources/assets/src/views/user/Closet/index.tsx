@@ -21,11 +21,11 @@ import removeClosetItem from './removeClosetItem'
 
 type Category = 'skin' | 'cape'
 
+// Not generic: debounce erases the type parameter, so T collapses to unknown
+// and the resulting Dispatch<unknown> rejects the concrete setter passed in.
 const updater = debounce(
-  <T extends unknown>(
-    value: React.SetStateAction<T>,
-    setter: React.Dispatch<React.SetStateAction<T>>,
-  ) => setter(value),
+  (value: string, setter: React.Dispatch<React.SetStateAction<string>>) =>
+    setter(value),
   350,
 )
 
