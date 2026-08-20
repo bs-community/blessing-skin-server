@@ -1,0 +1,50 @@
+# Blessing Skin, served over plain HTTP for an external reverse proxy.
+#
+# Copy .env.docker.example to .env.docker and set the passwords before the
+# first `docker compose up -d`.
+services:
+  app:
+    build:
+      context: .
+    image: blessing-skin-server:local
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_DATABASE: ${DB_DATABASE:-blessingskin}
+      DB_USERNAME: ${DB_USERNAME:-blessingskin}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set}
+    ports:
+      # Bound to loopback: the reverse proxy runs on the host and forwards
+      # here. Change to "8080:80" only if the proxy is on another machine.
+      - "127.0.0.1:8080:80"
+    volumes:
+      - storage:/app/storage
+
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_DATABASE:-blessingskin}
+      MARIADB_USER: ${DB_USERNAME:-blessingskin}
+      MARIADB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set}
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+volumes:
+  storage:
+  dbdata:

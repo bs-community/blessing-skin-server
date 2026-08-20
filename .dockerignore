@@ -1,5 +1,9 @@
 .git/
 .github/
+# Package discovery caches from a local dev install list dev-only providers
+# such as Debugbar, which a --no-dev image does not contain. The entrypoint
+# regenerates them at container start.
+bootstrap/cache/*.php
 .vscode/
 .idea/
 .cache/
