@@ -82,8 +82,10 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/
 # config/image.php; the vendor stage only gets away without it because it
 # installs with --ignore-platform-reqs. pdo_mysql is not present in the base
 # image, so without it the application cannot reach MySQL or MariaDB at all.
+# intl is not required by the application itself, but Illuminate\Support\Number
+# hard-fails without it, which breaks artisan diagnostics such as `db:show`.
 RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions gd zip imagick pdo_mysql opcache
+    install-php-extensions gd zip imagick intl pdo_mysql opcache
 
 WORKDIR /app
 
