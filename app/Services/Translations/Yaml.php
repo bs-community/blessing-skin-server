@@ -18,6 +18,14 @@ class Yaml
 
     public function parse(string $path)
     {
+        // A missing file must not be fatal: filemtime() raises a PHP warning
+        // which Laravel escalates to an ErrorException. Fall back to no
+        // translations, the same way Laravel's FileLoader does for missing PHP
+        // translation files. See #684.
+        if (!is_file($path)) {
+            return [];
+        }
+
         $prefix = $this->prefix.md5($path).'-';
         $cacheTime = intval($this->cache->get($prefix.'time', 0));
         $fileTime = filemtime($path);
